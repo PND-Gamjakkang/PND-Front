@@ -1,11 +1,16 @@
 {
+<<<<<<< HEAD
   "name": "p-end_front",
+=======
+  "name": "my-app",
+>>>>>>> 4d2f362 (Initialize project using Create React App)
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+<<<<<<< HEAD
     "axios": "^1.7.2",
     "openai": "^4.52.7",
     "react": "^18.3.1",
@@ -13,6 +18,11 @@
     "react-router-dom": "^6.25.1",
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.12",
+=======
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+>>>>>>> 4d2f362 (Initialize project using Create React App)
     "web-vitals": "^2.1.4"
   },
   "scripts": {
