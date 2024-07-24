@@ -1,7 +1,7 @@
 ---
-name: Server PR Template
-about: Server PR Template입니다.
-title: "[part] <Issue Title>"
+name: PR Template
+about: PR Template 입니다.
+title: "✨[part] <Issue Title>"
 labels: ''
 assignees: ''
 
