@@ -11,6 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 =======
 import './index.css';
 import App from './App';
+<<<<<<< HEAD
 import reportWebVitals from './reportWebVitals';
 >>>>>>> 4d2f362 (Initialize project using Create React App)
 
@@ -32,3 +33,13 @@ root.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 >>>>>>> 4d2f362 (Initialize project using Create React App)
 reportWebVitals();
+=======
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+<App/>
+);
+
+
+>>>>>>> 983af69 (:memo: README에디터 초안)
