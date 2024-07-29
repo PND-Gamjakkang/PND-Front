@@ -8,13 +8,24 @@ justify-content:center;
 
 `;
 
-export const Title = styled.div`
+export const ReadmeContent = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
 
+gap : 20px;
 `;
 
-export const ProfileBox = styled.div`
-  width: 100px;
-  height: 100px;
-  background-color: #3498db;
-  border-radius: 50%;
+export const InputContainer = styled.div`
+width: 600px;
+height: 600px;
+`;
+
+export const MdContainer = styled.div`
+width: 600px;
+height: 600px;
+`;
+
+export const MdAreaHeader = styled.div`
+
 `;
