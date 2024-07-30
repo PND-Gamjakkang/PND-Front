@@ -18,7 +18,6 @@ justify-content: space-between; /* 수평 좌우 끝에 정렬 */
 
 export const NavLink = styled.div`
     text-decoration: none;
-    color: white;
     
     &.active {
         text-decoration: underline;

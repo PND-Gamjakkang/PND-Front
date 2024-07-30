@@ -7,6 +7,7 @@ import Main from './pages/main/Main';
 import MyProjects from './pages/myproject/MyProjects';
 import ReadMe from './pages/readme/Readme';
 import Retro from './pages/retro/Retro';
+import Team from './pages/Team/Team';
 
 const router = createBrowserRouter([
     {
@@ -30,7 +31,10 @@ const router = createBrowserRouter([
           path: 'myProjects',
           element: <MyProjects />,
         },
-
+        {
+          path: 'team',
+          element: <Team />,
+        },
       ],
     },
   ]);
