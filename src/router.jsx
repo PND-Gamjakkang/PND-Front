@@ -4,7 +4,6 @@ import App from './App';
 
 // Pages
 import Main from './pages/main/Main';
-import Home from './pages/home/Home';
 import MyProjects from './pages/myproject/MyProjects';
 import ReadMe from './pages/readme/Readme';
 import Retro from './pages/retro/Retro';
@@ -19,10 +18,6 @@ const router = createBrowserRouter([
           element: <Main />,
         },
   
-        {
-          path: 'home',
-          element: <Home />,
-        },
         {
           path: 'readme',
           element: <ReadMe />,
