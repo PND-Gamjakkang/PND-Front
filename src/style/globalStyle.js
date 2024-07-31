@@ -102,4 +102,15 @@ export const GlobalStyle = createGlobalStyle`
     -ms-overflow-style: none; 
     scrollbar-width: none;
   }
+  @media screen and (max-width: 375px) {
+        html {
+                font-size: 40%;
+        }
+  }
+    @media screen and (max-width: 429px) {
+        .pageContainer {
+            width: 100vw;
+        }
+    }
+
 `;

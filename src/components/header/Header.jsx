@@ -1,22 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import * as S from './HeaderStyle.jsx';
 
 function Header() {
+    const location = useLocation();
     return (
         <S.HeaderLayout>
             <S.NavLinks>
-                <Link to='/home'>
-                    <div>Home</div>
+                <Link to='/'>
+                    <S.NavLink className={location.pathname === '/' ? 'active' : ''}>
+                        Home
+                    </S.NavLink>
                 </Link>
                 <Link to='/readme'>
-                    <div>Create ReadMe File</div>
+                    <S.NavLink className={location.pathname === '/readme' ? 'active' : ''}>
+                        Create Readme File
+                    </S.NavLink>
                 </Link>
                 <Link to='/retro'>
-                    <div>Project Retrospect</div>
+                    <S.NavLink className={location.pathname === '/retro' ? 'active' : ''}>
+                        Project Retrospect
+                    </S.NavLink>
                 </Link>
                 <Link to='/myprojects'>
-                    <div>My Projects</div>
+                    <S.NavLink className={location.pathname === '/myprojects' ? 'active' : ''}>
+                            My Projects
+                    </S.NavLink>
                 </Link>
 
             </S.NavLinks>

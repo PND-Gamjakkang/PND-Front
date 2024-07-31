@@ -4,6 +4,7 @@ import { theme } from './style/theme.js';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import Header from './components/header/Header.jsx';
+import { Mobile, Pc } from './Responsive.jsx';
 
 // css 초기설정
 const BackGroundColor = styled.div`
@@ -17,7 +18,7 @@ const BackGroundColor = styled.div`
 
 const Content = styled.div`
   flex-grow: 1;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
