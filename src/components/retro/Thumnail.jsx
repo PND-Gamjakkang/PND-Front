@@ -1,4 +1,4 @@
-import * as S from './RetroStyle.jsx';
+import * as S from './styles/RetroStyle.jsx';
 import { useRef, useState } from 'react';
 
 export default function Thumnail() {

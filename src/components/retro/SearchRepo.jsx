@@ -1,4 +1,4 @@
-import * as S from './RetroStyle.jsx';
+import * as S from './styles/RetroStyle.jsx';
 
 // images
 import SearchIcon from '../../assets/images/search-icon.png';

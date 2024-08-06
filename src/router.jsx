@@ -8,6 +8,7 @@ import MyProjects from './pages/myproject/MyProjects';
 import ReadMe from './pages/readme/Readme';
 import Retro from './pages/retro/Retro';
 import Team from './pages/Team/Team';
+import LoginModal from './components/Login/LoginModal';
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,11 @@ const router = createBrowserRouter([
           path: 'team',
           element: <Team />,
         },
+        {
+          path: 'login',
+          element: <LoginModal />,
+        },
+
       ],
     },
   ]);

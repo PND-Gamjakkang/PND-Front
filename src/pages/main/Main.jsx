@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import * as S from './MainStyle.jsx';
 
 import LoginModal from '../../components/Login/LoginModal.jsx';
@@ -11,14 +12,71 @@ import MainImg from '../../assets/images/main-img.png';
 
 function Main() {
     const navigate = useNavigate();
-    const moveToRetro  = () => {
-        navigate('/retro');
+    const moveTo  = () => {
+        navigate('/login');
     }
+    const location = useLocation();
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(location.search);
+        const code = urlParams.get('code');
+        if(code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
+            console.log("로그인 성공!");
+            // axios({
+            //     method: "GET",
+            //     url: 'http://localhost:3000/api/auth/github/',
+            // }).then((res) =>{
+            //     console.log(res);
+            // })
+              
+            // const fetchAccessToken = async () => {
+            //     // 쿼리스트링에서 Authorization Code를 가져옵니다.
+            //     const location = new URL(window.location.href);
+            //     const code = location.searchParams.get("code");
+            //     const ACCESS_TOKEN_URL = `${GITHUB_AUTH_TOKEN_SERVER}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRETS}&code=${code}`;
+          
+            //     return fetch(ACCESS_TOKEN_URL, {
+            //       method: "POST",
+            //       headers: {
+            //         "Content-Type": "application/json",
+            //         Accept: "application/json",
+            //       },
+            //       body: JSON.stringify({ code })
+
+            //     });
+            //   };
+            //   fetchAccessToken()
+            //   .then((response) => response.json())
+            //   .then((data) => localStorage.setItem('access_token', data.access_token))
+            //   .catch((err) => console.log(err));
+
+            // const fetchAccessToken = async () => {
+            //     try {
+            //         const response = await fetch('https://github.com/login/oauth/access_token', {
+            //             method: 'POST',
+            //             headers: {
+            //                 'Content-Type': 'application/json',
+            //                 Accept: 'application/json',
+            //             },
+            //             body: JSON.stringify({ code }),
+            //         });
+            //         const data = await response.json();
+            //         localStorage.setItem('access_token', data.access_token);
+            //     } catch (err) {
+            //         console.log(err);
+            //     }
+            // };
+            // fetchAccessToken();            
+            
+            
+        }
+    },[location])
+    
     return (
         <S.MainLayout>
             <S.MainLeft>
                 <S.MainTextTop>프로젝트가 끝난 이후, <br/>또 다른 시작</S.MainTextTop>
-                <S.MainButton onClick={moveToRetro}>프로젝트 회고하러 가기</S.MainButton>
+                <S.MainButton onClick={moveTo}>프로젝트 회고하러 가기</S.MainButton>
                 <S.MainTextBottom>
                     <S.HighlightedText>Project end. Project and,</S.HighlightedText>
                     펜드(P-ND)는 맞춤형 AI로 당신이 프로젝트에서 놓친 부분을 정리해줘요.<br/>

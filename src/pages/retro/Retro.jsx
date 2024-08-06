@@ -34,7 +34,7 @@ function Retro() {
                 {showLoginModal && <LoginModal />}
                 </>
             )} */}
-            <LoginModal/>
+
             <SearchRepo/>
             <S.RetroContainer>
                 {/* 리포트 생성하기 버튼 누르기 전에는 초기 화면을 보여준다 */}
