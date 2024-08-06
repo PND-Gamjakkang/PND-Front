@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import * as S from './MainStyle.jsx';
+import axios from 'axios';
 
 import LoginModal from '../../components/Login/LoginModal.jsx';
 // images
@@ -13,7 +14,11 @@ import MainImg from '../../assets/images/main-img.png';
 function Main() {
     const navigate = useNavigate();
     const moveTo  = () => {
-        navigate('/login');
+        if(localStorage.getItem("token")) {
+            navigate('/retro');
+        } else {
+            navigate('/login');
+        }
     }
     const location = useLocation();
 
@@ -21,53 +26,18 @@ function Main() {
         const urlParams = new URLSearchParams(location.search);
         const code = urlParams.get('code');
         if(code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
-            console.log("로그인 성공!");
-            // axios({
-            //     method: "GET",
-            //     url: 'http://localhost:3000/api/auth/github/',
-            // }).then((res) =>{
-            //     console.log(res);
-            // })
-              
-            // const fetchAccessToken = async () => {
-            //     // 쿼리스트링에서 Authorization Code를 가져옵니다.
-            //     const location = new URL(window.location.href);
-            //     const code = location.searchParams.get("code");
-            //     const ACCESS_TOKEN_URL = `${GITHUB_AUTH_TOKEN_SERVER}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRETS}&code=${code}`;
-          
-            //     return fetch(ACCESS_TOKEN_URL, {
-            //       method: "POST",
-            //       headers: {
-            //         "Content-Type": "application/json",
-            //         Accept: "application/json",
-            //       },
-            //       body: JSON.stringify({ code })
-
-            //     });
-            //   };
-            //   fetchAccessToken()
-            //   .then((response) => response.json())
-            //   .then((data) => localStorage.setItem('access_token', data.access_token))
-            //   .catch((err) => console.log(err));
-
-            // const fetchAccessToken = async () => {
-            //     try {
-            //         const response = await fetch('https://github.com/login/oauth/access_token', {
-            //             method: 'POST',
-            //             headers: {
-            //                 'Content-Type': 'application/json',
-            //                 Accept: 'application/json',
-            //             },
-            //             body: JSON.stringify({ code }),
-            //         });
-            //         const data = await response.json();
-            //         localStorage.setItem('access_token', data.access_token);
-            //     } catch (err) {
-            //         console.log(err);
-            //     }
-            // };
-            // fetchAccessToken();            
             
+            axios({
+                method: "POST",
+                url: `http://localhost:8080/api/pnd/user/social/github?code=${code}`
+            }).then((res) =>{
+                console.log(res);
+                const ACCESS_TOKEN = res.data.data.token;
+                localStorage.setItem("token", ACCESS_TOKEN);
+            }).catch((err) => {
+                console.log("error");
+            })
+
             
         }
     },[location])
