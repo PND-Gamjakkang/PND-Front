@@ -1,4 +1,5 @@
 import * as S from './styles/RetroStyle.jsx';
+import { useState } from 'react';
 
 // images
 import SearchIcon from '../../assets/images/search-icon.png';
@@ -7,7 +8,18 @@ import ProfileImg from '../../assets/images/profile-img.png';
 // component
 import UserRepo from './UserRepo.jsx';
 
-function SearchRepo() {
+function SearchRepo({ onNext }) {
+    const [selectedRepo, setSelectedRepo] = useState(null);
+
+    const handleRepoClick = (repoName) => {
+        if (selectedRepo === repoName) {
+            setSelectedRepo(null); // 이미 선택된 경우, 선택 해제
+        } else {
+            setSelectedRepo(repoName); // 새로운 항목 선택
+            onNext();
+        }
+    };
+
     const userName = "yebin";
     const userImg = "sdf";
     const repoName = "pnd";
@@ -30,6 +42,8 @@ function SearchRepo() {
             repoDescription={repoDescription}
             repoStars={repoStars}
             repoUrl={repoUrl}
+            isSelected={selectedRepo === repoName}
+            onClick={() => handleRepoClick(repoName)}
             />
 
         </S.SearchRepo>

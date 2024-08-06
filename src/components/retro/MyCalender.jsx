@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import './styles/calendar-style.css';
 import * as S from './styles/RetroStyle.jsx';
 
-export default function MyCalender() {
+export default function MyCalender({ onNext }) {
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
 
@@ -15,6 +15,7 @@ export default function MyCalender() {
         // 값이 변할 때마다 다시 세팅해준다
         setStartDate(startDateFormat);
         setEndDate(endDateFormat);
+        onNext();
     }
     return (
         <S.MyCalenderContainer>

@@ -1,7 +1,7 @@
 import * as S from './styles/RetroStyle.jsx';
 import { useRef, useState } from 'react';
 
-export default function Thumnail() {
+export default function Thumnail({ onNext }) {
     const [imgFile, setImgFile] = useState(null);
     const [imgPath, setImgPath] = useState(""); // 이미지 경로를 문자열로 저장하는 변수
     const imgRef = useRef(null);
@@ -51,6 +51,7 @@ export default function Thumnail() {
 
                     const resizedImageUrl = canvas.toDataURL('image/png');
                     setImgPath(resizedImageUrl);
+                    onNext();
                 };
             };
         }

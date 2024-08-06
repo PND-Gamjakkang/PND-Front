@@ -11,16 +11,25 @@ import UserRepo from '../../components/retro/UserRepo.jsx';
 import SelectPart from '../../components/retro/SelectPart.jsx';
 
 function Retro() {
+    const [currentStep, setCurrentStep] = useState(1);
+
+    const handleNextStep = () => {
+        setCurrentStep(prevStep => prevStep + 1);
+    };
     return (
         <S.RetroLayout>
-            <SearchRepo/>
+            <SearchRepo onNext={handleNextStep}/>
             <S.RetroContainer>
                 {/* 리포트 생성하기 버튼 누르기 전에는 초기 화면을 보여준다 */}
                 <S.InitialView>
-                    <S.InitialViewTitle>회고 리포트를 작성할 프로젝트를 선택해 주세요.</S.InitialViewTitle>
-                    <MyCalender/>
-                    <Thumnail/>
-                    <SelectPart/>
+                {currentStep >= 1 && (
+                    <S.InitialView>
+                        <S.InitialViewTitle>&lt;- 회고 리포트를 작성할 프로젝트를 선택해 주세요.</S.InitialViewTitle>
+                        {currentStep >= 2 && <MyCalender onNext={handleNextStep} />}
+                        {currentStep >= 3 && <Thumnail onNext={handleNextStep} />}
+                        {currentStep >= 4 && <SelectPart />}
+                    </S.InitialView>
+                )}
                 </S.InitialView>
                 {/* 리포트 생성하기 버튼 누르면 초기화면이 사라지고 리포트 결과를 보여준다 */}
                 {/* <S.ReportView>

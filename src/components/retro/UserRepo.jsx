@@ -1,8 +1,8 @@
 import * as S from './styles/RetroStyle.jsx';
 
-export default function UserRepo({userImg, userName,repoName, repoDescription, repoUrl, repoStars}) {
+export default function UserRepo({userImg, userName,repoName, repoDescription, repoUrl, repoStars, isSelected, onClick}) {
     return (
-        <S.UserRepoContainer>
+        <S.UserRepoContainer isSelected={isSelected} onClick={onClick}>
             <S.UserImgAndName>
                 <S.UserImg src={userImg}></S.UserImg>
                 <S.UserName>{userName}</S.UserName>
