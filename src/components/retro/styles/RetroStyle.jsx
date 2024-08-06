@@ -1,6 +1,13 @@
 import styled from "styled-components";
 
+export const SearchRepo = styled.div`
+position: relative;
+display:flex;
+flex-direction:column;
+align-items: center;
+`;
 export const SearchContainer = styled.div`
+position:absolte;
 height: 40px;
 display:flex;
 justify-content: center;
@@ -39,4 +46,29 @@ export const ThumnailContainer = styled.div`
 width: 500px;
 height: 300px;
 border: 2px solid white;
+`;
+
+// UserRepo.jsx
+export const UserRepoContainer = styled.div`
+width: 18.5vw;
+border-left: 2px solid white;
+color:white;
+margin-top: 1vw;
+margin-left: 5vw;
+`;
+
+export const UserProfileBox = styled.div`
+
+`;
+
+export const RepoNameBox = styled.div`
+
+`;
+
+export const RepoDescriptionBox = styled.div`
+
+`;
+
+export const RepoStarsAndLanguageBox = styled.div`
+
 `;

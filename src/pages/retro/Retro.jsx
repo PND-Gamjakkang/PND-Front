@@ -7,34 +7,11 @@ import RetroBackgroundImg from '../../assets/images/retro-background.png';
 import MyCalender from '../../components/retro/MyCalender.jsx';
 import Thumnail from '../../components/retro/Thumnail.jsx';
 import LoginModal from '../../components/Login/LoginModal.jsx';
+import UserRepo from '../../components/retro/UserRepo.jsx';
 
 function Retro() {
-    // // 임시
-    // const [isLogin, setIsLogin] = useState(false);
-    // const [showLoginModal, setShowLoginModal] = useState(false);
-
-
-    // useEffect(() => {
-    //     const showAlert = () => {
-    //         alert('로그인이 필요한 서비스입니다.');
-    //         setShowLoginModal(true);
-    //         console.log("로그인 팝업2")
-
-    //     };
-    //     showAlert();
-    //     console.log("로그인 팝업1")
-    // }, []);
-
     return (
         <S.RetroLayout>
-            {/* {isLogin ? (
-                <></>
-            ) : (
-                <>
-                {showLoginModal && <LoginModal />}
-                </>
-            )} */}
-
             <SearchRepo/>
             <S.RetroContainer>
                 {/* 리포트 생성하기 버튼 누르기 전에는 초기 화면을 보여준다 */}
@@ -53,9 +30,6 @@ function Retro() {
             </S.RetroContainer>
 
         </S.RetroLayout>
-
-
-        
     );
 }
 

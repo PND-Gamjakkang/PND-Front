@@ -37,8 +37,6 @@ function Main() {
             }).catch((err) => {
                 console.log("error");
             })
-
-            
         }
     },[location])
     
