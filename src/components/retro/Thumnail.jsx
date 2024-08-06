@@ -58,7 +58,9 @@ export default function Thumnail() {
 
     return (
         <S.ThumnailContainer>
+            <S.OptionParagraph>썸네일 설정</S.OptionParagraph>
             {/* htmlfor로 input태그와 연결시킨다 */}
+            <S.ThumnailBox>
             <label htmlFor='photo'>
                 <img
                     src={imgPath ? imgPath : 'images/upload-img-icon.png'}
@@ -73,6 +75,7 @@ export default function Thumnail() {
                 onChange={previewImage}
                 ref={imgRef}
             />
+            </S.ThumnailBox>
         </S.ThumnailContainer>
     )
 }

@@ -28,9 +28,6 @@ display: inline-block;
 border-bottom: 2px solid white;
 `;
 
-export const OptionParagraph = styled.div`
-margin: 3vh 0vh 1.5vh;
-`;
 
 export const ReportView = styled.div`
 

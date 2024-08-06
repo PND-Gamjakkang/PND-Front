@@ -2,6 +2,7 @@ import Calendar from "react-calendar";
 import moment from "moment";
 import React, { useEffect, useState } from 'react';
 import './styles/calendar-style.css';
+import * as S from './styles/RetroStyle.jsx';
 
 export default function MyCalender() {
     const [startDate, setStartDate] = useState();
@@ -16,10 +17,14 @@ export default function MyCalender() {
         setEndDate(endDateFormat);
     }
     return (
-        <Calendar
-            onChange={changeDate}
-            selectRange={true} // 날짜 범위를 지정하기 위한 값 ture로 지정해준다
-            formatDay={(locale, date) => moment(date).format("DD")}
-        />
+        <S.MyCalenderContainer>
+            <S.OptionParagraph>기한입력</S.OptionParagraph>
+
+            <Calendar
+                onChange={changeDate}
+                selectRange={true} // 날짜 범위를 지정하기 위한 값 ture로 지정해준다
+                formatDay={(locale, date) => moment(date).format("DD")}
+            />
+        </S.MyCalenderContainer>
     )
 }
