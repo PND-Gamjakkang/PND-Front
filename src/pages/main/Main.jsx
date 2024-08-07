@@ -26,7 +26,6 @@ function Main() {
         const urlParams = new URLSearchParams(location.search);
         const code = urlParams.get('code');
         if(code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
-            
             axios({
                 method: "POST",
                 url: `http://localhost:8080/api/pnd/user/social/github?code=${code}`
@@ -43,7 +42,7 @@ function Main() {
     return (
         <S.MainLayout>
             <S.MainLeft>
-                <S.MainTextTop>프로젝트가 끝난 이후, <br/>또 다른 시작</S.MainTextTop>
+                <S.MainTextTop>잊고 있던 프로젝트를<br/>다시 꺼내봅시다</S.MainTextTop>
                 <S.MainButton onClick={moveTo}>프로젝트 회고하러 가기</S.MainButton>
                 <S.MainTextBottom>
                     <S.HighlightedText>Project end. Project and,</S.HighlightedText>
