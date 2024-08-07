@@ -153,12 +153,29 @@ gap: 20px;
 export const PartButton = styled.button`
 flex-shrink: 0;
 padding: 0px 8px;
-background-color: ${({ theme }) => theme.colors.white};
+background-color: ${props => props.isSelected ? 'yellow' : 'white'};
 color: ${({ theme }) => theme.colors.black};
 font-size: 16px;
 font-style: normal;
 font-weight: 700;
 line-height: 175%; /* 28px */
 border-radius: 10px;
+
+`;
+
+export const CreateButton = styled.button`
+font-size: 16px;
+font-style: normal;
+font-weight: 700;
+line-height: 175%; /* 28px */
+border-radius: 10px;
+flex-shrink: 0;
+padding: 0px 8px;
+background-color: white;
+color: black;
+width: 100px;
+height: 50px;
+margin-top: 5vh;
+margin-left: 80%;
 
 `;

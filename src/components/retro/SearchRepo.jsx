@@ -1,5 +1,5 @@
 import * as S from './styles/RetroStyle.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // images
 import SearchIcon from '../../assets/images/search-icon.png';
@@ -8,24 +8,47 @@ import ProfileImg from '../../assets/images/profile-img.png';
 // component
 import UserRepo from './UserRepo.jsx';
 
-function SearchRepo({ onNext }) {
+function SearchRepo({ onNext, onPrev }) {
     const [selectedRepo, setSelectedRepo] = useState(null);
 
     const handleRepoClick = (repoName) => {
         if (selectedRepo === repoName) {
             setSelectedRepo(null); // 이미 선택된 경우, 선택 해제
-        } else {
+            onPrev();
+        } else if(selectedRepo === null) { // 처음 눌렀을 때, 다른 거 눌렀을 때
             setSelectedRepo(repoName); // 새로운 항목 선택
             onNext();
+        } else {
+            setSelectedRepo(repoName); // 다른 레포 선택된 경우, 선택 해제
         }
     };
 
-    const userName = "yebin";
-    const userImg = "sdf";
-    const repoName = "pnd";
-    const repoUrl = "http";
-    const repoDescription = "sdfsdfsdf";
-    const repoStars = '5';
+    // 선택된 레포 확인
+    useEffect(() => {
+        console.log(selectedRepo);
+
+    },[selectedRepo])
+
+    const repos = [
+        {
+            index:1,
+            userName: "yebin",
+            userImg: ProfileImg,
+            repoName: "pnd",
+            repoUrl: "http",
+            repoDescription: "sdfsdfsdf",
+            repoStars: '5'
+        },
+        {
+            index:2,
+            userName: "hejin",
+            userImg: ProfileImg,
+            repoName: "P-nd",
+            repoUrl: "http",
+            repoDescription: "sdfsdfsdf",
+            repoStars: '5'
+        }
+    ];
 
     return (
         <S.SearchRepo>
@@ -35,16 +58,19 @@ function SearchRepo({ onNext }) {
                 <S.Button>Search</S.Button>
             </S.SearchContainer>
             {/* 통신 -> map 사용해서 레포지토리 개수만큼 불러오기*/}
-            <UserRepo 
-            userName={userName}
-            userImg={ProfileImg}
-            repoName={repoName}
-            repoDescription={repoDescription}
-            repoStars={repoStars}
-            repoUrl={repoUrl}
-            isSelected={selectedRepo === repoName}
-            onClick={() => handleRepoClick(repoName)}
-            />
+            {repos.map((repo, index) => (
+                <UserRepo 
+                    key={index}
+                    userName={repo.userName}
+                    userImg={repo.userImg}
+                    repoName={repo.repoName}
+                    repoDescription={repo.repoDescription}
+                    repoStars={repo.repoStars}
+                    repoUrl={repo.repoUrl}
+                    isSelected={selectedRepo === repo.repoName}
+                    onClick={() => handleRepoClick(repo.repoName)}
+                />
+            ))}
 
         </S.SearchRepo>
     )

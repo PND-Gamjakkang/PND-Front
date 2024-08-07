@@ -16,15 +16,22 @@ function Retro() {
     const handleNextStep = () => {
         setCurrentStep(prevStep => prevStep + 1);
     };
+
+    const handlePrevStep = () => {
+        if(currentStep > 1) {
+            setCurrentStep(prevStep => prevStep - 1);
+        }
+    }
     return (
         <S.RetroLayout>
-            <SearchRepo onNext={handleNextStep}/>
+            <SearchRepo onNext={handleNextStep} onPrev={handlePrevStep}/>
             <S.RetroContainer>
                 {/* 리포트 생성하기 버튼 누르기 전에는 초기 화면을 보여준다 */}
                 <S.InitialView>
-                {currentStep >= 1 && (
+                <S.InitialViewTitle>&lt;- 회고 리포트를 작성할 프로젝트를 선택해 주세요.</S.InitialViewTitle>
+
+                {currentStep >= 2 && (
                     <S.InitialView>
-                        <S.InitialViewTitle>&lt;- 회고 리포트를 작성할 프로젝트를 선택해 주세요.</S.InitialViewTitle>
                         {currentStep >= 2 && <MyCalender onNext={handleNextStep} />}
                         {currentStep >= 3 && <Thumnail onNext={handleNextStep} />}
                         {currentStep >= 4 && <SelectPart />}
