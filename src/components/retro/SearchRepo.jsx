@@ -9,7 +9,7 @@ import ProfileImg from '../../assets/images/profile-img.png';
 // component
 import UserRepo from './UserRepo.jsx';
 
-function SearchRepo({ onNext, onPrev, user}) {
+function SearchRepo({ onNext, onPrev, user, onSelectedRepo}) {
     const [selectedRepo, setSelectedRepo] = useState(null);
     const [repos, setRepos] = useState([]);
     const [hasMore, setHasMore] = useState(true);
@@ -55,23 +55,20 @@ function SearchRepo({ onNext, onPrev, user}) {
 
     };
 
-    const handleRepoClick = (repoName) => {
-        if (selectedRepo === repoName) {
+    const handleRepoClick = (repoId, repoName) => {
+        if (selectedRepo === repoId) {
             setSelectedRepo(null); // 이미 선택된 경우, 선택 해제
             onPrev();
         } else if(selectedRepo === null) { // 처음 눌렀을 때, 다른 거 눌렀을 때
-            setSelectedRepo(repoName); // 새로운 항목 선택
+            setSelectedRepo(repoId); // 새로운 항목 선택
+            onSelectedRepo(repoId,repoName);
             onNext();
         } else {
-            setSelectedRepo(repoName); // 다른 레포 선택된 경우, 선택 해제
+            setSelectedRepo(repoId); // 다른 레포 선택된 경우, 선택 해제
+            onSelectedRepo(repoId,repoName);
         }
     };
 
-    // 선택된 레포 확인
-    useEffect(() => {
-        console.log(selectedRepo);
-
-    },[selectedRepo])
 
     const onIntersection = (entries) => {
         const firstEntry = entries[0];
@@ -117,8 +114,8 @@ function SearchRepo({ onNext, onPrev, user}) {
                     repoWatchers={repo.watchers}
                     repoCreatedAt={repo.createdAt}
                     // repoUrl={repo.repoUrl}
-                    isSelected={selectedRepo === repo.name}
-                    onClick={() => handleRepoClick(repo.name)}
+                    isSelected={selectedRepo === repo.id}
+                    onClick={() => handleRepoClick(repo.id, repo.name)}
                 />
             ))}
             {hasMore && (

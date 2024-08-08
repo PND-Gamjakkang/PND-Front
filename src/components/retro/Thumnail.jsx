@@ -1,8 +1,8 @@
 import * as S from './styles/RetroStyle.jsx';
 import { useRef, useState } from 'react';
 
-export default function Thumnail({ onNext }) {
-    const [imgFile, setImgFile] = useState(null);
+export default function Thumnail({ onNext, onThumnailImgChange }) {
+    // const [imgFile, setImgFile] = useState(null);
     const [imgPath, setImgPath] = useState(""); // 이미지 경로를 문자열로 저장하는 변수
     const imgRef = useRef(null);
     const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2; // db관리를 위해 사진의 크기를 제한한다
@@ -13,8 +13,9 @@ export default function Thumnail({ onNext }) {
             if (img.size > MAX_IMAGE_SIZE_BYTES) {
                 alert("최대 2MB까지 업로드 가능합니다.");
             }
-            setImgFile(img);
-
+            //setImgFile(img);
+            onThumnailImgChange(img);
+            
             // 이미지 미리보기 기능
             const reader = new FileReader();
             reader.readAsDataURL(img);
@@ -23,6 +24,7 @@ export default function Thumnail({ onNext }) {
                 const imgElement = new Image();
                 imgElement.src = reader.result;
 
+                // 주어진 박스 크기에 맞게
                 imgElement.onload = () => {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
