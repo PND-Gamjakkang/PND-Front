@@ -7,6 +7,7 @@ import {
 import Badge from "../Modals/Badge";
 import FileUpload from "../Modals/FileUpload";
 import {InputAreaContainer,InputText} from './InputAreaStyle';
+import FileDownload from "../Modals/FileDownload";
 
 const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied }) => {
   let selection;
@@ -160,6 +161,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied }) => {
       />
       <Badge onBadgeAdd={handleBadgeAdd} />
       <FileUpload onImageAdd={handleImageAdd} />
+      <FileDownload content={content} />
     </InputAreaContainer>
   );
 };

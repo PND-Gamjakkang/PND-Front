@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HeaderLayout = styled.div`
 width: 100%;
-height: 80px;
+height: 10vh;
 display:flex;
 align-items:center;
 justify-content: center; /* 수평 중앙 정렬 */

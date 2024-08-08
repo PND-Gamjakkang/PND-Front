@@ -9,14 +9,13 @@ export const MdAreaContainer = styled.div`
 
 export const MdResult = styled.div`
   width: 100%;
-  height: 100%;
+  height:auto;
+  min-height:600px;
   padding: 10px;
   box-sizing: border-box;
   border: 1px solid #ccc;
-  border-radius: 4px;
   background-color: #fff;
   overflow: auto;
   white-space: pre-wrap;   
-  border: 1px solid #000; 
   color : black;
 `;
