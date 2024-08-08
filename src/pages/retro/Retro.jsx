@@ -23,6 +23,7 @@ function Retro() {
 
     const [isClickCreateBtn, setClickCreateBtn] = useState(false); // 생성하기 버튼 눌렀는지 유무
 
+    const [projectId, setProjectId] = useState(null);
 
     const handleNextStep = () => {
         setCurrentStep(prevStep => prevStep + 1);
@@ -132,6 +133,7 @@ function Retro() {
     },
   });
   
+
     const postProject = async (project) => {
         try {
         const res = await authInstance.post('/api/pnd/user/projects', project);
@@ -158,14 +160,33 @@ function Retro() {
             },
             data: project
           }).then((res) => {
-            setUser(res.data.data);
+            setProjectId(res.data.data.projectId);
             console.log(res);
           }).catch((err) => {
             console.log("error", err);
           });
         }
-      }, [isClickCreateBtn]);
+    }, [isClickCreateBtn]);
 
+    // 프로젝트 상세조회
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token && projectId) {
+            axios({
+                method: "GET",
+                url: `http://localhost:8080/api/pnd/project/${projectId}`,
+                // headers: {
+                //     'Authorization': `Bearer ${token}`
+                // }
+
+            }).then((res) => {
+                console.log("프로젝트 상세조회 성공" + res);
+
+            }).catch((err) => {
+                console.log("error");
+            })
+        }
+    }, [projectId]);
  
     // 로그인 되어있지 않으면 로그인 화면을 보여준다
     if (!user) {
