@@ -91,14 +91,15 @@ margin: 3vh 0vh 1.5vh;
 // UserRepo.jsx
 export const UserRepoContainer = styled.div`
 width: 18.5vw;
-border: 2px solid ${props => props.isSelected ? 'yellow' : 'white'};
-color:white;
+border: 4px solid ${props => props.isSelected ? 'yellow' : 'black'};
+color:black;
 margin-top: 1vw;
 display: flex;
 flex-direction: column;
 padding: 0.5vw;
 gap: 1vw;
 cursor: pointer;
+background-color: white;
 `;
 
 export const UserImgAndName = styled.div`
@@ -109,7 +110,7 @@ align-items: center;
 
 export const UserImg = styled.img`
 width: 2.5vw;
-height: 4vh;
+height: 4.2vh;
 border: 2px solid white;
 border-radius: 1.5vw;
 
@@ -127,17 +128,72 @@ export const RepoDescription = styled.div`
 
 `;
 
-export const RepoStarsAndLanguage = styled.div`
+export const RepoStarsAndLanguageAndFork = styled.div`
 display:flex;
 gap: 1vw;
 `;
+
 export const RepoStars = styled.div`
+display:flex;
+gap: 5px;
+align-items: center;
+justify-content: center;
 
 `;
+export const StarImg = styled.img`
+width:20px;
+height:20px;
+`;
+export const StarCount = styled.div`
+margin-top:5px;
+`;
+
 export const RepoLanguage = styled.div`
+display:flex;
+gap: 5px;
+`;
+export const langaugeColor = styled.div`
+width: 20px;
+height: 20px;
+border-radius: 10px;
+background-color:lightgray;
+`;
+export const language = styled.div`
+margin-top: 5px;
+`;
+
+export const RepoForks = styled.div`
+display:flex;
+gap: 5px;
+`;
+
+export const ForkImg = styled.img`
+width: 25px;
+height: 25px;
+`;
+
+export const ForksCount = styled.div`
+margin-top: 5px;
+`;
+
+export const RepoOpenIssues = styled.div`
+background-color:green;
+color: white;
+width: 60px;
+padding: 5px;
 
 `;
 
+export const  RepoWatchers = styled.div`
+background-color: lightblue;
+color: white;
+width: 70px;
+padding: 5px;
+`;
+
+export const RepoCreatedAt = styled.div`
+margin-top: 5px;
+`;
 
 // SelectPart.jsx
 export const SelectPartContainer = styled.div`

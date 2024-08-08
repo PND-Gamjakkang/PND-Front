@@ -111,6 +111,11 @@ function SearchRepo({ onNext, onPrev, user}) {
                     repoName={repo.name}
                     repoDescription={repo.description}
                     repoStars={repo.stars}
+                    repoLanguage={repo.language}
+                    repoForks={repo.forksCount}
+                    repoOpenIssues={repo.openIssues}
+                    repoWatchers={repo.watchers}
+                    repoCreatedAt={repo.createdAt}
                     // repoUrl={repo.repoUrl}
                     isSelected={selectedRepo === repo.name}
                     onClick={() => handleRepoClick(repo.name)}
