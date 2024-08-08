@@ -1,5 +1,6 @@
 import * as S from './styles/RetroStyle.jsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
 
 // images
 import SearchIcon from '../../assets/images/search-icon.png';
@@ -8,8 +9,51 @@ import ProfileImg from '../../assets/images/profile-img.png';
 // component
 import UserRepo from './UserRepo.jsx';
 
-function SearchRepo({ onNext, onPrev }) {
+function SearchRepo({ onNext, onPrev, user}) {
     const [selectedRepo, setSelectedRepo] = useState(null);
+    const [repos, setRepos] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(0);
+
+    const elementRef = useRef(null);
+    
+    const userToken = localStorage.getItem('token');
+    
+    // api 통신
+    const fetchRepository = async () => {
+        // api 불러오기
+        try {
+            const response = await axios({
+                method: "GET",
+                url: `http://localhost:8080/api/pnd/user/repository`,
+                headers: {
+                    'Authorization': `Bearer ${userToken}`, // Authorization 헤더에 토큰을 포함
+                    'Content-Type': 'application/json' // JSON 형식의 요청 본문
+                },
+                //params: { page } // 페이지 번호를 쿼리 파라미터로 추가
+            })
+            if (response.status === 200) {
+                console.log("레포 통신 성공 : ");
+                const data = response.data.data;
+                // 데이터가 배열인지 확인하고 배열로 변환
+                const newRepos = Array.isArray(data) ? data : [data];
+                console.log(newRepos);
+
+                setRepos((prevRepos) => [...prevRepos, ...newRepos]);
+    
+                setPage((prevPage) => prevPage + 1);
+                if (newRepos.length === 0) {
+                    setHasMore(false);
+                }
+            } else {
+                console.error("HTTP error: ", response.status, response.statusText);
+            }
+    
+        } catch (err) {
+            console.log("repository error");
+        }
+
+    };
 
     const handleRepoClick = (repoName) => {
         if (selectedRepo === repoName) {
@@ -29,26 +73,26 @@ function SearchRepo({ onNext, onPrev }) {
 
     },[selectedRepo])
 
-    const repos = [
-        {
-            index:1,
-            userName: "yebin",
-            userImg: ProfileImg,
-            repoName: "pnd",
-            repoUrl: "http",
-            repoDescription: "sdfsdfsdf",
-            repoStars: '5'
-        },
-        {
-            index:2,
-            userName: "hejin",
-            userImg: ProfileImg,
-            repoName: "P-nd",
-            repoUrl: "http",
-            repoDescription: "sdfsdfsdf",
-            repoStars: '5'
+    const onIntersection = (entries) => {
+        const firstEntry = entries[0];
+        if(firstEntry.isIntersecting && hasMore) {
+            fetchRepository();
         }
-    ];
+    };
+    useEffect(() => {
+        const observer = new IntersectionObserver(onIntersection);
+
+        if(elementRef.current) {
+            observer.observe(elementRef.current);
+        }
+
+        return() => {
+            if(elementRef.current) {
+                observer.unobserve(elementRef.current);
+            }
+        }
+    },[hasMore]);
+
 
     return (
         <S.SearchRepo>
@@ -61,16 +105,22 @@ function SearchRepo({ onNext, onPrev }) {
             {repos.map((repo, index) => (
                 <UserRepo 
                     key={index}
-                    userName={repo.userName}
-                    userImg={repo.userImg}
-                    repoName={repo.repoName}
-                    repoDescription={repo.repoDescription}
-                    repoStars={repo.repoStars}
-                    repoUrl={repo.repoUrl}
-                    isSelected={selectedRepo === repo.repoName}
-                    onClick={() => handleRepoClick(repo.repoName)}
+                    repoId={repo.id}
+                    userName={user.name}
+                    userImg={user.image}
+                    repoName={repo.name}
+                    repoDescription={repo.description}
+                    repoStars={repo.stars}
+                    // repoUrl={repo.repoUrl}
+                    isSelected={selectedRepo === repo.name}
+                    onClick={() => handleRepoClick(repo.name)}
                 />
             ))}
+            {hasMore && (
+                <div ref={elementRef} style={{textAlign: 'center'}}>
+                    Load More Repository
+                </div>
+            )}
 
         </S.SearchRepo>
     )

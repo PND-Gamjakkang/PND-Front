@@ -28,7 +28,7 @@ function Main() {
         if(code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
             axios({
                 method: "POST",
-                url: `http://localhost:8080/api/pnd/user/social/github?code=${code}`
+                url: `http://localhost:8080/api/pnd/oauth/social/github?code=${code}`
             }).then((res) =>{
                 console.log(res);
                 const ACCESS_TOKEN = res.data.data.token;
