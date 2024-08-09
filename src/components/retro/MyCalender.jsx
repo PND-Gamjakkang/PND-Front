@@ -2,7 +2,7 @@ import Calendar from "react-calendar";
 import moment from "moment";
 import React, { useEffect, useState } from 'react';
 import './styles/calendar-style.css';
-import * as S from './styles/RetroStyle.jsx';
+import * as S from './styles/RetroStyle';
 
 export default function MyCalender({ onNext, onDateChange }) {
     

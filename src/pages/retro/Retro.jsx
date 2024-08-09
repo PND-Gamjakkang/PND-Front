@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './RetroStyle.jsx';
+
+function Retro() {
+
 import axios from 'axios';
 import mermaid from 'mermaid';
 // component
@@ -278,8 +281,6 @@ function Retro() {
                 )}
 
 
-        </S.RetroLayout>
-    );
 }
 
 export default Retro;
