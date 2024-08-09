@@ -90,18 +90,18 @@ margin: 3vh 0vh 1.5vh;
 
 // UserRepo.jsx
 export const UserRepoContainer = styled.div`
-width: 18.5vw;
-border: 4px solid ${props => props.isSelected ? 'yellow' : 'black'};
-color:black;
-margin-top: 1vw;
+width: 300px;
+height: 130px; 
+border: 4px solid ${props => props.isSelected ? 'blue' : 'black'};
+color: black;
+margin-top: 3px;
 display: flex;
 flex-direction: column;
-padding: 0.5vw;
-gap: 1vw;
+padding: 1px;
+gap: 3px;
 cursor: pointer;
 background-color: white;
 `;
-
 export const UserImgAndName = styled.div`
 display: flex;
 gap: 0.5vw;
@@ -109,23 +109,32 @@ align-items: center;
 `;
 
 export const UserImg = styled.img`
-width: 2.5vw;
-height: 4.2vh;
+width: 25px;
+height: 25px;
 border: 2px solid white;
-border-radius: 1.5vw;
+border-radius: 100px;
 
 `;
 
 export const UserName = styled.div`
-
+font-size: 13px;
 `;
 
 export const RepoName = styled.div`
-font-size: 1.2vw;
+font-weight: 700;
+
 `;
 
 export const RepoDescription = styled.div`
-
+  font-size: 13px;
+  line-height: 1.5; /* 줄 간격을 설정 */
+  height: 3em; /* 두 줄 높이를 고정 (1.5 * 2 = 3) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 최대 두 줄까지만 표시 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 5px;
 `;
 
 export const RepoStarsAndLanguageAndFork = styled.div`
@@ -153,18 +162,15 @@ display:flex;
 gap: 5px;
 `;
 export const langaugeColor = styled.div`
-width: 20px;
-height: 20px;
+width: 15px;
+height: 15px;
 border-radius: 10px;
-background-color:lightgray;
-`;
-export const language = styled.div`
+background-color:orange;
 margin-top: 5px;
 `;
-
-export const RepoForks = styled.div`
-display:flex;
-gap: 5px;
+export const language = styled.div`
+font-size: 14px;
+margin-top: 5px;
 `;
 
 export const ForkImg = styled.img`
@@ -173,18 +179,20 @@ height: 25px;
 `;
 
 export const ForksCount = styled.div`
+font-size: 14px;
 margin-top: 5px;
 `;
 
 export const RepoOpenIssues = styled.div`
-background-color:green;
-color: white;
-width: 60px;
-padding: 5px;
-
+font-size: 14px;
+margin-top: 5px;
 `;
 
-export const  RepoWatchers = styled.div`
+export const RepoWatchers = styled.div`
+font-size: 14px;
+margin-top: 5px;
+`;
+export const  RepoWatchers2 = styled.div`
 background-color: lightblue;
 color: white;
 width: 70px;
@@ -192,9 +200,12 @@ padding: 5px;
 `;
 
 export const RepoCreatedAt = styled.div`
+font-size: 14px;
 margin-top: 5px;
 `;
+export const RepoForks = styled.div`
 
+`;
 // SelectPart.jsx
 export const SelectPartContainer = styled.div`
 animation: ${SmoothAppear} 1s;
@@ -229,7 +240,7 @@ flex-shrink: 0;
 padding: 0px 8px;
 background-color: white;
 color: black;
-width: 150px;
+width: 100px;
 height: 50px;
 margin-top: 5vh;
 margin-left: 80%;

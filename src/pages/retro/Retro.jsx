@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './RetroStyle.jsx';
 import axios from 'axios';
-
+import mermaid from 'mermaid';
 // component
 import SearchRepo from '../../components/retro/SearchRepo.jsx';
 import RetroBackgroundImg from '../../assets/images/retro-background.png';
@@ -23,7 +23,7 @@ function Retro() {
 
     const [isClickCreateBtn, setClickCreateBtn] = useState(false); // 생성하기 버튼 눌렀는지 유무
 
-    const [projectId, setProjectId] = useState(null);
+    const [projectIds, setProjectId] = useState(null);
 
     const handleNextStep = () => {
         setCurrentStep(prevStep => prevStep + 1);
@@ -57,6 +57,60 @@ function Retro() {
     const handleClickCreateBtn = (isClick) => {
         setClickCreateBtn(true);
     }
+
+
+    const mermaidGraph1 = `
+    classDiagram
+        GameController --> GameFrame
+        GameController --> WordGenerator
+        GameController --> Timer
+        GameFrame --> Player
+        GameFrame --> Word
+        GameFrame --> Score
+        GameController : +startGame()
+        GameController : +endGame()
+        GameController : +updateGame()
+        class GameController {
+        +List<Word> words
+        +Player player
+        +Score score
+        +Timer timer
+        +startGame()
+        +endGame()
+        +updateGame()
+        }
+        class GameFrame {
+        +displayWord()
+        +displayScore()
+        +displayTime()
+        }
+        class WordGenerator {
+        +generateWord()
+        }
+        class Timer {
+        +int timeLeft
+        +start()
+        +stop()
+        +countdown()
+        }
+        class Player {
+        +String name
+        +int score
+        +typeWord()
+        }
+        class Word {
+        +String text
+        +int position
+        +move()
+        +checkTyped()
+        }
+        class Score {
+        +int points
+        +increment()
+        +reset()
+        }
+`;
+
     // 데이터 값이 잘 들어왔는지 확인용
     useEffect(() => {
         console.log("생성하기 버튼 누름");
@@ -97,33 +151,6 @@ function Retro() {
         }
     }, []);
 
-
-    // 통신 - 프로젝트 생성
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token && isClickCreateBtn) {
-    //         const period = startDate && endDate ? `${startDate}~${endDate}` : null;
-
-    //         const data = {
-    //             title: selectedRepoName,
-    //             repositoryId: selectedRepoId,
-    //             period: period,
-    //             image: imgFile ? imgFile : null,
-    //             part: selectedPart,
-    //         };
-    //         axios.post(`http://localhost:8080/api/pnd/project`, data, {
-    //             headers: {
-    //                 'Authorization': `Bearer ${token}`,
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         }).then((res) => {
-    //             console.log(res);
-
-    //         }).catch((err) => {
-    //             console.log("error");
-    //         })
-    //     }
-    // }, [isClickCreateBtn]);
     // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
     const authInstance = axios.create({
     baseURL: 'http://localhost:8080',
@@ -132,17 +159,10 @@ function Retro() {
       // 필요에 따라 추가 헤더 설정
     },
   });
-  
+    useEffect(() => {
+        mermaid.initialize({ startOnLoad: true });
+    }, []);
 
-    const postProject = async (project) => {
-        try {
-        const res = await authInstance.post('/api/pnd/user/projects', project);
-        return res.data;
-        } catch (error) {
-        console.error('Error: ', error.message);
-        throw error;
-        }
-    };
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -161,6 +181,7 @@ function Retro() {
             data: project
           }).then((res) => {
             setProjectId(res.data.data.projectId);
+            //mermaid.contentLoaded();
             console.log(res);
           }).catch((err) => {
             console.log("error", err);
@@ -168,25 +189,44 @@ function Retro() {
         }
     }, [isClickCreateBtn]);
 
-    // 프로젝트 상세조회
+
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token && projectId) {
-            axios({
-                method: "GET",
-                url: `http://localhost:8080/api/pnd/project/${projectId}`,
-                // headers: {
-                //     'Authorization': `Bearer ${token}`
-                // }
+        if (token && projectIds) {
+            const requestBody = { projectId:projectIds }; 
+            authInstance({
+            method: "POST",
+            url: `/api/pnd/test/diagram`,
 
-            }).then((res) => {
-                console.log("프로젝트 상세조회 성공" + res);
-
-            }).catch((err) => {
-                console.log("error");
-            })
+            data: requestBody,
+          }).then((res) => {
+            mermaid.contentLoaded();
+            console.log(res);
+          }).catch((err) => {
+            console.log("postDiagram error", err);
+          });
         }
-    }, [projectId]);
+    }, [projectIds]);
+
+    // 프로젝트 상세조회
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if (token && projectId) {
+    //         axios({
+    //             method: "GET",
+    //             url: `http://localhost:8080/api/pnd/project/${projectId}`,
+    //             // headers: {
+    //             //     'Authorization': `Bearer ${token}`
+    //             // }
+
+    //         }).then((res) => {
+    //             console.log("프로젝트 상세조회 성공" + res);
+
+    //         }).catch((err) => {
+    //             console.log("error");
+    //         })
+    //     }
+    // }, [projectId]);
  
     // 로그인 되어있지 않으면 로그인 화면을 보여준다
     if (!user) {
@@ -214,15 +254,14 @@ function Retro() {
                     </>
                 ) : (
                     <>
+                        <S.ReportView>
+                            <div className="mermaid">{mermaidGraph1}</div>
+                        </S.ReportView>
                     </>
 
 
                 )}
 
-                {/* 리포트 생성하기 버튼 누르면 초기화면이 사라지고 리포트 결과를 보여준다 */}
-                {/* <S.ReportView>
-
-                </S.ReportView> */}
             </S.RetroContainer>
 
         </S.RetroLayout>

@@ -30,5 +30,12 @@ border-bottom: 2px solid white;
 
 
 export const ReportView = styled.div`
-
+background-color: white;
+font-family: Inter;
+font-size: 16px;
+font-style: italic;
+font-weight: 600;
+line-height: 175%; /* 28px */
+color: black;
+padding: 20px;
 `;
