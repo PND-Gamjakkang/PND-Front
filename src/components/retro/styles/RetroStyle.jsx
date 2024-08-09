@@ -240,7 +240,7 @@ flex-shrink: 0;
 padding: 0px 8px;
 background-color: white;
 color: black;
-width: 100px;
+width: 150px;
 height: 50px;
 margin-top: 5vh;
 margin-left: 80%;

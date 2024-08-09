@@ -10,6 +10,7 @@ import Thumnail from '../../components/retro/Thumnail.jsx';
 import LoginModal from '../../components/Login/LoginModal.jsx';
 import UserRepo from '../../components/retro/UserRepo.jsx';
 import SelectPart from '../../components/retro/SelectPart.jsx';
+import { RepoName } from '../../components/retro/styles/RetroStyle.jsx';
 
 function Retro() {
     const [currentStep, setCurrentStep] = useState(1);
@@ -153,12 +154,12 @@ function Retro() {
 
     // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
     const authInstance = axios.create({
-    baseURL: 'http://localhost:8080',
-    headers: {
-        'Content-Type': 'application/json',
-      // 필요에 따라 추가 헤더 설정
-    },
-  });
+        baseURL: 'http://localhost:8080',
+        headers: {
+            'Content-Type': 'application/json',
+            // 필요에 따라 추가 헤더 설정
+        },
+    });
     useEffect(() => {
         mermaid.initialize({ startOnLoad: true });
     }, []);
@@ -166,26 +167,26 @@ function Retro() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-          const project = {
-            title: selectedRepoName,
-            repositoryId: selectedRepoId,
-            part: selectedPart,
-          };
-    
-          authInstance({
-            method: "POST",
-            url: `/api/pnd/project`,
-            headers: {
-              'Authorization': `Bearer ${token}`
-            },
-            data: project
-          }).then((res) => {
-            setProjectId(res.data.data.projectId);
-            //mermaid.contentLoaded();
-            console.log(res);
-          }).catch((err) => {
-            console.log("error", err);
-          });
+            const project = {
+                title: selectedRepoName,
+                repositoryId: selectedRepoId,
+                part: selectedPart,
+            };
+
+            authInstance({
+                method: "POST",
+                url: `/api/pnd/project`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: project
+            }).then((res) => {
+                setProjectId(res.data.data.projectId);
+                mermaid.contentLoaded();
+                console.log(res);
+            }).catch((err) => {
+                console.log("error", err);
+            });
         }
     }, [isClickCreateBtn]);
 
@@ -193,18 +194,18 @@ function Retro() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token && projectIds) {
-            const requestBody = { projectId:projectIds }; 
+            const requestBody = { projectId: projectIds };
             authInstance({
-            method: "POST",
-            url: `/api/pnd/test/diagram`,
+                method: "POST",
+                url: `/api/pnd/test/diagram`,
 
-            data: requestBody,
-          }).then((res) => {
-            mermaid.contentLoaded();
-            console.log(res);
-          }).catch((err) => {
-            console.log("postDiagram error", err);
-          });
+                data: requestBody,
+            }).then((res) => {
+                mermaid.contentLoaded();
+                console.log(res);
+            }).catch((err) => {
+                console.log("postDiagram error", err);
+            });
         }
     }, [projectIds]);
 
@@ -227,7 +228,7 @@ function Retro() {
     //         })
     //     }
     // }, [projectId]);
- 
+
     // 로그인 되어있지 않으면 로그인 화면을 보여준다
     if (!user) {
         return <LoginModal />;
@@ -235,11 +236,19 @@ function Retro() {
 
     return (
         <S.RetroLayout>
-            <SearchRepo onNext={handleNextStep} onPrev={handlePrevStep} user={user} onSelectedRepo={handleRepoChange} />
-            <S.RetroContainer>
+            {!isClickCreateBtn && (
+                <SearchRepo
+                    onNext={handleNextStep}
+                    onPrev={handlePrevStep}
+                    user={user}
+                    onSelectedRepo={handleRepoChange}
+                />
+            )}            
+            
                 {/* 리포트 생성하기 버튼 누르기 전에는 초기 화면을 보여준다 */}
                 {!isClickCreateBtn ? (
                     <>
+                    <S.RetroContainer>
                         <S.InitialView>
                             <S.InitialViewTitle>&lt;- 회고 리포트를 작성할 프로젝트를 선택해 주세요.</S.InitialViewTitle>
 
@@ -251,18 +260,23 @@ function Retro() {
                                 </S.InitialView>
                             )}
                         </S.InitialView>
+                    </S.RetroContainer>
                     </>
                 ) : (
                     <>
+                    <S.ReportContainer>
                         <S.ReportView>
+                            <div>프로젝트 이름: {selectedRepoName}</div>
+                            <div>생성날짜: {startDate}일 ~ {endDate}일</div>
+                            <div>파트: {selectedPart}</div>
                             <div className="mermaid">{mermaidGraph1}</div>
                         </S.ReportView>
+                    </S.ReportContainer>
                     </>
 
 
                 )}
 
-            </S.RetroContainer>
 
         </S.RetroLayout>
     );
