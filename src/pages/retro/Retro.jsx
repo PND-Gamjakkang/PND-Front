@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './RetroStyle.jsx';
-
-function Retro() {
-
 import axios from 'axios';
 import mermaid from 'mermaid';
+
 // component
 import SearchRepo from '../../components/retro/SearchRepo.jsx';
 import RetroBackgroundImg from '../../assets/images/retro-background.png';
@@ -14,6 +12,7 @@ import LoginModal from '../../components/Login/LoginModal.jsx';
 import UserRepo from '../../components/retro/UserRepo.jsx';
 import SelectPart from '../../components/retro/SelectPart.jsx';
 import { RepoName } from '../../components/retro/styles/RetroStyle.jsx';
+
 
 function Retro() {
     const [currentStep, setCurrentStep] = useState(1);
@@ -62,58 +61,7 @@ function Retro() {
         setClickCreateBtn(true);
     }
 
-
-    const mermaidGraph1 = `
-    classDiagram
-        GameController --> GameFrame
-        GameController --> WordGenerator
-        GameController --> Timer
-        GameFrame --> Player
-        GameFrame --> Word
-        GameFrame --> Score
-        GameController : +startGame()
-        GameController : +endGame()
-        GameController : +updateGame()
-        class GameController {
-        +List<Word> words
-        +Player player
-        +Score score
-        +Timer timer
-        +startGame()
-        +endGame()
-        +updateGame()
-        }
-        class GameFrame {
-        +displayWord()
-        +displayScore()
-        +displayTime()
-        }
-        class WordGenerator {
-        +generateWord()
-        }
-        class Timer {
-        +int timeLeft
-        +start()
-        +stop()
-        +countdown()
-        }
-        class Player {
-        +String name
-        +int score
-        +typeWord()
-        }
-        class Word {
-        +String text
-        +int position
-        +move()
-        +checkTyped()
-        }
-        class Score {
-        +int points
-        +increment()
-        +reset()
-        }
-`;
+    const [mermaidGraph1, setMermaidGraph1] = useState(null);
 
     // 데이터 값이 잘 들어왔는지 확인용
     useEffect(() => {
@@ -185,14 +133,13 @@ function Retro() {
                 data: project
             }).then((res) => {
                 setProjectId(res.data.data.projectId);
-                mermaid.contentLoaded();
+                // mermaid.contentLoaded();
                 console.log(res);
             }).catch((err) => {
                 console.log("error", err);
             });
         }
     }, [isClickCreateBtn]);
-
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -201,36 +148,43 @@ function Retro() {
             authInstance({
                 method: "POST",
                 url: `/api/pnd/test/diagram`,
-
+                headers: {
+                    'Authorization': `Bearer ${token}` // 헤더에 토큰을 추가하는 것을 잊지 마세요
+                },
                 data: requestBody,
             }).then((res) => {
-                mermaid.contentLoaded();
                 console.log(res);
+    
+                // POST 요청 후에 GET 요청을 수행
+                axios({
+                    method: "GET",
+                    url: `http://localhost:8080/api/pnd/project/${projectIds}`,
+                    headers: {
+                        'Authorization': `Bearer ${token}` // 헤더에 토큰을 추가하는 것을 잊지 마세요
+                    }
+                }).then((response) => {
+                    console.log("상세조회: ", response.data);
+                    const mermaidString = response.data.data.classDiagram;
+                    //const formattedString = `'${mermaidString}'`;
+                    setMermaidGraph1(mermaidString);
+                    
+                    mermaid.contentLoaded();
+                }).catch((err) => {
+                    console.log("프로젝트 상세조회 오류: ", err);
+                });
+    
             }).catch((err) => {
                 console.log("postDiagram error", err);
             });
         }
     }, [projectIds]);
 
-    // 프로젝트 상세조회
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token && projectId) {
-    //         axios({
-    //             method: "GET",
-    //             url: `http://localhost:8080/api/pnd/project/${projectId}`,
-    //             // headers: {
-    //             //     'Authorization': `Bearer ${token}`
-    //             // }
+    useEffect(() => {
+        mermaid.contentLoaded();
+        console.log(mermaidGraph1);
+        
+    },[mermaidGraph1])
 
-    //         }).then((res) => {
-    //             console.log("프로젝트 상세조회 성공" + res);
-
-    //         }).catch((err) => {
-    //             console.log("error");
-    //         })
-    //     }
-    // }, [projectId]);
 
     // 로그인 되어있지 않으면 로그인 화면을 보여준다
     if (!user) {
@@ -279,8 +233,13 @@ function Retro() {
 
 
                 )}
+        
+         </S.RetroLayout>
+    )
 
 
-}
+
+};
+
 
 export default Retro;

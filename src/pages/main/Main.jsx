@@ -42,13 +42,13 @@ function Main() {
     return (
         <S.MainLayout>
             <S.MainLeft>
-                <S.MainTextTop>잊고 있던 프로젝트를<br/>다시 꺼내봅시다</S.MainTextTop>
-                <S.MainButton onClick={moveTo}>프로젝트 회고하러 가기</S.MainButton>
+                <S.MainTextTop>P-ND(펜드)<br/></S.MainTextTop>
                 <S.MainTextBottom>
-                    <S.HighlightedText>Project end. Project and,</S.HighlightedText>
+                    <S.HighlightedText>Project and Diagram & (Markdown)Dashboard</S.HighlightedText>
                     펜드(P-ND)는 맞춤형 AI로 당신이 프로젝트에서 놓친 부분을 정리해줘요.<br/>
                     개발자로서, 오직 프로젝트에만 집중하세요!
                 </S.MainTextBottom>
+                <S.MainButton onClick={moveTo}>프로젝트 다이어그램 생성하러 가기</S.MainButton>
                 <S.MainFeatures>
                     <S.FeatureBox>
                         <S.FeatureImg src={RedmeIcon}/>

@@ -17,7 +17,7 @@ export const MainRight = styled.div`
 export const MainTextTop = styled.div`
 text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 font-family: Inter;
-font-size: 2.5vw;
+font-size: 3vw;
 font-style: italic;
 font-weight: 700;
 line-height: 164%; /* 98.4px */
@@ -49,7 +49,15 @@ font-style: normal;
 font-weight: 600;
 line-height: 150%; /* 51px */
 margin-top: 1.5vw;
-`;
+ &:hover {
+    background-color: ${({ theme }) => theme.colors.lightGray};
+    cursor: pointer;
+  }
+  
+  &:active {
+    transform: scale(0.98); /* 클릭시 살짝 눌리는 느낌 */
+    background-color: ${({ theme }) => theme.colors.gray};
+  }`;
 
 export const MainFeatures = styled.div`
 display: flex;
