@@ -66,10 +66,13 @@ export default function Thumnail({ onNext, onThumnailImgChange }) {
             <S.ThumnailBox>
             <label htmlFor='photo'>
                 <img
+                    className='dd'
                     src={imgPath ? imgPath : 'images/upload-img-icon.png'}
                     alt='이미지 업로드'
+
                 />
             </label>
+            </S.ThumnailBox>
             <input
                 type='file'
                 id='photo'
@@ -78,7 +81,6 @@ export default function Thumnail({ onNext, onThumnailImgChange }) {
                 onChange={previewImage}
                 ref={imgRef}
             />
-            </S.ThumnailBox>
         </S.ThumnailContainer>
     )
 }

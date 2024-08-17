@@ -88,7 +88,7 @@ export const OptionParagraph = styled.div`
 margin: 3vh 0vh 1.5vh;
 `;
 
-// UserRepo.jsx
+// UserRepo.jsx ----------------------------------------------------------
 export const UserRepoContainer = styled.div`
 width: 300px;
 height: 130px; 
@@ -137,30 +137,36 @@ export const RepoDescription = styled.div`
   margin-top: 5px;
 `;
 
-export const RepoStarsAndLanguageAndFork = styled.div`
-display:flex;
-gap: 1vw;
+export const RepoDetails = styled.div`
+display: flex;
+gap: 5px;
 `;
 
-export const RepoStars = styled.div`
+
+export const RepoInfos = styled.div`
 display:flex;
 gap: 5px;
 align-items: center;
 justify-content: center;
-
 `;
+
 export const StarImg = styled.img`
 width:20px;
 height:20px;
 `;
+export const OpenIssueImage = styled.img`
+width:20px;
+height:20px;
+`;
+export const WatcherImage = styled.img`
+width:20px;
+height:20px;
+`;
 export const StarCount = styled.div`
+font-size: 14px;
 margin-top:5px;
 `;
 
-export const RepoLanguage = styled.div`
-display:flex;
-gap: 5px;
-`;
 export const langaugeColor = styled.div`
 width: 15px;
 height: 15px;
@@ -203,9 +209,7 @@ export const RepoCreatedAt = styled.div`
 font-size: 14px;
 margin-top: 5px;
 `;
-export const RepoForks = styled.div`
 
-`;
 // SelectPart.jsx
 export const SelectPartContainer = styled.div`
 animation: ${SmoothAppear} 1s;
@@ -240,7 +244,7 @@ flex-shrink: 0;
 padding: 0px 8px;
 background-color: white;
 color: black;
-width: 150px;
+width: 100px;
 height: 50px;
 margin-top: 5vh;
 margin-left: 80%;
