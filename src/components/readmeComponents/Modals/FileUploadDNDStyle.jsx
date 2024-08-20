@@ -1,9 +1,10 @@
 import styled from "styled-components";
 const PreviewLabel = styled.label`
-  width: 300px;
-  height: 150px;
+  width: 427px;
+  height: 262px;
   margin: auto;
-  background-color: #fff;
+  margin-top:49px;
+  background-color: #ededed;
   border-radius: 5px;
   border: 3px dashed #eee;
   padding: 20px;
@@ -49,6 +50,7 @@ const PreviewInfo = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  margin-bottom:20px;
 `;
 
 const PreviewImage = styled.img`
@@ -58,19 +60,32 @@ const PreviewImage = styled.img`
   margin-top: 10px;
 `;
 
-const AddImageButton = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 
-  &:hover {
-    background-color: #0056b3;
-  }
+
+const AddImageButton = styled.button`
+width: 444px;
+height: 72px;
+flex-shrink: 0;
+background-color: #B8B8B8;
+border: 1px solid #FFF;
+font-family: 'Inter', sans-serif;
+font-size: 24px;
+font-style: normal;
+font-weight: 600;
+line-height: 36px;
+border-radius: 20px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+
+&:hover {
+    background-color: #A8A8A8;
+}
+
+display: block;
+margin: auto; 
+
+margin-bottom:78px;
+
 `;
 
 export {

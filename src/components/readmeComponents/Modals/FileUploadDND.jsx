@@ -86,7 +86,7 @@ const UploadBox = ({ onImageAdd }) => {
       {uploadedInfo && <FileInfo uploadedInfo={uploadedInfo} />}
       {uploadedInfo && (
         <AddImageButton onClick={handleAddImage}>
-          이미지 추가
+          생성하기
         </AddImageButton>
       )}
     </div>

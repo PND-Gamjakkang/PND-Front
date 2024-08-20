@@ -43,20 +43,35 @@ const h1ButtonClicked = (content, selection) => {
     return applyMarkdown(content, selection, '-');
   };
   
+  const badgeButtonClicked=(content, selection, badgeURL, lastcursor)=>{
+    const range = selection.getRangeAt(0);
+    
+    console.log('selection : ',selection,' last cursor : ',lastcursor);
+    const textNode = document.createTextNode(badgeURL);
+    range.insertNode(textNode);
+
+    range.setStartAfter(textNode);
+    range.setEndAfter(textNode);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    
+    return  content.slice(0, lastcursor) + badgeURL + content.slice(lastcursor);
+
+  }
   const topLangsButtonClicked=(content, selection, lastcursor)=>{
     if (!content) {
       console.log('no content');
       return
     }
-  
+    console.log('selection : ',selection,' last cursor : ',lastcursor);
   
     ///////////////////////////////////////////////////////////////////////
     //테스트용 하드코딩
     const cardURL=('![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Jun-Young-Seo&layout=compact)')
     //나중에 백에서 API 완성하면 수정하기
     ///////////////////////////////////////////////////////////////////////
-    console.log('cursor at markdown funs: '+lastcursor);
-      // contentEditable 요소의 innerHTML을 직접 수정하여 cardURL을 삽입
+    // contentEditable 요소의 innerHTML을 직접 수정하여 cardURL을 삽입
   
       
       const range = selection.getRangeAt(0);
@@ -74,7 +89,6 @@ const h1ButtonClicked = (content, selection) => {
       return content.slice(0, lastcursor) + cardURL + content.slice(lastcursor);
   
   };
-  
   // 마크다운 문법 적용 함수(h1~h6용)
   const applyMarkdown = (content, selection, markdownSyntax) => {
     const range = selection.getRangeAt(0);
@@ -145,6 +159,7 @@ const h1ButtonClicked = (content, selection) => {
     listItemButtonClicked,
     applyMarkdown,
     wrapMarkdown,
-    topLangsButtonClicked
+    topLangsButtonClicked,
+    badgeButtonClicked
   };
   

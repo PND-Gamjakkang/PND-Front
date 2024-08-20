@@ -10,7 +10,7 @@ export const MdAreaContainer = styled.div`
 export const MdResult = styled.div`
   width: 100%;
   height:auto;
-  min-height:600px;
+  min-height:800px;
   padding: 10px;
   box-sizing: border-box;
   border: 1px solid #ccc;

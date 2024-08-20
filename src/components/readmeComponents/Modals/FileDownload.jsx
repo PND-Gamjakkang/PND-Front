@@ -8,6 +8,7 @@ const FileDownload = ({ content }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {
+    // console.log("다운로드");
     setModalIsOpen(true);
   };
 

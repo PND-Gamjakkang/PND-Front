@@ -1,6 +1,6 @@
 import styled from "styled-components";
 export const ReadmeContainer = styled.div`
-  max-width: 80%;
+  max-width: 90%;
   width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -11,6 +11,7 @@ export const ReadmeContainer = styled.div`
   gap: 20px;
   border:2px solid #FFFFFF;
   border-radius:22px;
+  
 `;
 
 export const Content = styled.div`
@@ -19,7 +20,7 @@ export const Content = styled.div`
   width: 100%;
   flex: 1;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #E1E1E1;
   border: 2px solid;
   border-radius:22px;
   box-sizing: border-box;
@@ -32,8 +33,8 @@ export const Container = styled.div`
 `;
 
 export const Divider = styled.div`
-  width: 2px;
-  background-color: #ccc;
+  width: 10px;
+  background-color: #07061F;
   margin: 0 20px;
 `;
 
@@ -48,6 +49,5 @@ export const Title = styled.h1`
 margin-bottom: 0;
 color: black; 
 line-height:88px;
-
 `;
 
