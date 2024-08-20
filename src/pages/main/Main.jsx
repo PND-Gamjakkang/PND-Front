@@ -8,8 +8,9 @@ import LoginModal from '../../components/Login/LoginModal.jsx';
 // images
 import RedmeIcon from '../../assets/images/readme-icon.png';
 import FolderIcon from '../../assets/images/folder-icon.png';
-import RetroIcon  from '../../assets/images/retro-icon.png';
+import RetroIcon  from '../../assets/images/retro-logo.png';
 import MainImg from '../../assets/images/main-img.png';
+import MainLogoimg from '../../assets/images/main-logo.png';
 
 function Main() {
     const navigate = useNavigate();
@@ -26,10 +27,9 @@ function Main() {
         const urlParams = new URLSearchParams(location.search);
         const code = urlParams.get('code');
         if(code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
-            
             axios({
                 method: "POST",
-                url: `http://localhost:8080/api/pnd/user/social/github?code=${code}`
+                url: `http://localhost:8080/api/pnd/oauth/social/github?code=${code}`
             }).then((res) =>{
                 console.log(res);
                 const ACCESS_TOKEN = res.data.data.token;
@@ -43,13 +43,14 @@ function Main() {
     return (
         <S.MainLayout>
             <S.MainLeft>
-                <S.MainTextTop>프로젝트가 끝난 이후, <br/>또 다른 시작</S.MainTextTop>
-                <S.MainButton onClick={moveTo}>프로젝트 회고하러 가기</S.MainButton>
+                <S.MainLogoImg src={MainLogoimg}/>
+                {/* <S.MainTextTop>P-ND(펜드)<br/></S.MainTextTop> */}
                 <S.MainTextBottom>
-                    <S.HighlightedText>Project end. Project and,</S.HighlightedText>
+                    <S.HighlightedText>Project and Diagram & (Markdown)Dashboard</S.HighlightedText>
                     펜드(P-ND)는 맞춤형 AI로 당신이 프로젝트에서 놓친 부분을 정리해줘요.<br/>
                     개발자로서, 오직 프로젝트에만 집중하세요!
                 </S.MainTextBottom>
+                <S.MainButton onClick={moveTo}>프로젝트 다이어그램 생성하러 가기</S.MainButton>
                 <S.MainFeatures>
                     <S.FeatureBox>
                         <S.FeatureImg src={RedmeIcon}/>

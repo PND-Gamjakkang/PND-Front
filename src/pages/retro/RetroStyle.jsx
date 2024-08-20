@@ -28,7 +28,23 @@ display: inline-block;
 border-bottom: 2px solid white;
 `;
 
+export const ReportContainer = styled.div`
+width: 100%;
+display:flex;
+justify-content: center;
+align-items: center;
+`;
+
 
 export const ReportView = styled.div`
-
+width: 50%;
+background-color: white;
+font-family: Inter;
+font-size: 16px;
+font-style: italic;
+font-weight: 600;
+line-height: 175%; /* 28px */
+color: black;
+padding: 20px;
+margin-top: 5%;
 `;
