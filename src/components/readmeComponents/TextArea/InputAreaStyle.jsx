@@ -11,7 +11,8 @@ export const InputAreaContainer = styled.div`
 export const InputText = styled.div`
   width: 100%;
   height: 100%;
-  min-height: 652px; 
+  min-height: 800px; 
+  max-height: 800px;
   padding: 10px;
   box-sizing: border-box;
   border: 1px solid #ccc;
@@ -21,4 +22,8 @@ export const InputText = styled.div`
   white-space: pre-wrap; 
   border: 1px solid ; 
   color : black;
+  font-size:24px;
+  font-family: 'Noto Sans', sans-serif;
+  line-height : 1.6;
+  letter-spacing : 0.5px;
 `;

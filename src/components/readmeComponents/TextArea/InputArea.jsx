@@ -2,11 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import { 
   h1ButtonClicked, h2ButtonClicked, h3ButtonClicked, h4ButtonClicked, h5ButtonClicked, h6ButtonClicked,
   quoteButtonClicked, boldButtonClicked, italicButtonClicked, throughButtonClicked, codeButtonClicked, listItemButtonClicked,
-  topLangsButtonClicked,badgeButtonClicked
+  topLangsButtonClicked,badgeButtonClicked,fileUploadButtonClicked
 } from './MarkDownFuns';
 import { InputAreaContainer, InputText } from './InputAreaStyle';
 
-const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL }) => {
+const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL, imgURL }) => {
   const [lastCursor, setLastCursor] = useState("");//커서 위치 추적용 state
   const localRef = useRef(null);
   const selectionRef = useRef(null);
@@ -25,12 +25,14 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
 
   useEffect(() => {
     if (clickedButton) {
-    
+
       let newContent = content;
       if (!selectionRef.current || !selectionRef.current.rangeCount) {
         return;
       }
       console.log(clickedButton);
+      console.log(selectionRef.current);
+      console.log("last cursor : ",lastCursor);
 
       switch (clickedButton) {
         case 'h1':
@@ -73,7 +75,12 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
           newContent = topLangsButtonClicked(content, selectionRef.current, lastCursor);
           break;
         case 'Badge':
+          console.log(badgeURL);
           newContent = badgeButtonClicked(content,selectionRef.current,badgeURL,lastCursor);
+          break;
+        case 'Image':
+          console.log(imgURL);
+          newContent = fileUploadButtonClicked(content,selectionRef.current,imgURL,lastCursor);
           break;
         default:
           break;
@@ -86,7 +93,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
       onChange(newContent);
       onMarkdownApplied();
     }
-  }, [clickedButton, content, onChange, onMarkdownApplied, lastCursor, badgeURL]);
+  }, [clickedButton, content, onChange, onMarkdownApplied, lastCursor, badgeURL, imgURL]);
 
   const inputHandler = () => {
     const changedText = localRef.current.innerHTML

@@ -19,29 +19,29 @@ const CodeButton = styled(Button)``;
 const QuoteButton = styled(Button)``;
 const TopLangsButton = styled(Button)``;
 const BadgeButton = styled(Button)``;
+const FileUploadButton = styled(Button)``;
+const FileDownloadButton = styled(Button)``;
 
 const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => {
   const [isBadgeModalOpen, setBadgeModalOpen] = useState(false);
+  const [isUploadModalOpen, setUploadModalOpen] = useState(false);
+  const [isDownloadModalOpen, setDownloadModalOpen] = useState(false);
 
   const handleButtonClick = (type) => {
     if (type === 'Badge') {
-      if(!isBadgeModalOpen){
-        setBadgeModalOpen(true);
-      }
-      onButtonClick(type);
+      setBadgeModalOpen(true);
+    } else if (type === 'Image') {
+      setUploadModalOpen(true);
+    } else if (type === 'Download') {
+      setDownloadModalOpen(true);
     } else if (onButtonClick) {
       onButtonClick(type);
     }
   };
 
-
-  const openBadgeModal = () => {
-    setBadgeModalOpen(true);
-  };
-
-  const closeBadgeModal = () => {
-    setBadgeModalOpen(false);
-  };
+  const closeBadgeModal = () => setBadgeModalOpen(false);
+  const closeUploadModal = () => setUploadModalOpen(false);
+  const closeDownloadModal = () => setDownloadModalOpen(false);
 
   return (
     <InputAreaHeaderContainer>
@@ -58,12 +58,11 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
         <CodeButton onClick={() => handleButtonClick('code')}>Code</CodeButton>
         <QuoteButton onClick={() => handleButtonClick('quote')}>Quote</QuoteButton>
         <TopLangsButton onClick={() => handleButtonClick('Lan')}>Top Langs</TopLangsButton>
-        <BadgeButton onClick={()=>handleButtonClick('Badge')}>Badge</BadgeButton>
-        <FileUpload onImageAdd={onImageAdd} />
-        <FileDownload content={content} />
+        <BadgeButton onClick={() => handleButtonClick('Badge')}>Badge</BadgeButton>
+        <FileUploadButton onClick={() => handleButtonClick('Image')}>Upload Image</FileUploadButton>
+        <FileDownloadButton onClick={() => handleButtonClick('Download')}>Download</FileDownloadButton>
       </Toolbar>
 
-    {/* {모달이 닫힌 경우에만 Badge Modal 생성} */}
       {isBadgeModalOpen && (
         <Badge
           onBadgeAdd={(markdown) => {
@@ -74,6 +73,23 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
         />
       )}
 
+      {isUploadModalOpen && (
+        <FileUpload
+          onImageAdd={(markdown) => {
+            console.log("ma : ",markdown);
+            onImageAdd(markdown);
+            closeUploadModal();
+          }}
+          closeModal={closeUploadModal}
+        />
+      )}
+
+      {isDownloadModalOpen && (
+        <FileDownload
+          content={content}
+          closeModal={closeDownloadModal}
+        />
+      )}
     </InputAreaHeaderContainer>
   );
 };

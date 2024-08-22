@@ -46,7 +46,6 @@ const h1ButtonClicked = (content, selection) => {
   const badgeButtonClicked=(content, selection, badgeURL, lastcursor)=>{
     const range = selection.getRangeAt(0);
     
-    console.log('selection : ',selection,' last cursor : ',lastcursor);
     const textNode = document.createTextNode(badgeURL);
     range.insertNode(textNode);
 
@@ -59,12 +58,27 @@ const h1ButtonClicked = (content, selection) => {
     return  content.slice(0, lastcursor) + badgeURL + content.slice(lastcursor);
 
   }
+  const fileUploadButtonClicked = (content, selection, imgURL, lastcursor)=>{
+    const range = selection.getRangeAt(0);
+    
+    const textNode = document.createTextNode(imgURL);
+    range.insertNode(textNode);
+
+    range.setStartAfter(textNode);
+    range.setEndAfter(textNode);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    
+    return content.slice(0, lastcursor) + imgURL + content.slice(lastcursor);
+
+  }
   const topLangsButtonClicked=(content, selection, lastcursor)=>{
     if (!content) {
-      console.log('no content');
+      // console.log('no content');
       return
     }
-    console.log('selection : ',selection,' last cursor : ',lastcursor);
+    // console.log('selection : ',selection,' last cursor : ',lastcursor);
   
     ///////////////////////////////////////////////////////////////////////
     //테스트용 하드코딩
@@ -89,35 +103,55 @@ const h1ButtonClicked = (content, selection) => {
       return content.slice(0, lastcursor) + cardURL + content.slice(lastcursor);
   
   };
-  // 마크다운 문법 적용 함수(h1~h6용)
   const applyMarkdown = (content, selection, markdownSyntax) => {
     const range = selection.getRangeAt(0);
     const selectedText = range.toString();
-    
+    console.log("선택된 텍스트 : ", selectedText);
+  
     if (!selectedText) return content;
   
     // 기존 문법 있는 경우 제거
     const strippedText = selectedText.replace(/^(#+)\s/, '');
-    // h1~h6인 경우 공백 있음 ex)### test
     const markdownText = `${markdownSyntax} ${strippedText}`;
   
-    const textNode = document.createTextNode(markdownText);
+    // 정확한 인덱스 계산
+    const startContainer = range.startContainer;
+    const startOffset = range.startOffset;
   
-    // 선택된 텍스트 삭제 후 새로운 텍스트 삽입
+    // Container가 텍스트 노드가 아닐 경우 처리 (필요 시)
+    let startText = '';
+    if (startContainer.nodeType === Node.TEXT_NODE) {
+      startText = startContainer.textContent;
+    } else if (startContainer.nodeType === Node.ELEMENT_NODE) {
+      startText = startContainer.innerText || startContainer.textContent;
+    }
+  
+    // content 내에서 텍스트 노드의 위치 계산
+    const beforeSelectionText = startText.slice(0, startOffset);
+    const afterSelectionText = startText.slice(startOffset + selectedText.length);
+  
+    // content 내에서 정확한 인덱스 계산
+    const exactStartIndex = content.indexOf(beforeSelectionText) + beforeSelectionText.length;
+    const exactEndIndex = exactStartIndex + selectedText.length;
+  
+    // 텍스트 교체
+    const updatedContent =
+      content.substring(0, exactStartIndex) +
+      markdownText +
+      content.substring(exactEndIndex);
+  
+    // 선택된 텍스트 영역을 새로 설정
     range.deleteContents();
+    const textNode = document.createTextNode(markdownText);
     range.insertNode(textNode);
   
-    // 범위를 새로 삽입된 텍스트 노드로 설정
-    range.setStartBefore(textNode);
-    range.setEndAfter(textNode);
-  
-    // 선택 범위 초기화 및 재설정
     selection.removeAllRanges();
+    range.selectNodeContents(textNode);
     selection.addRange(range);
   
-    return content.replace(selectedText, markdownText).replace(/<br\s*\/?>/gi, '\n');
+    return updatedContent;
   };
-  
+    
   // 마크다운 문법으로 감싸는 함수(Bold,Italic 등)
   const wrapMarkdown = (content, selection, wrapper) => {
     const range = selection.getRangeAt(0);
@@ -160,6 +194,7 @@ const h1ButtonClicked = (content, selection) => {
     applyMarkdown,
     wrapMarkdown,
     topLangsButtonClicked,
-    badgeButtonClicked
+    badgeButtonClicked,
+    fileUploadButtonClicked
   };
   

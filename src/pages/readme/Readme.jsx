@@ -11,7 +11,7 @@ function Readme() {
   const [content, setContent] = useState("");
   const [clickedButton, setClickedButton] = useState("");
   const [badgeURL, setBadgeURL] = useState('');
-
+  const [imageURL, setimageURL] = useState('');
   const handleInputChange = (newContent) => {
     setContent(newContent);
   };
@@ -23,6 +23,7 @@ function Readme() {
   const handleMarkdownApplied = () => {
     setClickedButton("");
     setBadgeURL("");
+    setimageURL("");
   };
 
   const handleBadgeAdd = (badgeURL) => {
@@ -30,10 +31,10 @@ function Readme() {
     setClickedButton('Badge');
   };
 
-  const handleImageAdd = (markdown) => {
-    const newContent = content + `\n![Image](${markdown})\n`;
-    setContent(newContent);
-    handleMarkdownApplied();
+  const handleImageAdd = (imageURL) => {
+    console.log(imageURL);
+    setimageURL(imageURL);
+    setClickedButton('Image');
   };
 
   return (
@@ -57,6 +58,7 @@ function Readme() {
             clickedButton={clickedButton}
             onMarkdownApplied={handleMarkdownApplied}
             badgeURL={badgeURL}
+            imgURL={imageURL}
           />
         </Container>
         <Divider/>
