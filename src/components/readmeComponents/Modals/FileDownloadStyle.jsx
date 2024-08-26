@@ -12,6 +12,20 @@ export const ModalOverlay = styled.div`
   justify-content: center;
 `;
 
+export const ModalContentWrapper = styled.div`
+  background: none;
+  border: 2px solid;
+  border-radius: 22px;
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const ModalContent = styled.div`
   background: #07061F;
   width: 637px;
@@ -25,9 +39,9 @@ export const ModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color:white;
-  font-weight:bold;
-  font-size:20px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
 `;
 
 export const StyledButton = styled.button`
@@ -37,25 +51,25 @@ export const StyledButton = styled.button`
   margin: 10px;
   border-radius: 5px;
   cursor: pointer;
+  border: 2px solid #FFFFFF;
+  border-radius: 22px;
+  font-weight: bold;
+  font-size: 20px;
+  width: 444px;
+  height: 72px;
 
-  border: 2px solid #FFFFFF; 
-  border-radius:22px;
-  font-weight:bold;
-  font-size:20px;
-
-  width:444px;
-  height:72px;
   &:hover {
     background-color: #0056b3;
   }
 `;
+
 export const Logo = styled.img`
   position: absolute;
   top: 20px;
   left: 20px;
-  width: 87px; 
-  height:33px;
-  `;
+  width: 87px;
+  height: 33px;
+`;
 
 export const CloseButton = styled.button`
   background-color: transparent;
@@ -73,7 +87,8 @@ export const CloseButton = styled.button`
 
 export const Link = styled.a`
   color: #007BFF;
-  text-decoration: underline; 
+  text-decoration: underline;
+
   &:hover {
     color: #0056b3;
   }

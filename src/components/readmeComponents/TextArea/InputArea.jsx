@@ -1,18 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
-import {
+import { 
   h1ButtonClicked, h2ButtonClicked, h3ButtonClicked, h4ButtonClicked, h5ButtonClicked, h6ButtonClicked,
   quoteButtonClicked, boldButtonClicked, italicButtonClicked, throughButtonClicked, codeButtonClicked, listItemButtonClicked,
-  topLangsButtonClicked
+  topLangsButtonClicked,badgeButtonClicked,fileUploadButtonClicked
 } from './MarkDownFuns';
-import Badge from "../Modals/Badge";
-import FileUpload from "../Modals/FileUpload";
-import {InputAreaContainer,InputText} from './InputAreaStyle';
-import FileDownload from "../Modals/FileDownload";
+import { InputAreaContainer, InputText } from './InputAreaStyle';
 
-const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied }) => {
-  let selection;
-  const [lastCursor, setLastCursor] = useState("");
-
+const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL, imgURL }) => {
+  const [lastCursor, setLastCursor] = useState("");//커서 위치 추적용 state
   const localRef = useRef(null);
   const selectionRef = useRef(null);
 
@@ -30,10 +25,14 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied }) => {
 
   useEffect(() => {
     if (clickedButton) {
+
       let newContent = content;
       if (!selectionRef.current || !selectionRef.current.rangeCount) {
         return;
       }
+      console.log(clickedButton);
+      console.log(selectionRef.current);
+      console.log("last cursor : ",lastCursor);
 
       switch (clickedButton) {
         case 'h1':
@@ -75,6 +74,14 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied }) => {
         case 'Lan':
           newContent = topLangsButtonClicked(content, selectionRef.current, lastCursor);
           break;
+        case 'Badge':
+          console.log(badgeURL);
+          newContent = badgeButtonClicked(content,selectionRef.current,badgeURL,lastCursor);
+          break;
+        case 'Image':
+          console.log(imgURL);
+          newContent = fileUploadButtonClicked(content,selectionRef.current,imgURL,lastCursor);
+          break;
         default:
           break;
       }
@@ -86,7 +93,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied }) => {
       onChange(newContent);
       onMarkdownApplied();
     }
-  }, [clickedButton, content, onChange, onMarkdownApplied, lastCursor]);
+  }, [clickedButton, content, onChange, onMarkdownApplied, lastCursor, badgeURL, imgURL]);
 
   const inputHandler = () => {
     const changedText = localRef.current.innerHTML
@@ -98,7 +105,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied }) => {
   };
 
   const selectionHandler = () => {
-    selection = window.getSelection();
+    const selection = window.getSelection();
     selectionRef.current = selection;
     let last = selection.getRangeAt(0).startOffset;
     setLastCursor(last);
@@ -112,43 +119,6 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied }) => {
     }
   };
 
-  const handleBadgeAdd = (markdown) => {
-    selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    range.deleteContents();
-
-    const textNode = document.createTextNode(markdown);
-    range.insertNode(textNode);
-
-    // 삽입 후 커서 위치 설정
-    range.setStartAfter(textNode);
-    range.setEndAfter(textNode);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    const newContent = content.slice(0, lastCursor) + markdown + content.slice(lastCursor);
-    onChange(newContent);
-    onMarkdownApplied();
-  };
-
-  const handleImageAdd = (markdown) => {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    range.deleteContents();
-
-    const textNode = document.createTextNode(markdown);
-    range.insertNode(textNode);
-
-    // 삽입 후 커서 위치 설정
-    range.setStartAfter(textNode);
-    range.setEndAfter(textNode);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    const newContent = content + '\n' + markdown;
-    onChange(newContent);
-    onMarkdownApplied();
-  };
 
   return (
     <InputAreaContainer>
@@ -159,9 +129,6 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied }) => {
         onSelect={selectionHandler}
         onKeyDown={handleKeyDown}
       />
-      <Badge onBadgeAdd={handleBadgeAdd} />
-      <FileUpload onImageAdd={handleImageAdd} />
-      <FileDownload content={content} />
     </InputAreaContainer>
   );
 };

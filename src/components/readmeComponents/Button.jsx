@@ -1,20 +1,23 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-  background: rgb(20, 20, 20);
-  background: linear-gradient(0deg, rgba(20, 20, 20, 1) 0%, rgba(50, 50, 50, 1) 100%);
   border: none;
-  padding: 10px 20px;
-  color: white;
-  font-size: 16px;
+  padding: 5px 10px;
+  color: black;
+  font-family: 'Inter', sans-serif; /* 폰트 스타일 적용 */
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 10px;
+  text-align: center;
   cursor: pointer;
   border-radius: 5px;
-  margin: 5px;
+  font-style: italic;
 
   &:hover {
-    background: rgb(40, 40, 40);
-    background: linear-gradient(0deg, rgba(40, 40, 40, 1) 0%, rgba(60, 60, 60, 1) 100%);
+    background-color: transparent; /* 배경색을 투명하게 유지 */
+    border: 2px solid #5B59FC; /* 테두리를 설정 */
   }
-`;
+  `;
+
 
 export default Button;

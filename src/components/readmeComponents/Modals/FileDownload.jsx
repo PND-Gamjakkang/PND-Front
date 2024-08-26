@@ -1,20 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Modal from 'react-modal';
-import Button from "../Button";
 import { ModalContent, StyledButton, CloseButton, Link, Logo } from './FileDownloadStyle';
 import logo from '../../../assets/images/modal-logo.png';
 
-const FileDownload = ({ content }) => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
+const FileDownload = ({ content,closeModal }) => {
   const downloadMD = () => {
     const element = document.createElement("a");
     const file = new Blob([content], { type: 'text/markdown' });
@@ -33,10 +22,8 @@ const FileDownload = ({ content }) => {
   );
 
   return (
-    <div>
-      <Button onClick={openModal}>Download md</Button>
       <Modal
-        isOpen={modalIsOpen}
+        isOpen={true}
         onRequestClose={closeModal}
         ariaHideApp={false}
         style={{
@@ -72,7 +59,7 @@ const FileDownload = ({ content }) => {
           <StyledButton>해당 프로젝트 회고하러 가기</StyledButton>
         </ModalContent>
       </Modal>
-    </div>
+    
   );
 };
 
