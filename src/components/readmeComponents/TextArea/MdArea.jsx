@@ -5,8 +5,16 @@ import 'github-markdown-css/github-markdown.css';
 import { MdResult } from './MdAreaStyle';
 const MdArea = ({ content }) => {
   return (
-    <div className='markdown-body'>
-      <MdResult>
+    <div 
+    className='markdown-body' 
+    style={{ 
+      width: '600px', 
+      borderRadius: '23px', 
+      border: '1px solid var(--main, #5B59FC)' 
+    }}
+  >
+
+    <MdResult>
       <ReactMarkdown rehypePlugins={[rehypeRaw]}>
         {content}
       </ReactMarkdown>

@@ -10,9 +10,8 @@ import { Mobile, Pc } from './Responsive.jsx';
 const BackGroundColor = styled.div`
   width: 100vw;
   min-height: 100vh;
-  background-color: black;
+  background-color: white;
   position: relative;
-
   color:white;
 `;
 

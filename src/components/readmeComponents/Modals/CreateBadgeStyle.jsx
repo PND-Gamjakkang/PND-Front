@@ -40,28 +40,29 @@ export const Input = styled.input`
   border-radius: 5px;
 `;
 export const BadgeCreateButton = styled.button`
-width: 444px;
-height: 72px;
-flex-shrink: 0;
-background-color: #B8B8B8;
-border: 1px solid #FFF;
-font-family: 'Inter', sans-serif;
-font-size: 24px;
-font-style: normal;
-font-weight: 600;
-line-height: 36px;
-border-radius: 20px;
-cursor: pointer;
-transition: background-color 0.3s ease;
+  width: 444px;
+  height: 72px;
+  flex-shrink: 0;
+  background-color: #5b59fc;
+  border: 1px solid #FFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  color:white;
+  font-weight: 600;
+  line-height: 36px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 
-&:hover {
-    background-color: #A8A8A8;
-}
+  &:hover {
+    background-color: #6f6df8; /* 기존 색상보다 약간 밝은 색상 */
+    border-color: #e0e0ff; /* 테두리 색상도 변경 */
+  }
 
-display: block;
-margin: auto; 
-
-margin-bottom:78px;
+  display: block;
+  margin: auto; 
+  margin-bottom: 78px;
 `;
 
 export const BadgePreview = styled.div`

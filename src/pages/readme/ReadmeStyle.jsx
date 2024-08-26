@@ -1,14 +1,11 @@
 import styled from "styled-components";
 export const ReadmeContainer = styled.div`
-  max-width: 90%;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
+  max-width: 1500px;
+  width: 1500px;
+  height: 950px;
   box-sizing: border-box;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   border:2px solid #FFFFFF;
   border-radius:22px;
   
@@ -16,26 +13,33 @@ export const ReadmeContainer = styled.div`
 
 export const Content = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  flex: 1;
-  padding: 20px;
-  background-color: #E1E1E1;
-  border: 2px solid;
-  border-radius:22px;
+  background-color: #FFFFFF;
+  border: 1px solid #D9D9FF; /* 테두리 두께와 색상 적용 */
+  border-radius: 22px; /* 둥근 모서리 적용 */
   box-sizing: border-box;
+  width:1500px;
 `;
 
 export const Container = styled.div`
+  margin-top:35px;
+  margin-bottom:35px;
   display: flex;
+  margin-left:35px;
   flex-direction: column;
   flex: 1;
 `;
-
+export const Container2 = styled.div`
+  margin-top:35px;
+  margin-bottom:35px;
+  display:flex;
+  flex-direction : column;
+  flex:1;
+  margin-right:35px;
+`;
 export const Divider = styled.div`
-  width: 10px;
-  background-color: #07061F;
-  margin: 0 20px;
+  width: 28px;
+  background-color: #FFFFFF;
+  flex-shrink:0;
 `;
 
 export const MdAreaHeader = styled.div`

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../Button';
-import { Toolbar, InputAreaHeaderContainer } from './InputAreaHeaderStyle';
+import { Toolbar, InputAreaHeaderContainer,Toolbar2,FileDownloadButton } from './InputAreaHeaderStyle';
 import styled from 'styled-components';
 import Badge from '../Modals/Badge';
 import FileUpload from '../Modals/FileUpload';
@@ -20,7 +20,6 @@ const QuoteButton = styled(Button)``;
 const TopLangsButton = styled(Button)``;
 const BadgeButton = styled(Button)``;
 const FileUploadButton = styled(Button)``;
-const FileDownloadButton = styled(Button)``;
 
 const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => {
   const [isBadgeModalOpen, setBadgeModalOpen] = useState(false);
@@ -45,6 +44,11 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
 
   return (
     <InputAreaHeaderContainer>
+    <Toolbar2>
+        <TopLangsButton onClick={() => handleButtonClick('Lan')}>Top Languages</TopLangsButton>
+        <BadgeButton onClick={() => handleButtonClick('Badge')}>Badge</BadgeButton>
+        <FileUploadButton onClick={() => handleButtonClick('Image')}>Image</FileUploadButton>
+      </Toolbar2>
       <Toolbar>
         <H1Button onClick={() => handleButtonClick('h1')}>h1</H1Button>
         <H2Button onClick={() => handleButtonClick('h2')}>h2</H2Button>
@@ -57,11 +61,8 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
         <ThroughButton onClick={() => handleButtonClick('throughLine')}>Through</ThroughButton>
         <CodeButton onClick={() => handleButtonClick('code')}>Code</CodeButton>
         <QuoteButton onClick={() => handleButtonClick('quote')}>Quote</QuoteButton>
-        <TopLangsButton onClick={() => handleButtonClick('Lan')}>Top Langs</TopLangsButton>
-        <BadgeButton onClick={() => handleButtonClick('Badge')}>Badge</BadgeButton>
-        <FileUploadButton onClick={() => handleButtonClick('Image')}>Upload Image</FileUploadButton>
-        <FileDownloadButton onClick={() => handleButtonClick('Download')}>Download</FileDownloadButton>
-      </Toolbar>
+        <FileDownloadButton onClick={() => handleButtonClick('Download')}>저장하기</FileDownloadButton>
+        </Toolbar>
 
       {isBadgeModalOpen && (
         <Badge
