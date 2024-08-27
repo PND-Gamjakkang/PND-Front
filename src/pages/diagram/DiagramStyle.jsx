@@ -1,25 +1,23 @@
 import styled from "styled-components";
 
 export const Diagram = styled.div`
-width: 100%;
-
+width: 100%; /* 부모 요소(Content)의 전체 너비를 차지 */
+height: 100%; /* 부모 요소(Content)의 전체 높이를 차지 */
 display:flex;
 justify-content: center;
 `;
 
 export const DiagramLayout = styled.div`
-width: 80vw;
-
+width: 100%; /* 부모 요소(Content)의 전체 너비를 차지 */
+height: 100%; /* 부모 요소(Content)의 전체 높이를 차지 */
 position: relative;
 display:flex;
 flex-direction: column;
-gap: 8px;
 `;
 
 export const DiagramTopBarContainer = styled.div`
-width: 100vw;
-height: 10vh;
-background-color: white;
+width: 100%; /* 부모 요소(Content)의 전체 너비를 차지 */
+height: 10%; /* 부모 요소(Content)의 전체 높이를 차지 */
 display:flex;
 align-items: center;
 `;
@@ -29,11 +27,9 @@ export const DiagramNavBar = styled.div`
 `;
 
 export const DiagramContainer = styled.div`
-
-width: 100vw;
-height: 100vh;
-background-color: white;
-
+  width: 100%; /* 부모 요소의 전체 너비 */
+  height: 100%; /* 부모 요소의 전체 높이 */
+  background-color: skyblue;
 `;
 
 export const DiagramPickerParagraph = styled.div`
