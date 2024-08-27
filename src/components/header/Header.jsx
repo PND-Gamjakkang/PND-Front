@@ -12,7 +12,7 @@ function Header() {
             <S.NavLinks>
                 <Link to='/'>
                     <S.NavLink className={location.pathname === '/' ? 'active' : ''}>
-                        Home
+                        HOME
                     </S.NavLink>
                 </Link>
                 <Link to='/readme'>
@@ -20,13 +20,13 @@ function Header() {
                         README
                     </S.NavLink>
                 </Link>
-                <Link to='/retro'>
-                    <S.NavLink className={location.pathname === '/retro' ? 'active' : ''}>
+                <Link to='/diagram'>
+                    <S.NavLink className={location.pathname === '/diagram' ? 'active' : ''}>
                         DIAGRAM
                     </S.NavLink>
                 </Link>
-                <Link to='/myprojects'>
-                    <S.NavLink className={location.pathname === '/myprojects' ? 'active' : ''}>
+                <Link to='/report'>
+                    <S.NavLink className={location.pathname === '/report' ? 'active' : ''}>
                         GITHUB REPORT
                     </S.NavLink>
                 </Link>
