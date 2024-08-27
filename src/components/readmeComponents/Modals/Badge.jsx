@@ -12,7 +12,7 @@ import {
   ModalHeader,
   Title,
   Description,
-  
+  BadgeImage
 } from './BadgeStyle';
 import { Helmet } from 'react-helmet';
 
@@ -39,32 +39,33 @@ const Badge = ({ onBadgeAdd, closeModal }) => {
   };
 
   return (
-    <Modal
-      isOpen={true}
-      onRequestClose={closeModal} 
-      ariaHideApp={false}
-      style={{
-        overlay: {
-          backgroundColor: 'rgba(0, 0, 0, 0.75)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        content: {
-          background: 'white',
-          border: 'none',
-          borderRadius: '22px', 
-          padding: '20px',
-          position: 'relative',
-          width: '800px',
-          height: '900px',
-          maxWidth: '100%',
-          maxHeight: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-        },
-      }}
-    >
+<Modal
+  isOpen={true}
+  onRequestClose={closeModal}
+  ariaHideApp={false}
+  style={{
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    content: {
+      background: 'white',
+      border: 'none',
+      borderRadius: '2.04vh', /* 22px out of 1080px */
+      padding: '1.85vh', /* 20px out of 1080px */
+      position: 'relative',
+      width: '41.67vw', /* 800px out of 1920px */
+      height: '83.33vh', /* 900px out of 1080px */
+      maxWidth: '90%', /* To ensure responsiveness on smaller screens */
+      maxHeight: '90%', /* To ensure responsiveness on smaller screens */
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  }}
+>
+
       <Helmet>
         <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
       </Helmet>
@@ -101,7 +102,7 @@ const Badge = ({ onBadgeAdd, closeModal }) => {
           <BadgePreviewContainer>
             <BadgePreviewPanel>
               {sampleBadges.map((badgeUrl, index) => (
-                <img
+                <BadgeImage
                   key={index}
                   src={badgeUrl}
                   alt={`Sample Badge ${index}`}

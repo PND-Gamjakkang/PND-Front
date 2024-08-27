@@ -20,6 +20,8 @@ const QuoteButton = styled(Button)``;
 const TopLangsButton = styled(Button)``;
 const BadgeButton = styled(Button)``;
 const FileUploadButton = styled(Button)``;
+const RedoButton = styled(Button)``;
+const UndoButton = styled(Button)``;
 
 const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => {
   const [isBadgeModalOpen, setBadgeModalOpen] = useState(false);
@@ -50,6 +52,8 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
         <FileUploadButton onClick={() => handleButtonClick('Image')}>Image</FileUploadButton>
       </Toolbar2>
       <Toolbar>
+        <UndoButton onClick={()=>handleButtonClick('undo')}>↺</UndoButton>
+        <RedoButton onClick={()=>handleButtonClick('redo')}>↻</RedoButton>
         <H1Button onClick={() => handleButtonClick('h1')}>h1</H1Button>
         <H2Button onClick={() => handleButtonClick('h2')}>h2</H2Button>
         <H3Button onClick={() => handleButtonClick('h3')}>h3</H3Button>

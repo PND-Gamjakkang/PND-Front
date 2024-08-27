@@ -104,32 +104,32 @@ const UploadBox = ({ onImageAdd }) => {
 
 const FileUpload = ({ onImageAdd, closeModal }) => {
   return (
-    <Modal
-      isOpen={true}
-      onRequestClose={closeModal}
-      ariaHideApp={false}
-      style={{
-        overlay: {
-          backgroundColor: 'rgba(0, 0, 0, 0.75)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        content: {
-          background: 'white',
-          border: 'none',
-          borderRadius: '22px',
-          padding: '20px',
-          position: 'relative',
-          width: '637px',
-          height: '850px',
-          maxWidth: '100%',
-          maxHeight: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-        },
-      }}
-    >
+<Modal
+  isOpen={true}
+  onRequestClose={closeModal}
+  ariaHideApp={false}
+  style={{
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    content: {
+      background: 'white',
+      border: 'none',
+      borderRadius: '2.04vh', /* 22px out of 1080px */
+      padding: '1.85vh', /* 20px out of 1080px */
+      position: 'relative',
+      width: '33.18vw', /* 637px out of 1920px */
+      height: '78.7vh', /* 850px out of 1080px */
+      maxWidth: '90%', /* Adjust max width to make it more responsive */
+      maxHeight: '90%', /* Adjust max height to make it more responsive */
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  }}
+>
       <Title>Add<br />Image</Title>
       <Description>원하는 이미지를 추가할 수 있습니다.</Description>
       <div>

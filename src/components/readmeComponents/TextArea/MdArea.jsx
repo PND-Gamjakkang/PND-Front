@@ -8,8 +8,8 @@ const MdArea = ({ content }) => {
     <div 
     className='markdown-body' 
     style={{ 
-      width: '600px', 
-      borderRadius: '23px', 
+      width: '100%', 
+      borderRadius: '2.13vh', 
       border: '1px solid var(--main, #5B59FC)' 
     }}
   >

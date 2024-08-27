@@ -43,37 +43,33 @@ const h1ButtonClicked = (content, selection) => {
     return applyMarkdown(content, selection, '-');
   };
   
-  const badgeButtonClicked=(content, selection, badgeURL, lastcursor)=>{
+  const badgeButtonClicked=(content, selection, badgeURL)=>{
     const range = selection.getRangeAt(0);
     
-    const textNode = document.createTextNode(badgeURL);
-    range.insertNode(textNode);
+    const startOffset = range.startOffset;
+    const endOffset = range.endOffset;
+    console.log('start offset : ',startOffset,' end offset : ',endOffset);
+    // content 문자열의 선택된 위치에 URL 삽입
+    const beforeContent = content.slice(0, startOffset);
+    const afterContent = content.slice(endOffset);
+    const newContent = beforeContent + badgeURL + afterContent;
 
-    range.setStartAfter(textNode);
-    range.setEndAfter(textNode);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    
-    return  content.slice(0, lastcursor) + badgeURL + content.slice(lastcursor);
-
+    return newContent;
   }
-  const fileUploadButtonClicked = (content, selection, imgURL, lastcursor)=>{
+  const fileUploadButtonClicked = (content, selection, imgURL)=>{
     const range = selection.getRangeAt(0);
     
-    const textNode = document.createTextNode(imgURL);
-    range.insertNode(textNode);
+    const startOffset = range.startOffset;
+    const endOffset = range.endOffset;
+    console.log('start offset : ',startOffset,' end offset : ',endOffset);
+    // content 문자열의 선택된 위치에 URL 삽입
+    const beforeContent = content.slice(0, startOffset);
+    const afterContent = content.slice(endOffset);
+    const newContent = beforeContent + imgURL + afterContent;
 
-    range.setStartAfter(textNode);
-    range.setEndAfter(textNode);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    
-    return content.slice(0, lastcursor) + imgURL + content.slice(lastcursor);
-
+    return newContent;
   }
-  const topLangsButtonClicked=(content, selection, lastcursor)=>{
+  const topLangsButtonClicked=(content, selection)=>{
     if (!content) {
       // console.log('no content');
       return
@@ -85,25 +81,20 @@ const h1ButtonClicked = (content, selection) => {
     const cardURL=('![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Jun-Young-Seo&layout=compact)')
     //나중에 백에서 API 완성하면 수정하기
     ///////////////////////////////////////////////////////////////////////
-    // contentEditable 요소의 innerHTML을 직접 수정하여 cardURL을 삽입
-  
-      
-      const range = selection.getRangeAt(0);
-      range.deleteContents(); 
-      
-      const textNode = document.createTextNode(cardURL);
-      range.insertNode(textNode);
-      
-      // 삽입 후 커서 위치 설정
-      range.setStartAfter(textNode);
-      range.setEndAfter(textNode);
-      selection.removeAllRanges();
-      selection.addRange(range);
-  
-      return content.slice(0, lastcursor) + cardURL + content.slice(lastcursor);
-  
-  };
-  const applyMarkdown = (content, selection, markdownSyntax) => {
+    console.log(content);
+    const range = selection.getRangeAt(0);
+    const startOffset = range.startOffset;
+    const endOffset = range.endOffset;
+    console.log('start offset : ',startOffset,' end offset : ',endOffset);
+    // content 문자열의 선택된 위치에 URL 삽입
+    const beforeContent = content.slice(0, startOffset);
+    const afterContent = content.slice(endOffset);
+    const newContent = beforeContent + cardURL + afterContent;
+
+    return newContent;
+};
+
+const applyMarkdown = (content, selection, markdownSyntax) => {
     const range = selection.getRangeAt(0);
     const selectedText = range.toString();
     console.log("선택된 텍스트 : ", selectedText);

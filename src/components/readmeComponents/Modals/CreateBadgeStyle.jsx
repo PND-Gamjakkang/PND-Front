@@ -3,55 +3,55 @@ import styled from "styled-components"
 export const CreateBadgeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.56vh;
 `;
 
 export const InputGroup = styled.div`
   display: flex;
   align-items: center; 
-  margin-bottom: 15px;
+  margin-bottom: 1.56vh;
 `;
 
 export const Label = styled.label`
-  margin-right: 30px; /* label과 input 사이의 간격 */
-  font-size: 20px;
+  margin-right: 3.13vh; /* label과 input 사이의 간격 */
+  font-size: 2.08vh;
   
   display: flex;
-  width: 103px;
-  height: 31px;
+  width: 5.36vw;
+  height: 2.87vh;
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
   color: #000;
 
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
+  font-size: 2.22vh;
   font-style: normal;
   font-weight: 900;
-  line-height: 32px; /* 160% */
-  
+  line-height: 3.33vh; /* 160% */
 `;
 
 export const Input = styled.input`
   flex: 1;
-  padding: 8px;
-  font-size: 24px;
+  padding: 0.83vh;
+  font-size: 2.22vh;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 0.52vh;
 `;
+
 export const BadgeCreateButton = styled.button`
-  width: 444px;
-  height: 72px;
+  width: 23.13vw;
+  height: 6.67vh;
   flex-shrink: 0;
   background-color: #5b59fc;
-  border: 1px solid #FFF;
+  border: 0.1vh solid #FFF;
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
+  font-size: 2.22vh;
   font-style: normal;
-  color:white;
+  color: white;
   font-weight: 600;
-  line-height: 36px;
-  border-radius: 20px;
+  line-height: 3.33vh;
+  border-radius: 2.08vh;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 
@@ -62,23 +62,23 @@ export const BadgeCreateButton = styled.button`
 
   display: block;
   margin: auto; 
-  margin-bottom: 78px;
+  margin-bottom: 8.13vh;
 `;
 
 export const BadgePreview = styled.div`
-    display: flex;
-    align-items: center; 
-    margin-bottom: 15px;
-    img{
-        width:200px;
-        height:50px;
-    }
-    
+  display: flex;
+  align-items: center; 
+  margin-bottom: 1.56vh;
+
+  img {
+    width: 10.42vw;
+    height: 4.63vh;
+  }
 `;
 
 export const PreviewTitle = styled.h2`
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 1.87vh;
+  margin-bottom: 1.04vh;
 `;
 
 export const PreviewImage = styled.img`

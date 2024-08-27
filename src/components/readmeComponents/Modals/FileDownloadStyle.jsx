@@ -12,28 +12,14 @@ export const ModalOverlay = styled.div`
   justify-content: center;
 `;
 
-export const ModalContentWrapper = styled.div`
-  background: none;
-  border: 2px solid;
-  border-radius: 22px;
-  width: auto;
-  height: auto;
-  max-width: 90%;
-  max-height: 90%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
 export const ModalContent = styled.div`
   background: #07061F;
-  width: 637px;
-  height: 694px;
-  padding: 40px;
+  width: 33.18vw; /* 637px out of 1920px */
+  height: 64.26vh; /* 694px out of 1080px */
+  padding: 3.7vh; /* 40px out of 1080px */
   text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  border-radius: 1.04vh;
+  box-shadow: 0 0.19vh 0.28vh 0 rgba(34, 36, 38, 0.15);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -41,22 +27,23 @@ export const ModalContent = styled.div`
   justify-content: center;
   color: white;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.85vh;
 `;
 
 export const StyledButton = styled.button`
   background-color: #07061F;
   color: white;
-  padding: 10px 20px;
-  margin: 10px;
-  border-radius: 5px;
+  padding: 1.04vh 2.08vh;
+  margin: 1.04vh;
+  border-radius: 1.04vh;
   cursor: pointer;
-  border: 2px solid #FFFFFF;
-  border-radius: 22px;
+
+  border: 0.2vh solid #FFFFFF;
   font-weight: bold;
-  font-size: 20px;
-  width: 444px;
-  height: 72px;
+  font-size: 1.85vh;
+
+  width: 23.13vw; /* 444px out of 1920px */
+  height: 6.67vh; /* 72px out of 1080px */
 
   &:hover {
     background-color: #0056b3;
@@ -65,19 +52,19 @@ export const StyledButton = styled.button`
 
 export const Logo = styled.img`
   position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 87px;
-  height: 33px;
+  top: 1.85vh; /* 20px out of 1080px */
+  left: 1.85vh; /* 20px out of 1920px */
+  width: 4.53vw; /* 87px out of 1920px */
+  height: 3.06vh; /* 33px out of 1080px */
 `;
 
 export const CloseButton = styled.button`
   background-color: transparent;
   color: #aaa;
-  font-size: 20px;
+  font-size: 1.85vh;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0.93vh; /* 10px out of 1080px */
+  right: 0.93vh; /* 10px out of 1920px */
   cursor: pointer;
 
   &:hover {
@@ -87,8 +74,7 @@ export const CloseButton = styled.button`
 
 export const Link = styled.a`
   color: #007BFF;
-  text-decoration: underline;
-
+  text-decoration: underline; 
   &:hover {
     color: #0056b3;
   }

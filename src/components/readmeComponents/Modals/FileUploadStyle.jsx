@@ -1,67 +1,43 @@
 import styled from "styled-components";
+
 export const Title = styled.div`  
-  width:182px;
-  height:72px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  width: 9.48vw; /* 182px out of 1920px */
+  height: 6.67vh; /* 72px out of 1080px */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex-shrink: 0;
   color: black;
-  font-size: 24px; 
+  font-size: 2.22vh; /* 24px out of 1080px */
   font-family: 'Inter', sans-serif;
   font-style: italic;
   font-weight: 900;
-  line-height: 32px;
-
+  line-height: 2.96vh; /* 32px out of 1080px */
 `;
+
 export const ModalCloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0.93vh; /* 10px out of 1080px */
+  right: 0.93vh; /* 10px out of 1920px */
   background: transparent;
   border: none;
-  font-size: 24px;
+  font-size: 2.22vh; /* 24px out of 1080px */
   cursor: pointer;
 `;
-export const ImageCreateButton = styled.button`
-width: 444px;
-height: 72px;
-flex-shrink: 0;
-background-color: #B8B8B8;
-border: 1px solid #FFF;
-font-family: 'Inter', sans-serif;
-font-size: 24px;
-font-style: normal;
-font-weight: 600;
-line-height: 36px;
-border-radius: 20px;
-cursor: pointer;
-transition: background-color 0.3s ease;
 
-&:hover {
-    background-color: #A8A8A8;
-}
-
-display: block;
-margin: auto; 
-
-margin-bottom:78px;
+export const Description = styled.div`
+  display: flex;
+  width: 100%;
+  height: 2.87vh; /* 31px out of 1080px */
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #000;
+  margin-top: 0.93vh; /* 10px out of 1080px */
+  margin-bottom: 1.85vh; /* 20px out of 1080px */
+  font-family: 'Inter', sans-serif;
+  font-size: 1.85vh; /* 20px out of 1080px */
+  font-style: normal;
+  font-weight: 900;
+  line-height: 2.96vh; /* 32px out of 1080px */
 `;
-
-  export const Description = styled.div`
-    display: flex;
-    width: 100%;
-    height: 31px;
-    flex-direction: column;
-    justify-content: center;
-    flex-shrink: 0;
-    color: #000;
-    margin-top:10px;
-    margin-bottom:20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: 32px; /* 160% */
-  
-  `;
