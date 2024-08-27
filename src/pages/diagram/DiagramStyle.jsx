@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Diagram = styled.div`
 width: 100%;
+height: 100vh;
 display:flex;
 justify-content: center;
 `;
@@ -16,8 +17,8 @@ gap: 8px;
 `;
 
 export const DiagramTopBarContainer = styled.div`
-width: 100%;
-height: 100px;
+width: 100vw;
+height: 10vh;
 background-color: white;
 display:flex;
 align-items: center;
@@ -29,8 +30,8 @@ export const DiagramNavBar = styled.div`
 
 export const DiagramContainer = styled.div`
 
-width: 100%;
-height: 100%;
+width: 100vw;
+height: 100vh;
 background-color: white;
 
 `;
