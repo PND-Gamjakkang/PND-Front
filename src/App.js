@@ -5,14 +5,15 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import Header from './components/header/Header.jsx';
 import { Mobile, Pc } from './Responsive.jsx';
+import Footer from './components/Footer/Footer.jsx';
 
 // css 초기설정
 const BackGroundColor = styled.div`
   width: 100vw;
   min-height: 100vh;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.purple};
   position: relative;
-  color:white;
+  
 `;
 
 const Content = styled.div`
@@ -42,6 +43,7 @@ const Layout = () => {
           <Outlet />
         </Content>
         {/* {!hideFooter && <Footer />} */}
+        <Footer />
     </BackGroundColor>
   );
 };

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HeaderLayout = styled.div`
   width: 100%;
-  height: 110px;
+  height: 11vh;
   display: flex;
   flex-shrink:0;
   align-items: center;
@@ -14,18 +14,19 @@ export const HeaderLayout = styled.div`
   font-weight: 500;
   font-style :normal;
   line-height:normal;
+  z-index: 100;
 `;
 
 export const Logo = styled.img`
-  height: 46px; 
-  margin-left:265px;
-  margin-right:265px;
   width:142px;
+  height: 46px; 
+  margin-left:15vw;
+  margin-right:13vw;
 `;
 
 export const NavLinks = styled.nav`
   display: flex;
-  gap: 40px; 
+  gap: 4vw; 
   align-items: center;
 `;
 
@@ -38,8 +39,10 @@ export const NavLink = styled.div`
   &.active {
     text-decoration: underline;
     font-weight: bold;
+
   }
 `;
+
 export const Gap=styled.div`
   width:275px;
   color:black;
