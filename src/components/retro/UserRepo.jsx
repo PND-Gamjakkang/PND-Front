@@ -2,7 +2,8 @@ import * as S from './styles/RetroStyle.jsx';
 
 import starImg from '../../assets/images/star.png';
 import forkImg from '../../assets/images/fork-img.png';
-import openIssueImage from '../../assets/images/issue-img.png';
+
+import openIssueImage from '../../assets/images/oppenIssue.png';
 import watcherImg from '../../assets/images/watcher-img.png';
 
 export default function UserRepo({key, repoId, repoName, userName, userImg, repoDescription, repoStars, repoLanguage, repoForks, repoOpenIssues, repoWatchers, repoCreatedAt, isSelected, onClick}) {

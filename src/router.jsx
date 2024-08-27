@@ -9,6 +9,8 @@ import ReadMe from './pages/readme/Readme';
 import Retro from './pages/retro/Retro';
 import Team from './pages/Team/Team';
 import LoginModal from './components/Login/LoginModal';
+import Report from './pages/report/Report';
+import Diagram from './pages/diagram/Diagram';
 
 const router = createBrowserRouter([
     {
@@ -40,10 +42,16 @@ const router = createBrowserRouter([
           path: 'login',
           element: <LoginModal />,
         },
-
+        {
+          path: 'report',
+          element: <Report />
+        },
+        {
+          path: 'diagram',
+          element: <Diagram />
+        }
       ],
     },
   ]);
   
   export default router;
-  
