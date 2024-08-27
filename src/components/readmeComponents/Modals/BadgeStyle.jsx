@@ -1,102 +1,101 @@
 import styled from 'styled-components';
 
 export const ModalContent = styled.div`
-display: flex;
-justify-content: space-between; /* 가로로 나란히 배치 */
-padding: 20px;
-width: 100%;
-height: 100%; /* 부모 요소의 전체 높이를 채움 */
-background: white;
-align-items: flex-start;
-border-radius: 10px;
-flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
-margin-bottom:30px;
-box-sizing: border-box;
-overflow:hidden;
+  display: flex;
+  justify-content: space-between; /* 가로로 나란히 배치 */
+  padding: 2.1vh;
+  width: 100%;
+  height: 100%; /* 부모 요소의 전체 높이를 채움 */
+  background: white;
+  align-items: flex-start;
+  border-radius: 1.04vh;
+  flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
+  margin-bottom: 3.2vh;
+  box-sizing: border-box;
+  overflow: hidden;
 `;
+
 export const ModalHeader = styled.div`
   text-align: left;
-  margin-bottom: 30px;
-  margin-left : 20px;
+  margin-bottom: 3.2vh;
+  margin-left: 2.1vh;
 `;
 
 export const Title = styled.div`  
-  width:182px;
-  height:72px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  width: 9.48vw;
+  height: 6.67vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex-shrink: 0;
   color: black;
-  font-size: 24px; 
+  font-size: 2.22vh; 
   font-family: 'Inter', sans-serif;
   font-style: italic;
   font-weight: 900;
-  line-height: 32px;
-
+  line-height: 3.33vh;
 `;
 
-  export const Description = styled.div`
-    display: flex;
-    width: 100%;
-    height: 31px;
-    flex-direction: column;
-    justify-content: center;
-    flex-shrink: 0;
-    color: #000;
-    margin-top:10px;
-    margin-bottom:20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: 32px; /* 160% */
-  
-  `;
+export const Description = styled.div`
+  display: flex;
+  width: 100%;
+  height: 2.87vh;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #000;
+  margin-top: 1.04vh;
+  margin-bottom: 2.1vh;
+  font-family: 'Inter', sans-serif;
+  font-size: 2.08vh;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 3.33vh; /* 160% */
+`;
 
 export const CreateBadgeContainer = styled.div`
   flex: 1;
-  margin-right: 20px;
+  margin-right: 2.1vh;
   display: flex;
   flex-direction: column;
 
   .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 1.56vh;
 
     label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 0.52vh;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 1.46vh;
     }
 
     input {
       width: 100%;
-      padding: 8px;
-      font-size: 14px;
+      padding: 0.83vh;
+      font-size: 1.46vh;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 0.52vh;
     }
   }
 
   .badge-preview {
-    margin-top: 10px;
-    padding: 10px;
+    margin-top: 1.04vh;
+    padding: 1.04vh;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 0.52vh;
     text-align: center;
   }
 `;
 
 export const BadgePanel = styled.div`
   flex: 1;
-  padding-left: 20px;
+  padding-left: 2.1vh;
   display: flex;
   flex-direction: column;
 
   h4 {
-    margin-bottom: 15px;
-    font-size: 18px;
+    margin-bottom: 1.56vh;
+    font-size: 1.87vh;
   }
 `;
 
@@ -105,22 +104,35 @@ export const BadgePreviewContainer = styled.div`
   overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 1.04vh;
 `;
 
 export const BadgePreviewPanel = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2열 레이아웃 */
-  gap: 10px;
+  gap: 1.04vh;
+  overflow-y:auto;
+`;
+export const BadgeImage = styled.img`
+  width: 8vw; /* Adjust as needed for responsiveness */
+  height: auto;
+  max-width: 100%;
+  max-height: 10vh; /* Ensures the images scale properly */
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+  }
 `;
 
 export const ModalCloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 1.04vh;
+  right: 1.04vh;
   background: transparent;
   border: none;
-  font-size: 24px;
+  font-size: 2.5vh;
   cursor: pointer;
 `;
 
@@ -137,5 +149,4 @@ export const sampleBadges = [
   'https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white',
   'https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white',
   'https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white',
-  
 ];
