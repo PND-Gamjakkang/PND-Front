@@ -47,7 +47,7 @@ const Layout = () => {
       <Footer /> {/* 푸터 높이 설정을 스타일 파일에서 적용 */}
     </BackGroundColor>
   );
-};x
+};
 
 function App() {
   return (

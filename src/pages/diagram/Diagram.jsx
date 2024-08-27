@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import * as S from './DiagramStyle.jsx';
 
-
 function Diagram() {
     const [diagramType, setDiagramType] = useState(''); // 다이어그램 종류 담는 변수
     const [isSelectedProject, setIsSelectedProject] = useState(false); // 다이어그램 생성할 프로젝트 담는 변수
 
-    
     return (
         <> 
         {diagramType && !isSelectedProject ? ( 
@@ -31,7 +29,6 @@ function Diagram() {
             </S.DiagramLayout>
             </S.Diagram>
         )}
-
         </>
     )
 }

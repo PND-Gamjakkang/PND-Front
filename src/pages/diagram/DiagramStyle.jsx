@@ -2,14 +2,14 @@ import styled from "styled-components";
 
 export const Diagram = styled.div`
 width: 100%;
-height: 100vh;
+
 display:flex;
 justify-content: center;
 `;
 
 export const DiagramLayout = styled.div`
 width: 80vw;
-height: 100vh;
+
 position: relative;
 display:flex;
 flex-direction: column;
