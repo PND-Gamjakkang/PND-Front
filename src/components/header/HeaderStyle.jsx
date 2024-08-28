@@ -35,11 +35,22 @@ export const NavLink = styled.div`
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  white-space:nowrap;
-    
+  white-space: nowrap;
+  position: relative;
+
   &.active {
-    text-decoration: underline;
-    font-weight: bold;
+    font-weight: bold; /* 텍스트 굵기 설정 */
+    
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 2px; /* 밑줄 두께 */
+      background-color: currentColor; /* 현재 텍스트 색상과 동일 */
+      position: absolute;
+      bottom: -5px; /* 텍스트 바텀에서 5픽셀 아래 */
+      left: 0;
+    }
   }
 `;
 

@@ -11,7 +11,6 @@ justify-content: center;
 align-items: center;
 position: relative;
 padding: 0.5vw;
-
 `;
 
 export const DiagramTypeIconBox = styled.img`
