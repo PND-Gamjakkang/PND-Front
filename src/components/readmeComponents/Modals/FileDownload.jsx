@@ -1,7 +1,8 @@
 import React, { useState,useEffect } from "react";
 import Modal from 'react-modal';
-import { ModalContent, StyledButton, CloseButton, Link, Logo } from './FileDownloadStyle';
-import logo from '../../../assets/images/modal-logo.png';
+import { ModalContent, StyledButton, CloseButton, Link, Logo,ExplainText, DownloadButton,MyPageButton } from './FileDownloadStyle';
+import logo from '../../../assets/images/download-logo.png';
+import {Helmet} from 'react-helmet';
 
 const FileDownload = ({ content,closeModal }) => {
   const downloadMD = () => {
@@ -14,12 +15,6 @@ const FileDownload = ({ content,closeModal }) => {
     document.body.removeChild(element); 
   };
 
-  const Explain = () => (
-    <div style={{marginTop:'30px',marginBottom:'160px'}}>
-      마이 페이지에 저장되었습니다.<br /><br/>
-      해당 파일을 <Link href="#" onClick={downloadMD} style={{ color: '#FFFFFF' }}>다운로드</Link> 하시겠습니까?<br />
-    </div>
-  );
 
   return (
       <Modal
@@ -51,12 +46,19 @@ const FileDownload = ({ content,closeModal }) => {
           },
         }}
       >
+      <Helmet>
+        <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+      </Helmet>
+
         <ModalContent>
           <CloseButton onClick={closeModal}>X</CloseButton>
           <Logo src={logo} style={{ marginBottom: '20px' }} />
-          <Explain />
-          <StyledButton onClick={downloadMD}>다운로드 하기</StyledButton>
-          <StyledButton>해당 프로젝트 회고하러 가기</StyledButton>
+          <ExplainText>
+            마이 페이지에 저장되었습니다. <br></br>
+            해당 파일을 다운로드 하시겠습니까?
+          </ExplainText>
+          <DownloadButton onClick={downloadMD}>다운로드 하기</DownloadButton>
+          <MyPageButton>마이 페이지로 가기</MyPageButton>
         </ModalContent>
       </Modal>
     
