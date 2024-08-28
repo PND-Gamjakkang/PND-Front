@@ -36,7 +36,6 @@ function Header() {
                     </S.NavLink>
                 </Link>
             </S.NavLinks>
-            <S.Gap/>
                 <Link to='/login'>
                 <S.NavLink className={location.pathname ==='/login' ? 'active' :  ''}>
                 로그인 | 회원가입

@@ -2,13 +2,12 @@ import styled from "styled-components";
 
 export const HeaderLayout = styled.div`
   width: 100vw;
-  height: clamp(50px, 10vh, 100px); /* 최소 50px, 최대 100px, 기본 10vh */
+  height: clamp(50px, 7vh, 100px); /* 최소 50px, 최대 100px, 기본 10vh */
   display: flex;
   flex-shrink: 0;
   align-items: center;
   padding: 0 20px;
-  // background-color: #FFF;
-  background-color : blue;
+  background-color: #FFF;
   color: var(--main, #5B59FC);
   font-family: 'Inter', sans-serif;
   font-size: 16px;
@@ -19,16 +18,17 @@ export const HeaderLayout = styled.div`
 
 
 export const Logo = styled.img`
-  height: 46px; 
-  margin-left:265px;
-  margin-right:265px;
-  width:142px;
+  width: 120px;
+  height: 35px; 
+  margin-left: 10vw;
+  margin-right: 12vw;
 `;
 
 export const NavLinks = styled.nav`
   display: flex;
-  gap: 40px; 
+  gap: 4vw; 
   align-items: center;
+  margin-right: 20vw;
 `;
 
 export const NavLink = styled.div`
@@ -41,11 +41,6 @@ export const NavLink = styled.div`
     text-decoration: underline;
     font-weight: bold;
   }
-`;
-export const Gap=styled.div`
-  width:275px;
-  color:black;
-  height:20px;
 `;
 
 

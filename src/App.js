@@ -3,16 +3,15 @@ import { GlobalStyle } from './style/globalStyle';
 import { theme } from './style/theme.js';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import Header from './components/header/Header.jsx';
+import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
 
 // 전체 레이아웃 크기 고정
 const BackGroundColor = styled.div`
   width: 100vw; /* 전체 너비 고정 */
   height: 100vh; /* 전체 높이를 뷰포트 높이로 설정 */
-  background-color: white;
+  background-color: #F8F8FF;
   position: relative;
-  color: white;
   display: flex;
   flex-direction: column;
   overflow: hidden; /* 스크롤 방지 */
