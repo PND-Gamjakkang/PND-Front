@@ -11,7 +11,7 @@ import Team from './pages/Team/Team';
 import LoginModal from './components/Login/LoginModal';
 import Report from './pages/report/Report';
 import Diagram from './pages/diagram/Diagram';
-
+import MyPageREADME from './pages/myproject/README/README';
 const router = createBrowserRouter([
     {
       path: '/',
@@ -49,6 +49,10 @@ const router = createBrowserRouter([
         {
           path: 'diagram',
           element: <Diagram />
+        },
+        {
+          path: 'mypageReadme',
+          element: <MyPageREADME/>
         }
       ],
     },
