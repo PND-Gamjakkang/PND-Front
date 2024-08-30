@@ -11,7 +11,13 @@ import Team from './pages/Team/Team';
 import LoginModal from './components/Login/LoginModal';
 import Report from './pages/report/Report';
 import Diagram from './pages/diagram/Diagram';
-import MyPageREADME from './pages/myproject/README/README';
+import MyPageREADME from './pages/myproject/MyPageREADME/MyPageREADME';
+import MyPageClassDiagram from './pages/myproject/MyPageClassDiagram/MyPageClassDiagram';
+import MyPageDocument from './pages/myproject/MyPageDocument/MyPageDocument';
+import MyPageERD from './pages/myproject/MyPageERD/MyPageERD';
+import MyPageGithubReport from './pages/myproject/MyPageGithubReport/MyPageGithubReport';
+import MyPageSequenceDiagram from './pages/myproject/MyPageSequenceDiagram/MyPageSequenceDiagram';
+
 const router = createBrowserRouter([
     {
       path: '/',
@@ -51,8 +57,28 @@ const router = createBrowserRouter([
           element: <Diagram />
         },
         {
-          path: 'mypageReadme',
+          path: 'mypageREADME',
           element: <MyPageREADME/>
+        },
+        {
+          path: 'mypageDocument',
+          element: <MyPageDocument/>
+        },
+        {
+          path: 'mypageClassDiagram',
+          element: <MyPageClassDiagram/>
+        },
+        {
+          path: 'mypageSequenceDiagram',
+          element: <MyPageSequenceDiagram/>
+        },
+        {
+          path: 'mypageERD',
+          element: <MyPageERD/>
+        },
+        {
+          path: 'mypageGithubReport',
+          element: <MyPageGithubReport/>
         }
       ],
     },

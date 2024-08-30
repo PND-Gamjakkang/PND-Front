@@ -1,28 +1,33 @@
-// src/pages/myproject/README/README.js
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom'; // Link를 사용하여 네비게이션 구현
+import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
-const PageContainer = styled.div`
-  width: 100%;
-  padding: 20px;
+export const PageContainer = styled.div`
+  width: 1500px;
+  height: 970px;  
 `;
 
-const Header = styled.div`
+export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 10px;
+  padding : 24px 20px;
   margin-bottom: 20px;
+
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 10px;
+  text-align: center;
+
 `;
 
-const NavMenu = styled.nav`
+export const NavMenu = styled.div`
   display: flex;
   gap: 20px;
 `;
 
-const NavItem = styled(Link)`
+export const NavItem = styled(Link)`
   text-decoration: none;
   color: #000;
   font-size: 1rem;
@@ -35,12 +40,12 @@ const NavItem = styled(Link)`
   }
 `;
 
-const ButtonGroup = styled.div`
+export const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
 `;
 
-const EditButton = styled.button`
+export const EditButton = styled.button`
     padding: 8px 16px;
     font-size: 14px;
     border-radius: 5px;
@@ -60,7 +65,7 @@ const EditButton = styled.button`
     }
 
 `;
-const SaveButton = styled.button`
+export const SaveButton = styled.button`
     padding: 8px 16px;
     font-size: 14px;
     border-radius: 5px;
@@ -84,39 +89,30 @@ const SaveButton = styled.button`
 `;
 
 
-const Title = styled.h1`
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 20px;
+export const Title = styled.div`
+font-family: 'Inter', sans-serif;
+font-size: 20px;
+font-weight: 600;
+line-height: 10px;
+text-align: left;
+color: black;
+height: 59px;
+display: flex;
+margin-bottom:20px;
+align-items: center;
+padding-left: 10px; 
 `;
 
-const ContentArea = styled.div`
-  width: 100%;
-  height: 500px;
+export const ContentArea = styled.div`
+  width: 1430px;
+  height: 700px;
   background-color: #f8f8ff;
-  border-radius: 10px;
+  flex-shrink:0;
+  color : black;
 `;
-
-const MyPageReadme = () => {
-  return (
-    <PageContainer>
-      <Header>
-        <NavMenu>
-          <NavItem>README</NavItem>
-          <NavItem>CLASS DIAGRAM</NavItem>
-          <NavItem>SEQUENCE DIAGRAM</NavItem>
-          <NavItem>ERD</NavItem>
-          <NavItem>GITHUB REPORT</NavItem>
-        </NavMenu>
-        <ButtonGroup>
-          <EditButton>수정하기</EditButton>
-          <SaveButton primary>저장하기</SaveButton>
-        </ButtonGroup>
-      </Header>
-      <Title>CLASS DIAGRAM</Title>
-      <ContentArea />
-    </PageContainer>
-  );
-};
-
-export default MyPageReadme;
+export const Divider = styled.div`
+  width: 1px;
+  height: 14px;
+  background-color: #DADEE4;
+  margin: 0 10px;
+`;

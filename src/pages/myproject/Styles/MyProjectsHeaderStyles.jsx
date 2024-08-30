@@ -14,6 +14,7 @@ export const UserInfo = styled.div`
   align-items: center;
   gap: 10px;
   color:black;
+  height : 60px;
 `;
 
 export const UserName = styled.div`

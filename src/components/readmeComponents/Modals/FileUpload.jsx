@@ -20,6 +20,7 @@ const FileInfo = ({ uploadedInfo }) => (
 );
 
 
+//DND
 const UploadBox = ({ onImageAdd }) => {
   const [isActive, setActive] = useState(false);
   const [uploadedInfo, setUploadedInfo] = useState(null);

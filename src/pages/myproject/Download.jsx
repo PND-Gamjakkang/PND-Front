@@ -1,21 +1,10 @@
 import React, { useState,useEffect } from "react";
 import Modal from 'react-modal';
-import { ModalContent, StyledButton, CloseButton, Link, Logo,ExplainText, DownloadButton,MyPageButton } from './FileDownloadStyle';
-import logo from '../../../assets/images/download-logo.png';
+import { ModalContent, StyledButton, CloseButton, Link, Logo,ExplainText, DownloadButton,MyPageButton } from './Styles/DownloadStyles';
+import logo from '../../assets/images/download-logo.png';
 import {Helmet} from 'react-helmet';
 
-const FileDownload = ({ content,closeModal }) => {
-  const downloadMD = () => {
-    const element = document.createElement("a");
-    const file = new Blob([content], { type: 'text/markdown' });
-    element.href = URL.createObjectURL(file);
-    element.download = "README.md";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element); 
-  };
-
-
+const Download = ({ content,closeModal }) => {
   return (
       <Modal
         isOpen={true}
@@ -54,15 +43,14 @@ const FileDownload = ({ content,closeModal }) => {
           <CloseButton onClick={closeModal}>X</CloseButton>
           <Logo src={logo} style={{ marginBottom: '20px' }} />
           <ExplainText>
-            마이 페이지에 저장되었습니다. <br></br>
+            저장되었습니다. <br></br>
             해당 파일을 다운로드 하시겠습니까?
           </ExplainText>
-          <DownloadButton onClick={downloadMD}>다운로드 하기</DownloadButton>
-          <MyPageButton>마이페이지로 가기</MyPageButton>
+          <DownloadButton>다운로드 하기</DownloadButton>
         </ModalContent>
       </Modal>
     
   );
 };
 
-export default FileDownload;
+export default Download;

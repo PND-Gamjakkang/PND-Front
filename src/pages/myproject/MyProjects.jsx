@@ -12,7 +12,7 @@ function MyProjects() {
             <MyProjectHeader />
             <Container1>
                 <ProfileContainer>
-                    <ProfileImage src={logo} alt="Profile Logo" />
+                    <ProfileImage src={logo} />
                 </ProfileContainer>
                 <StatContainer>
                     <Stat />

@@ -11,19 +11,19 @@ const Stat = () => {
     navigate('/mypageReadme'); 
   };
   const documentClick = () => {
-    navigate('/document'); 
+    navigate('/mypageDocument'); 
   };
   const classDiagramClick = () => {
-    navigate('/classDiagram'); 
+    navigate('/mypageClassDiagram'); 
   };
   const sequenceDiagramClick = () => {
-    navigate('/sequenceDiagram'); 
+    navigate('/mypageSequenceDiagram'); 
   };
   const ERDClick = () => {
-    navigate('/ERD'); 
+    navigate('/mypageERD'); 
   };
   const githubReportClick = () => {
-    navigate('/githubReport'); 
+    navigate('/mypageGithubReport'); 
   };
 
   return (
