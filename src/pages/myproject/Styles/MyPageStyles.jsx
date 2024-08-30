@@ -2,8 +2,14 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 
 export const PageContainer = styled.div`
-  width: 1500px;
-  height: 970px;  
+  width: 93.75vw; /* 1500px */
+  height: 60.625vw; /* 970px */
+  margin: auto;
+
+  @media (max-width: 768px) {
+    width: 90vw;
+    height: auto;
+  }
 `;
 
 export const Header = styled.div`
@@ -11,20 +17,29 @@ export const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e0e0e0;
-  padding : 24px 20px;
-  margin-bottom: 20px;
+  padding: 1.5vw 1.25vw; /* 24px 20px */
+  margin-bottom: 1.25vw; /* 20px */
 
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px */
   font-weight: 500;
-  line-height: 10px;
+  line-height: 0.625rem; /* 10px */
   text-align: center;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 2vw;
+  }
 `;
 
 export const NavMenu = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 1.25vw; /* 20px */
+
+  @media (max-width: 768px) {
+    gap: 2vw;
+    flex-wrap: wrap;
+  }
 `;
 
 export const NavItem = styled(Link)`
@@ -33,7 +48,7 @@ export const NavItem = styled(Link)`
   font-size: 1rem;
   font-weight: ${({ isActive }) => (isActive ? 'bold' : 'normal')};
   border-bottom: ${({ isActive }) => (isActive ? '2px solid #5B59FC' : 'none')};
-  padding-bottom: 5px;
+  padding-bottom: 0.3125rem; /* 5px */
 
   &:hover {
     color: #5B59FC;
@@ -42,77 +57,84 @@ export const NavItem = styled(Link)`
 
 export const ButtonGroup = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 0.625vw; /* 10px */
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 2vw;
+  }
 `;
 
 export const EditButton = styled.button`
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #00bfff;
-    background-color: #FFF;
-    color: #36CDFF;
-    cursor: pointer;
-    width:120px;
-    height:40px;
-    text-align:center;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 600;   
-    line-height: 10px;
-    &:hover {
-    background-color: '#e0f7ff';
-    }
+  padding: 0.5rem 1rem; /* 8px 16px */
+  font-size: 0.875rem; /* 14px */
+  border-radius: 0.3125rem; /* 5px */
+  border: 0.0625rem solid #00bfff; /* 1px */
+  background-color: #FFF;
+  color: #36CDFF;
+  cursor: pointer;
+  width: 7.5rem; /* 120px */
+  height: 2.5rem; /* 40px */
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 0.625rem; /* 10px */
 
+  &:hover {
+    background-color: #e0f7ff;
+  }
 `;
+
 export const SaveButton = styled.button`
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #00bfff;
-    background-color: #36CDFF;
-    color: #FFF;
-    width:120px;
-    height:40px;
-    cursor: pointer;
-    text-align:center;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 600;   
-    line-height: 10px;
-  
+  padding: 0.5rem 1rem; /* 8px 16px */
+  font-size: 0.875rem; /* 14px */
+  border-radius: 0.3125rem; /* 5px */
+  border: 0.0625rem solid #00bfff; /* 1px */
+  background-color: #36CDFF;
+  color: #FFF;
+  width: 7.5rem; /* 120px */
+  height: 2.5rem; /* 40px */
+  cursor: pointer;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 0.625rem; /* 10px */
 
-    &:hover {
-    background-color: '#009ACD';
-    }
-
+  &:hover {
+    background-color: #009ACD;
+  }
 `;
-
 
 export const Title = styled.div`
-font-family: 'Inter', sans-serif;
-font-size: 20px;
-font-weight: 600;
-line-height: 10px;
-text-align: left;
-color: black;
-height: 59px;
-display: flex;
-margin-bottom:20px;
-align-items: center;
-padding-left: 10px; 
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  line-height: 0.625rem; /* 10px */
+  text-align: left;
+  color: black;
+  height: 3.6875vw; /* 59px */
+  display: flex;
+  margin-bottom: 1.25vw; /* 20px */
+  align-items: center;
+  padding-left: 0.625vw; /* 10px */ 
 `;
 
 export const ContentArea = styled.div`
-  width: 1430px;
-  height: 700px;
+  width: 89.375vw; /* 1430px */
+  height: 43.75vw; /* 700px */
   background-color: #f8f8ff;
-  flex-shrink:0;
-  color : black;
+  flex-shrink: 0;
+  color: black;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+  }
 `;
+
 export const Divider = styled.div`
-  width: 1px;
-  height: 14px;
+  width: 0.0625rem; /* 1px */
+  height: 0.875rem; /* 14px */
   background-color: #DADEE4;
-  margin: 0 10px;
+  margin: 0 0.625vw; /* 10px */
 `;
