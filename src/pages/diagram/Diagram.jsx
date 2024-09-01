@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as S from './DiagramStyle.jsx';
 import DiagramType from '../../components/Diagram/DiagramType.jsx';
 
@@ -11,26 +11,34 @@ import diagramErdIcon from '../../assets/images/diagram-erd-icon.png';
 import diagramSequenceImage from '../../assets/images/diagram-sequence-image.png';
 import diagramErdImage from '../../assets/images/diagram-erd-image.png';
 import SelectRepoModal from '../../components/Common/SelectRepoModal.jsx';
-import { useEffect } from 'react';
+
+// diagram type page
+import ClassDiagram from './ClassDiagram.jsx';
 
 function Diagram() {
     const [diagramType, setDiagramType] = useState(''); // 다이어그램 종류 담는 변수
     const [isSelectedProject, setIsSelectedProject] = useState(false); // 다이어그램 생성할 프로젝트 담는 변수
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달의 열림/닫힘 상태
+    const navigate = useNavigate(); // 선택한 다이어그램에 따라 페이지 다르게 이동하도록 하기 위한 네비게이션
+    const location = useLocation();
 
     // 다이어그램 종류 선택 시
     function handleDiagramTypeClick(type) {
         setDiagramType(type);
         console.log(type + " 다이어그램 선택");
         setIsModalOpen(true); // 모달 열기
+
+                // 다이어그램 타입에 따라 페이지 이동
+        if (type === "CLASS DIAGRAM") {
+            navigate('/diagram/class');
+        } else if (type === "SEQUENCE DIAGRAM") {
+            navigate('/diagram/sequence');
+        } else if (type === "ERD") {
+            navigate('/diagram/erd');
+        }
     }
 
-    useEffect(() => {
-        console.log("isSelectedProject: " + isSelectedProject);
-    }, [isSelectedProject]);
-
     return (
-
         <> 
             <S.Diagram>                                                                                                         
                 <S.DiagramLayout style={{ filter: isModalOpen ? 'blur(5px)' : 'none' }}>
@@ -41,11 +49,11 @@ function Diagram() {
                                     <Link to='/diagram/class'>
                                     <S.DiagramNavLink>클래스</S.DiagramNavLink>
                                     </Link>
-                                    <S.NavDivider/>
+                                    <S.Divider/>
                                     <Link to='/diagram/sequence'>
                                     <S.DiagramNavLink>시퀀스</S.DiagramNavLink>
                                     </Link>
-                                    <S.NavDivider/>
+                                    <S.Divider/>
                                     <Link to='/diagram/erd'>
                                     <S.DiagramNavLink>ERD</S.DiagramNavLink>
                                     </Link>
@@ -59,11 +67,17 @@ function Diagram() {
                     <S.DiagramContainer>
                         {diagramType && isSelectedProject ? (
                             <>
+                            {location.pathname === '/diagram/class' && (
+                                    <ClassDiagram />
+                            )}
+                            
+
                                 
                             </>
                         ) : (
                             <>
-                                <DiagramType 
+                            <S.DiagramsContainer>
+                            <DiagramType 
                                     typeIcon={diagramClassIcon}
                                     typeName="CLASS DIAGRAM"
                                     typeDescription={
@@ -103,6 +117,8 @@ function Diagram() {
                                     typeImage={diagramErdImage}
                                     onClick={() => handleDiagramTypeClick("ERD")}
                                 />
+
+                            </S.DiagramsContainer>
                             </>
                         )}
                     </S.DiagramContainer>

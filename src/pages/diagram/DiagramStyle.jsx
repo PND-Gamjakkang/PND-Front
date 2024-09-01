@@ -42,7 +42,7 @@ padding: 0 35px;
 font-size: 0.8rem;
 `;
 
-export const NavDivider = styled.div`
+export const Divider = styled.div`
 width: 1px;
 height: 20px;
 flex-shrink: 0;
@@ -66,12 +66,20 @@ justify-content: center;
 align-items: center;
 `;
 
+// 다이어그램 페이지
 export const DiagramContainer = styled.div`
   width: 100%; /* 부모 요소의 전체 너비 */
   height: 100%; /* 부모 요소의 전체 높이 */
   background-color: white;
+  padding: 0 2.5vh;
+`;
+
+export const DiagramsContainer = styled.div`
+  width: 100%; /* 부모 요소의 전체 너비 */
+  height: 100%; /* 부모 요소의 전체 높이 */
+  background-color: white;
   display: flex;
-  padding: 10vh 2.5vh;
+  padding: 10vh 0;
   gap: 2.5vh;
 `;
 
@@ -84,6 +92,99 @@ export const DiagramPickerParagraph = styled.div`
   font-weight: 600;
   line-height: 55px; /* 275% */
   margin-left: 1.2vw;
+`;
+
+/* 클래스 다이어그램 */
+export const ClassLayout = styled.div`
+width: 100%;
+height: 100%;
+display:flex;
+margin: 2.5vh 0;
+gap: 1.1vw;
+
+`;
+
+export const ClassLeft = styled.div`
+width: 26vw;
+position:relative;
+`;
+
+export const ClassMid = styled.div`
+width: 26vw;
+position:relative;
+`;
+
+export const ClassRight = styled.div`
+width: 28vw;
+position:relative;
+`;
+
+export const ClassTitleText = styled.div`
+color: #181077;
+text-align: center;
+font-family: Inter;
+font-size: 1.2rem;
+font-style: normal;
+font-weight: 600;
+line-height: 1px; /* 5% */
+text-transform: uppercase;
+margin-top: 10px;
+display:flex;
+flex-direction:column;
+justify-content: center;
+align-items: center;
+
+`;
+
+export const ClassEditButtons = styled.div`
+width: 100%;
+height: 45px;
+display: flex;
+align-items: center;
+flex-shrink: 0;
+border-radius: 10px;
+background: #F8F8FF;
+flex: 1;
+text-align: center;
+font-size: 0.8rem;
+margin-top: 30.4px;
+`;
+
+export const RemoveComponentBtn = styled.button`
+width: 33%;
+`;
+
+export const RemoveAllBtn = styled.button`
+width: 33%;
+`;
+
+export const GenerateAiBtn = styled.button`
+width: 33%;
+`;
+
+export const ClassDiagramResultBox = styled.div`
+width: 100%;
+height: 100%;
+border-radius: 10px;
+border: 1px solid #D9D9FF;
+background: #FFF;
+margin-top: 17px;
+`;
+
+/* 클래스 에디터 */
+export const EditDiagramContainer = styled.div`
+width: 100%;
+height:100%;
+border-radius: 10px;
+background-color: #F8F8FF;
+margin-top: 30.4px;
+padding: 5px 1.4vw;
+position: relative;
+`;
+
+/* 코드 뷰 */
+export const ClassRightContainer = styled.div`
+width: 100%;
 `;
 
 
