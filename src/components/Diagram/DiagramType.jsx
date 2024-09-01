@@ -1,8 +1,8 @@
 import * as S from './DiagramStyle'
 
-function DiagramType({typeName, typeDescription, typeIcon, typeImage}) {
+function DiagramType({typeName, typeDescription, typeIcon, typeImage, onClick}) {
     return (
-        <S.DiagramTypeLayout>
+        <S.DiagramTypeLayout onClick={onClick}>
             <S.DiagramTypeIconBox src={typeIcon}></S.DiagramTypeIconBox> 
             <S.DiagramTypeNameBox>{typeName}</S.DiagramTypeNameBox>  
             <S.DiagramTypeDescriptionBox>{typeDescription}</S.DiagramTypeDescriptionBox> 

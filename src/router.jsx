@@ -11,6 +11,9 @@ import Team from './pages/Team/Team';
 import LoginModal from './components/Login/LoginModal';
 import Report from './pages/report/Report';
 import Diagram from './pages/diagram/Diagram';
+import ClassDiagram from './pages/diagram/ClassDiagram';
+import SequenceDiagram from './pages/diagram/SequenceDiagram';
+import ErdDiagram from './pages/diagram/ErdDiagram';
 
 const router = createBrowserRouter([
     {
@@ -48,7 +51,21 @@ const router = createBrowserRouter([
         },
         {
           path: 'diagram',
-          element: <Diagram />
+          element: <Diagram />,
+          children: [
+            {
+              path: 'class',
+              element: <ClassDiagram/>
+            },
+            {
+              path: 'sequence',
+              element: <SequenceDiagram/>
+            },
+            {
+              path: 'erd',
+              elemtn: <ErdDiagram/>
+            }
+          ]
         }
       ],
     },

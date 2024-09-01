@@ -39,6 +39,7 @@ export default function UserRepo({key, repoId, repoName, userName, userImg, repo
                 <S.RepoInfos>
                     <S.RepoCreatedAt>{repoCreatedAt}</S.RepoCreatedAt>
                 </S.RepoInfos>
+                <S.RepoState>private</S.RepoState>
             </S.RepoDetails>
         </S.UserRepoContainer>
     )

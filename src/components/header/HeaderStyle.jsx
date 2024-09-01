@@ -16,7 +16,6 @@ export const HeaderLayout = styled.div`
   line-height: normal;
 `;
 
-
 export const Logo = styled.img`
   width: 120px;
   height: 35px; 
@@ -28,7 +27,7 @@ export const NavLinks = styled.nav`
   display: flex;
   gap: 4vw; 
   align-items: center;
-  margin-right: 20vw;
+  margin-right: 10vw;
 `;
 
 export const NavLink = styled.div`
@@ -53,7 +52,6 @@ export const NavLink = styled.div`
     }
   }
 `;
-
 
 // import styled from "styled-components";
 
