@@ -4,10 +4,10 @@ import { useState } from 'react';
 
 function ClassEditor({ className, setClassName, variables, setVariables, methods, setMethods }) {
 
+
     return (
         <S.ClassEditorContainer>
             <S.EditorTitleText>+ Add Class</S.EditorTitleText>
-            <S.AddButton>추가</S.AddButton>
             <S.InputSection>
                 <S.ClassNameAndMethod>
                     <S.InputClassNameBox>

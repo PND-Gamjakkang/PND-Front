@@ -1,19 +1,90 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import * as S from './MainStyle.jsx';
 import axios from 'axios';
 
 import LoginModal from '../../components/Login/LoginModal.jsx';
+
 // images
 import RedmeIcon from '../../assets/images/readme-icon.png';
 import FolderIcon from '../../assets/images/folder-icon.png';
 import RetroIcon  from '../../assets/images/retro-logo.png';
 import MainImg from '../../assets/images/main-img.png';
-import MainLogoimg from '../../assets/images/main-logo.png';
+import MainLogoimg from '../../assets/images/main-logo-white.png';
+import MainDecoIcon1 from '../../assets/images/main-deco-icon1.png';
+import MainDecoIcon2 from '../../assets/images/main-deco-icon2.png';
 
 function Main() {
+    const outerDivRef = useRef();
+    const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
+    useEffect(() => {
+        const wheelHandler = (e) => {
+            e.preventDefault();
+            const { deltaY } = e;
+            const { scrollTop } = outerDivRef.current; // 현재 스크롤 위치
+            const pageHeight = window.innerHeight; // 화면 세로길이 = 100vh
+            const DIVIDER_HEIGHT = 5;
+            if (deltaY > 0) {
+                // 스크롤 내릴 때
+                if (scrollTop >= 0 && scrollTop < pageHeight) {
+                    // 현재 1페이지
+                    console.log("현재 1페이지, down");
+                    outerDivRef.current.scrollTo({
+                        top: pageHeight + DIVIDER_HEIGHT,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                    setCurrentPage(2);
+                } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+                    // 현재 2페이지
+                    console.log("현재 2페이지, down");
+                    outerDivRef.current.scrollTo({
+                        top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                    setCurrentPage(3);
+                }
+            } else {
+                // 스크롤 올릴 때
+                if (scrollTop >= 0 && scrollTop < pageHeight) {
+                    // 현재 1페이지
+                    console.log("현재 1페이지, up");
+                    outerDivRef.current.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+                    // 현재 2페이지
+                    console.log("현재 2페이지, up");
+                    outerDivRef.current.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: "smooth",
+                      });
+                    setCurrentPage(1);
+                } else {
+                    // 현재 3페이지
+                    console.log("현재 3페이지, up");
+                    outerDivRef.current.scrollTo({
+                      top: pageHeight + DIVIDER_HEIGHT,
+                      left: 0,
+                      behavior: "smooth",
+                    });
+                    setCurrentPage(2);
+                }
+            }
+        };
+        const outerDivRefCurrent = outerDivRef.current;
+        outerDivRefCurrent.addEventListener("wheel", wheelHandler);
+        return () => {
+          outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
+        };
+    }, []);
+
     const moveTo  = () => {
         if(localStorage.getItem("token")) {
             navigate('/retro');
@@ -41,16 +112,26 @@ function Main() {
     },[location])
     
     return (
-        <S.MainLayout>
-            <S.MainLeft>
-                <S.MainLogoImg src={MainLogoimg}/>
-                {/* <S.MainTextTop>P-ND(펜드)<br/></S.MainTextTop> */}
-                <S.MainTextBottom>
-                    <S.HighlightedText>Project and Diagram & (Markdown)Dashboard</S.HighlightedText>
-                    펜드(P-ND)는 맞춤형 AI로 당신이 프로젝트에서 놓친 부분을 정리해줘요.<br/>
-                    개발자로서, 오직 프로젝트에만 집중하세요!
-                </S.MainTextBottom>
-                <S.MainButton onClick={moveTo}>프로젝트 다이어그램 생성하러 가기</S.MainButton>
+        <S.MainLayout ref={outerDivRef}>
+            <S.MainFirstPage>
+                <S.MainHeaderText>
+                    프로젝트 문서화의 모든 것 <br/>
+                    <S.MainLogoImg src={MainLogoimg}/>에서 쉽고 간편하게
+                </S.MainHeaderText>
+                <S.MainSubHeaderText>지금 바로 깃허브로 로그인하고 시작해보세요</S.MainSubHeaderText>
+                <S.MainDecoIconImg1 src={MainDecoIcon1}/>
+                <S.MainDecoIconImg2 src={MainDecoIcon2}/>
+                <S.MainLoginButton onClick={moveTo}>깃허브 로그인</S.MainLoginButton>
+            </S.MainFirstPage>
+            <S.Divider></S.Divider>
+            <S.MainSecondPage>
+
+            </S.MainSecondPage>
+            <S.Divider></S.Divider>
+            <S.MainThirdPage>
+                
+            </S.MainThirdPage>
+                {/* <S.MainButton onClick={moveTo}>프로젝트 다이어그램 생성하러 가기</S.MainButton>
                 <S.MainFeatures>
                     <S.FeatureBox>
                         <S.FeatureImg src={RedmeIcon}/>
@@ -68,10 +149,7 @@ function Main() {
                 <Link to='/team'>
                     <S.LinkToTeamPage>about our team ⓒ 감자깡</S.LinkToTeamPage>
                 </Link>
-            </S.MainLeft>
-            <S.MainRight>
-                <S.MainRightImg src={MainImg}/>
-            </S.MainRight>
+ */}
         </S.MainLayout>
     )
 

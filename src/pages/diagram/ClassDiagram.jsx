@@ -1,5 +1,5 @@
 import * as S from './DiagramStyle.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // component
 import ClassEditor from '../../components/Diagram/ClassEditor.jsx';
@@ -10,6 +10,27 @@ function ClassDiagram() {
     const [className, setClassName] = useState('');
     const [variables, setVariables] = useState('');
     const [methods, setMethods] = useState('');
+    const [isClickAddButton, setIsClickAddButton] = useState(false);
+    const [viewCode, setViewCode] = useState(null);  // 초기값을 null로 설정
+
+    const handleAddButton = () => {
+        setViewCode(null); // 계속해서 갱신될 수 있도록 일시적으로 null로 설정
+        setTimeout(() => {
+            setViewCode({
+                className,
+                variables,
+                methods,
+            });
+        }, 0);
+    };
+
+    useEffect(() => {
+        console.log("클래스네임 변경");
+    }, [className])
+
+    useEffect(() => {
+        console.log("추가 버튼 누름");
+    },[viewCode])
 
     return (
         <S.ClassLayout>
@@ -30,6 +51,9 @@ function ClassDiagram() {
             <S.ClassMid>
                 <S.ClassTitleText>EDIT DIAGRAM</S.ClassTitleText>
                 <S.EditDiagramContainer>
+                    <S.ClassAddButtonBox>
+                        <S.AddButton onClick={handleAddButton}>추가</S.AddButton>
+                    </S.ClassAddButtonBox>
                     <ClassEditor
                         className={className}
                         setClassName={setClassName}
@@ -39,6 +63,11 @@ function ClassDiagram() {
                         setMethods={setMethods}
                     />
                     <RelationshipEditor/>
+                    <S.RelationshipAddButtonBox>
+                        <S.AddButton onClick={handleAddButton}>추가</S.AddButton>
+                    </S.RelationshipAddButtonBox>
+
+                    
 
                 </S.EditDiagramContainer>
 
@@ -47,11 +76,14 @@ function ClassDiagram() {
             <S.ClassRight>
                 <S.ClassTitleText>VIEW CODE</S.ClassTitleText>
                 <S.ClassRightContainer>
-                    <ViewCode
-                        className={className}
-                        variables={variables}
-                        methods={methods}
-                    />
+                    {/* viewCode 상태가 있을 때만 ViewCode를 렌더링 */}
+                    {viewCode && (
+                        <ViewCode
+                            className={viewCode.className}
+                            variables={viewCode.variables}
+                            methods={viewCode.methods}
+                        />
+                    )}                   
                     {/* Template */}
                 </S.ClassRightContainer>
 

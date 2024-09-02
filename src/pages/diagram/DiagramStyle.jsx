@@ -171,6 +171,7 @@ background: #FFF;
 margin-top: 17px;
 `;
 
+
 /* 클래스 에디터 */
 export const EditDiagramContainer = styled.div`
 width: 100%;
@@ -180,6 +181,33 @@ background-color: #F8F8FF;
 margin-top: 30.4px;
 padding: 5px 1.4vw;
 position: relative;
+`;
+
+// 추가 버튼
+export const AddButton = styled.button`
+width:100%;
+height:100%;
+flex-shrink: 0;
+border-radius: 5px;
+background: #5B59FC;
+color: white;
+font-size: 0.8rem;
+`;
+
+export const ClassAddButtonBox = styled.div`
+width: 4.5vw;
+height: 30px;
+position:absolute;
+top: 8px;
+right: 1.3vw;
+`;
+
+export const RelationshipAddButtonBox = styled.div`
+width: 4.5vw;
+height: 30px;
+position:absolute;
+top: 185px;
+right:1.3vw;
 `;
 
 /* 코드 뷰 */

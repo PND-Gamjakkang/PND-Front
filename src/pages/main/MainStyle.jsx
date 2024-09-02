@@ -2,56 +2,90 @@ import styled from "styled-components";
 
 export const MainLayout = styled.div`
 width: 100%;
-display:flex;
-`;
-export const MainLeft = styled.div`
-display:flex;
-flex-direction: column;
-padding: 3vw 5vw 2vw 5vw;
+height: 100vh;
+background: #5B59FC;
+position:relative;
+overflow: hidden;
 `;
 
-export const MainRight = styled.div`
+export const MainFirstPage = styled.div`
+height: 100vh;
 `;
 
+export const Divider = styled.div`
+  width: 100%;
+  height: 5px;
+  background-color: gray;
+`;
 
-export const MainTextTop = styled.div`
-text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+export const MainSecondPage = styled.div`
+height: 100vh;
+background: linear-gradient(270deg, #36CDFF 0%, #B7B6FF 100%);
+`;
+
+export const MainThirdPage = styled.div`
+height: 100vh;
+background: white;
+`;
+
+export const MainHeaderText = styled.div`
+position:absolute;
+top: 24vh;
+left: 25vw;
+color: ${({ theme }) => theme.colors.white};
 font-family: Inter;
-font-size: 3vw;
-font-style: italic;
-font-weight: 700;
-line-height: 164%; /* 98.4px */
+font-size: 2.4rem;
+font-style: normal;
+font-weight: 600;
+line-height: 64px; /* 160% */
 `;
 
-export const MainTextBottom = styled.div` 
+export const MainSubHeaderText = styled.div`
+position:absolute;
+top: 43vh;
+left: 25vw;
+color: ${({ theme }) => theme.colors.white};
+text-align: center;
 font-family: Inter;
-font-size: 1.2vw;
-line-height: 150%; /* 30px */ 
-margin-top : 1.5vw;
-
+font-size: 1.2rem;
+font-style: normal;
+font-weight: 500;
+line-height: 64px; /* 320% */
 `;
 
-export const HighlightedText = styled.div`
-font-weight: 700;
-font-style: italic;
+export const MainDecoIconImg1 = styled.img`
+position:absolute;
+top:5vh;
+right: 15vw;
+width: 25vw;
 `;
 
-export const MainButton = styled.button`
-width: 30vw;
-height: 4.1vw;
+export const MainDecoIconImg2 = styled.img`
+position:absolute;
+top:37vh;
+right: 18vw;
+width: 25vw;
+`;
+
+
+export const MainLoginButton = styled.button`
+width: 10.42vw;
+height: 5.56vh;
 flex-shrink: 0;
-background-color: ${({ theme }) => theme.colors.white};
-color: ${({ theme }) => theme.colors.black};
-border-radius: 50px;
+border-radius: 10px;
+background: #36CDFF;
 font-family: Inter;
-font-size: 1.7vw;
+font-size: 1rem;
 font-style: normal;
 font-weight: 600;
 line-height: 150%; /* 51px */
+position:absolute;
+top: 
+left: 25vw;
+color: ${({ theme }) => theme.colors.white};
 margin-top: 1.5vw;
  &:hover {
-    background-color: ${({ theme }) => theme.colors.lightGray};
-    cursor: pointer;
+
   }
   
   &:active {
@@ -88,7 +122,7 @@ height: 47vw;
 `;
 
 export const MainLogoImg = styled.img`
-  width: 40%; /* 이미지를 매우 작게 줄이기 */
+  width: 33%; /* 이미지를 매우 작게 줄이기 */
   height: auto; /* 가로 세로 비율을 유지하며 크기 조정 */
 `;
 

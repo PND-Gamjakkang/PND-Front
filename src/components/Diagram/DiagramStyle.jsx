@@ -43,19 +43,7 @@ width: 70%;
 height: 60%;
 
 `;
-// 추가 버튼
-export const AddButton = styled.button`
-width: 4.5vw;
-height: 30px;
-flex-shrink: 0;
-border-radius: 5px;
-background: #5B59FC;
-color: white;
-position:absolute;
-top: 8px;
-right: 1.3vw;
-font-size: 0.8rem;
-`;
+
 
 /* 클래스 에디터 */
 export const ClassEditorContainer = styled.div`

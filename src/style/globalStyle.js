@@ -23,8 +23,6 @@ export const GlobalStyle = createGlobalStyle`
   main, menu, nav, output, ruby, section, summary,
   time, mark, audio, video {
 
-
-    
     margin: 0;
     border: 0;
     padding: 0;
@@ -40,6 +38,8 @@ export const GlobalStyle = createGlobalStyle`
   body {
     touch-action: manipulation;
     line-height: 1;
+    overflow-y: hidden;
+    overflow-x: hidden;
     // 가운데 정렬
   }
   menu, ol, ul {
