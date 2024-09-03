@@ -5,15 +5,21 @@ import * as S from './MainStyle.jsx';
 import axios from 'axios';
 
 import LoginModal from '../../components/Login/LoginModal.jsx';
-
+import Footer from '../../components/Footer/Footer.jsx';
 // images
-import RedmeIcon from '../../assets/images/readme-icon.png';
+import ReadmeImg from '../../assets/images/main-readme-img.png';
+import DiagramImg from '../../assets/images/main-diagram-img.png';
+import ReportImg from '../../assets/images/main-report-img.png';
+import NextPageBtnIcon from '../../assets/images/main-down-arrow.png';
+import ThirdPageTextImg from '../../assets/images/main-third-text.png';
+
 import FolderIcon from '../../assets/images/folder-icon.png';
-import RetroIcon  from '../../assets/images/retro-logo.png';
+import RetroIcon from '../../assets/images/retro-logo.png';
 import MainImg from '../../assets/images/main-img.png';
 import MainLogoimg from '../../assets/images/main-logo-white.png';
 import MainDecoIcon1 from '../../assets/images/main-deco-icon1.png';
 import MainDecoIcon2 from '../../assets/images/main-deco-icon2.png';
+import MainFeatureCard from '../../components/Main/MainFeatureCard.jsx';
 
 function Main() {
     const outerDivRef = useRef();
@@ -64,15 +70,15 @@ function Main() {
                         top: 0,
                         left: 0,
                         behavior: "smooth",
-                      });
+                    });
                     setCurrentPage(1);
                 } else {
                     // 현재 3페이지
                     console.log("현재 3페이지, up");
                     outerDivRef.current.scrollTo({
-                      top: pageHeight + DIVIDER_HEIGHT,
-                      left: 0,
-                      behavior: "smooth",
+                        top: pageHeight + DIVIDER_HEIGHT,
+                        left: 0,
+                        behavior: "smooth",
                     });
                     setCurrentPage(2);
                 }
@@ -81,12 +87,23 @@ function Main() {
         const outerDivRefCurrent = outerDivRef.current;
         outerDivRefCurrent.addEventListener("wheel", wheelHandler);
         return () => {
-          outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
+            outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
         };
     }, []);
 
-    const moveTo  = () => {
-        if(localStorage.getItem("token")) {
+    // 다음 페이지로 이동하는 함수
+    const goToNextPage = () => {
+        const pageHeight = window.innerHeight;
+        outerDivRef.current.scrollTo({
+            top: pageHeight, // 두 번째 페이지의 시작 위치로 스크롤
+            left: 0,
+            behavior: "smooth",
+        });
+        setCurrentPage(2);
+    };
+
+    const moveTo = () => {
+        if (localStorage.getItem("token")) {
             navigate('/retro');
         } else {
             navigate('/login');
@@ -97,11 +114,11 @@ function Main() {
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);
         const code = urlParams.get('code');
-        if(code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
+        if (code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
             axios({
                 method: "POST",
                 url: `http://localhost:8080/api/pnd/oauth/social/github?code=${code}`
-            }).then((res) =>{
+            }).then((res) => {
                 console.log(res);
                 const ACCESS_TOKEN = res.data.data.token;
                 localStorage.setItem("token", ACCESS_TOKEN);
@@ -109,29 +126,72 @@ function Main() {
                 console.log("error");
             })
         }
-    },[location])
-    
+    }, [location])
+
     return (
         <S.MainLayout ref={outerDivRef}>
             <S.MainFirstPage>
-                <S.MainHeaderText>
-                    프로젝트 문서화의 모든 것 <br/>
-                    <S.MainLogoImg src={MainLogoimg}/>에서 쉽고 간편하게
-                </S.MainHeaderText>
-                <S.MainSubHeaderText>지금 바로 깃허브로 로그인하고 시작해보세요</S.MainSubHeaderText>
-                <S.MainDecoIconImg1 src={MainDecoIcon1}/>
-                <S.MainDecoIconImg2 src={MainDecoIcon2}/>
-                <S.MainLoginButton onClick={moveTo}>깃허브 로그인</S.MainLoginButton>
+                <S.MainHeaderAndLoginBtn>
+                    <S.MainHeaderText>
+                        프로젝트 문서화의 모든 것 <br />
+                        <S.MainLogoImg src={MainLogoimg} />에서 쉽고 간편하게
+                    </S.MainHeaderText>
+                    <S.MainSubHeaderText>지금 바로 깃허브로 로그인하고 시작해보세요</S.MainSubHeaderText>
+                    <S.MainLoginButton onClick={moveTo}>깃허브 로그인</S.MainLoginButton>
+                </S.MainHeaderAndLoginBtn>
+                <S.MainDecoIconImg1 src={MainDecoIcon1} />
+                <S.MainDecoIconImg2 src={MainDecoIcon2} />
+                <S.NextPageBtn src={NextPageBtnIcon} onClick={goToNextPage} />
             </S.MainFirstPage>
-            <S.Divider></S.Divider>
             <S.MainSecondPage>
+                <S.MainFeatures>
+                    <MainFeatureCard
+                        featureTitle='MAKE README'
+                        featureDescription={
+                            <>
+                                마크다운 대시보드와 AI 자동생성 기능으로<br />
+                                보다 쉽게 리드미를 제작해 보세요.
+                            </>}
+                        btnText='리드미 제작하러가기'
+                        featureImg={ReadmeImg}
+                    />
+                    <MainFeatureCard
+                        featureTitle='MAKE DIAGRAM'
+                        featureDescription={
+                            <>
+                                AI를 사용한  다이어그램 자동 제작 기능과<br />
+                                대시보드를 통한 쉬운 수정을 해보세요
+                            </>}
+                        btnText='다이어그램 제작하러가기'
+                        featureImg={DiagramImg}
+                    />
+
+                    <MainFeatureCard
+                        featureTitle='MAKE GITHUB REPORT'
+                        featureDescription={
+                            <>
+                                깃허브 협업 레포트 제작과 프로젝트 내 나의 기여도 파악이<br />
+                                가능합니다. 이미지로 간편하게 저장 해보세요.
+                            </>}
+                        btnText='깃허브 레포트 제작하러가기'
+                        featureImg={ReportImg}
+                    />
+
+                </S.MainFeatures>
 
             </S.MainSecondPage>
-            <S.Divider></S.Divider>
             <S.MainThirdPage>
-                
+                <S.ThirdPageContentContainer>
+                    <S.ThirdPageText src={ThirdPageTextImg}/>
+                    <S.StartBtn>
+                        <S.MainLogoImg src={MainLogoimg} />
+                        시작하기
+                    </S.StartBtn>
+                </S.ThirdPageContentContainer>
+               
+
             </S.MainThirdPage>
-                {/* <S.MainButton onClick={moveTo}>프로젝트 다이어그램 생성하러 가기</S.MainButton>
+            {/* <S.MainButton onClick={moveTo}>프로젝트 다이어그램 생성하러 가기</S.MainButton>
                 <S.MainFeatures>
                     <S.FeatureBox>
                         <S.FeatureImg src={RedmeIcon}/>

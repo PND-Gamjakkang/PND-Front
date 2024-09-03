@@ -36,7 +36,6 @@ function RelationshipEditor() {
             <S.RelationshipInfoImg src={relationshipInfoImg}/>
         </S.RelationshipEditorContainer>
     )
-
 }
 
 export default RelationshipEditor;
