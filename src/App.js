@@ -43,7 +43,7 @@ const Layout = () => {
       <Content>
         <Outlet />
       </Content>
-      <Footer /> {/* 푸터 높이 설정을 스타일 파일에서 적용 */}
+      {/* <Footer /> 푸터 높이 설정을 스타일 파일에서 적용 */}
     </BackGroundColor>
   );
 };
