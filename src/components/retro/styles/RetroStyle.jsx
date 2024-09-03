@@ -102,7 +102,15 @@ gap: 3px;
 cursor: pointer;
 background-color: white;
 position:relative;
+space-between: center;
+
 `;
+
+export const RepoDetailLeft = styled.div`
+display:flex;
+gap: 5px;
+`;
+
 export const UserImgAndName = styled.div`
 display: flex;
 gap: 0.5vw;
@@ -142,11 +150,10 @@ export const RepoDetails = styled.div`
 display: flex;
 gap: 10px;
 width; 100%;
-
+justify-content: space-between;
 `;
 
 export const RepoState = styled.div`
-width: 13%;
 color: black;
 text-align: center;
 font-family: Inter;
@@ -154,7 +161,7 @@ font-size: 14px;
 font-style: normal;
 font-weight: 600;
 line-height: 25.314px; /* 180.814% */
-margin-left: 25%;
+
 
 `;
 

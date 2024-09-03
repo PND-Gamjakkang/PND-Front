@@ -78,20 +78,6 @@ export default function LoginModal({ onSuccess }) {
     //       }
     // },[location.search]);
 
-    // return (
-    //     <S.LoginContainer>
-    //         <S.LoginBackground>
-    //             <S.LoginModal>
-    //                 <S.LogoImg src='/images/pnd-logo.png' />
-    //                 <S.LoginButton
-    //                     onClick={handleLogin}
-
-    //                 ></S.LoginButton>
-    //             </S.LoginModal>
-    //         </S.LoginBackground>
-    //     </S.LoginContainer>
-    // )
-
     return (
         <Modal
             isOpen={modalOpen}
@@ -134,7 +120,6 @@ export default function LoginModal({ onSuccess }) {
             }}
         >
             <S.LoginContainer>
-
                 <S.LoginModal>
                     <S.LogoImg src={MainLogoImg} />
                     <S.LoginMessage>로그인이 필요한 기능입니다.<br/>로그인 하시겠습니까?</S.LoginMessage>
@@ -143,7 +128,6 @@ export default function LoginModal({ onSuccess }) {
                     ></S.LoginButton>
                     <S.LoginBottomText>깃허브로 로그인을 하고<br/>피엔디의 더 많은 서비스를 사용해보세요!</S.LoginBottomText>
                 </S.LoginModal>
-
             </S.LoginContainer>
         </Modal>
 

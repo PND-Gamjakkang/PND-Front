@@ -10,15 +10,6 @@ align-items: center;
 padding: 0.5vw;
 `;
 
-export const LoginBackground = styled.div`
-// width: 100%;
-// height: 100%;
-// background-color: rgba(0, 0, 0, 0.7); // 배경 흐리게
-// display:flex;
-// flex-direction:column;
-// align-items: center;
-`;
-
 export const LoginModal = styled.div`
 width:100%;
 height:100%;
