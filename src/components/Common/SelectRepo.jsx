@@ -16,11 +16,10 @@ function SelectRepo({onCancelBtn, onSelectProject, onIsBaseInfoSet}) {
     const [user, setUser] = useState([]); // 사용자 정보
     const [repos, setRepos] = useState([]);
 
-    const handleProjectSelection = (project) => {
-        // 프로젝트가 선택되었을 때 실행할 로직
-        // 프로젝트와 관련된 작업을 수행한 후 onSelectProject를 호출
-        onSelectProject(project);
-     };
+    const handleProjectSelection = (repoId, repoName) => {
+        setSelectedRepo(repoId); // 선택된 레포지토리 ID 설정
+        onSelectProject(repoId); // 선택된 레포지토리 ID를 RepoSettingModal로 전달
+    };
 
     const handleIsSwiper = () => {
         onIsBaseInfoSet();
@@ -81,21 +80,19 @@ function SelectRepo({onCancelBtn, onSelectProject, onIsBaseInfoSet}) {
     const handleRepoClick = (repoId, repoName, isBaseInfoSet) => {
         if (selectedRepo === repoId) {
             setSelectedRepo(null); // 이미 선택된 경우, 선택 해제
-            handleProjectSelection(repoName);
+            handleProjectSelection(repoId, repoName);
         } else if(selectedRepo === null) { // 처음 눌렀을 때, 다른 거 눌렀을 때
             setSelectedRepo(repoId); // 새로운 항목 선택
-            handleProjectSelection(repoName);
+            handleProjectSelection(repoId, repoName);
             if(isBaseInfoSet === true) { // 선택한 항목이 이미 마이페이지에 있는 프로젝트인 경우
                 handleIsSwiper();
             }
         } else {
             setSelectedRepo(repoId); // 다른 레포 선택된 경우, 선택 해제
-            handleProjectSelection(repoName);
+            handleProjectSelection(repoId, repoName);
         }
     };
-
-
-  
+    
     return (
         <>
             <S.ModalTitle>레포지토리를<br />선택해주세요.</S.ModalTitle>

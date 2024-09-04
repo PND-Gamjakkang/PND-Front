@@ -17,7 +17,7 @@ import UserRepo from '../retro/UserRepo';
 import SelectRepo from './SelectRepo';
 import InputRepoInfo from './InputRepoInfo';
 
-function RepoSettingModal({ closeModal, onSelectProject }) {
+function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId }) {
   // const [user, setUser] = useState([]); // 사용자 정보
   // const [repos, setRepos] = useState([]);
 
@@ -27,6 +27,11 @@ function RepoSettingModal({ closeModal, onSelectProject }) {
   const handleCancleBtn = () => {
     setModalOpen(!modalOpen);
     closeModal();
+  };
+  const handleProjectSelect = (projectId) => {
+    onSelectProject();
+    onSelectedProjectId(projectId);
+    setIsBaseInfoSet(true);
   };
 
   return (
@@ -76,7 +81,11 @@ function RepoSettingModal({ closeModal, onSelectProject }) {
         style={{ height: '100%', position: 'relative' }}
       >
         <SwiperSlide>
-          <SelectRepo onCancelBtn={() => handleCancleBtn} onSelectProject={onSelectProject} onIsBaseInfoSet={() => setIsBaseInfoSet(true)}/>
+          <SelectRepo
+           onCancelBtn={() => handleCancleBtn}
+           onSelectProject={handleProjectSelect} 
+           onIsBaseInfoSet={() => setIsBaseInfoSet(true)}
+          />
         </SwiperSlide>
         {!isBaseInfoSet ? (
           <SwiperSlide>

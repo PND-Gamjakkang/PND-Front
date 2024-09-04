@@ -150,7 +150,7 @@ width: 100%;
 margin-top: 10px;
 `;
 
-/* View Code */
+/* 뷰코드 */
 export const ViewCodeContainer = styled.div`
 width: 100%;
 height: 300px;
@@ -158,6 +158,15 @@ border-radius: 10px;
 background-color: #000;
 margin-top: 25px;
 padding: 0.6vw;
+`;
+
+export const CodeBox = styled.div`
+width:70%;
+height:100%;
+color: white;
+overflow-y: auto;
+white-space: pre-wrap;  /* 줄바꿈과 공백을 유지 */
+word-wrap: break-word;  /* 너무 긴 단어를 다음 줄로 넘김 */
 `;
 
 export const CodeTextArea = styled.textarea`
