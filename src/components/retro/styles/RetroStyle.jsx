@@ -92,7 +92,7 @@ margin: 3vh 0vh 1.5vh;
 export const UserRepoContainer = styled.div`
 width: 100%;
 height: 130px; 
-border: 1px solid ${props => props.isSelected ? 'blue' : '#D9D9FF'};
+border: 1px solid ${props => props.isSelected ? '#36CDFF;' : '#D9D9FF'};
 color: black;
 margin-top: 3px;
 display: flex;

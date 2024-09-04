@@ -10,7 +10,7 @@ import diagramSequenceIcon from '../../assets/images/diagram-sequence-icon.png';
 import diagramErdIcon from '../../assets/images/diagram-erd-icon.png';
 import diagramSequenceImage from '../../assets/images/diagram-sequence-image.png';
 import diagramErdImage from '../../assets/images/diagram-erd-image.png';
-import SelectRepoModal from '../../components/Common/SelectRepoModal.jsx';
+import RepoSettingModal from '../../components/Common/RepoSettingModal.jsx';
 
 // diagram type page
 import ClassDiagram from './ClassDiagram.jsx';
@@ -70,9 +70,6 @@ function Diagram() {
                             {location.pathname === '/diagram/class' && (
                                     <ClassDiagram />
                             )}
-                            
-
-                                
                             </>
                         ) : (
                             <>
@@ -127,7 +124,7 @@ function Diagram() {
 
             {/* 모달 렌더링 */}
             {isModalOpen && (
-                <SelectRepoModal 
+                <RepoSettingModal 
                     closeModal={() => setIsModalOpen(false)} 
                     onSelectProject={() => setIsSelectedProject(true)} // 상태 업데이트 핸들러 전달
                 />
