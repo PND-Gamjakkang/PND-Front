@@ -22,6 +22,7 @@ function RepoSettingModal({ closeModal, onSelectProject }) {
   // const [repos, setRepos] = useState([]);
 
   const [modalOpen, setModalOpen] = useState(true);
+  const [isBaseInfoSet, setIsBaseInfoSet] = useState(false); // 마이프로젝트에 이미 있는 항목을 선택했는지 안했는지의 상태
 
   const handleCancleBtn = () => {
     setModalOpen(!modalOpen);
@@ -75,12 +76,17 @@ function RepoSettingModal({ closeModal, onSelectProject }) {
         style={{ height: '100%', position: 'relative' }}
       >
         <SwiperSlide>
-          <SelectRepo onSelectProject={onSelectProject}/>
+          <SelectRepo onCancelBtn={() => handleCancleBtn} onSelectProject={onSelectProject} onIsBaseInfoSet={() => setIsBaseInfoSet(true)}/>
         </SwiperSlide>
-        <SwiperSlide>
-          <InputRepoInfo />
-        </SwiperSlide>
-      </Swiper>      
+        {!isBaseInfoSet ? (
+          <SwiperSlide>
+            <InputRepoInfo />
+          </SwiperSlide>
+        ) : (
+          null
+        )}
+
+      </Swiper>
     </Modal>
   );
 }

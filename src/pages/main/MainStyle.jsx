@@ -18,11 +18,14 @@ export const Divider = styled.div`
   background-color: gray;
 `;
 
+// 페이지이동 버튼
 export const NextPageBtn = styled.img`
 cursor: pointer;
-position:absolute;
-bottom: 10vh;
-left: 45vw;
+position: fixed; /* 버튼을 고정된 위치에 둡니다 */
+bottom: 2vh; /* 하단에서 약간의 여백을 둡니다 */
+left: 50%; /* 화면 너비의 중앙에 배치 */
+transform: translateX(-50%); /* X축에서 버튼을 정확히 중앙에 배치 */
+z-index: 1000; /* 다른 요소보다 앞에 표시되도록 설정 */
 `;
 
 export const MainSecondPage = styled.div`

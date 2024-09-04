@@ -5,8 +5,9 @@ import axios from 'axios';
 // 컴포넌트
 import UserRepo from '../retro/UserRepo';
 
-function SelectRepo({onSelectProject}) {
+function SelectRepo({onCancelBtn, onSelectProject, onIsBaseInfoSet}) {
     const [modalOpen, setModalOpen] = useState(true);
+
     const handleCancleBtn = () => {
         setModalOpen(!modalOpen);
         //closeModal();
@@ -20,6 +21,10 @@ function SelectRepo({onSelectProject}) {
         // 프로젝트와 관련된 작업을 수행한 후 onSelectProject를 호출
         onSelectProject(project);
      };
+
+    const handleIsSwiper = () => {
+        onIsBaseInfoSet();
+    }
   
     // 유저토큰
     const userToken = localStorage.getItem('token');
@@ -73,13 +78,16 @@ function SelectRepo({onSelectProject}) {
       fetchRepository();
     }, []);
 
-    const handleRepoClick = (repoId, repoName) => {
+    const handleRepoClick = (repoId, repoName, isBaseInfoSet) => {
         if (selectedRepo === repoId) {
             setSelectedRepo(null); // 이미 선택된 경우, 선택 해제
             handleProjectSelection(repoName);
         } else if(selectedRepo === null) { // 처음 눌렀을 때, 다른 거 눌렀을 때
             setSelectedRepo(repoId); // 새로운 항목 선택
             handleProjectSelection(repoName);
+            if(isBaseInfoSet === true) { // 선택한 항목이 이미 마이페이지에 있는 프로젝트인 경우
+                handleIsSwiper();
+            }
         } else {
             setSelectedRepo(repoId); // 다른 레포 선택된 경우, 선택 해제
             handleProjectSelection(repoName);
@@ -93,7 +101,7 @@ function SelectRepo({onSelectProject}) {
             <S.ModalTitle>레포지토리를<br />선택해주세요.</S.ModalTitle>
             <S.ModalCloseBtn
                 src={require("../../assets/images/close-modal-icon.png")}
-                onClick={handleCancleBtn}
+                onClick={onCancelBtn()}
             />
             <S.ReposContainer style={{ overflow: 'hidden' }}>
                 <div style={{height: '100%', overflowY: 'auto' }}>
@@ -112,7 +120,7 @@ function SelectRepo({onSelectProject}) {
                             repoWatchers={repo.repoWatcher}
                             repoCreatedAt={repo.createdAt}
                             isSelected={selectedRepo === repo.id}
-                            onClick={() => handleRepoClick(repo.id, repo.repoName)}
+                            onClick={() => handleRepoClick(repo.id, repo.repoName, repo.isBaseInfoSet)}
                         />
                     ))}
                 </div>

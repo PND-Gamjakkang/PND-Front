@@ -47,15 +47,15 @@ function Diagram() {
                             <>
                                 <S.DiagramNavBar>
                                     <Link to='/diagram/class'>
-                                    <S.DiagramNavLink>클래스</S.DiagramNavLink>
+                                    <S.DiagramNavLink isActive={location.pathname === '/diagram/class'}>클래스</S.DiagramNavLink>
                                     </Link>
                                     <S.Divider/>
                                     <Link to='/diagram/sequence'>
-                                    <S.DiagramNavLink>시퀀스</S.DiagramNavLink>
+                                    <S.DiagramNavLink isActive={location.pathname === '/diagram/sequence'}>시퀀스</S.DiagramNavLink>
                                     </Link>
                                     <S.Divider/>
                                     <Link to='/diagram/erd'>
-                                    <S.DiagramNavLink>ERD</S.DiagramNavLink>
+                                    <S.DiagramNavLink isActive={location.pathname === '/diagram/erd'}>ERD</S.DiagramNavLink>
                                     </Link>
                                 </S.DiagramNavBar>
                                 <S.SaveBtn>저장하기</S.SaveBtn>

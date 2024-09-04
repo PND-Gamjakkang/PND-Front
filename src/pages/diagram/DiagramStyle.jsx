@@ -36,6 +36,7 @@ align-items: center;
 `;
 
 export const DiagramNavLink = styled.div`
+color: ${({ isActive }) => (isActive ? '#5B59FC' : 'black')};
 flex: 1;
 text-align: center;
 padding: 0 35px;

@@ -94,14 +94,23 @@ function Main() {
     // 다음 페이지로 이동하는 함수
     const goToNextPage = () => {
         const pageHeight = window.innerHeight;
-        outerDivRef.current.scrollTo({
-            top: pageHeight, // 두 번째 페이지의 시작 위치로 스크롤
-            left: 0,
-            behavior: "smooth",
-        });
-        setCurrentPage(2);
-    };
 
+        if (currentPage === 1) {
+            outerDivRef.current.scrollTo({
+                top: pageHeight, // 두 번째 페이지로 스크롤
+                left: 0,
+                behavior: "smooth",
+            });
+            setCurrentPage(2);
+        } else if (currentPage === 2) {
+            outerDivRef.current.scrollTo({
+                top: pageHeight * 2, // 세 번째 페이지로 스크롤
+                left: 0,
+                behavior: "smooth",
+            });
+            setCurrentPage(3);
+        }
+    };
     const moveTo = () => {
         if (localStorage.getItem("token")) {
             navigate('/retro');
@@ -141,7 +150,9 @@ function Main() {
                 </S.MainHeaderAndLoginBtn>
                 <S.MainDecoIconImg1 src={MainDecoIcon1} />
                 <S.MainDecoIconImg2 src={MainDecoIcon2} />
-                <S.NextPageBtn src={NextPageBtnIcon} onClick={goToNextPage} />
+                {currentPage !== 3 && (
+                    <S.NextPageBtn src={NextPageBtnIcon} onClick={goToNextPage} />
+                )}
             </S.MainFirstPage>
             <S.MainSecondPage>
                 <S.MainFeatures>
@@ -178,6 +189,9 @@ function Main() {
                     />
 
                 </S.MainFeatures>
+                {currentPage !== 3 && (
+                    <S.NextPageBtn src={NextPageBtnIcon} onClick={goToNextPage} />
+                )}
 
             </S.MainSecondPage>
             <S.MainThirdPage>
