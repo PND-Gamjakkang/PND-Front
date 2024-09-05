@@ -14,6 +14,7 @@ function ClassDiagram({ selectedProjectId }) {
     const [variables, setVariables] = useState('');
     const [methods, setMethods] = useState('');
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false);
+    const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
     const [viewCode, setViewCode] = useState(`
         classDiagram
             class User {
@@ -73,16 +74,35 @@ function ClassDiagram({ selectedProjectId }) {
             PostService --> Post : "manages"
             CommentService --> Comment : "manages"
     `);
-
-    // mermaid 초기화
+    // Mermaid 초기화
+    // useEffect(() => {
+    //     mermaid.initialize({ startOnLoad: false });
+    // }, []);
     useEffect(() => {
-        mermaid.initialize({ startOnLoad: true });
-    }, []);
+        const renderDiagram = () => {
+            const diagramContainer = document.getElementById("diagram-container");
+            if (diagramContainer && viewCode.trim()) {
+                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                try {
+                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                } catch (error) {
+                    console.error("Mermaid rendering error:", error);
+                }
+            }
+        };
+    
+        renderDiagram();
+    }, [viewCode]);
+        
+
 
     // 코드가 변화될때마다 실행
     useEffect(() => {
-        mermaid.contentLoaded();
-    }, [viewCode, isClickGenerateAiBtn]);
+        if (isClickGenerateAiBtn) {
+            setIsClickGetnerateAiBtn(false);  // 다이어그램 생성 후 상태를 다시 false로 변경
+        }
+    }, [isClickGenerateAiBtn]);
+
 
     // 추가 버튼 핸들러
     const handleAddButton = () => {
@@ -95,6 +115,7 @@ function ClassDiagram({ selectedProjectId }) {
         setViewCode(prevCode => prevCode + newClassCode);
         setCodeKey(prevKey => prevKey + 1);
     };
+
     // 관계 추가 핸들러
     const handleAddRelation = ({ classA, classB, relation }) => {
         const relationMermaidSyntax = {
@@ -113,11 +134,35 @@ function ClassDiagram({ selectedProjectId }) {
         setCodeKey(prevKey => prevKey + 1);
     };
 
+    // 클래스 클릭 핸들러
+    const handleClassClick = (className) => {
+        setSelectedClass(className);
+    };
 
+    // 클래스 삭제 핸들러
+    const handleDeleteClass = () => {
+        if (selectedClass) {
+            const updatedCode = viewCode.replace(new RegExp(`class ${selectedClass} {[^}]*}`, 'g'), '');
+            setViewCode(updatedCode);
+            setSelectedClass(null);
+            setCodeKey(prevKey => prevKey + 1);
+        }
+    };
+
+    // 선택된 클래스 이름 알기
     useEffect(() => {
-        // `viewCode` 상태가 업데이트된 후 로그를 확인합니다.
-        console.log("Updated viewCode:", viewCode);
-    }, [viewCode]);
+        console.log(selectedClass);
+        handleDeleteClass();
+    }, [selectedClass]);
+
+    // useEffect(() => {
+    //     // `viewCode` 상태가 업데이트된 후 로그를 확인합니다.
+    //     console.log("Updated viewCode:", viewCode);
+    //     mermaid.initialize({ startOnLoad: true });
+    //     mermaid.contentLoaded();
+    // }, [viewCode]);
+
+
 
     // 유저토큰
     const userToken = localStorage.getItem('token');
@@ -139,7 +184,7 @@ function ClassDiagram({ selectedProjectId }) {
     const fetchGpt = async () => {
         try {
             const requestBody = { repoId: selectedProjectId };
-            const response = await authInstance.patch(`api/pnd/diagram/class`, requestBody);
+            const response = await authInstance.patch(`api/pnd/diagram/class-gpt`, requestBody);
 
             if (response.status === 200) {
                 const data = response.data.data;
@@ -155,29 +200,9 @@ function ClassDiagram({ selectedProjectId }) {
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId) {
-            fetchGpt();
+            //fetchGpt();
         }
     }, [selectedProjectId]);
-
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token && selectedProjectId) {
-    //         const requestBody = { projectId: selectedProjectId };
-    //         authInstance({
-    //             method: "PATCH",
-    //             url: `/api/pnd/diagram/class`,
-    //             headers: {
-    //                 'Authorization': `Bearer ${token}` // 헤더에 토큰을 추가하는 것을 잊지 마세요
-    //             },
-    //             data: requestBody,
-    //         }).then((res) => {
-    //             console.log(res);
-
-    //         }).catch((err) => {
-    //             console.log("postDiagram error", err);
-    //         });
-    //     }
-    // }, [selectedProjectId]);
 
     // 다이어그램 생성
     const generateDiagram = () => {
@@ -189,16 +214,16 @@ function ClassDiagram({ selectedProjectId }) {
             <S.ClassLeft>
                 <S.ClassTitleText>CLASS DIAGRAM</S.ClassTitleText>
                 <S.ClassEditButtons>
-                    <S.RemoveComponentBtn>컴포넌트 삭제</S.RemoveComponentBtn>
+                    <S.RemoveComponentBtn onClick={handleDeleteClass}>컴포넌트 삭제</S.RemoveComponentBtn>
                     <S.Divider />
                     <S.RemoveAllBtn>전체 삭제</S.RemoveAllBtn>
                     <S.Divider />
                     <S.GenerateAiBtn onClick={generateDiagram}>AI 자동생성</S.GenerateAiBtn>
                 </S.ClassEditButtons>
                 <S.ClassDiagramResultBox>
-                    {isClickGenerateAiBtn ? (
-                        <div className="mermaid">{viewCode}</div>
-                    ) : null}
+                    <div id="diagram-container" onClick={(e) => handleClassClick(e.target.innerText)}>
+                        {/* Mermaid 다이어그램이 이곳에 렌더링됩니다 */}
+                    </div>
                 </S.ClassDiagramResultBox>
             </S.ClassLeft>
             <S.ClassMid>
@@ -229,6 +254,7 @@ function ClassDiagram({ selectedProjectId }) {
                         <ViewCode
                             key={codeKey}
                             viewCode={viewCode}
+                            setViewCode={setViewCode}
                         />
                     )}
                 </S.ClassRightContainer>

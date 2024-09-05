@@ -215,6 +215,16 @@ height: 5vh;
 border-radius: 5px;
 border: 1px solid #B7B6FF;
 background: #D9D9FF;
+
+  &::placeholder {
+    color: #5B59FC;
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 0px; /* 0% */
+  }
 `;
 
 export const RelationshipType = styled.div`
@@ -230,6 +240,15 @@ height: 5vh;
 border-radius: 5px;
 border: 1px solid #B7B6FF;
 background: #D9D9FF;
+  &::placeholder {
+    color: #5B59FC;
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 0px; /* 0% */
+  }
 `;
 
 /* 뷰코드 */
@@ -261,6 +280,14 @@ width:100%;
 height:100%;
 background-color: #000;
 color: white;
+border: none; /* border를 없앰 */
+resize: none; /* 사용자가 크기 조정을 못하게 함 */
+overflow-y: scroll; /* 스크롤 가능하게 함 */
+scrollbar-width: none; /* Firefox에서 스크롤 바 숨기기 */
+-ms-overflow-style: none;  /* IE 및 Edge에서 스크롤 바 숨기기 */
+&::-webkit-scrollbar {
+    display: none; /* Webkit 기반 브라우저에서 스크롤 바 숨기기 */
+}
 `;
 
 // 추가 버튼
@@ -272,4 +299,18 @@ border-radius: 5px;
 background: #5B59FC;
 color: white;
 font-size: 0.8rem;
+`;
+
+// 수정 버튼
+export const SaveButton = styled.button`
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #5B59FC;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #4747D1;
+  }
 `;
