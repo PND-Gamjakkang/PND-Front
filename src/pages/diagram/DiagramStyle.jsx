@@ -19,7 +19,7 @@ export const DiagramLayout = styled.div`
 /* 다이어그램 네비게이션바 */
 export const DiagramTopBarContainer = styled.div`
   width: 100%; /* 부모 요소(Content)의 전체 너비를 차지 */
-  height: 10%; /* 부모 요소(Content)의 전체 높이를 차지 */
+  height: 8vh; /* 부모 요소(Content)의 전체 높이를 차지 */
   display: flex;
   align-items: center;
   background-color: white;
@@ -214,6 +214,34 @@ right:1.3vw;
 /* 코드 뷰 */
 export const ClassRightContainer = styled.div`
 width: 100%;
+`;
+export const ClassViewCode = styled.div`
+width: 100%;
+height : 50.4vh;
+
+`;
+
+/* 시퀀스 다이어그램 페이지  */
+export const SequenceLayout = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+gap: 1.5vw;
+margin-top: 10px;
+
+`;
+
+export const SequenceResultBox = styled.div`
+width: 50%;
+height: 80%;
+border-radius: 10px;
+background: #F8F8FF;
+`;
+export const SequenceCodeBox = styled.div`
+width: 50%;
+height: 80%;
+border-radius: 10px;
+background: #000;
 `;
 
 

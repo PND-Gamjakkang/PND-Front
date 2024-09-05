@@ -254,11 +254,12 @@ background: #D9D9FF;
 /* 뷰코드 */
 export const ViewCodeContainer = styled.div`
 width: 100%;
-height: 300px;
+height: 100%;
 border-radius: 10px;
 background-color: #000;
 margin-top: 25px;
 padding: 0.6vw;
+
 `;
 
 export const CodeBox = styled.div`
@@ -305,10 +306,10 @@ font-size: 0.8rem;
 export const SaveButton = styled.button`
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #5B59FC;
-  color: white;
-  border: none;
   border-radius: 5px;
+  background: #36CDFF;
+  color: white;
+  border: none; 
   cursor: pointer;
   &:hover {
     background-color: #4747D1;

@@ -90,10 +90,10 @@ function ClassDiagram({ selectedProjectId }) {
                 }
             }
         };
-    
+
         renderDiagram();
     }, [viewCode]);
-        
+
 
 
     // 코드가 변화될때마다 실행
@@ -250,13 +250,15 @@ function ClassDiagram({ selectedProjectId }) {
             <S.ClassRight>
                 <S.ClassTitleText>VIEW CODE</S.ClassTitleText>
                 <S.ClassRightContainer>
-                    {viewCode && (
-                        <ViewCode
-                            key={codeKey}
-                            viewCode={viewCode}
-                            setViewCode={setViewCode}
-                        />
-                    )}
+                    <S.ClassViewCode>
+                        {viewCode && (
+                            <ViewCode
+                                key={codeKey}
+                                viewCode={viewCode}
+                                setViewCode={setViewCode}
+                            />
+                        )}
+                    </S.ClassViewCode>
                 </S.ClassRightContainer>
             </S.ClassRight>
         </S.ClassLayout>

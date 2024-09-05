@@ -29,10 +29,15 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId }) 
     closeModal();
   };
   const handleProjectSelect = (projectId) => {
+    console.log("handleProjectSelect에서 선택한 projectId: ", projectId);
     onSelectProject();
     onSelectedProjectId(projectId);
-    setIsBaseInfoSet(true);
+    //setIsBaseInfoSet(true);
   };
+
+  useEffect(() => {
+    console.log("isBaseInfoset: " + isBaseInfoSet);
+  },[isBaseInfoSet]);
 
   return (
     <Modal

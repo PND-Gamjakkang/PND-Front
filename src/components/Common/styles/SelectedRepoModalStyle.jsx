@@ -9,7 +9,7 @@ font-style: normal;
 font-weight: 600;
 line-height: 32px; /* 133.333% */
 z-index: 1;
-margin: 1.5vw 3vw;
+margin: 1.2vw 3vw 0.5vw;
 `;
 
 export const ModalCloseBtn = styled.img`
@@ -21,7 +21,7 @@ export const ModalCloseBtn = styled.img`
 
 export const ReposContainer = styled.div`
   width: 93%;
-  height: 75%;
+  height: 80%;
   border-radius: 20px;
   background: #F8F8FF;
   margin: 0 1.5vw;
@@ -29,6 +29,7 @@ export const ReposContainer = styled.div`
   display: flex; /* Flexbox를 적용 */
   flex-direction: column;
   align-items: stretch; /* 자식 요소들이 부모의 너비를 채우도록 설정 */
+  gap: 1.5vh;
 
 `;
 

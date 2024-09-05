@@ -14,6 +14,7 @@ import RepoSettingModal from '../../components/Common/RepoSettingModal.jsx';
 
 // diagram type page
 import ClassDiagram from './ClassDiagram.jsx';
+import SequenceDiagram from './SequenceDiagram.jsx';
 
 function Diagram() {
     const [diagramType, setDiagramType] = useState(''); // 다이어그램 종류 담는 변수
@@ -29,7 +30,7 @@ function Diagram() {
         console.log(type + " 다이어그램 선택");
         setIsModalOpen(true); // 모달 열기
 
-                // 다이어그램 타입에 따라 페이지 이동
+        // 다이어그램 타입에 따라 페이지 이동
         if (type === "CLASS DIAGRAM") {
             navigate('/diagram/class');
         } else if (type === "SEQUENCE DIAGRAM") {
@@ -42,26 +43,26 @@ function Diagram() {
     // 선택한 프로젝트 아이디 담겼는지 확인
     useEffect(() => {
         console.log("선택한 프로젝트 아이디: " + selectedProjectId);
-    },[selectedProjectId]);
+    }, [selectedProjectId]);
 
     return (
-        <> 
-            <S.Diagram>                                                                                                         
+        <>
+            <S.Diagram>
                 <S.DiagramLayout style={{ filter: isModalOpen ? 'blur(5px)' : 'none' }}>
                     <S.DiagramTopBarContainer>
                         {diagramType && isSelectedProject ? ( // 다이어그램 선택 && 프로젝트까지 선택
                             <>
                                 <S.DiagramNavBar>
                                     <Link to='/diagram/class'>
-                                    <S.DiagramNavLink isActive={location.pathname === '/diagram/class'}>클래스</S.DiagramNavLink>
+                                        <S.DiagramNavLink isActive={location.pathname === '/diagram/class'}>클래스</S.DiagramNavLink>
                                     </Link>
-                                    <S.Divider/>
+                                    <S.Divider />
                                     <Link to='/diagram/sequence'>
-                                    <S.DiagramNavLink isActive={location.pathname === '/diagram/sequence'}>시퀀스</S.DiagramNavLink>
+                                        <S.DiagramNavLink isActive={location.pathname === '/diagram/sequence'}>시퀀스</S.DiagramNavLink>
                                     </Link>
-                                    <S.Divider/>
+                                    <S.Divider />
                                     <Link to='/diagram/erd'>
-                                    <S.DiagramNavLink isActive={location.pathname === '/diagram/erd'}>ERD</S.DiagramNavLink>
+                                        <S.DiagramNavLink isActive={location.pathname === '/diagram/erd'}>ERD</S.DiagramNavLink>
                                     </Link>
                                 </S.DiagramNavBar>
                                 <S.SaveBtn>저장하기</S.SaveBtn>
@@ -73,55 +74,58 @@ function Diagram() {
                     <S.DiagramContainer>
                         {diagramType && isSelectedProject ? (
                             <>
-                            {location.pathname === '/diagram/class' && (
-                                    <ClassDiagram selectedProjectId={selectedProjectId}/>
-                            )}
+                                {location.pathname === '/diagram/class' && (
+                                    <ClassDiagram selectedProjectId={selectedProjectId} />
+                                )}
+                                {location.pathname === '/diagram/sequence' && (
+                                    <SequenceDiagram selectedProjectId={selectedProjectId} />
+                                )}
                             </>
                         ) : (
                             <>
-                            <S.DiagramsContainer>
-                            <DiagramType 
-                                    typeIcon={diagramClassIcon}
-                                    typeName="CLASS DIAGRAM"
-                                    typeDescription={
-                                        <>
-                                        클래스간의 관계를 시각적으로 표현한 다이어그램입니다.<br/>
-                                        객체 지향 설계에서 사용되며 클래스의 속성, 메소드, 관계를 보여줍니다.
-                                        </>
-                                    }
-                                    typeImage={diagramClassImage}
-                                    onClick={() => handleDiagramTypeClick("CLASS DIAGRAM")}
-                                />
-                                <DiagramType 
-                                    typeIcon={diagramSequenceIcon}
-                                    typeName="SEQUENCE DIAGRAM"
-                                    typeDescription={
-                                        <>
-                                        객체 간의 상호 작용을 시간 순서에 따라 표현한 다이어그램입니다.<br/>
-                                        사용자의 액션과 시스템의 반응을 순차적으로 보여줍니다.
-                                        </>
-                                    }
-                                    typeImage={diagramSequenceImage}
-                                    onClick={() => handleDiagramTypeClick("SEQUENCE DIAGRAM")}
-                                />
-                                <DiagramType 
-                                    typeIcon={diagramErdIcon}
-                                    typeName={
-                                        <>
-                                        ENTITY RELATIONSHIP DIAGRAM <br/> (ERD)
-                                        </>
-                                    }
-                                    typeDescription={
-                                        <>
-                                        데이터베이스의 구조를 시각적으로 나타내는 다이어그램입니다.<br/>
-                                        엔터티와 그들 간의 관계를 표현하며 데이터 모델링에 사용됩니다.
-                                        </>
-                                    }
-                                    typeImage={diagramErdImage}
-                                    onClick={() => handleDiagramTypeClick("ERD")}
-                                />
+                                <S.DiagramsContainer>
+                                    <DiagramType
+                                        typeIcon={diagramClassIcon}
+                                        typeName="CLASS DIAGRAM"
+                                        typeDescription={
+                                            <>
+                                                클래스간의 관계를 시각적으로 표현한 다이어그램입니다.<br />
+                                                객체 지향 설계에서 사용되며 클래스의 속성, 메소드, 관계를 보여줍니다.
+                                            </>
+                                        }
+                                        typeImage={diagramClassImage}
+                                        onClick={() => handleDiagramTypeClick("CLASS DIAGRAM")}
+                                    />
+                                    <DiagramType
+                                        typeIcon={diagramSequenceIcon}
+                                        typeName="SEQUENCE DIAGRAM"
+                                        typeDescription={
+                                            <>
+                                                객체 간의 상호 작용을 시간 순서에 따라 표현한 다이어그램입니다.<br />
+                                                사용자의 액션과 시스템의 반응을 순차적으로 보여줍니다.
+                                            </>
+                                        }
+                                        typeImage={diagramSequenceImage}
+                                        onClick={() => handleDiagramTypeClick("SEQUENCE DIAGRAM")}
+                                    />
+                                    <DiagramType
+                                        typeIcon={diagramErdIcon}
+                                        typeName={
+                                            <>
+                                                ENTITY RELATIONSHIP DIAGRAM <br /> (ERD)
+                                            </>
+                                        }
+                                        typeDescription={
+                                            <>
+                                                데이터베이스의 구조를 시각적으로 나타내는 다이어그램입니다.<br />
+                                                엔터티와 그들 간의 관계를 표현하며 데이터 모델링에 사용됩니다.
+                                            </>
+                                        }
+                                        typeImage={diagramErdImage}
+                                        onClick={() => handleDiagramTypeClick("ERD")}
+                                    />
 
-                            </S.DiagramsContainer>
+                                </S.DiagramsContainer>
                             </>
                         )}
                     </S.DiagramContainer>
@@ -130,13 +134,13 @@ function Diagram() {
 
             {/* 모달 렌더링 */}
             {isModalOpen && (
-                <RepoSettingModal 
-                    closeModal={() => setIsModalOpen(false)} 
+                <RepoSettingModal
+                    closeModal={() => setIsModalOpen(false)}
                     onSelectProject={() => setIsSelectedProject(true)} // 상태 업데이트 핸들러 전달
                     onSelectedProjectId={(id) => setSelectedProjectId(id)}
                 />
-            )}       
-            
+            )}
+
         </>
     );
 }
