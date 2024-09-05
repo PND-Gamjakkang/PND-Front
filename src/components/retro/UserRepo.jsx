@@ -6,7 +6,7 @@ import forkImg from '../../assets/images/fork-img.png';
 import openIssueImage from '../../assets/images/oppenIssue.png';
 import watcherImg from '../../assets/images/watcher-img.png';
 
-export default function UserRepo({ key, repoId, repoName, userName, userImg, repoDescription, repoStars, repoLanguage, repoForks, repoOpenIssues, repoWatchers, repoCreatedAt, isSelected, onClick }) {
+export default function UserRepo({ key, repoId, repoName, userName, userImg, repoDescription, repoStars, repoLanguage, repoForks, repoOpenIssues, repoWatchers, repoCreatedAt, repoDisclosure, isSelected, onClick }) {
     return (
         <S.UserRepoContainer isSelected={isSelected} onClick={onClick}>
             <S.UserImgAndName>
@@ -41,7 +41,7 @@ export default function UserRepo({ key, repoId, repoName, userName, userImg, rep
                         <S.RepoCreatedAt>{repoCreatedAt}</S.RepoCreatedAt>
                     </S.RepoInfos>
                 </S.RepoDetailLeft>
-                <S.RepoState>private</S.RepoState>
+                <S.RepoState>{repoDisclosure}</S.RepoState>
             </S.RepoDetails>
         </S.UserRepoContainer>
     )

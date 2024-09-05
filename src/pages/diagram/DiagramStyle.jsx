@@ -111,12 +111,12 @@ position:relative;
 `;
 
 export const ClassMid = styled.div`
-width: 26vw;
+width: 28vw;
 position:relative;
 `;
 
 export const ClassRight = styled.div`
-width: 28vw;
+width: 26vw;
 position:relative;
 `;
 
@@ -215,5 +215,7 @@ right:1.3vw;
 export const ClassRightContainer = styled.div`
 width: 100%;
 `;
+
+
 
 

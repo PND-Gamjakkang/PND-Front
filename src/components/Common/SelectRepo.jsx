@@ -92,7 +92,7 @@ function SelectRepo({onCancelBtn, onSelectProject, onIsBaseInfoSet}) {
             handleProjectSelection(repoId, repoName);
         }
     };
-    
+
     return (
         <>
             <S.ModalTitle>레포지토리를<br />선택해주세요.</S.ModalTitle>
@@ -116,6 +116,7 @@ function SelectRepo({onCancelBtn, onSelectProject, onIsBaseInfoSet}) {
                             repoOpenIssues={repo.repoOpenIssues}
                             repoWatchers={repo.repoWatcher}
                             repoCreatedAt={repo.createdAt}
+                            repoDisclosure={repo.repoDisclosure}
                             isSelected={selectedRepo === repo.id}
                             onClick={() => handleRepoClick(repo.id, repo.repoName, repo.isBaseInfoSet)}
                         />
