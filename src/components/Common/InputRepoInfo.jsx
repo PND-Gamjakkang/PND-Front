@@ -6,7 +6,7 @@ import moment from "moment";
 // image
 import UploadIcon from '../../assets/upload-img-icon.png';
 
-function InputRepoInfo() {
+function InputRepoInfo({onClickCreateBtn}) {
     const [modalOpen, setModalOpen] = useState(true);
     const [imgPath, setImgPath] = useState(""); // 이미지 경로를 문자열로 저장하는 변수
     const imgRef = useRef(null);
@@ -19,6 +19,10 @@ function InputRepoInfo() {
     const handleCancleBtn = () => {
         setModalOpen(!modalOpen);
     };
+
+    const handleCreateButton = () => {
+        onClickCreateBtn();
+    }
 
     const previewImage = () => {
         if (imgRef.current && imgRef.current.files) {
@@ -130,7 +134,7 @@ function InputRepoInfo() {
                             )}
                         </S.InputDate>
                     </S.SettingRepoInfo>
-                    <S.CreateButton>생성하기</S.CreateButton>
+                    <S.CreateButton onClick={handleCreateButton}>생성하기</S.CreateButton>
                 </S.InputRepoInfoContainer>
             </S.ReposContainer>
         </>

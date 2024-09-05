@@ -20,6 +20,7 @@ function Diagram() {
     const [diagramType, setDiagramType] = useState(''); // 다이어그램 종류 담는 변수
     const [isSelectedProject, setIsSelectedProject] = useState(false); // 다이어그램 생성할 프로젝트 담는 변수
     const [selectedProjectId, setSelectedProjectId] = useState('');
+    const [isClickCreateBtn, setIsClickCreateBtn] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달의 열림/닫힘 상태
     const navigate = useNavigate(); // 선택한 다이어그램에 따라 페이지 다르게 이동하도록 하기 위한 네비게이션
     const location = useLocation();
@@ -44,6 +45,12 @@ function Diagram() {
     useEffect(() => {
         console.log("선택한 프로젝트 아이디: " + selectedProjectId);
     }, [selectedProjectId]);
+
+    // 생성하러가기 버튼 클릭 유무 확인
+    useEffect(() => {
+        console.log("생성하러가기 버튼 클릭 유무: " + isClickCreateBtn);
+    }, [isClickCreateBtn]);
+
 
     return (
         <>
@@ -72,7 +79,7 @@ function Diagram() {
                         )}
                     </S.DiagramTopBarContainer>
                     <S.DiagramContainer>
-                        {diagramType && isSelectedProject ? (
+                        {diagramType && isClickCreateBtn ? (
                             <>
                                 {location.pathname === '/diagram/class' && (
                                     <ClassDiagram selectedProjectId={selectedProjectId} />
@@ -138,6 +145,7 @@ function Diagram() {
                     closeModal={() => setIsModalOpen(false)}
                     onSelectProject={() => setIsSelectedProject(true)} // 상태 업데이트 핸들러 전달
                     onSelectedProjectId={(id) => setSelectedProjectId(id)}
+                    onClickCreateBtn={() => setIsClickCreateBtn(true)}
                 />
             )}
 

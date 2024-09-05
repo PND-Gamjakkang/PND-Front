@@ -15,73 +15,28 @@ function ClassDiagram({ selectedProjectId }) {
     const [methods, setMethods] = useState('');
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
-    const [viewCode, setViewCode] = useState(`
-        classDiagram
-            class User {
-                +String id
-                +String name
-                +String email
-                +String password
-                +create()
-                +login()
-            }
-            
-            class Post {
-                +String id
-                +String title
-                +String content
-                +DateTime createdAt
-                +DateTime updatedAt
-                +createPost()
-                +editPost()
-                +deletePost()
-            }
-            
-            class Comment {
-                +String id
-                +String content
-                +DateTime createdAt
-                +DateTime updatedAt
-                +createComment()
-                +editComment()
-                +deleteComment()
-            }
-        
-            class AuthService {
-                +login(user: User)
-                +register(user: User)
-                +logout()
-            }
-        
-            class PostService {
-                +createPost(post: Post)
-                +editPost(post: Post)
-                +deletePost(post: Post)
-                +getPosts()
-            }
-        
-            class CommentService {
-                +createComment(comment: Comment)
-                +editComment(comment: Comment)
-                +deleteComment(comment: Comment)
-                +getComments(post: Post)
-            }
-        
-            User --> Post : "creates"
-            Post --> Comment : "has"
-            User --> Comment : "creates"
-            AuthService --> User : "manages"
-            PostService --> Post : "manages"
-            CommentService --> Comment : "manages"
-    `);
+    const [viewCode, setViewCode] = useState(null);
     // Mermaid 초기화
     // useEffect(() => {
     //     mermaid.initialize({ startOnLoad: false });
     // }, []);
+
+
+
+
+    // 코드가 변화될때마다 실행
+    useEffect(() => {
+        if (isClickGenerateAiBtn) {
+            setIsClickGetnerateAiBtn(false);  // 다이어그램 생성 후 상태를 다시 false로 변경
+        }
+    }, [isClickGenerateAiBtn]);
+
+    // Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {
+            console.log("Rendering diagram with viewCode:", viewCode); // 로그 추가
             const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && viewCode.trim()) {
+            if (diagramContainer && viewCode && viewCode.trim()) {
                 diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
                 try {
                     mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
@@ -92,16 +47,7 @@ function ClassDiagram({ selectedProjectId }) {
         };
 
         renderDiagram();
-    }, [viewCode]);
-
-
-
-    // 코드가 변화될때마다 실행
-    useEffect(() => {
-        if (isClickGenerateAiBtn) {
-            setIsClickGetnerateAiBtn(false);  // 다이어그램 생성 후 상태를 다시 false로 변경
-        }
-    }, [isClickGenerateAiBtn]);
+    }, [viewCode]); // viewCode가 변할 때마다 실행
 
 
     // 추가 버튼 핸들러
@@ -187,8 +133,67 @@ function ClassDiagram({ selectedProjectId }) {
             const response = await authInstance.patch(`api/pnd/diagram/class-gpt`, requestBody);
 
             if (response.status === 200) {
+                let data = response.data.data;
+                console.log('수정되기 전 GPT 분석 결과:', data);
+                // 앞쪽 백틱 두 개 제거
+                if (data.startsWith('```')) {
+                    data = data.substring(3);
+                }
+
+                // 뒤쪽 백틱 두 개 제거
+                if (data.endsWith('```')) {
+                    data = data.slice(0, -3);
+                }
+                // 모든 ->를 -->로 변경
+                data = data.replace(/->/g, '-->');
+
+                // 관계와 클래스 정의를 분리하고 각 줄을 트림하여 공백을 제거합니다.
+                let lines = data.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+                // 'classDiagram' 키워드를 추가
+                let formattedCode = '\n';
+
+                // 클래스 관계와 정의를 구분하는 패턴
+                const relationPattern = /(.*?) -> (.*?)/;
+                const classPattern = /class (.*?) \{/;
+
+                // 관계와 클래스 정의를 분리
+                lines.forEach(line => {
+                    if (relationPattern.test(line)) {
+                        formattedCode += `${line}\n`;
+                    } else if (classPattern.test(line)) {
+                        formattedCode += `\n${line}\n`;
+                    } else {
+                        formattedCode += `  ${line}\n`;
+                    }
+                });
+
+                console.log('수정된 GPT 분석 결과:', formattedCode);
+
+                setViewCode(formattedCode);
+            } else {
+                console.error("HTTP error: ", response.status);
+            }
+        } catch (err) {
+            console.log("API 통신 중 오류 발생:", err);
+        }
+    };
+    // 선택한 레포지토리 mermaid 코드 가져오기
+    const fetchClassMermaid = async () => {
+        try {
+            const response = await authInstance.get(`api/pnd/diagram/class`, {
+                params: {
+                    repoId: selectedProjectId, // 요청에 쿼리 매개변수로 repoId 전달
+                },
+            });
+            if (response.status === 200) {
                 const data = response.data.data;
-                console.log('GPT 분석 결과:', data);
+                if (data) {
+                    console.log('Mermaid 코드:', data);
+                } else {
+                    console.log('Mermaid 코드가 존재하지 않음. GPT 분석 시작...');
+                    await fetchGpt(); // Mermaid 코드가 없으면 GPT 분석 시작
+                }
             } else {
                 console.error("HTTP error: ", response.status);
             }
@@ -201,6 +206,7 @@ function ClassDiagram({ selectedProjectId }) {
     useEffect(() => {
         if (selectedProjectId) {
             //fetchGpt();
+            fetchClassMermaid();
         }
     }, [selectedProjectId]);
 
@@ -208,6 +214,7 @@ function ClassDiagram({ selectedProjectId }) {
     const generateDiagram = () => {
         setIsClickGetnerateAiBtn(true);
     };
+
 
     return (
         <S.ClassLayout>
