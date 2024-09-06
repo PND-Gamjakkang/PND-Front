@@ -15,7 +15,7 @@ function ClassDiagram({ selectedProjectId }) {
     const [methods, setMethods] = useState('');
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
-    const [viewCode, setViewCode] = useState(null);
+    const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
 
     // 코드가 변화될때마다 실행
     useEffect(() => {
@@ -40,8 +40,8 @@ function ClassDiagram({ selectedProjectId }) {
         };
 
         renderDiagram();
+        fetchEditClassCode(viewCode);
     }, [viewCode]); // viewCode가 변할 때마다 실행
-
 
     // 추가 버튼 핸들러
     const handleAddButton = () => {
@@ -94,15 +94,6 @@ function ClassDiagram({ selectedProjectId }) {
         handleDeleteClass();
     }, [selectedClass]);
 
-    // useEffect(() => {
-    //     // `viewCode` 상태가 업데이트된 후 로그를 확인합니다.
-    //     console.log("Updated viewCode:", viewCode);
-    //     mermaid.initialize({ startOnLoad: true });
-    //     mermaid.contentLoaded();
-    // }, [viewCode]);
-
-
-
     // 유저토큰
     const userToken = localStorage.getItem('token');
 
@@ -118,6 +109,31 @@ function ClassDiagram({ selectedProjectId }) {
             'Authorization': `Bearer ${userToken}`,
         },
     });
+    // viewCode가 수정될 때 호출되는 함수
+    const handleViewCodeSave = () => {
+        console.log("ViewCode가 수정되었습니다!\n"+ viewCode);
+        //fetchEditClassCode(viewCode); // 코드 수정 API 호출
+    };
+    const fetchEditClassCode = async (updatedCode) => {
+        try {
+            const requestBody = {
+                repoId: selectedProjectId,
+                script: updatedCode
+            };
+            const response = await authInstance.patch(`api/pnd/diagram/class`, requestBody);
+            if (response.status === 200) {
+                const updatedData = response.data.data; // 수정된 데이터를 변수에 저장
+                console.log('코드 수정 완료', updatedData);
+                //setViewCode(updatedData); // API 호출이 성공하면 viewCode를 업데이트
+            } else {
+                console.error("HTTP error: ", response.status);
+            }
+        } catch (err) {
+            console.log("API 통신 중 오류 발생:", err);
+        }
+    };
+    
+
 
     // 레포지토리 gpt 분석 API 통신
     const fetchGpt = async () => {
@@ -171,6 +187,7 @@ function ClassDiagram({ selectedProjectId }) {
             console.log("API 통신 중 오류 발생:", err);
         }
     };
+
     // 선택한 레포지토리 mermaid 코드 가져오기
     const fetchClassMermaid = async () => {
         try {
@@ -183,6 +200,7 @@ function ClassDiagram({ selectedProjectId }) {
                 const data = response.data.data;
                 if (data) {
                     console.log('Mermaid 코드:', data);
+                    setViewCode(data);  // 가져온 Mermaid 코드를 설정
                 } else {
                     console.log('Mermaid 코드가 존재하지 않음. GPT 분석 시작...');
                     await fetchGpt(); // Mermaid 코드가 없으면 GPT 분석 시작
@@ -198,7 +216,6 @@ function ClassDiagram({ selectedProjectId }) {
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId) {
-            //fetchGpt();
             fetchClassMermaid();
         }
     }, [selectedProjectId]);
@@ -262,6 +279,7 @@ function ClassDiagram({ selectedProjectId }) {
                                 key={codeKey}
                                 viewCode={viewCode}
                                 setViewCode={setViewCode}
+                                onSave={handleViewCodeSave}
                             />
                         )}
                     </S.ClassViewCode>
