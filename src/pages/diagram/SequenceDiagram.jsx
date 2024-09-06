@@ -8,6 +8,7 @@ function SequenceDiagram({ selectedProjectId }) {
     const [codeKey, setCodeKey] = useState(0);
     const [sequenceCode, setSequenceCode] = useState(null); // 시퀀스 다이어그램 코드 담는 변수
 
+
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {

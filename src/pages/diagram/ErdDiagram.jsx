@@ -8,6 +8,74 @@ import ViewCode from '../../components/Diagram/ViewCode.jsx';
 function ErdDiagram({ selectedProjectId }) {
     const [codeKey, setCodeKey] = useState(0);
     const [erdCode, setErdCode] = useState(null);
+    const [tableName, setTableName] = useState(null);
+
+    // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
+    useEffect(() => {
+        const renderDiagram = () => {
+            console.log("Rendering diagram with viewCode:", erdCode);
+            const diagramContainer = document.getElementById("diagram-container");
+            if (diagramContainer && erdCode && erdCode.trim()) {
+                diagramContainer.innerHTML = `<div class="mermaid">${erdCode}</div>`;
+                try {
+                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                } catch (error) {
+                    console.error("Mermaid rendering error:", error);
+                }
+            }
+        };
+
+        // Mermaid 렌더링을 약간 지연시켜 DOM이 준비된 후 실행
+        setTimeout(renderDiagram, 0);
+        //fetchEditClassCode(sequenceCode);
+    }, [erdCode]);
+
+
+    const handleErdClick = (event) => {
+        let target = event.target;
+
+        // 부모 요소를 탐색하면서 텍스트가 있는 요소를 찾음
+        while (target && !target.textContent.trim() && target.parentNode) {
+            target = target.parentNode;
+        }
+
+        // 텍스트 추출
+        const tableName = target ? target.textContent.trim() : null;
+
+        if (tableName) {
+            setTableName(tableName);
+            console.log("선택한 테이블 이름: ", tableName);
+        } else {
+            console.log("클릭된 요소에서 테이블 이름을 찾을 수 없습니다.");
+        }
+    };
+
+    const handleDeleteErd = () => {
+        if (tableName && erdCode) {
+            // ERD 문법에 맞게 테이블 정의를 찾고 제거하는 정규 표현식
+            const tableRegex = new RegExp(`${tableName}\\s*{[^}]*}`, 'g');
+            const updatedCode = erdCode.replace(tableRegex, '');
+    
+            // 상태 업데이트 및 다이어그램 재렌더링
+            setErdCode(updatedCode);
+            setTableName(null);
+            setCodeKey(prevKey => prevKey + 1);
+        } else {
+            console.log("제거할 테이블 이름이 없거나 ERD 코드가 없습니다.");
+        }
+    };
+        
+    // 선택된 클래스 이름 알기
+    useEffect(() => {
+        //console.log("선택한 테이블 이름: " + tableName);
+        handleDeleteErd();
+    }, [tableName]);
+
+    // viewCode가 수정될 때 호출되는 함수
+    const handleViewCodeSave = () => {
+        console.log("ViewCode가 수정되었습니다!\n" + erdCode);
+        //fetchEditClassCode(viewCode); // 코드 수정 API 호출
+    };
 
     // Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
@@ -134,7 +202,7 @@ function ErdDiagram({ selectedProjectId }) {
                         <S.DiagramTypeTitleText>ERD DIAGRAM</S.DiagramTypeTitleText>
                     </S.ErdTitleTextBox>
                     <S.ErdEditButtons>
-                        <S.RemoveComponentBtn >컴포넌트 삭제</S.RemoveComponentBtn>
+                        <S.RemoveComponentBtn onClick={handleDeleteErd}>컴포넌트 삭제</S.RemoveComponentBtn>
                         <S.Divider />
                         <S.RemoveAllBtn>전체 삭제</S.RemoveAllBtn>
                         <S.Divider />
@@ -142,7 +210,7 @@ function ErdDiagram({ selectedProjectId }) {
                     </S.ErdEditButtons>
                 </S.ErdPageLeftTop>
                 <S.ErdResultBox>
-                    <div id="diagram-container">
+                    <div id="diagram-container" onClick={(e) => handleErdClick(e)}>
                         {/* Mermaid 다이어그램이 이곳에 렌더링됩니다 */}
                     </div>
                 </S.ErdResultBox>
@@ -155,6 +223,7 @@ function ErdDiagram({ selectedProjectId }) {
                             key={codeKey}
                             viewCode={erdCode}
                             setViewCode={setErdCode}
+                            onSave={handleViewCodeSave}
                         />
                     )}
                 </S.ErdCodeBox>
