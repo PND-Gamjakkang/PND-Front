@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 // 컴포넌트
 import SaveBtn from '../../components/Common/SaveButton.jsx';
 import RepoSettingModal from '../../components/Common/RepoSettingModal.jsx';
+import profileSvg from '../../assets/profile-south-season.svg';
+
 
 
 function Report() {
@@ -26,7 +28,9 @@ function Report() {
         console.log('Start Date:', startDate);
         console.log('End Date:', endDate);
 
-    },[isClickCreateBtn]);
+
+
+    }, [isClickCreateBtn]);
 
     return (
         <>
@@ -37,7 +41,13 @@ function Report() {
                         <SaveBtn />
                     </S.ReportTopBarContainer>
                     <S.ReportContainer>
-
+                        <S.ReportLeft>
+                            <S.Github3D>
+                                {isClickCreateBtn && (
+                                    <S.Github3DImg src={profileSvg} alt="3D GitHub Contribution Chart" />
+                                )}
+                            </S.Github3D>
+                        </S.ReportLeft>
 
                     </S.ReportContainer>
 
@@ -54,7 +64,7 @@ function Report() {
                         onTitleChange={(newTitle) => setTitle(newTitle)}
                         onImageChange={(newImage) => setImage(newImage)}
                         onDateChange={(start, end) => { setStartDate(start); setEndDate(end); }}
-    
+
                     />
                 )
             }

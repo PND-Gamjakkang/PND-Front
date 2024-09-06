@@ -35,8 +35,22 @@ export const ReportContainer = styled.div`
   height: 100%; /* 부모 요소의 전체 높이 */
   background-color: white;
   padding: 0 2.5vh;
+  display:flex;
 `;
 
 export const ReportTitleText = styled.div`
 
+`;
+
+export const ReportLeft = styled.div`
+width: 50%;
+height: 100vh;
+
+`;
+
+export const Github3D = styled.div`
+width: 100%;
+`;
+export const Github3DImg = styled.img`
+width: 100%;
 `;
