@@ -111,9 +111,10 @@ function ClassDiagram({ selectedProjectId }) {
     });
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
-        console.log("ViewCode가 수정되었습니다!\n"+ viewCode);
+        console.log("ViewCode가 수정되었습니다!\n" + viewCode);
         //fetchEditClassCode(viewCode); // 코드 수정 API 호출
     };
+    
     const fetchEditClassCode = async (updatedCode) => {
         try {
             const requestBody = {

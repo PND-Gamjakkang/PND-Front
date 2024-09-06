@@ -8,6 +8,31 @@ function SequenceDiagram({ selectedProjectId }) {
     const [codeKey, setCodeKey] = useState(0);
     const [sequenceCode, setSequenceCode] = useState(null); // 시퀀스 다이어그램 코드 담는 변수
 
+    // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
+    useEffect(() => {
+        const renderDiagram = () => {
+            console.log("Rendering diagram with viewCode:", sequenceCode);
+            const diagramContainer = document.getElementById("diagram-container");
+            if (diagramContainer && sequenceCode && sequenceCode.trim()) {
+                diagramContainer.innerHTML = `<div class="mermaid">${sequenceCode}</div>`;
+                try {
+                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                } catch (error) {
+                    console.error("Mermaid rendering error:", error);
+                }
+            }
+        };
+
+        // Mermaid 렌더링을 약간 지연시켜 DOM이 준비된 후 실행
+        setTimeout(renderDiagram, 0);
+        //fetchEditClassCode(sequenceCode);
+    }, [sequenceCode]);
+
+    // viewCode가 수정될 때 호출되는 함수
+    const handleViewCodeSave = () => {
+        console.log("ViewCode가 수정되었습니다!\n" + sequenceCode);
+        //fetchEditClassCode(viewCode); // 코드 수정 API 호출
+    };
 
     // Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
@@ -139,6 +164,7 @@ function SequenceDiagram({ selectedProjectId }) {
                         key={codeKey}
                         viewCode={sequenceCode}
                         setViewCode={setSequenceCode}
+                        onSave={handleViewCodeSave}
                     />
                 )}
             </S.SequenceCodeBox>
