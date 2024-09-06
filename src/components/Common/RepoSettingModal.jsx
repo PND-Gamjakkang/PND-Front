@@ -17,17 +17,22 @@ import UserRepo from '../retro/UserRepo';
 import SelectRepo from './SelectRepo';
 import InputRepoInfo from './InputRepoInfo';
 
-function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, onClickCreateBtn }) {
+function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, onClickCreateBtn, onTitleChange, onImageChange, onDateChange  }) {
   // const [user, setUser] = useState([]); // 사용자 정보
   // const [repos, setRepos] = useState([]);
 
   const [modalOpen, setModalOpen] = useState(true);
   const [isBaseInfoSet, setIsBaseInfoSet] = useState(false); // 마이프로젝트에 이미 있는 항목을 선택했는지 안했는지의 상태
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handleCancleBtn = () => {
     setModalOpen(!modalOpen);
     closeModal();
   };
+
   const handleProjectSelect = (projectId) => {
     console.log("handleProjectSelect에서 선택한 projectId: ", projectId);
     onSelectProject();
@@ -38,6 +43,19 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
   const handleClickCreateBtn = () => {
     onClickCreateBtn();
   }
+
+  const handleTitleChange = (newTitle) => {
+    setTitle(newTitle);
+  };
+
+  const handleImageChange = (newImage) => {
+    setImage(newImage);
+  };
+
+  const handleDateChange = (start, end) => {
+    setStartDate(start);
+    setEndDate(end);
+  };
  
   useEffect(() => {
     console.log("isBaseInfoset: " + isBaseInfoSet);
@@ -99,7 +117,10 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
         {!isBaseInfoSet ? (
           <SwiperSlide>
             <InputRepoInfo 
-            onClickCreateBtn={handleClickCreateBtn}
+             onClickCreateBtn={onClickCreateBtn}
+             onTitleChange={onTitleChange}
+             onImageChange={onImageChange}
+             onDateChange={onDateChange}
             />
           </SwiperSlide>
         ) : (
