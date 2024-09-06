@@ -15,6 +15,7 @@ import RepoSettingModal from '../../components/Common/RepoSettingModal.jsx';
 // diagram type page
 import ClassDiagram from './ClassDiagram.jsx';
 import SequenceDiagram from './SequenceDiagram.jsx';
+import ErdDiagram from './ErdDiagram.jsx';
 
 function Diagram() {
     const [diagramType, setDiagramType] = useState(''); // 다이어그램 종류 담는 변수
@@ -86,6 +87,9 @@ function Diagram() {
                                 )}
                                 {location.pathname === '/diagram/sequence' && (
                                     <SequenceDiagram selectedProjectId={selectedProjectId} />
+                                )}
+                                {location.pathname === '/diagram/erd' && (
+                                    <ErdDiagram selectedProjectId={selectedProjectId} />
                                 )}
                             </>
                         ) : (

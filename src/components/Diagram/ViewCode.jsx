@@ -1,5 +1,5 @@
 import * as S from './DiagramStyle'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function ViewCode({ viewCode, setViewCode }) {
     const [editedCode, setEditedCode] = useState(viewCode);
@@ -13,6 +13,10 @@ function ViewCode({ viewCode, setViewCode }) {
     const handleSave = () => {
         setViewCode(editedCode);
     };
+
+    useEffect(() => {
+        console.log("editedCode: " + editedCode);
+    }, [editedCode]);
 
     return (
         <S.ViewCodeContainer>

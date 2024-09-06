@@ -120,20 +120,24 @@ width: 26vw;
 position:relative;
 `;
 
-export const ClassTitleText = styled.div`
+export const ClassTitleTextBox = styled.div`
+width: 100%;
+margin-top: 10px;
+display:flex;
+flex-direction:column;
+justify-content: center;
+align-items: center;
+`;
+
+export const DiagramTypeTitleText = styled.div`
 color: #181077;
-text-align: center;
+
 font-family: Inter;
 font-size: 1.2rem;
 font-style: normal;
 font-weight: 600;
 line-height: 1px; /* 5% */
 text-transform: uppercase;
-margin-top: 10px;
-display:flex;
-flex-direction:column;
-justify-content: center;
-align-items: center;
 
 `;
 
@@ -228,12 +232,16 @@ height: 100%;
 display: flex;
 gap: 1.5vw;
 margin-top: 10px;
+`;
 
+export const SequencePageLeft = styled.div`
+width: 50%;
+height: 80%;
 `;
 
 export const SequenceResultBox = styled.div`
-width: 50%;
-height: 80%;
+width: 100%;
+height: 100%;
 border-radius: 10px;
 background: #F8F8FF;
 `;
@@ -244,6 +252,81 @@ border-radius: 10px;
 background: #000;
 `;
 
+export const GenerateAiSequenceBtn = styled.button`
+display: flex;
+height: 40px;
+color: white;
+justify-content: center;
+align-items: center;
+gap: 10px;
+flex-shrink: 0;
+padding: 0 5vw;
+border-radius: 5px;
+background: #36CDFF;
+`;
+
+/* ERD 다이어그램 페이지 */
+export const ErdLayout = styled.div`
+width: 100%;
+height: 100%;
+display:flex;
+gap: 1.5vw;
+margin: 2.5vh 0;
+`;
+
+export const ErdPageLeft = styled.div`
+width: 50%;
+height: 100%;
+`;
+
+export const ErdPageLeftTop = styled.div`
+width: 100%;
+height: 8%;
+display:flex;
+
+`;
+
+export const ErdTitleTextBox = styled.div`
+width: 40%;
+height: 100%;
+display:flex;
+flex-direction:column;
+justify-content: center;
+`;
+
+export const ErdEditButtons = styled.div`
+width:100%;
+height: 100%;
+display: flex;
+align-items: center;
+flex-shrink: 0;
+border-radius: 10px;
+background: #F8F8FF;
+flex: 1;
+text-align: center;
+font-size: 0.8rem;
+margin-top: 
 
 
+`;
 
+export const ErdResultBox = styled.div`
+width: 100%;
+height: 100vh;
+border-radius: 10px;
+border: 1px solid #B7B6FF;
+background: #FFF;
+margin-top: 1.5vh;
+`;
+
+export const ErdPageRight = styled.div`
+width: 50%;
+
+`;
+
+export const ErdCodeBox = styled.div`
+width: 100%;
+height: 50%;
+border-radius: 10px;
+background: #000;
+`;

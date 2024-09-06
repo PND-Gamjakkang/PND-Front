@@ -16,13 +16,6 @@ function ClassDiagram({ selectedProjectId }) {
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
     const [viewCode, setViewCode] = useState(null);
-    // Mermaid 초기화
-    // useEffect(() => {
-    //     mermaid.initialize({ startOnLoad: false });
-    // }, []);
-
-
-
 
     // 코드가 변화될때마다 실행
     useEffect(() => {
@@ -219,7 +212,9 @@ function ClassDiagram({ selectedProjectId }) {
     return (
         <S.ClassLayout>
             <S.ClassLeft>
-                <S.ClassTitleText>CLASS DIAGRAM</S.ClassTitleText>
+                <S.ClassTitleTextBox>
+                    <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>
+                </S.ClassTitleTextBox>
                 <S.ClassEditButtons>
                     <S.RemoveComponentBtn onClick={handleDeleteClass}>컴포넌트 삭제</S.RemoveComponentBtn>
                     <S.Divider />
@@ -234,7 +229,9 @@ function ClassDiagram({ selectedProjectId }) {
                 </S.ClassDiagramResultBox>
             </S.ClassLeft>
             <S.ClassMid>
-                <S.ClassTitleText>EDIT DIAGRAM</S.ClassTitleText>
+                <S.ClassTitleTextBox>
+                    <S.DiagramTypeTitleText>EDIT DIAGRAM</S.DiagramTypeTitleText>
+                </S.ClassTitleTextBox>
                 <S.EditDiagramContainer>
                     <S.ClassAddButtonBox>
                         <S.AddButton onClick={handleAddButton}>추가</S.AddButton>
@@ -255,7 +252,9 @@ function ClassDiagram({ selectedProjectId }) {
                 </S.EditDiagramContainer>
             </S.ClassMid>
             <S.ClassRight>
-                <S.ClassTitleText>VIEW CODE</S.ClassTitleText>
+                <S.ClassTitleTextBox>
+                    <S.DiagramTypeTitleText>VIEW CODE</S.DiagramTypeTitleText>
+                </S.ClassTitleTextBox>
                 <S.ClassRightContainer>
                     <S.ClassViewCode>
                         {viewCode && (
