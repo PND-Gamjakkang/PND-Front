@@ -279,9 +279,7 @@ function Retro() {
                             <div className="mermaid">{mermaidGraph1}</div>
                         </S.ReportView>
                     </S.ReportContainer>
-                    </>
-
-
+                    </>             
                 )}
         
          </S.RetroLayout>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 import {PreviewLabel,
   HiddenFileInput,
   Icon,
@@ -9,7 +10,8 @@ import {PreviewLabel,
   PreviewInfo,
   PreviewImage,
   AddImageButton} from './FileUploadDNDStyle';
-  import {Title, Description, ModalCloseButton} from './FileUploadStyle';
+import {Title, Description, ModalCloseButton,Logo} from './FileUploadStyle';
+import logo from '../../../assets/images/image-logo.png';
 
 const FileInfo = ({ uploadedInfo }) => (
   <PreviewInfo>
@@ -17,16 +19,8 @@ const FileInfo = ({ uploadedInfo }) => (
   </PreviewInfo>
 );
 
-const Logo = () => (
-  <Icon x="0px" y="0px" viewBox="0 0 24 24">
-    <path fill="transparent" d="M0,0h24v24H0V0z" />
-    <path
-      fill="#000"
-      d="M20.5,5.2l-1.4-1.7C18.9,3.2,18.5,3,18,3H6C5.5,3,5.1,3.2,4.8,3.5L3.5,5.2C3.2,5.6,3,6,3,6.5V19c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V6.5C21,6,20.8,5.6,20.5,5.2z M12,17.5L6.5,12H10v-2h4v2h3.5L12,17.5z M5.1,5l0.8-1h12l0.9,1H5.1z"
-    />
-  </Icon>
-);
 
+//DND
 const UploadBox = ({ onImageAdd }) => {
   const [isActive, setActive] = useState(false);
   const [uploadedInfo, setUploadedInfo] = useState(null);
@@ -88,7 +82,7 @@ const UploadBox = ({ onImageAdd }) => {
         onDrop={handleDrop}
       >
         <HiddenFileInput type="file" onChange={handleUpload} />
-        <Logo />
+        <Logo src={logo} style={{ marginBottom: '20px' }} />
         <PreviewMessage>클릭 혹은 파일을 이곳에 드롭하세요.</PreviewMessage>
         <PreviewDescription>파일당 최대 3MB</PreviewDescription>
       </PreviewLabel>
@@ -121,8 +115,8 @@ const FileUpload = ({ onImageAdd, closeModal }) => {
       borderRadius: '2.04vh', /* 22px out of 1080px */
       padding: '1.85vh', /* 20px out of 1080px */
       position: 'relative',
-      width: '33.18vw', /* 637px out of 1920px */
-      height: '78.7vh', /* 850px out of 1080px */
+      width: '33.33vw', /* 약 640px out of 1920px */
+      height: '64.81vh', /* 약 700px out of 1080px */
       maxWidth: '90%', /* Adjust max width to make it more responsive */
       maxHeight: '90%', /* Adjust max height to make it more responsive */
       display: 'flex',
@@ -130,7 +124,10 @@ const FileUpload = ({ onImageAdd, closeModal }) => {
     },
   }}
 >
-      <Title>Add<br />Image</Title>
+      <Helmet>
+        <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+      </Helmet>
+      <Title>이미지 추가하기</Title>
       <Description>원하는 이미지를 추가할 수 있습니다.</Description>
       <div>
         <UploadBox onImageAdd={onImageAdd} />

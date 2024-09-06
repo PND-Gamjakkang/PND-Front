@@ -3,55 +3,55 @@ import styled from "styled-components"
 export const CreateBadgeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.56vh;
+  gap: 15px;
 `;
 
 export const InputGroup = styled.div`
   display: flex;
   align-items: center; 
-  margin-bottom: 1.56vh;
+  margin-bottom: 15px;
 `;
 
 export const Label = styled.label`
-  margin-right: 3.13vh; /* label과 input 사이의 간격 */
-  font-size: 2.08vh;
+  margin-right: 30px; /* label과 input 사이의 간격 */
+  font-size: 20px;
   
   display: flex;
-  width: 5.36vw;
-  height: 2.87vh;
+  width: 103px;
+  height: 31px;
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
   color: #000;
 
   font-family: 'Inter', sans-serif;
-  font-size: 2.22vh;
+  font-size: 24px;
   font-style: normal;
   font-weight: 900;
-  line-height: 3.33vh; /* 160% */
+  line-height: 32px; /* 160% */
+  
 `;
 
 export const Input = styled.input`
   flex: 1;
-  padding: 0.83vh;
-  font-size: 2.22vh;
+  padding: 8px;
+  font-size: 24px;
   border: 1px solid #ccc;
-  border-radius: 0.52vh;
+  border-radius: 5px;
 `;
-
 export const BadgeCreateButton = styled.button`
-  width: 23.13vw;
-  height: 6.67vh;
+  width: 444px;
+  height: 72px;
   flex-shrink: 0;
   background-color: #5b59fc;
-  border: 0.1vh solid #FFF;
+  border: 1px solid #FFF;
   font-family: 'Inter', sans-serif;
-  font-size: 2.22vh;
+  font-size: 24px;
   font-style: normal;
-  color: white;
+  color:white;
   font-weight: 600;
-  line-height: 3.33vh;
-  border-radius: 2.08vh;
+  line-height: 36px;
+  border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 
@@ -62,23 +62,23 @@ export const BadgeCreateButton = styled.button`
 
   display: block;
   margin: auto; 
-  margin-bottom: 8.13vh;
+  margin-bottom: 78px;
 `;
 
 export const BadgePreview = styled.div`
-  display: flex;
-  align-items: center; 
-  margin-bottom: 1.56vh;
-
-  img {
-    width: 10.42vw;
-    height: 4.63vh;
-  }
+    display: flex;
+    align-items: center; 
+    margin-bottom: 15px;
+    img{
+        width:200px;
+        height:50px;
+    }
+    
 `;
 
 export const PreviewTitle = styled.h2`
-  font-size: 1.87vh;
-  margin-bottom: 1.04vh;
+  font-size: 18px;
+  margin-bottom: 10px;
 `;
 
 export const PreviewImage = styled.img`
