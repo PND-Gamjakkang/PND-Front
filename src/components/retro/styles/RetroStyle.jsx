@@ -90,18 +90,27 @@ margin: 3vh 0vh 1.5vh;
 
 // UserRepo.jsx ----------------------------------------------------------
 export const UserRepoContainer = styled.div`
-width: 300px;
+width: 100%;
 height: 130px; 
-border: 4px solid ${props => props.isSelected ? 'blue' : 'black'};
+border: 1px solid ${props => props.isSelected ? '#36CDFF;' : '#D9D9FF'};
 color: black;
 margin-top: 3px;
 display: flex;
 flex-direction: column;
-padding: 1px;
+padding: 10px;
 gap: 3px;
 cursor: pointer;
 background-color: white;
+position:relative;
+space-between: center;
+
 `;
+
+export const RepoDetailLeft = styled.div`
+display:flex;
+gap: 5px;
+`;
+
 export const UserImgAndName = styled.div`
 display: flex;
 gap: 0.5vw;
@@ -139,15 +148,30 @@ export const RepoDescription = styled.div`
 
 export const RepoDetails = styled.div`
 display: flex;
-gap: 5px;
+gap: 10px;
+width; 100%;
+justify-content: space-between;
+`;
+
+export const RepoState = styled.div`
+color: black;
+text-align: center;
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: 25.314px; /* 180.814% */
+
+
 `;
 
 
 export const RepoInfos = styled.div`
+
 display:flex;
 gap: 5px;
 align-items: center;
-justify-content: center;
+
 `;
 
 export const StarImg = styled.img`
@@ -168,9 +192,9 @@ margin-top:5px;
 `;
 
 export const langaugeColor = styled.div`
-width: 15px;
-height: 15px;
-border-radius: 10px;
+width: 10px;
+height: 10px;
+border-radius: 5px;
 background-color:orange;
 margin-top: 5px;
 `;

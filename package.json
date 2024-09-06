@@ -26,6 +26,7 @@
     "rehype-react": "^8.0.0",
     "remark-gfm": "^4.0.0",
     "styled-components": "^6.1.12",
+    "swiper": "^11.1.12",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

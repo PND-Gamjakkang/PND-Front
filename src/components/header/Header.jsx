@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as S from './HeaderStyle.jsx';
-import logoSrc from '../../assets/images/header-logo.png';
+import logoSrc from '../../assets/images/main-logo.png';
+
 function Header() {
     const location = useLocation();
     return (
@@ -36,10 +37,9 @@ function Header() {
                     </S.NavLink>
                 </Link>
             </S.NavLinks>
-            <S.Gap/>
                 <Link to='/login'>
                 <S.NavLink className={location.pathname ==='/login' ? 'active' :  ''}>
-                로그인 | 회원가입
+                로그인
                 </S.NavLink>
                 </Link>
         </S.HeaderLayout>

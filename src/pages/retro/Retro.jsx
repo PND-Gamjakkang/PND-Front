@@ -93,6 +93,7 @@ function Retro() {
         setSelectedRepoId(id);
         setSelectedRepoName(title);
     }
+
     // 캘린더
     const handleDateChange = (start, end) => {
         setStartDate(start);
@@ -216,13 +217,11 @@ function Retro() {
                     console.log("상세조회: ", response.data);
                     const mermaidString = response.data.data.classDiagram;
                     //const formattedString = `'${mermaidString}'`;
-                    //setMermaidGraph1(mermaidString);
-                    
+                    //setMermaidGraph1(mermaidString); 
                     mermaid.contentLoaded();
                 }).catch((err) => {
                     console.log("프로젝트 상세조회 오류: ", err);
                 });
-    
             }).catch((err) => {
                 console.log("postDiagram error", err);
             });
@@ -250,15 +249,13 @@ function Retro() {
                     user={user}
                     onSelectedRepo={handleRepoChange}
                 />
-            )}            
-            
+            )}
                 {/* 리포트 생성하기 버튼 누르기 전에는 초기 화면을 보여준다 */}
                 {!isClickCreateBtn ? (
                     <>
                     <S.RetroContainer>
                         <S.InitialView>
                             <S.InitialViewTitle>&lt;- 회고 리포트를 작성할 프로젝트를 선택해 주세요.</S.InitialViewTitle>
-
                             {currentStep >= 2 && (
                                 <S.InitialView>
                                     {currentStep >= 2 && <MyCalender onNext={handleNextStep} onDateChange={handleDateChange} />}
@@ -279,14 +276,12 @@ function Retro() {
                             <div className="mermaid">{mermaidGraph1}</div>
                         </S.ReportView>
                     </S.ReportContainer>
+
                     </>             
                 )}
         
          </S.RetroLayout>
     )
-
-
-
 };
 
 

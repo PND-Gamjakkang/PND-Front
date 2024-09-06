@@ -5,6 +5,9 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalStyle = createGlobalStyle`
   :root {
     --vh: 100%;
+    width: 1920px;
+    font-size: 16px;
+
    }
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, 
@@ -20,8 +23,6 @@ export const GlobalStyle = createGlobalStyle`
   main, menu, nav, output, ruby, section, summary,
   time, mark, audio, video {
 
-
-    
     margin: 0;
     border: 0;
     padding: 0;
@@ -37,6 +38,8 @@ export const GlobalStyle = createGlobalStyle`
   body {
     touch-action: manipulation;
     line-height: 1;
+    overflow-y: hidden;
+    overflow-x: hidden;
     // 가운데 정렬
   }
   menu, ol, ul {
