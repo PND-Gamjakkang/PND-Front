@@ -50,7 +50,7 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
         <TopLangsButton onClick={() => handleButtonClick('Lan')}>Top Languages</TopLangsButton>
         <BadgeButton onClick={() => handleButtonClick('Badge')}>Badge</BadgeButton>
         <FileUploadButton onClick={() => handleButtonClick('Image')}>Image</FileUploadButton>
-      </Toolbar2>
+      </Toolbar2>x
       <Toolbar>
         <UndoButton onClick={()=>handleButtonClick('undo')}>↺</UndoButton>
         <RedoButton onClick={()=>handleButtonClick('redo')}>↻</RedoButton>

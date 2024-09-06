@@ -11,9 +11,18 @@ import Team from './pages/Team/Team';
 import LoginModal from './components/Login/LoginModal';
 import Report from './pages/report/Report';
 import Diagram from './pages/diagram/Diagram';
+
 import ClassDiagram from './pages/diagram/ClassDiagram';
 import SequenceDiagram from './pages/diagram/SequenceDiagram';
 import ErdDiagram from './pages/diagram/ErdDiagram';
+
+import MyPageREADME from './pages/myproject/MyPageREADME/MyPageREADME';
+import MyPageClassDiagram from './pages/myproject/MyPageClassDiagram/MyPageClassDiagram';
+import MyPageDocument from './pages/myproject/MyPageDocument/MyPageDocument';
+import MyPageERD from './pages/myproject/MyPageERD/MyPageERD';
+import MyPageGithubReport from './pages/myproject/MyPageGithubReport/MyPageGithubReport';
+import MyPageSequenceDiagram from './pages/myproject/MyPageSequenceDiagram/MyPageSequenceDiagram';
+
 
 const router = createBrowserRouter([
     {
@@ -66,6 +75,31 @@ const router = createBrowserRouter([
               elemtn: <ErdDiagram/>
             }
           ]
+          element: <Diagram />
+        },
+        {
+          path: 'mypageREADME',
+          element: <MyPageREADME/>
+        },
+        {
+          path: 'mypageDocument',
+          element: <MyPageDocument/>
+        },
+        {
+          path: 'mypageClassDiagram',
+          element: <MyPageClassDiagram/>
+        },
+        {
+          path: 'mypageSequenceDiagram',
+          element: <MyPageSequenceDiagram/>
+        },
+        {
+          path: 'mypageERD',
+          element: <MyPageERD/>
+        },
+        {
+          path: 'mypageGithubReport',
+          element: <MyPageGithubReport/>
         }
       ],
     },
