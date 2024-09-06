@@ -6,16 +6,16 @@ import moment from "moment";
 // image
 import UploadIcon from '../../assets/upload-img-icon.png';
 
-function InputRepoInfo({onClickCreateBtn}) {
+function InputRepoInfo({ onClickCreateBtn, onTitleChange, onImageChange, onDateChange }) {
     const [modalOpen, setModalOpen] = useState(true);
     const [imgPath, setImgPath] = useState(""); // 이미지 경로를 문자열로 저장하는 변수
+    const [title, setTitle] = useState("");
+    const [startDate, setStartDate] = useState(null); // 프로젝트 시작 날짜
+    const [endDate, setEndDate] = useState(null); // 프로젝트 끝 날짜
     const imgRef = useRef(null);
     const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2; // 사진의 크기를 제한
 
     const [isClickSettingDate, setIsClickSettingDate] = useState(false);
-    const [startDate, setStartDate] = useState(null); // 프로젝트 시작 날짜
-    const [endDate, setEndDate] = useState(null); // 프로젝트 끝 날짜
-
     const handleCancleBtn = () => {
         setModalOpen(!modalOpen);
     };
@@ -65,6 +65,7 @@ function InputRepoInfo({onClickCreateBtn}) {
 
                     const resizedImageUrl = canvas.toDataURL('image/png');
                     setImgPath(resizedImageUrl);
+                    onImageChange(resizedImageUrl); // 이미지 변경 시 부모 컴포넌트에 전달
                 };
             };
         }
@@ -77,12 +78,21 @@ function InputRepoInfo({onClickCreateBtn}) {
             setStartDate(start);
             setEndDate(end);
             setIsClickSettingDate(false); // 날짜가 선택되면 달력을 닫습니다.
+            onDateChange(start, end); // 날짜 변경 시 부모 컴포넌트에 전달
         }
     };
 
     const handleOpenCalendar = () => {
         setIsClickSettingDate(true); // 달력을 열도록 설정
     };
+
+    // 제목
+    const handleTitleChange = (event) => {
+        const newTitle = event.target.value;
+        setTitle(newTitle);
+        onTitleChange(newTitle); // 제목 변경 시 부모 컴포넌트에 전달
+    };
+
 
     return (
         <>
@@ -95,7 +105,10 @@ function InputRepoInfo({onClickCreateBtn}) {
                 <S.InputRepoInfoContainer>
                     <S.SettingRepoInfo>
                         <S.SettingTitleText>제목 설정</S.SettingTitleText>
-                        <S.InputTitle />
+                        <S.InputTitle
+                            value={title}
+                            onChange={handleTitleChange}
+                        />
                     </S.SettingRepoInfo>
                     <S.SettingRepoInfo>
                         <S.SettingTitleText>썸네일 설정</S.SettingTitleText>

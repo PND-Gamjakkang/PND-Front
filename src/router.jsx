@@ -75,7 +75,7 @@ const router = createBrowserRouter([
               elemtn: <ErdDiagram/>
             }
           ]
-          element: <Diagram />
+          
         },
         {
           path: 'mypageREADME',

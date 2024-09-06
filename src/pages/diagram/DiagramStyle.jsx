@@ -25,6 +25,7 @@ export const DiagramTopBarContainer = styled.div`
   background-color: white;
   margin: 0.4vh 0;
   position: relative;
+  justify-content: space-between;
 `;
 
 export const DiagramNavBar = styled.div`

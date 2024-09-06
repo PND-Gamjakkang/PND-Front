@@ -16,6 +16,7 @@ import RepoSettingModal from '../../components/Common/RepoSettingModal.jsx';
 import ClassDiagram from './ClassDiagram.jsx';
 import SequenceDiagram from './SequenceDiagram.jsx';
 import ErdDiagram from './ErdDiagram.jsx';
+import { SaveButton } from '../../components/Diagram/DiagramStyle.jsx';
 
 function Diagram() {
     const [diagramType, setDiagramType] = useState(''); // 다이어그램 종류 담는 변수
@@ -73,7 +74,7 @@ function Diagram() {
                                         <S.DiagramNavLink isActive={location.pathname === '/diagram/erd'}>ERD</S.DiagramNavLink>
                                     </Link>
                                 </S.DiagramNavBar>
-                                <S.SaveBtn>저장하기</S.SaveBtn>
+                                <SaveButton>저장하기</SaveButton>
                             </>
                         ) : (
                             <S.DiagramPickerParagraph>생성할 다이어그램을 선택해주세요</S.DiagramPickerParagraph>
