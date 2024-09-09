@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import Modal from 'react-modal';
-
+import { API } from '../../api/axios';
 // 이미지
 import MainLogoImg from '../../assets/images/main-logo.png';
 
@@ -11,16 +11,37 @@ export default function LoginModal({ onSuccess }) {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [modalOpen, setModalOpen] = useState(true);
 
-
-    // 깃허브 로그인
+    const fetchUserData = async () => {
+        try {
+            const response = await API.get('api/pnd/user/profile');  
+            const userInfo = {
+                name: response.data.data.name,
+                email: response.data.data.email,
+                image: response.data.data.image,
+                totalDocs : response.data.data.totalDocs,
+                totalReadmes : response.data.data.totalReadmes,
+                totalDiagrams : response.data.data.totalDiagrams,
+                totalReports : response.data.data.totalReports
+            };
+            sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+            const testInfo = sessionStorage.getItem('userInfo');
+            const parsedUserInfo = JSON.parse(testInfo);
+            console.log(typeof(parsedUserInfo.name));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+        // 깃허브 로그인
     const redirectUrl = 'http://localhost:3000'; // 깃허브 로그인 성공 시 다시 돌아갈 페이지 주소
     const githubUrl = 'https://github.com/login/oauth/authorize?client_id=Iv23ling8oOAYUIHUZ5x';
-
-    const handleLogin = () => {
-        // window.location.href = githubUrl;
-        window.location.assign(githubUrl); // 새 url로 이동하기
-    }
-    //     const getAccessToken = async (code) => {
+    
+    const handleLogin = async () => {
+        await fetchUserData();
+        setTimeout(() => {
+            window.location.assign(githubUrl);
+        }, 10000);
+    };
+            //     const getAccessToken = async (code) => {
     //         const client_id = 'YOUR_CLIENT_ID'; // 깃허브 OAuth 앱의 클라이언트 ID
     //         const client_secret = 'YOUR_CLIENT_SECRET'; // 깃허브 OAuth 앱의 클라이언트 시크릿
     //         const redirect_uri = 'YOUR_REDIRECT_URI'; // 리다이렉트 URI (선택사항)
