@@ -1,7 +1,11 @@
 import React from 'react';
 import {HeaderContainer, UserInfo, UserName, Divider, UserEmail, ButtonContainer, Button, LogOutButton, LeaveButton} from'./Styles/MyProjectsHeaderStyles';
 import { Helmet } from 'react-helmet';
+import { API } from '../../api/axios';
 const MyProjectHeader = () => {
+  const fetchUserData={
+
+  }
   return (
     <HeaderContainer>
       <Helmet>

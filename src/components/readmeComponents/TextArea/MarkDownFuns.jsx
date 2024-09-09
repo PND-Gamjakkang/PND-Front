@@ -71,6 +71,7 @@ const h1ButtonClicked = (content, selection) => {
     return newContent;
   }
   const topLangsButtonClicked = (content, selection, userName) => {
+    console.log(userName);
     if (!content) {
       console.log('no content');
       return;

@@ -6,6 +6,8 @@ import {
 } from './MarkDownFuns';
 import { InputAreaContainer, InputText } from './InputAreaStyle';
 import axios from "axios";
+import { API } from "../../../api/axios";
+
 const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL, imgURL }) => {
   const localRef = useRef(null);
   const selectionRef = useRef(null);
@@ -14,7 +16,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   const userToken = localStorage.getItem('token');
   
   // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
-  const authInstance = axios.create({
+  const authInstance = API.create({
       baseURL: 'http://13.124.4.73:8080',
       headers: {
           'Content-Type': 'application/json',
@@ -25,7 +27,6 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   const fetchRepoName = async () => {
       try {
         const { data } = await authInstance.get('api/pnd/user/profile')
-        console.log(data.data.name);
         const userName = data.data.name;
         return userName;
     } catch (error) {

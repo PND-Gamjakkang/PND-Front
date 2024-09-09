@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../Button';
-import { Toolbar, InputAreaHeaderContainer,Toolbar2,FileDownloadButton } from './InputAreaHeaderStyle';
+import { Toolbar, InputAreaHeaderContainer, Toolbar2, FileDownloadButton } from './InputAreaHeaderStyle';
 import styled from 'styled-components';
 import Badge from '../Modals/Badge';
 import FileUpload from '../Modals/FileUpload';
@@ -23,17 +23,19 @@ const FileUploadButton = styled(Button)``;
 const RedoButton = styled(Button)``;
 const UndoButton = styled(Button)``;
 
-const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => {
+const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selectedProjectId, userToken }) => {
   const [isBadgeModalOpen, setBadgeModalOpen] = useState(false);
   const [isUploadModalOpen, setUploadModalOpen] = useState(false);
   const [isDownloadModalOpen, setDownloadModalOpen] = useState(false);
 
   const handleButtonClick = (type) => {
+    console.log(type);
     if (type === 'Badge') {
       setBadgeModalOpen(true);
     } else if (type === 'Image') {
       setUploadModalOpen(true);
     } else if (type === 'Download') {
+      console.log('다우놀드');
       setDownloadModalOpen(true);
     } else if (onButtonClick) {
       onButtonClick(type);
@@ -46,14 +48,14 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
 
   return (
     <InputAreaHeaderContainer>
-    <Toolbar2>
+      <Toolbar2>
         <TopLangsButton onClick={() => handleButtonClick('Lan')}>Top Languages</TopLangsButton>
         <BadgeButton onClick={() => handleButtonClick('Badge')}>Badge</BadgeButton>
         <FileUploadButton onClick={() => handleButtonClick('Image')}>Image</FileUploadButton>
-      </Toolbar2>x
+      </Toolbar2>
       <Toolbar>
-        <UndoButton onClick={()=>handleButtonClick('undo')}>↺</UndoButton>
-        <RedoButton onClick={()=>handleButtonClick('redo')}>↻</RedoButton>
+        <UndoButton onClick={() => handleButtonClick('undo')}>↺</UndoButton>
+        <RedoButton onClick={() => handleButtonClick('redo')}>↻</RedoButton>
         <H1Button onClick={() => handleButtonClick('h1')}>h1</H1Button>
         <H2Button onClick={() => handleButtonClick('h2')}>h2</H2Button>
         <H3Button onClick={() => handleButtonClick('h3')}>h3</H3Button>
@@ -66,7 +68,7 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
         <CodeButton onClick={() => handleButtonClick('code')}>Code</CodeButton>
         <QuoteButton onClick={() => handleButtonClick('quote')}>Quote</QuoteButton>
         <FileDownloadButton onClick={() => handleButtonClick('Download')}>저장하기</FileDownloadButton>
-        </Toolbar>
+      </Toolbar>
 
       {isBadgeModalOpen && (
         <Badge
@@ -81,7 +83,6 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
       {isUploadModalOpen && (
         <FileUpload
           onImageAdd={(markdown) => {
-            console.log("ma : ",markdown);
             onImageAdd(markdown);
             closeUploadModal();
           }}
@@ -93,6 +94,8 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content }) => 
         <FileDownload
           content={content}
           closeModal={closeDownloadModal}
+          selectedProjectId={selectedProjectId}  
+          userToken={userToken}
         />
       )}
     </InputAreaHeaderContainer>

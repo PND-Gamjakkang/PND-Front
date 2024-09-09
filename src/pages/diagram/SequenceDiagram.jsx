@@ -3,6 +3,7 @@ import ViewCode from '../../components/Diagram/ViewCode.jsx';
 import * as S from './DiagramStyle.jsx';
 import axios from 'axios';
 import mermaid from 'mermaid';
+import { API } from '../../api/axios.js';
 
 function SequenceDiagram({ selectedProjectId }) {
     const [codeKey, setCodeKey] = useState(0);
@@ -69,7 +70,7 @@ function SequenceDiagram({ selectedProjectId }) {
     const fetchGpt = async () => {
         try {
             const requestBody = { repoId: selectedProjectId };
-            const response = await authInstance.patch(`api/pnd/diagram/sequence-gpt`, requestBody);
+            const response = await API.patch(`api/pnd/diagram/sequence-gpt`, requestBody);
 
             if (response.status === 200) {
                 let data = response.data.data;
@@ -120,7 +121,7 @@ function SequenceDiagram({ selectedProjectId }) {
     // 선택한 레포지토리 mermaid 코드 가져오기
     const fetchSequenceMermaid = async () => {
         try {
-            const response = await authInstance.get(`api/pnd/diagram/sequence`, {
+            const response = await API.get(`api/pnd/diagram/sequence`, {
                 params: {
                     repoId: selectedProjectId, // 요청에 쿼리 매개변수로 repoId 전달
                 },
