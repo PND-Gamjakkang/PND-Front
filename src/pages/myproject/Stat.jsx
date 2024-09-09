@@ -4,9 +4,9 @@ import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 
 
-const Stat = () => {
+const Stat =({userTotalDocs, userTotalReadmes, userTotalDiagrams, userTotalReports}) => {
   const navigate = useNavigate();
-  
+
   const READMEClick = () => {
     navigate('/mypageReadme'); 
   };
@@ -33,19 +33,19 @@ const Stat = () => {
     </Helmet>
       <StatItem onClick={documentClick}>
         <StatTitle>생성한 문서</StatTitle>
-        <StatNumber>0</StatNumber>
+        <StatNumber>{userTotalDocs}</StatNumber>
       </StatItem>
       <StatItem onClick={READMEClick}>
         <StatTitle>생성한 리드미</StatTitle>
-        <StatNumber>0</StatNumber>
+        <StatNumber>{userTotalReadmes}</StatNumber>
       </StatItem>
       <StatItem onClick={classDiagramClick}>
         <StatTitle>생성한 다이어그램</StatTitle>
-        <StatNumber>0</StatNumber>
+        <StatNumber>{userTotalDiagrams}</StatNumber>
       </StatItem>
       <StatItem onClick={githubReportClick}>
         <StatTitle>생성한 깃허브 리포트</StatTitle>
-        <StatNumber>0</StatNumber>
+        <StatNumber>{userTotalReports}</StatNumber>
       </StatItem>
     </StatContainer>
   );

@@ -1,11 +1,8 @@
 import React from 'react';
-import {HeaderContainer, UserInfo, UserName, Divider, UserEmail, ButtonContainer, Button, LogOutButton, LeaveButton} from'./Styles/MyProjectsHeaderStyles';
+import { HeaderContainer, UserInfo, UserName, Divider, UserEmail, ButtonContainer, LogOutButton, LeaveButton } from './Styles/MyProjectsHeaderStyles';
 import { Helmet } from 'react-helmet';
-import { API } from '../../api/axios';
-const MyProjectHeader = () => {
-  const fetchUserData={
 
-  }
+const MyProjectHeader = ({ userName, userEmail }) => {
   return (
     <HeaderContainer>
       <Helmet>
@@ -13,9 +10,9 @@ const MyProjectHeader = () => {
       </Helmet>
 
       <UserInfo>
-        <UserName>GAMJAKKANG</UserName>
+        <UserName>{userName}</UserName>
         <Divider />
-        <UserEmail>gamjakkang@gmail.com</UserEmail>
+        <UserEmail>{userEmail}</UserEmail>
       </UserInfo>
       <ButtonContainer>
         <LogOutButton>로그아웃</LogOutButton>
