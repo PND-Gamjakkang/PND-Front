@@ -1,6 +1,7 @@
 import * as S from './styles/SelectedRepoModalStyle';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API } from '../../api/axios';
 
 // 컴포넌트
 import UserRepo from '../retro/UserRepo';
@@ -29,38 +30,29 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
 
   // 유저토큰
   const userToken = localStorage.getItem('token');
-
-
+  
   // 통신 - 로그인 사용자 확인
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios({
-        method: "GET",
-        url: `http://localhost:8080/api/pnd/user/profile`,
-        headers: {
-          'Authorization': `Bearer ${token}`
+    const fetchUserProfile = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await API.get(`/api/pnd/user/profile`);
+          setUser(response.data.data);
+          console.log("사용자: " + response.data.data);
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
         }
-      }).then((res) => {
-        setUser(res.data.data);
-        console.log("사용자: " + res.data.data);
-      }).catch((err) => {
-        console.log("error");
-      });
-    }
+      }
+    };
+    
+    fetchUserProfile(); // 비동기 함수 호출
   }, []);
 
   // API 통신
   const fetchRepository = async () => {
     try {
-      const response = await axios({
-        method: "GET",
-        url: `http://localhost:8080/api/pnd/repo`,
-        headers: {
-          'Authorization': `Bearer ${userToken}`, // Authorization 헤더에 토큰을 포함
-          'Content-Type': 'application/json' // JSON 형식의 요청 본문
-        }
-      });
+      const response = await API.get(`/api/pnd/repo`);
 
       if (response.status === 200) {
         const data = response.data.data;
@@ -138,7 +130,7 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
         </div>
         <S.CreateButton onClick={handleConfirmSelection}>선택완료</S.CreateButton>
 
-    
+
       </S.ReposContainer>
 
 

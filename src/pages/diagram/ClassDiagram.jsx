@@ -2,6 +2,7 @@ import * as S from './DiagramStyle.jsx';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
+import { API } from '../../api/axios.js';
 
 // component
 import ClassEditor from '../../components/Diagram/ClassEditor.jsx';
@@ -101,14 +102,15 @@ function ClassDiagram({ selectedProjectId }) {
         console.log("클래스네임 변경");
     }, [className]);
 
-    // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
-    const authInstance = axios.create({
-        baseURL: 'http://localhost:8080',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userToken}`,
-        },
-    });
+    // // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
+    // const authInstance = axios.create({
+    //     baseURL: 'http://13.124.4.73',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${userToken}`,
+    //     },
+    // });
+    
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
         console.log("ViewCode가 수정되었습니다!\n" + viewCode);
@@ -121,7 +123,7 @@ function ClassDiagram({ selectedProjectId }) {
                 repoId: selectedProjectId,
                 script: updatedCode
             };
-            const response = await authInstance.patch(`api/pnd/diagram/class`, requestBody);
+            const response = await API.patch(`api/pnd/diagram/class`, requestBody);
             if (response.status === 200) {
                 const updatedData = response.data.data; // 수정된 데이터를 변수에 저장
                 console.log('코드 수정 완료', updatedData);
@@ -140,7 +142,7 @@ function ClassDiagram({ selectedProjectId }) {
     const fetchGpt = async () => {
         try {
             const requestBody = { repoId: selectedProjectId };
-            const response = await authInstance.patch(`api/pnd/diagram/class-gpt`, requestBody);
+            const response = await API.patch(`api/pnd/diagram/class-gpt`, requestBody);
 
             if (response.status === 200) {
                 let data = response.data.data;
@@ -192,7 +194,7 @@ function ClassDiagram({ selectedProjectId }) {
     // 선택한 레포지토리 mermaid 코드 가져오기
     const fetchClassMermaid = async () => {
         try {
-            const response = await authInstance.get(`api/pnd/diagram/class`, {
+            const response = await API.get(`api/pnd/diagram/class`, {
                 params: {
                     repoId: selectedProjectId, // 요청에 쿼리 매개변수로 repoId 전달
                 },
