@@ -7,6 +7,8 @@ export const HeaderContainer = styled.div`
   padding: 0.5vh 1vw; 
   background-color: #ffffff;
   border-bottom: 0.1rem solid #e0e0e0;
+  width: 100%;
+
 `;
 
 export const UserInfo = styled.div`
