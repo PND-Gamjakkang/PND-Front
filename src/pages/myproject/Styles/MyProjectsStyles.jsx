@@ -5,28 +5,32 @@ export const MyProjectsLayout = styled.div`
   max-width: 88.75vw; /* 1500px / 1600px */
   height: 50vw; /* 800px / 1600px */
   margin: auto;
-
+  padding: 0.5vh 1.5vw; 
   @media (max-width: 768px) {
     max-width: 90vw;
     height: auto;
   }
+  background: white;
 `;
 
 export const Container1 = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 20vw;
+  height: 18vw; /* 기존 height 값을 적절히 변경 */
   margin-bottom: 2.9375vw; /* 47px / 1600px */
   background-color: #ffffff;
   border-radius: 0.625vw; /* 10px / 1600px */
   box-shadow: 0 0.125vw 0.3125vw rgba(0, 0, 0, 0.1);
+  padding-left: 1vw;
+  overflow: hidden; /* 추가: 컨텐츠가 넘칠 경우 숨기기 */
 
   @media (max-width: 768px) {
     flex-direction: column;
     height: auto;
     margin-bottom: 5vw;
   }
+ 
 `;
 
 export const ProfileContainer = styled.div`
@@ -35,10 +39,9 @@ export const ProfileContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f8f8ff;
-  border-radius: 0.625vw; /* 10px / 1600px */
-  overflow: hidden; 
 
+  border-radius: 0.625vw; /* 10px / 1600px */
+  overflow: hidden;
   @media (max-width: 768px) {
     width: 90%;
     height: auto;
@@ -59,7 +62,7 @@ export const ProfileImage = styled.img`
 
 export const StatContainer = styled.div`
   width: 57vw; /* 912px / 1600px */
-  height: 18.75vw; /* 300px / 1600px */
+  height: 85%; /* 300px / 1600px */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,7 +71,7 @@ export const StatContainer = styled.div`
   border-radius: 0.625vw; /* 10px / 1600px */
   margin-left: auto; 
   margin-right: 3.3125vw; /* 53px / 1600px */
-
+  
   @media (max-width: 768px) {
     width: 90%;
     height: auto;
