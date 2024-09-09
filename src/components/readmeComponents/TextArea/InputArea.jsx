@@ -5,12 +5,33 @@ import {
   topLangsButtonClicked,badgeButtonClicked,fileUploadButtonClicked
 } from './MarkDownFuns';
 import { InputAreaContainer, InputText } from './InputAreaStyle';
-
+import axios from "axios";
 const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL, imgURL }) => {
   const localRef = useRef(null);
   const selectionRef = useRef(null);
   const undoStack = useRef([]);//ctrl+z
   const redoStack = useRef([]);//ctrl+y
+  const userToken = localStorage.getItem('token');
+  
+  // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
+  const authInstance = axios.create({
+      baseURL: 'http://13.124.4.73:8080',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`,
+      },
+  });
+
+  const fetchRepoName = async () => {
+      try {
+        const { data } = await authInstance.get('api/pnd/user/profile')
+        console.log(data.data.name);
+        const userName = data.data.name;
+        return userName;
+    } catch (error) {
+        console.log(error);
+    }
+  };
 
   const saveState = () => {
     if (localRef.current) {
@@ -102,91 +123,102 @@ const restoreSelection = (savedSelection) => {
     if (clickedButton) {
       let newContent = content;
       let selection = null;
-      console.log('undoStack : ',undoStack.current.pop());
+      console.log('undoStack : ', undoStack.current.pop());
       console.log(clickedButton);
       if (!selectionRef.current || !selectionRef.current.rangeCount) {
         return;
       }
       console.log(clickedButton);
-      // console.log(selectionRef.current);
-
-      switch (clickedButton) {
-        case 'undo': {
-          const lastState = handleUndo();
-          if (lastState) {
-            newContent = lastState.content;
-            selection = lastState.selection;
+      
+      const processClick = async () => {
+        switch (clickedButton) {
+          case 'undo': {
+            const lastState = handleUndo();
+            if (lastState) {
+              newContent = lastState.content;
+              selection = lastState.selection;
+            }
+            break;
           }
-          break;
-        }
           case 'redo':
             const nextState = handleRedo();
             if (nextState) {
               newContent = nextState.content;
               selection = nextState.selection;
             }
-          break;
-        case 'h1':
-          newContent = h1ButtonClicked(content, selectionRef.current);
-          break;
-        case 'h2':
-          newContent = h2ButtonClicked(content, selectionRef.current);
-          break;
-        case 'h3':
-          newContent = h3ButtonClicked(content, selectionRef.current);
-          break;
-        case 'h4':
-          newContent = h4ButtonClicked(content, selectionRef.current);
-          break;
-        case 'h5':
-          newContent = h5ButtonClicked(content, selectionRef.current);
-          break;
-        case 'h6':
-          newContent = h6ButtonClicked(content, selectionRef.current);
-          break;
-        case 'quote':
-          newContent = quoteButtonClicked(content, selectionRef.current);
-          break;
-        case 'bold':
-          newContent = boldButtonClicked(content, selectionRef.current);
-          break;
-        case 'italic':
-          newContent = italicButtonClicked(content, selectionRef.current);
-          break;
-        case 'throughLine':
-          newContent = throughButtonClicked(content, selectionRef.current);
-          break;
-        case 'code':
-          newContent = codeButtonClicked(content, selectionRef.current);
-          break;
-        case 'listItem':
-          newContent = listItemButtonClicked(content, selectionRef.current);
-          break;
-        case 'Lan':
-          newContent = topLangsButtonClicked(content, selectionRef.current);
-          break;
-        case 'Badge':
-          console.log(badgeURL);
-          newContent = badgeButtonClicked(content,selectionRef.current,badgeURL);
-          break;
-        case 'Image':
-          console.log(imgURL);
-          newContent = fileUploadButtonClicked(content,selectionRef.current,imgURL);
-          break;
-        default:
-          break;
+            break;
+          case 'h1':
+            newContent = h1ButtonClicked(content, selectionRef.current);
+            break;
+          case 'h2':
+            newContent = h2ButtonClicked(content, selectionRef.current);
+            break;
+          case 'h3':
+            newContent = h3ButtonClicked(content, selectionRef.current);
+            break;
+          case 'h4':
+            newContent = h4ButtonClicked(content, selectionRef.current);
+            break;
+          case 'h5':
+            newContent = h5ButtonClicked(content, selectionRef.current);
+            break;
+          case 'h6':
+            newContent = h6ButtonClicked(content, selectionRef.current);
+            break;
+          case 'quote':
+            newContent = quoteButtonClicked(content, selectionRef.current);
+            break;
+          case 'bold':
+            newContent = boldButtonClicked(content, selectionRef.current);
+            break;
+          case 'italic':
+            newContent = italicButtonClicked(content, selectionRef.current);
+            break;
+          case 'throughLine':
+            newContent = throughButtonClicked(content, selectionRef.current);
+            break;
+          case 'code':
+            newContent = codeButtonClicked(content, selectionRef.current);
+            break;
+          case 'listItem':
+            newContent = listItemButtonClicked(content, selectionRef.current);
+            break;
+          case 'Lan':
+            const userName = await fetchRepoName();
+            newContent = topLangsButtonClicked(content, selectionRef.current, userName);
+            console.log('InputArea:', newContent); // 로그 추가
+            break;
+          case 'Badge':
+            console.log(badgeURL);
+            newContent = badgeButtonClicked(content, selectionRef.current, badgeURL);
+            break;
+          case 'Image':
+            console.log(imgURL);
+            newContent = fileUploadButtonClicked(content, selectionRef.current, imgURL);
+            break;
+          default:
+            break;
+        }
+  
+        if (newContent && localRef.current) {
+          const selection = window.getSelection();
+          localRef.current.innerText = newContent;
+        }
+  
+        onChange(newContent);
+        onMarkdownApplied('');
+      };
+  
+      // 비동기 처리를 해야 하는 경우만 processClick을 호출
+      if (clickedButton === 'Lan') {
+        processClick();
+      } else {
+        // 비동기 처리가 필요 없는 경우는 기존 방식으로 처리
+        processClick();
       }
-
-      if (newContent && localRef.current) {
-        const selection = window.getSelection();
-        localRef.current.innerText = newContent;
-      }
-
-      onChange(newContent);
-      onMarkdownApplied('');
     }
   }, [clickedButton, content, onChange, onMarkdownApplied, badgeURL, imgURL]);
-
+  
   const inputHandler = () => {
     console.log("input!!");
     saveState();

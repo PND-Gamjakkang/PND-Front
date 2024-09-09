@@ -1,3 +1,4 @@
+import axios from "axios";
 // h1~h6 버튼 클릭 함수
 // 선택 텍스트에 # 적용
 const h1ButtonClicked = (content, selection) => {
@@ -69,31 +70,32 @@ const h1ButtonClicked = (content, selection) => {
 
     return newContent;
   }
-  const topLangsButtonClicked=(content, selection)=>{
+  const topLangsButtonClicked = (content, selection, userName) => {
     if (!content) {
-      // console.log('no content');
-      return
+      console.log('no content');
+      return;
     }
-    // console.log('selection : ',selection,' last cursor : ',lastcursor);
   
-    ///////////////////////////////////////////////////////////////////////
-    //테스트용 하드코딩
-    const cardURL=('![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Jun-Young-Seo&layout=compact)')
-    //나중에 백에서 API 완성하면 수정하기
-    ///////////////////////////////////////////////////////////////////////
-    console.log(content);
+    if (!selection) {
+      console.log('no selection');
+      return;
+    }
+    const cardURL = `![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=${userName}&layout=compact)`;
+    
     const range = selection.getRangeAt(0);
+    
     const startOffset = range.startOffset;
     const endOffset = range.endOffset;
-    console.log('start offset : ',startOffset,' end offset : ',endOffset);
-    // content 문자열의 선택된 위치에 URL 삽입
+    
     const beforeContent = content.slice(0, startOffset);
     const afterContent = content.slice(endOffset);
     const newContent = beforeContent + cardURL + afterContent;
-
+    
+    console.log("Generated newContent:", newContent);
+    
     return newContent;
-};
-
+  };
+  
 const applyMarkdown = (content, selection, markdownSyntax) => {
     const range = selection.getRangeAt(0);
     const selectedText = range.toString();
@@ -168,7 +170,8 @@ const applyMarkdown = (content, selection, markdownSyntax) => {
   
     return content.replace(selectedText, wrappedText).replace(/<br\s*\/?>/gi, '\n');
   };
-  
+
+
   export {
     h1ButtonClicked,
     h2ButtonClicked,
