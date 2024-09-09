@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import * as S from './MainStyle.jsx';
 import axios from 'axios';
+import { API } from '../../api/axios.js';
 
 import LoginModal from '../../components/Login/LoginModal.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
@@ -121,20 +122,23 @@ function Main() {
     const location = useLocation();
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(location.search);
-        const code = urlParams.get('code');
-        if (code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
-            axios({
-                method: "POST",
-                url: `http://localhost:8080/api/pnd/oauth/social/github?code=${code}`
-            }).then((res) => {
-                console.log(res);
-                const ACCESS_TOKEN = res.data.data.token;
-                localStorage.setItem("token", ACCESS_TOKEN);
-            }).catch((err) => {
-                console.log("error");
-            })
-        }
+        const fetchAccessToken = async () => {
+            const urlParams = new URLSearchParams(location.search);
+            const code = urlParams.get('code');
+            
+            if (code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
+                try {
+                    const response = await API.post(`/api/pnd/oauth/social/github?code=${code}`);
+                    console.log(response);
+                    const ACCESS_TOKEN = response.data.data.token;
+                    localStorage.setItem("token", ACCESS_TOKEN);
+                } catch (error) {
+                    console.error("Error during authentication:", error);
+                }
+            }
+        };
+
+        fetchAccessToken();
     }, [location])
 
     return (

@@ -2,6 +2,7 @@ import * as S from './DiagramStyle.jsx';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
+import { API } from '../../api/axios.js';
 
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
 
@@ -96,23 +97,11 @@ function ErdDiagram({ selectedProjectId }) {
     }, [erdCode]); // viewCode가 변할 때마다 실행
 
 
-    // 유저토큰
-    const userToken = localStorage.getItem('token');
-
-    // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
-    const authInstance = axios.create({
-        baseURL: 'http://localhost:8080',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userToken}`,
-        },
-    });
-
     // 레포지토리 gpt 분석 API 통신
     const fetchGpt = async () => {
         try {
             const requestBody = { repoId: selectedProjectId };
-            const response = await authInstance.patch(`api/pnd/diagram/er-gpt`, requestBody);
+            const response = await API.patch(`api/pnd/diagram/er-gpt`, requestBody);
 
             if (response.status === 200) {
                 let data = response.data.data;
@@ -164,7 +153,7 @@ function ErdDiagram({ selectedProjectId }) {
     // 선택한 레포지토리 mermaid 코드 가져오기
     const fetchErdMermaid = async () => {
         try {
-            const response = await authInstance.get(`api/pnd/diagram/er`, {
+            const response = await API.get(`api/pnd/diagram/er`, {
                 params: {
                     repoId: selectedProjectId, // 요청에 쿼리 매개변수로 repoId 전달
                 },
