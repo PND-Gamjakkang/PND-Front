@@ -1,5 +1,5 @@
 import Modal from 'react-modal';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import * as S from './styles/SelectedRepoModalStyle';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -27,6 +27,8 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
   const [image, setImage] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  const swiperRef = useRef(null); // Swiper 인스턴스 참조용
 
   const handleCancleBtn = () => {
     setModalOpen(!modalOpen);
@@ -56,7 +58,13 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
     setStartDate(start);
     setEndDate(end);
   };
- 
+
+  const handleSlideNext = () => {
+    if (swiperRef.current) {
+      swiperRef.current.swiper.slideNext(); // 다음 슬라이드로 이동
+    }
+  };
+
   useEffect(() => {
     console.log("isBaseInfoset: " + isBaseInfoSet);
   },[isBaseInfoSet]);
@@ -98,8 +106,9 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
       }}
     >
       <Swiper
+        ref={swiperRef} // Swiper 인스턴스에 대한 참조
         direction="horizontal"
-        slidesPerView='auto' // Show one component at a time
+        slidesPerView='auto'
         pagination={{
           dynamicBullets: true,
           clickable: true,
@@ -112,6 +121,7 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
            onCancelBtn={() => handleCancleBtn}
            onSelectProject={handleProjectSelect} 
            onIsBaseInfoSet={() => setIsBaseInfoSet(true)}
+           onNextSlide={handleSlideNext}
           />
         </SwiperSlide>
         {!isBaseInfoSet ? (

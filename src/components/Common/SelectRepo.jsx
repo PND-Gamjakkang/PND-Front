@@ -6,7 +6,7 @@ import { API } from '../../api/axios';
 // 컴포넌트
 import UserRepo from '../retro/UserRepo';
 
-function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
+function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet, onNextSlide }) {
   const [modalOpen, setModalOpen] = useState(true);
 
   const handleCancleBtn = () => {
@@ -96,6 +96,7 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
   const handleConfirmSelection = () => {
     if (pendingRepo) {
       handleProjectSelection(pendingRepo);
+      onNextSlide(); // 선택 완료 시 다음 슬라이드로 이동
     }
   };
 
