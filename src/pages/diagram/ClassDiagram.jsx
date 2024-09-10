@@ -33,12 +33,16 @@ function ClassDiagram({ selectedProjectId }) {
         const renderDiagram = () => {
             console.log("Rendering diagram with viewCode:", viewCode); // 로그 추가
             const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && viewCode && viewCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
-                try {
-                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-                } catch (error) {
-                    console.error("Mermaid rendering error:", error);
+            if (diagramContainer && viewCode !== null) {
+                if (viewCode.trim() === '') {
+                    diagramContainer.innerHTML = ''; // 전체 삭제 시 다이어그램 초기화
+                } else {
+                    diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                    try {
+                        mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                    } catch (error) {
+                        console.error("Mermaid rendering error:", error);
+                    }
                 }
             }
         };
@@ -129,6 +133,12 @@ function ClassDiagram({ selectedProjectId }) {
             setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
         }
     };
+
+    const handleDeleteAllBtn = () => {
+        setViewCode(' '); // viewCode를 빈 문자열로 설정하여 모든 다이어그램 요소 삭제
+        setSelectedClass(null); // 선택된 클래스 초기화
+        setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
+    }
 
 
     // 선택된 클래스 이름 알기
@@ -301,7 +311,7 @@ function ClassDiagram({ selectedProjectId }) {
                     <S.Divider />
                     <S.DeleteClassBtn onClick={setStateDeleteClassBtn}>클래스 삭제</S.DeleteClassBtn>
                     <S.Divider />
-                    <S.DeleteAllBtn>전체 삭제</S.DeleteAllBtn>
+                    <S.DeleteAllBtn onClick={handleDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
                     {/* <S.GenerateAiBtn onClick={generateDiagram}>AI 자동생성</S.GenerateAiBtn> */}
                 </S.ClassEditButtons>
                 <S.ClassDiagramResultBox>
