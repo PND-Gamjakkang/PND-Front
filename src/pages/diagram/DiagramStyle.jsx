@@ -156,11 +156,15 @@ font-size: 0.8rem;
 margin-top: 30.4px;
 `;
 
-export const RemoveComponentBtn = styled.button`
+export const DeleteComponentBtn = styled.button`
 width: 33%;
 `;
 
-export const RemoveAllBtn = styled.button`
+export const DeleteClassBtn = styled.button`
+width: 33%;
+`;
+
+export const DeleteAllBtn = styled.button`
 width: 33%;
 `;
 

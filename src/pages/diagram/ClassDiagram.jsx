@@ -79,8 +79,8 @@ function ClassDiagram({ selectedProjectId }) {
         setSelectedClass(className);
     };
 
-    // 클래스 삭제 핸들러
-    const handleDeleteClass = () => {
+    // 부분 삭제 핸들러
+    const handleDeleteComponent = () => {
         if (selectedClass) {
             const updatedCode = viewCode.replace(new RegExp(`class ${selectedClass} {[^}]*}`, 'g'), '');
             setViewCode(updatedCode);
@@ -89,10 +89,40 @@ function ClassDiagram({ selectedProjectId }) {
         }
     };
 
+    // 클래스 삭제 핸들러
+    const handleDeleteClass = () => {
+        if (selectedClass) {
+            console.log("클래스 삭제 핸들러");
+            // 1. 클래스 선언 제거
+            let updatedCode = viewCode.replace(new RegExp(`class\\s+${selectedClass}\\s*{[^}]*}`, 'g'), '');
+
+            // 2. 클래스 관련 관계 제거
+            const relationPatterns = [
+                new RegExp(`\\b${selectedClass}\\b\\s*--.*`, 'g'), // 클래스가 왼쪽에 있는 경우
+                new RegExp(`.*--\\s*\\b${selectedClass}\\b`, 'g'),  // 클래스가 오른쪽에 있는 경우
+                new RegExp(`\\b${selectedClass}\\b\\s*:\\s*.*`, 'g'), // 클래스가 관계 주체일 때
+                new RegExp(`\\b\\w+\\b\\s*-->\\s*\\b${selectedClass}\\b`, 'g') // 클래스가 종속 관계일 때
+            ];
+
+            relationPatterns.forEach(pattern => {
+                updatedCode = updatedCode.replace(pattern, '');
+            });
+
+            // 3. 빈 줄 제거 (남은 빈 줄을 제거합니다)
+            updatedCode = updatedCode.replace(/^\s*[\r\n]/gm, '');
+
+            // 4. setViewCode와 상태 초기화
+            setViewCode(updatedCode);
+            setSelectedClass(null); // 선택된 클래스 초기화
+            setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
+        }
+    };
+
+
     // 선택된 클래스 이름 알기
     useEffect(() => {
         console.log(selectedClass);
-        handleDeleteClass();
+        //handleDeleteClass();
     }, [selectedClass]);
 
     // 유저토큰
@@ -110,13 +140,13 @@ function ClassDiagram({ selectedProjectId }) {
     //         'Authorization': `Bearer ${userToken}`,
     //     },
     // });
-    
+
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
         console.log("ViewCode가 수정되었습니다!\n" + viewCode);
         //fetchEditClassCode(viewCode); // 코드 수정 API 호출
     };
-    
+
     const fetchEditClassCode = async (updatedCode) => {
         try {
             const requestBody = {
@@ -135,7 +165,7 @@ function ClassDiagram({ selectedProjectId }) {
             console.log("API 통신 중 오류 발생:", err);
         }
     };
-    
+
 
 
     // 레포지토리 gpt 분석 API 통신
@@ -219,7 +249,8 @@ function ClassDiagram({ selectedProjectId }) {
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId) {
-            fetchClassMermaid();
+            //fetchClassMermaid();
+            fetchGpt();
         }
     }, [selectedProjectId]);
 
@@ -236,11 +267,12 @@ function ClassDiagram({ selectedProjectId }) {
                     <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>
                 </S.ClassTitleTextBox>
                 <S.ClassEditButtons>
-                    <S.RemoveComponentBtn onClick={handleDeleteClass}>컴포넌트 삭제</S.RemoveComponentBtn>
+                    <S.DeleteComponentBtn onClick={handleDeleteComponent}>부분 삭제</S.DeleteComponentBtn>
                     <S.Divider />
-                    <S.RemoveAllBtn>전체 삭제</S.RemoveAllBtn>
+                    <S.DeleteClassBtn onClick={handleDeleteClass}>클래스 삭제</S.DeleteClassBtn>
                     <S.Divider />
-                    <S.GenerateAiBtn onClick={generateDiagram}>AI 자동생성</S.GenerateAiBtn>
+                    <S.DeleteAllBtn>전체 삭제</S.DeleteAllBtn>
+                    {/* <S.GenerateAiBtn onClick={generateDiagram}>AI 자동생성</S.GenerateAiBtn> */}
                 </S.ClassEditButtons>
                 <S.ClassDiagramResultBox>
                     <div id="diagram-container" onClick={(e) => handleClassClick(e.target.innerText)}>
