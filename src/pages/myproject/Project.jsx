@@ -17,7 +17,6 @@ const Project = () => {
   }, []);
 
   // 사용자 정보 조회 api (api/pnd/user/profile) 통신코드
-
   return (
     <ProjectsContainer>
       <Helmet>

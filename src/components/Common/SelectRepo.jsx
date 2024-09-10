@@ -6,7 +6,7 @@ import { API } from '../../api/axios';
 // 컴포넌트
 import UserRepo from '../retro/UserRepo';
 
-function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
+function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet, onNextSlide }) {
   const [modalOpen, setModalOpen] = useState(true);
 
   const handleCancleBtn = () => {
@@ -27,10 +27,10 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
   const handleIsSwiper = () => {
     onIsBaseInfoSet();
   }
-
+  
   // 유저토큰
   const userToken = localStorage.getItem('token');
-  
+
   // 통신 - 로그인 사용자 확인
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -45,7 +45,7 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
         }
       }
     };
-    
+
     fetchUserProfile(); // 비동기 함수 호출
   }, []);
 
@@ -96,6 +96,7 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
   const handleConfirmSelection = () => {
     if (pendingRepo) {
       handleProjectSelection(pendingRepo);
+      onNextSlide(); // 선택 완료 시 다음 슬라이드로 이동
     }
   };
 
@@ -128,12 +129,11 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
             />
           ))}
         </div>
-        <S.CreateButton onClick={handleConfirmSelection}>선택완료</S.CreateButton>
 
-
+        <S.CreateButtonBox>
+        <S.CreateButton onClick={handleConfirmSelection}>생성하기</S.CreateButton>
+      </S.CreateButtonBox>
       </S.ReposContainer>
-
-
     </>
   )
 }
