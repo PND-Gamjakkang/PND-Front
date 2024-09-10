@@ -1,90 +1,62 @@
 .react-calendar {
-    width: 100%;
-    max-width: 100%;
-    background: white;
-    border: 1px solid #a0a096;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.125em;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px #e0e0e0;
-}
-
-.react-calendar--doubleView {
-    width: 700px;
-}
-
-.react-calendar--doubleView .react-calendar__viewContainer {
-    display: flex;
-    margin: -0.5em;
-}
-
-.react-calendar--doubleView .react-calendar__viewContainer>* {
-    width: 50%;
-    margin: 0.5em;
-}
-
-.react-calendar,
-.react-calendar *,
-.react-calendar *:before,
-.react-calendar *:after {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.react-calendar button {
-    margin: 0;
-    border: 0;
-    outline: none;
-}
-
-.react-calendar button:enabled:hover {
-    cursor: pointer;
+  position: absolute; /* 부모 요소(InputDate) 내부에서 위치를 절대적으로 설정 */
+  top: 0; /* InputDate 내부의 최상단에 위치 */
+  left: 0; /* InputDate 내부의 최좌측에 위치 */
+  width: 100%;
+  background: white;
+  border: 1px solid #a0a096;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px #e0e0e0;
 }
 
 .react-calendar__navigation {
-    display: flex;
-    height: 44px;
-    margin-bottom: 1em;
+  display: flex;
+  height: 1.5rem; /* 네비게이션 바의 높이를 상대적으로 설정 */
 }
 
 .react-calendar__navigation button {
-    min-width: 44px;
-    background: none;
-}
-
-.react-calendar__navigation button:disabled {
-    background-color: #f0f0f0;
-}
-
-.react-calendar__navigation button:enabled:hover,
-.react-calendar__navigation button:enabled:focus {
-    background-color: #e6e6e6;
+  min-width: 44px;
+  background: none;
 }
 
 .react-calendar__month-view__weekdays {
-    text-align: center;
-    text-transform: uppercase;
-    font: inherit;
-    font-size: 0.75em;
-    font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  font: inherit;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+.react-calendar__month-view__weekdays {
+  padding: 0.5em;
+  font-size: 0.6rem; /* 요일의 글자 크기를 부모에 맞게 조정 */
 }
 
-.react-calendar__month-view__weekdays__weekday {
-    padding: 0.5em;
+.react-calendar__month-view__days__day {
+  height: auto; /* 각 날짜 셀의 높이 설정 */
+  font-size: 0.3rem; /* 날짜 글자 크기 설정 */
 }
 
-.react-calendar__month-view__weekNumbers .react-calendar__tile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font: inherit;
-    font-size: 0.75em;
-    font-weight: bold;
+.react-calendar__tile {
+  padding: 0.5rem; /* 셀의 내부 여백을 상대적으로 조정 */
+  background: none;
+  text-align: center;
+  line-height: 1rem;
+  font-size: 0.6rem;
 }
 
+.react-calendar__tile--active {
+  background: #006edc;
+  color: white;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #1087ff;
+}
 .react-calendar__month-view__days__day--weekend {
-    color: #d10000;
+  color: #d10000;
 }
 
 .react-calendar__month-view__days__day--neighboringMonth,
@@ -93,32 +65,6 @@
     color: #757575;
 }
 
-.react-calendar__year-view .react-calendar__tile,
-.react-calendar__decade-view .react-calendar__tile,
-.react-calendar__century-view .react-calendar__tile {
-    padding: 2em 0.5em;
-}
-
-.react-calendar__tile {
-    max-width: 100%;
-    padding: 10px 6.6667px;
-    background: none;
-    text-align: center;
-    line-height: 16px;
-    font: inherit;
-    font-size: 0.833em;
-}
-
-.react-calendar__tile:disabled {
-    background-color: #f0f0f0;
-    color: #ababab;
-}
-
-.react-calendar__month-view__days__day--neighboringMonth:disabled,
-.react-calendar__decade-view__years__year--neighboringDecade:disabled,
-.react-calendar__century-view__decades__decade--neighboringCentury:disabled {
-    color: #cdcdcd;
-}
 
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
@@ -155,4 +101,8 @@
 
 .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
+} 
+.react-calendar__tile:disabled {
+  background-color: #f0f0f0;
+  color: #ababab;
 }

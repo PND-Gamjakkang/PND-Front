@@ -1,19 +1,21 @@
-import * as S from './styles/SelectedRepoModalStyle';
-import './styles/calendar-style.css';
 import { useState, useRef } from 'react';
 import Calendar from "react-calendar";
 import moment from "moment";
+
+import * as S from './styles/SelectedRepoModalStyle';
+import './styles/calendar-style.css';
+
 // image
 import UploadIcon from '../../assets/upload-img-icon.png';
 
-function InputRepoInfo({ onClickCreateBtn, onTitleChange, onImageChange, onDateChange }) {
+function InputRepoInfo({ onCancelBtn, onClickCreateBtn, onTitleChange, onImageChange, onDateChange }) {
     const [modalOpen, setModalOpen] = useState(true);
     const [imgPath, setImgPath] = useState(""); // 이미지 경로를 문자열로 저장하는 변수
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState(null); // 프로젝트 시작 날짜
     const [endDate, setEndDate] = useState(null); // 프로젝트 끝 날짜
     const imgRef = useRef(null);
-    const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2; // 사진의 크기를 제한
+    const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 3; // 사진의 크기를 제한
 
     const [isClickSettingDate, setIsClickSettingDate] = useState(false);
     const handleCancleBtn = () => {
@@ -42,7 +44,7 @@ function InputRepoInfo({ onClickCreateBtn, onTitleChange, onImageChange, onDateC
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     const MAX_WIDTH = 400;
-                    const MAX_HEIGHT = 250;
+                    const MAX_HEIGHT = 200;
                     let width = imgElement.width;
                     let height = imgElement.height;
 
@@ -83,7 +85,7 @@ function InputRepoInfo({ onClickCreateBtn, onTitleChange, onImageChange, onDateC
     };
 
     const handleOpenCalendar = () => {
-        setIsClickSettingDate(true); // 달력을 열도록 설정
+        setIsClickSettingDate(!isClickSettingDate); // 달력을 열도록 설정
     };
 
     // 제목
@@ -99,7 +101,7 @@ function InputRepoInfo({ onClickCreateBtn, onTitleChange, onImageChange, onDateC
             <S.ModalTitle>레포지토리<br />기본정보</S.ModalTitle>
             <S.ModalCloseBtn
                 src={require("../../assets/images/close-modal-icon.png")}
-                onClick={handleCancleBtn}
+                onClick={onCancelBtn()}
             />
             <S.ReposContainer>
                 <S.InputRepoInfoContainer>
@@ -113,12 +115,36 @@ function InputRepoInfo({ onClickCreateBtn, onTitleChange, onImageChange, onDateC
                     <S.SettingRepoInfo>
                         <S.SettingTitleText>썸네일 설정</S.SettingTitleText>
                         <S.InputThumnail>
-                            <label htmlFor='photo'>
+                            <label htmlFor='photo' style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '100%',
+                                height: '100%', // 전체 높이로 정렬되도록 설정
+                                textAlign: 'center', // 텍스트를 가운데 정렬
+                                gap: '20px',
+                            }}>
                                 <img
                                     className='dd'
                                     src={imgPath ? imgPath : UploadIcon}
                                     alt='이미지 업로드'
+                                    style={{
+                                        width: imgPath ? '100%' : '100%',  // 이미지 업로드 여부에 따라 크기 조정
+                                        height: imgPath ? '100%' : '50%', // 이미지 업로드 여부에 따라 크기 조정
+                                        objectFit: imgPath ? 'contain' : 'none'  // 업로드 이미지에 맞추어 조정
+                                    }} // 이미지가 썸네일 크기에 맞도록 설정
                                 />
+                                {!imgPath && ( // imgPath가 없을 때만 텍스트가 렌더링되도록 조건부 렌더링
+                                    <div style={{
+                                        fontSize: '0.9rem',  // 텍스트 크기 조정
+                                        lineHeight: '1.2',  // 줄 간격 조정
+                                    }}>
+                                        파일을 선택해주세요
+                                        <br />
+                                        파일 당 최대 3MB
+                                    </div>
+                                )}
                             </label>
 
                             <input
@@ -128,27 +154,39 @@ function InputRepoInfo({ onClickCreateBtn, onTitleChange, onImageChange, onDateC
                                 accept='.png, .jpeg, .jpg'
                                 onChange={previewImage}
                                 ref={imgRef}
+                                style={{ display: 'none' }} // 파일 선택 input 요소를 숨김
                             />
                         </S.InputThumnail>
                     </S.SettingRepoInfo>
                     <S.SettingRepoInfo>
                         <S.SettingTitleText>기간 설정</S.SettingTitleText>
                         <S.InputDate>
-                            {isClickSettingDate ? (
+                            {isClickSettingDate && (
                                 <Calendar
                                     onChange={changeDate}
                                     selectRange={true}
                                     formatDay={(locale, date) => moment(date).format("DD")}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        maxWidth: '100%',
+                                        maxHeight: '100%'
+                                    }}
                                 />
-                            ) : startDate && endDate ? (
-                                <span>{`${moment(startDate).format('YYYY/MM/DD')} - ${moment(endDate).format('YYYY/MM/DD')}`}</span>
+                            )}
+                            {!isClickSettingDate && (startDate && endDate) ? (
+                                <span onClick={handleOpenCalendar}>
+                                    {`${moment(startDate).format('YYYY/MM/DD')} - ${moment(endDate).format('YYYY/MM/DD')}`}
+                                </span>
                             ) : (
                                 <span onClick={handleOpenCalendar}>날짜를 선택하세요</span>
                             )}
                         </S.InputDate>
                     </S.SettingRepoInfo>
-                    <S.CreateButton onClick={handleCreateButton}>생성하기</S.CreateButton>
                 </S.InputRepoInfoContainer>
+                <S.CreateButtonBox>
+                    <S.CreateButton onClick={handleCreateButton}>생성하기</S.CreateButton>
+                </S.CreateButtonBox>
             </S.ReposContainer>
         </>
     );

@@ -27,10 +27,10 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet, onNextSlide
   const handleIsSwiper = () => {
     onIsBaseInfoSet();
   }
-
+  
   // 유저토큰
   const userToken = localStorage.getItem('token');
-  
+
   // 통신 - 로그인 사용자 확인
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -45,7 +45,7 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet, onNextSlide
         }
       }
     };
-    
+
     fetchUserProfile(); // 비동기 함수 호출
   }, []);
 
@@ -129,12 +129,11 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet, onNextSlide
             />
           ))}
         </div>
-        <S.CreateButton onClick={handleConfirmSelection}>선택완료</S.CreateButton>
 
-
+        <S.CreateButtonBox>
+        <S.CreateButton onClick={handleConfirmSelection}>생성하기</S.CreateButton>
+      </S.CreateButtonBox>
       </S.ReposContainer>
-
-
     </>
   )
 }
