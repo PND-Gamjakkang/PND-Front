@@ -14,9 +14,12 @@ function ClassDiagram({ selectedProjectId }) {
     const [className, setClassName] = useState('');
     const [variables, setVariables] = useState('');
     const [methods, setMethods] = useState('');
-    const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
     const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
+
+    const [isClickDeleteClassBtn, setIsClickDeleteClassBtn] = useState(false); // 클래스 삭제 버튼 클릭 상태
+    const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
+    const [isClickDeleteComponentBtn, setIsClickDeleteComponentBtn] = useState(false); // 컴포넌트 삭제 버튼 클릭 상태
 
     // 코드가 변화될때마다 실행
     useEffect(() => {
@@ -79,10 +82,19 @@ function ClassDiagram({ selectedProjectId }) {
         setSelectedClass(className);
     };
 
+    // 편집 버튼 상태 관리
+    const setStateDeleteComponentBtn = () => {
+        setIsClickDeleteComponentBtn(true);
+    };
+    const setStateDeleteClassBtn = () => {
+        setIsClickDeleteClassBtn(true);
+    };
+
+
     // 부분 삭제 핸들러
-    const handleDeleteComponent = () => {
-        if (selectedClass) {
-            const updatedCode = viewCode.replace(new RegExp(`class ${selectedClass} {[^}]*}`, 'g'), '');
+    const handleDeleteComponent = (classToDelete) => {
+        if (classToDelete) {
+            const updatedCode = viewCode.replace(new RegExp(`class ${classToDelete} {[^}]*}`, 'g'), '');
             setViewCode(updatedCode);
             setSelectedClass(null);
             setCodeKey(prevKey => prevKey + 1);
@@ -90,18 +102,18 @@ function ClassDiagram({ selectedProjectId }) {
     };
 
     // 클래스 삭제 핸들러
-    const handleDeleteClass = () => {
-        if (selectedClass) {
+    const handleDeleteClass = (classToDelete) => {
+        if (classToDelete) {
             console.log("클래스 삭제 핸들러");
             // 1. 클래스 선언 제거
-            let updatedCode = viewCode.replace(new RegExp(`class\\s+${selectedClass}\\s*{[^}]*}`, 'g'), '');
+            let updatedCode = viewCode.replace(new RegExp(`class\\s+${classToDelete}\\s*{[^}]*}`, 'g'), '');
 
             // 2. 클래스 관련 관계 제거
             const relationPatterns = [
-                new RegExp(`\\b${selectedClass}\\b\\s*--.*`, 'g'), // 클래스가 왼쪽에 있는 경우
-                new RegExp(`.*--\\s*\\b${selectedClass}\\b`, 'g'),  // 클래스가 오른쪽에 있는 경우
-                new RegExp(`\\b${selectedClass}\\b\\s*:\\s*.*`, 'g'), // 클래스가 관계 주체일 때
-                new RegExp(`\\b\\w+\\b\\s*-->\\s*\\b${selectedClass}\\b`, 'g') // 클래스가 종속 관계일 때
+                new RegExp(`\\b${classToDelete}\\b\\s*--.*`, 'g'), // 클래스가 왼쪽에 있는 경우
+                new RegExp(`.*--\\s*\\b${classToDelete}\\b`, 'g'),  // 클래스가 오른쪽에 있는 경우
+                new RegExp(`\\b${classToDelete}\\b\\s*:\\s*.*`, 'g'), // 클래스가 관계 주체일 때
+                new RegExp(`\\b\\w+\\b\\s*-->\\s*\\b${classToDelete}\\b`, 'g') // 클래스가 종속 관계일 때
             ];
 
             relationPatterns.forEach(pattern => {
@@ -123,23 +135,41 @@ function ClassDiagram({ selectedProjectId }) {
     useEffect(() => {
         console.log(selectedClass);
         //handleDeleteClass();
-    }, [selectedClass]);
+        if (isClickDeleteClassBtn && selectedClass) {
+            console.log("클래스 삭제 중...");
+            handleDeleteClass(selectedClass);
+            setIsClickDeleteClassBtn(false); // 삭제 후 상태 초기화
+        }
+    }, [selectedClass,  isClickDeleteClassBtn]);
+    useEffect(() => {
+        console.log(selectedClass);
+        //handleDeleteClass();
+        if (isClickDeleteComponentBtn && selectedClass) {
+            console.log("클래스 삭제 중...");
+            handleDeleteComponent(selectedClass);
+            setIsClickDeleteComponentBtn(false); // 삭제 후 상태 초기화
+        }
+    }, [selectedClass,  isClickDeleteComponentBtn]);
 
     // 유저토큰
     const userToken = localStorage.getItem('token');
 
     useEffect(() => {
         console.log("클래스네임 변경");
+
     }, [className]);
 
-    // // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
-    // const authInstance = axios.create({
-    //     baseURL: 'http://13.124.4.73',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': `Bearer ${userToken}`,
-    //     },
-    // });
+    useEffect(() => {
+        if (isClickDeleteClassBtn && !selectedClass) {
+            console.log("클래스 삭제 버튼 클릭됨");
+        }
+    }, [isClickDeleteClassBtn])
+
+    useEffect(() => {
+        if (isClickDeleteComponentBtn && !selectedClass) {
+            console.log("컴포넌트 삭제 버튼 클릭됨");
+        }
+    }, [isClickDeleteComponentBtn])
 
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
@@ -267,9 +297,9 @@ function ClassDiagram({ selectedProjectId }) {
                     <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>
                 </S.ClassTitleTextBox>
                 <S.ClassEditButtons>
-                    <S.DeleteComponentBtn onClick={handleDeleteComponent}>부분 삭제</S.DeleteComponentBtn>
+                    <S.DeleteComponentBtn onClick={setStateDeleteComponentBtn}>부분 삭제</S.DeleteComponentBtn>
                     <S.Divider />
-                    <S.DeleteClassBtn onClick={handleDeleteClass}>클래스 삭제</S.DeleteClassBtn>
+                    <S.DeleteClassBtn onClick={setStateDeleteClassBtn}>클래스 삭제</S.DeleteClassBtn>
                     <S.Divider />
                     <S.DeleteAllBtn>전체 삭제</S.DeleteAllBtn>
                     {/* <S.GenerateAiBtn onClick={generateDiagram}>AI 자동생성</S.GenerateAiBtn> */}
