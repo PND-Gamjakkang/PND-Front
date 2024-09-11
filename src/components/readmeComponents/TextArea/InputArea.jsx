@@ -1,129 +1,132 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { 
   h1ButtonClicked, h2ButtonClicked, h3ButtonClicked, h4ButtonClicked, h5ButtonClicked, h6ButtonClicked,
   quoteButtonClicked, boldButtonClicked, italicButtonClicked, throughButtonClicked, codeButtonClicked, listItemButtonClicked,
-  topLangsButtonClicked,badgeButtonClicked,fileUploadButtonClicked
+  topLangsButtonClicked, badgeButtonClicked, fileUploadButtonClicked
 } from './MarkDownFuns';
 import { InputAreaContainer, InputText } from './InputAreaStyle';
-import axios from "axios";
 import { API } from "../../../api/axios";
 
-const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL, imgURL }) => {
+const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL, imgURL,selectedProjectId}) => {
   const localRef = useRef(null);
   const selectionRef = useRef(null);
-  const undoStack = useRef([]);//ctrl+z
-  const redoStack = useRef([]);//ctrl+y
-  const userToken = localStorage.getItem('token');
-  
-  // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
+  const undoStack = useRef([]);  // Ctrl + Z
+  const redoStack = useRef([]);  // Ctrl + Y
 
   const fetchRepoName = async () => {
-      try {
-        const { data } = await API.get('api/pnd/user/profile')
-        const userName = data.data.name;
-        return userName;
+    try {
+      const { data } = await API.get('api/pnd/user/profile');
+      return data.data.name;
     } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchAIReadme = async()=>{
+    try{
+      const requestStr = `api/pnd/readme/${selectedProjectId}`;
+      console.log(requestStr);
+      const data = await API.patch(requestStr);
+      console.log(data);
+    }
+    catch (error){
         console.log(error);
     }
   };
-
   const saveState = () => {
     if (localRef.current) {
-        const selection = window.getSelection();
-        const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+      const selection = window.getSelection();
+      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
 
-        undoStack.current.push({
-          content: localRef.current.innerText,
-          selection: range ? { start: range.startOffset, end: range.endOffset } : null
+      undoStack.current.push({
+        content: localRef.current.innerText,
+        selection: range ? { start: range.startOffset, end: range.endOffset } : null
       });
-        redoStack.current = []; 
+
+      redoStack.current = [];  // Redo 스택 초기화
     }
   };
 
   const handleUndo = () => {
-    console.log('handleUndo');
     if (undoStack.current.length > 0) {
-        const currentState = {
-            content: localRef.current.innerText,
-            selection: saveSelection()
-        };
+      const currentState = {
+        content: localRef.current.innerText,
+        selection: saveSelection()
+      };
 
-        redoStack.current.push(currentState);  
-        const lastState = undoStack.current.pop(); 
+      redoStack.current.push(currentState);
+      const lastState = undoStack.current.pop();
 
-        return lastState;
+      return lastState;
     }
-};
+  };
 
-  // ctrl Y
   const handleRedo = () => {
     if (redoStack.current.length > 0) {
-        const currentState = {
-            content: localRef.current.innerText,
-            selection: saveSelection()
-        };
+      const currentState = {
+        content: localRef.current.innerText,
+        selection: saveSelection()
+      };
 
-        undoStack.current.push(currentState);  
-        const nextState = redoStack.current.pop();  
-        return nextState;
+      undoStack.current.push(currentState);
+      const nextState = redoStack.current.pop();
+
+      return nextState;
     }
-};
+  };
 
-
-const restoreSelection = (savedSelection) => {
-  if (savedSelection && localRef.current) {
+  const restoreSelection = (savedSelection) => {
+    if (savedSelection && localRef.current) {
       const selection = window.getSelection();
       const range = document.createRange();
 
       const textNode = localRef.current.firstChild;
       if (textNode) {
-          const textLength = textNode.textContent.length;
+        const textLength = textNode.textContent.length;
 
-          const startOffset = Math.min(savedSelection.start, textLength);
-          const endOffset = Math.min(savedSelection.end, textLength);
+        const startOffset = Math.min(savedSelection.start, textLength);
+        const endOffset = Math.min(savedSelection.end, textLength);
 
-          range.setStart(textNode, startOffset);
-          range.setEnd(textNode, endOffset);
+        range.setStart(textNode, startOffset);
+        range.setEnd(textNode, endOffset);
 
-          selection.removeAllRanges();
-          selection.addRange(range);
+        selection.removeAllRanges();
+        selection.addRange(range);
       }
-  }
-};
+    }
+  };
 
   const saveSelection = () => {
     const selection = window.getSelection();
     if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        return { start: range.startOffset, end: range.endOffset };
+      const range = selection.getRangeAt(0);
+      return { start: range.startOffset, end: range.endOffset };
     }
     return null;
-};
+  };
 
   useEffect(() => {
-    if (localRef.current) {
-      const range = document.createRange();
-      const sel = window.getSelection();
-      range.setStart(localRef.current, 0);
-      range.collapse(true);
-      sel.removeAllRanges();
-      sel.addRange(range);
-      localRef.current.focus();
-      saveState();
+    if (localRef.current && content !== localRef.current.innerText) {
+      const selection = window.getSelection();
+      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+      const start = range ? range.startOffset : 0;
+  
+      localRef.current.innerText = content;
+  
+      if (range && localRef.current.firstChild) {
+        // 커서 위치를 복원
+        range.setStart(localRef.current.firstChild, start);
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
     }
-  }, []);
-
+  }, [content]);
+  
   useEffect(() => {
     if (clickedButton) {
       let newContent = content;
       let selection = null;
-      console.log('undoStack : ', undoStack.current.pop());
-      console.log(clickedButton);
-      if (!selectionRef.current || !selectionRef.current.rangeCount) {
-        return;
-      }
-      console.log(clickedButton);
-      
+
       const processClick = async () => {
         switch (clickedButton) {
           case 'undo': {
@@ -183,26 +186,30 @@ const restoreSelection = (savedSelection) => {
             console.log('InputArea:', newContent); // 로그 추가
             break;
           case 'Badge':
-            console.log(badgeURL);
+            //console.log(badgeURL);
             newContent = badgeButtonClicked(content, selectionRef.current, badgeURL);
             break;
           case 'Image':
-            console.log(imgURL);
+            //console.log(imgURL);
             newContent = fileUploadButtonClicked(content, selectionRef.current, imgURL);
+            break;
+          case 'AI':
+            console.log("AI BUtton clicked!");
+            fetchAIReadme();
             break;
           default:
             break;
         }
-  
+
         if (newContent && localRef.current) {
-          const selection = window.getSelection();
           localRef.current.innerText = newContent;
+          restoreSelection(selection);
         }
-  
+
         onChange(newContent);
         onMarkdownApplied('');
       };
-  
+
       // 비동기 처리를 해야 하는 경우만 processClick을 호출
       if (clickedButton === 'Lan') {
         processClick();
@@ -212,9 +219,8 @@ const restoreSelection = (savedSelection) => {
       }
     }
   }, [clickedButton, content, onChange, onMarkdownApplied, badgeURL, imgURL]);
-  
+
   const inputHandler = () => {
-    console.log("input!!");
     saveState();
     const changedText = localRef.current.innerText;
     onChange(changedText);
@@ -223,32 +229,32 @@ const restoreSelection = (savedSelection) => {
   const selectionHandler = () => {
     const selection = window.getSelection();
     if (selection.rangeCount > 0) {
-        selectionRef.current = selection;
+      selectionRef.current = selection;
     }
-};
+  };
 
-const handleKeyDown = (e) => {
-  if (e.key === 'Enter') {
-    document.execCommand('insertHTML', false, '\n\n');
-    e.preventDefault();
-  } else if (e.ctrlKey && e.key === 'z') {
-    e.preventDefault();
-    const lastState = handleUndo();
-    if (lastState) {
-      localRef.current.innerText = lastState.content;
-      restoreSelection(lastState.selection);
-      onChange(lastState.content);
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      document.execCommand('insertHTML', false, '\n\n');
+      e.preventDefault();
+    } else if (e.ctrlKey && e.key === 'z') {
+      e.preventDefault();
+      const lastState = handleUndo();
+      if (lastState) {
+        localRef.current.innerText = lastState.content;
+        restoreSelection(lastState.selection);
+        onChange(lastState.content);
+      }
+    } else if (e.ctrlKey && e.key === 'y') {
+      e.preventDefault();
+      const nextState = handleRedo();
+      if (nextState) {
+        localRef.current.innerText = nextState.content;
+        restoreSelection(nextState.selection);
+        onChange(nextState.content);
+      }
     }
-  } else if (e.ctrlKey && e.key === 'y') {
-    e.preventDefault();
-    const nextState = handleRedo();
-    if (nextState) {
-      localRef.current.innerText = nextState.content;
-      restoreSelection(nextState.selection);
-      onChange(nextState.content);
-    }
-  }
-};
+  };
 
   return (
     <InputAreaContainer>

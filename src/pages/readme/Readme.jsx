@@ -4,19 +4,39 @@ import MdArea from '../../components/readmeComponents/TextArea/MdArea';
 import InputArea from '../../components/readmeComponents/TextArea/InputArea';
 import { Title, Divider, MdAreaHeader, Container, Content, ReadmeContainer, Container2 } from './ReadmeStyle';
 import { Helmet } from 'react-helmet';
-import RepoSettingModal from '../../components/Common/RepoSettingModal';
+import RepoSettingModalForMyPage from '../../components/Common/RepoSettingModalForMyPage';
+import { API } from '../../api/axios';
+
 function Readme() {
   const inputRef = useRef(null);
   const [content, setContent] = useState("");
   const [clickedButton, setClickedButton] = useState("");
   const [badgeURL, setBadgeURL] = useState('');
   const [imageURL, setimageURL] = useState('');
-  const [isSelectedProject, setIsSelectedProject] = useState(false); // 다이어그램 생성할 프로젝트 담는 변수
+  const [isSelectedProject, setIsSelectedProject] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState('');
   const [isClickCreateBtn, setIsClickCreateBtn] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달의 열림/닫힘 상태
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState(null);
 
-  const userToken=localStorage.getItem('token');
+  const userToken = localStorage.getItem('token');
+
+  const fetchUserReadme = async (repoId) => {
+    try {
+      const response = await API.get(`api/pnd/readme/${repoId}`);
+      console.log(response.data);
+      setContent(response.data.data.readmeScript);
+      setError(null);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setError("선택한 프로젝트에 대한 README를 찾을 수 없습니다.");
+      } else {
+        setError("README를 불러오는 중 오류가 발생했습니다.");
+      }
+      setContent('');
+    }
+  };
+
   const handleInputChange = (newContent) => {
     setContent(newContent);
   };
@@ -42,10 +62,15 @@ function Readme() {
     setClickedButton('Image');
   };
 
-  // 페이지 로드 시 모달을 자동으로 열기 위한 useEffect
   useEffect(() => {
     setIsModalOpen(true);
   }, []);
+
+  useEffect(() => {
+    if (selectedProjectId) {
+      fetchUserReadme(selectedProjectId);
+    }
+  }, [selectedProjectId]); // selectedProjectId가 변경될 때마다 fetchUserReadme 호출
 
   return (
     <ReadmeContainer>
@@ -62,15 +87,19 @@ function Readme() {
       />
       <Content>
         <Container>
-          <InputArea
-            onChange={handleInputChange}
-            content={content}
-            inputRef={inputRef}
-            clickedButton={clickedButton}
-            onMarkdownApplied={handleMarkdownApplied}
-            badgeURL={badgeURL}
-            imgURL={imageURL}
-          />
+          {/* selectedProjectId가 존재할 때만 InputArea 렌더링 */}
+          {selectedProjectId && (
+            <InputArea
+              onChange={handleInputChange}
+              content={content}
+              inputRef={inputRef}
+              clickedButton={clickedButton}
+              onMarkdownApplied={handleMarkdownApplied}
+              badgeURL={badgeURL}
+              imgURL={imageURL}
+              selectedProjectId={selectedProjectId}  // selectedProjectId를 InputArea에 전달
+            />
+          )}
         </Container>
         <Divider/>
         <Container2>
@@ -78,10 +107,10 @@ function Readme() {
         </Container2>
       </Content>
       {isModalOpen && (
-        <RepoSettingModal
+        <RepoSettingModalForMyPage
           closeModal={() => setIsModalOpen(false)}
-          onSelectProject={() => setIsSelectedProject(true)} // 상태 업데이트 핸들러 전달
-          onSelectedProjectId={(id) => setSelectedProjectId(id)}
+          onSelectProject={() => setIsSelectedProject(true)}
+          onSelectedProjectId={(id) => setSelectedProjectId(id)} // RepoId를 받아와서 상태 업데이트
           onClickCreateBtn={() => setIsClickCreateBtn(true)}
         />
       )}

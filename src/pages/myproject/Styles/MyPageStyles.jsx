@@ -138,3 +138,22 @@ export const Divider = styled.div`
   background-color: #DADEE4;
   margin: 0 0.625vw; /* 10px */
 `;
+export const MdResult = styled.div`
+  min-height: 62.81vh;
+  max-height: 62.81vh;
+  font-size: 1.8vh;
+  color: black;
+  overflow: auto;
+  white-space: pre-wrap;
+  text-align: left;
+  padding: 1vh;
+`;
+
+export const DiagramResultBox = styled.div`
+width: 100%;
+height: 100%;
+border-radius: 10px;
+border: 1px solid #D9D9FF;
+background: #FFF;
+margin-top: 17px;
+`;
