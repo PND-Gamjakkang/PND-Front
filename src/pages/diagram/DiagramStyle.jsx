@@ -231,7 +231,7 @@ width: 100%;
 export const ClassViewCode = styled.div`
 width: 100%;
 height : 50.4vh;
-
+background-color: #000;
 `;
 
 /* 시퀀스 다이어그램 페이지  */
