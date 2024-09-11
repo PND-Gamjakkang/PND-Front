@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as S from './HeaderStyle.jsx';
 import logoSrc from '../../assets/images/main-logo.png';
+import altlogo from '../../assets/images/alt-profile.png';
 
 function Header() {
     const [userImage, setUserImage] = useState(null); // 기본 이미지
@@ -52,7 +53,13 @@ function Header() {
             </S.NavLinks>
             <Link to={logined ? '/profile' : '/login'}>
                 <S.NavLink className={location.pathname === '/login' || location.pathname === '/profile' ? 'active' : ''}>
-                    {logined ? <img src={userImage} alt="Profile" style={{ width: '30px', height: '30px', borderRadius: '50%' }} /> : '로그인'}
+                    {logined ? (
+                        <img
+                            src={userImage || altlogo}
+                            alt="Profile"
+                            style={{ width: '30px', height: '30px', borderRadius: '50%' }}
+                        />
+                    ) : '로그인'}
                 </S.NavLink>
             </Link>
         </S.HeaderLayout>

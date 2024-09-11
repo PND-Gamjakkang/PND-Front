@@ -19,7 +19,7 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
   const [repos, setRepos] = useState([]);
 
   const handleProjectSelection = (repoId, repoName) => {
-    console.log("handleProjectSelect에서 선택한 repoId: ", repoId);
+    // console.log("handleProjectSelect에서 선택한 repoId: ", repoId);
     setSelectedRepo(repoId); // 선택된 레포지토리 ID 설정
     onSelectProject(repoId); // 선택된 레포지토리 ID를 RepoSettingModal로 전달
   };
@@ -39,9 +39,9 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
         try {
           const response = await API.get(`/api/pnd/user/profile`);
           setUser(response.data.data);
-          console.log("사용자: " + response.data.data);
+          // console.log("사용자: " + response.data.data);
         } catch (error) {
-          console.error("Error fetching user profile:", error);
+          // console.error("Error fetching user profile:", error);
         }
       }
     };
@@ -58,12 +58,12 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
         const data = response.data.data;
         const newRepos = Array.isArray(data) ? data : [data];
         setRepos(newRepos);
-        console.log("레포지토리: " + JSON.stringify(newRepos, null, 2));
+        // console.log("레포지토리: " + JSON.stringify(newRepos, null, 2));
       } else {
-        console.error("HTTP error: ", response.status, response.statusText);
+        // console.error("HTTP error: ", response.status, response.statusText);
       }
     } catch (err) {
-      console.log("repository error", err);
+      // console.log("repository error", err);
     }
   };
 
@@ -77,7 +77,7 @@ function SelectRepo({ onCancelBtn, onSelectProject, onIsBaseInfoSet }) {
       // setSelectedRepo(null); // 이미 선택된 경우, 선택 해제
       setPendingRepo(repoId); // 임시로 레포지토리 ID를 저장
       // handleProjectSelection(repoId, repoName);
-      console.log("선택한 레포의 baseInfoSet의 값: " + baseInfoSet);
+      // console.log("선택한 레포의 baseInfoSet의 값: " + baseInfoSet);
     } else if (selectedRepo === null) { // 처음 눌렀을 때, 다른 거 눌렀을 때
       setPendingRepo(repoId); // 임시로 레포지토리 ID를 저장
       // setSelectedRepo(repoId); // 새로운 항목 선택

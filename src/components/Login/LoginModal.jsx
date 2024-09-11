@@ -37,9 +37,8 @@ export default function LoginModal({ onSuccess }) {
     
     const handleLogin = async () => {
         await fetchUserData();
-        setTimeout(() => {
-            window.location.assign(githubUrl);
-        }, 10000);
+        window.location.assign(githubUrl);
+
     };
             //     const getAccessToken = async (code) => {
     //         const client_id = 'YOUR_CLIENT_ID'; // 깃허브 OAuth 앱의 클라이언트 ID
