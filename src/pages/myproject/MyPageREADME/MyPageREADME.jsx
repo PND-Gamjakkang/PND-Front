@@ -1,25 +1,41 @@
-import React from 'react';
-import {PageContainer,Header,NavItem,NavMenu,ButtonGroup,EditButton,SaveButton,Title,ContentArea, Divider} from '../Styles/MyPageStyles';
-import {Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { PageContainer, Header, NavItem, NavMenu, ButtonGroup, EditButton, SaveButton, Title, ContentArea, Divider } from '../Styles/MyPageStyles';
+import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { useState } from 'react';
-import Download from '../Download';
+import { API } from '../../../api/axios';
+import RepoSettingModal from '../../../components/Common/RepoSettingModal';
 
 const MyPageReadme = () => {
-
-  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [selectedProjectId, setSelectedProjectId] = useState('');
+  const [readmeContent, setReadmeContent] = useState('');   const [isSelectedProject, setIsSelectedProject] = useState(false); 
+  const [error, setError] = useState(null); 
   const location = useLocation();
 
-  const handleButtonClick=(type)=>{
-    if(type=='save'){
-      setIsDownloadModalOpen(true);
-    }
-    else if(type=='edit'){
-
+  const fetchUserReadme = async (repoId) => {
+    try {
+        const response = await API.get(`api/pnd/readme/${repoId}`);
+        console.log(response.data);
+        //db에 저장된 readme content(String)으로 내용 설정
+        setReadmeContent(response.data.data.readmeScript);
+        setError(null); 
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            setError("선택한 프로젝트에 대한 README를 찾을 수 없습니다."); 
+        } else {
+            setError("README를 불러오는 중 오류가 발생했습니다."); 
+        }
+        setReadmeContent('');
     }
   };
 
-  const closeDownloadModal = () =>setIsDownloadModalOpen(false);
+  useEffect(() => {
+    console.log("선택한 프로젝트 아이디: " + selectedProjectId);
+}, [selectedProjectId]);
+
+  useEffect(() => {
+    setIsModalOpen(true);
+  }, []);
 
   return (
     <PageContainer>
@@ -41,16 +57,25 @@ const MyPageReadme = () => {
           <NavItem to='/mypageGithubReport' isActive={location.pathname === '/mypageGithubReport'}>GITHUB REPORT</NavItem>
         </NavMenu>
         <ButtonGroup>
-        <EditButton onClick={() => handleButtonClick('edit')}>수정하기</EditButton>
-          <SaveButton onClick={() => handleButtonClick('save')}>저장하기</SaveButton>
+          <EditButton>수정하기</EditButton>
+          <SaveButton>저장하기</SaveButton>
         </ButtonGroup>
       </Header>
       <Title>READ ME</Title>
-      <ContentArea> test 1234</ContentArea>
-      {isDownloadModalOpen && (
-        <Download closeModal={closeDownloadModal} />
+      <ContentArea>
+        {error ? error : (readmeContent || 'README를 로드 중입니다...')}
+      </ContentArea>
+      {isModalOpen && (
+        <RepoSettingModal
+          closeModal={() => setIsModalOpen(false)}
+          onSelectProject={() => setIsSelectedProject(true)}
+          onSelectedProjectId={(id) => {
+            setSelectedProjectId(id);
+            fetchUserReadme(id); 
+          }}
+        />
       )}
-      </PageContainer>
+    </PageContainer>
   );
 };
 
