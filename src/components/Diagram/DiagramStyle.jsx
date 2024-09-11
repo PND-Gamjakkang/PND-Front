@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+/* 다이어그램 종류 컴포넌트 */
 export const DiagramTypeLayout = styled.div`
 width: 33%;
 border-radius: 20px;
@@ -11,6 +12,11 @@ justify-content: center;
 align-items: center;
 position: relative;
 padding: 0.5vw;
+transition: border-color 0.3s ease;/* 부드러운 전환 효과 추가 */
+
+  &:hover {
+    border-color: #36CDFF; /* 마우스를 올렸을 때 테두리 색상 변경 */
+  }
 `;
 
 export const DiagramTypeIconBox = styled.img`

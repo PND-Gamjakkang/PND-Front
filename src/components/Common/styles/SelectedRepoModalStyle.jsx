@@ -39,9 +39,9 @@ width:100%;
 height: 100%;
 display:flex;
 flex-direction: column;
-
 align-items: center;
-gap: 5vh;
+gap: 2vh;
+
 `;
 export const SettingRepoInfo = styled.div`
 width: 70%;
@@ -64,7 +64,7 @@ line-height: 32px; /* 200% */
 
 export const InputTitle = styled.input`
 width:100%;
-height: 8vh;
+height: 50px;
 border-radius: 5px;
 border: 1px solid #D9D9FF;
 background: #FFF;
@@ -73,7 +73,7 @@ backdrop-filter: blur(2px);
 
 export const InputThumnail = styled.div`
 width:100%;
-height: 16vh;
+height: 18vh;
 border-radius: 5px;
 border: 1px solid #D9D9FF;
 background: #FFF;
@@ -82,23 +82,47 @@ display:flex;
 flex-direction:column;
 justify-content: center;
 align-items: center;
+  img {
+    width: 100%;  /* 부모 요소의 너비에 맞게 이미지 크기 조정 */
+    height: 100%; /* 부모 요소의 높이에 맞게 이미지 크기 조정 */
+    object-fit: contain;  /* 이미지가 왜곡되지 않도록 비율을 유지하면서 크기 조정 */
+    border-radius: 5px; /* 부모 요소와 동일한 테두리 반경 적용 */
+  }
 `;
 
 export const InputDate = styled.div`
 width:100%;
-height: 12vh;
+height: 22vh;
 border-radius: 5px;
 border: 1px solid #D9D9FF;
 background: #FFF;
 backdrop-filter: blur(2px);
+//overflow: hidden;  /* 추가: 자식 요소가 부모의 크기를 초과하지 않도록 설정 */
+display: flex;
+justify-content: center;
+align-items: center;
+  //overflow: visible; /* 오버플로우를 허용하여 자식 요소가 잘리지 않도록 설정 */
+  min-height: 100%; /* 필요시 최소 높이 설정 */
+  position: relative; /* 부모 요소에 상대적인 위치를 설정 */
+`;
+
+// 생성하기 버튼
+export const CreateButtonBox = styled.div`
+width: 100%;
+height: 7vh;
+display:flex;
+align-items: center;
+justify-content: center;
 `;
 
 export const CreateButton = styled.button`
-height: 5vh;
+width: 50%;
+height: 6vh;
 display:flex;
 justify-content: center;
 align-items: center;
-padding: 0 20%;
+padding: 0 15%;
 background: #5B59FC;
 color: white;
+border-radius: 5px;
 `;

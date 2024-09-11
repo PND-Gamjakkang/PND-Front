@@ -24,6 +24,11 @@ function Diagram() {
     const [selectedProjectId, setSelectedProjectId] = useState('');
     const [isClickCreateBtn, setIsClickCreateBtn] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달의 열림/닫힘 상태
+    const [title, setTitle] = useState('');
+    const [image, setImage] = useState('');
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
     const navigate = useNavigate(); // 선택한 다이어그램에 따라 페이지 다르게 이동하도록 하기 위한 네비게이션
     const location = useLocation();
 
@@ -147,10 +152,13 @@ function Diagram() {
             {/* 모달 렌더링 */}
             {isModalOpen && (
                 <RepoSettingModal
-                    closeModal={() => setIsModalOpen(false)}
+                    closeModal={() => setIsModalOpen(false)} // 모달창 닫는 명령어 전달
                     onSelectProject={() => setIsSelectedProject(true)} // 상태 업데이트 핸들러 전달
-                    onSelectedProjectId={(id) => setSelectedProjectId(id)}
-                    onClickCreateBtn={() => setIsClickCreateBtn(true)}
+                    onSelectedProjectId={(id) => setSelectedProjectId(id)} // 선택한 프로젝트 아이디 전달
+                    onClickCreateBtn={() => setIsClickCreateBtn(true)} // 생성하기 버튼 클릭된 상태 전달
+                    onTitleChange={(newTitle) => setTitle(newTitle)}
+                    onImageChange={(newImage) => setImage(newImage)}
+                    onDateChange={(start, end) => { setStartDate(start); setEndDate(end); }}
                 />
             )}
 
