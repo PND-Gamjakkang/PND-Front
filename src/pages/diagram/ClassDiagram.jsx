@@ -48,7 +48,7 @@ function ClassDiagram({ selectedProjectId }) {
         };
 
         renderDiagram();
-        fetchEditClassCode(viewCode);
+        //fetchEditClassCode(viewCode);
     }, [viewCode]); // viewCode가 변할 때마다 실행
 
     // 추가 버튼 핸들러
