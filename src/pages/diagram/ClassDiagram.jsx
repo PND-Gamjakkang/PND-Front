@@ -9,13 +9,14 @@ import ClassEditor from '../../components/Diagram/ClassEditor.jsx';
 import RelationshipEditor from '../../components/Diagram/RelationshipEditor.jsx';
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
 
-function ClassDiagram({ selectedProjectId }) {
+function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
     const [codeKey, setCodeKey] = useState(0);
     const [className, setClassName] = useState('');
     const [variables, setVariables] = useState('');
     const [methods, setMethods] = useState('');
     const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
     const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
     const [isClickDeleteClassBtn, setIsClickDeleteClassBtn] = useState(false); // 클래스 삭제 버튼 클릭 상태
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
@@ -210,6 +211,7 @@ function ClassDiagram({ selectedProjectId }) {
 
     // 레포지토리 gpt 분석 API 통신
     const fetchGpt = async () => {
+        setIsLoading(true); // 로딩 시작
         try {
             const requestBody = { repoId: selectedProjectId };
             const response = await API.patch(`api/pnd/diagram/class-gpt`, requestBody);
@@ -258,6 +260,8 @@ function ClassDiagram({ selectedProjectId }) {
             }
         } catch (err) {
             console.log("API 통신 중 오류 발생:", err);
+        } finally {
+            setIsLoading(false); // 로딩 끝
         }
     };
 
@@ -288,7 +292,7 @@ function ClassDiagram({ selectedProjectId }) {
 
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
-        if (selectedProjectId) {
+        if (selectedProjectId && onClickCreateBtn) {
             //fetchClassMermaid();
             fetchGpt();
         }
@@ -302,6 +306,7 @@ function ClassDiagram({ selectedProjectId }) {
 
     return (
         <S.ClassLayout>
+            {isLoading && <S.LoadingOverlay>로딩 중...</S.LoadingOverlay>}
             <S.ClassLeft>
                 <S.ClassTitleTextBox>
                     <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>
@@ -312,7 +317,8 @@ function ClassDiagram({ selectedProjectId }) {
                     <S.DeleteClassBtn onClick={setStateDeleteClassBtn}>클래스 삭제</S.DeleteClassBtn>
                     <S.Divider />
                     <S.DeleteAllBtn onClick={handleDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
-                    {/* <S.GenerateAiBtn onClick={generateDiagram}>AI 자동생성</S.GenerateAiBtn> */}
+                    <S.Divider />
+                    <S.GenerateAiBtn onClick={generateDiagram}>AI 자동생성</S.GenerateAiBtn>
                 </S.ClassEditButtons>
                 <S.ClassDiagramResultBox>
                     <div id="diagram-container" onClick={(e) => handleClassClick(e.target.innerText)}>

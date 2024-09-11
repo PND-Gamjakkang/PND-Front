@@ -56,6 +56,7 @@ function Diagram() {
     // 생성하러가기 버튼 클릭 유무 확인
     useEffect(() => {
         console.log("생성하러가기 버튼 클릭 유무: " + isClickCreateBtn);
+        setIsModalOpen(false);
     }, [isClickCreateBtn]);
 
 
@@ -89,7 +90,10 @@ function Diagram() {
                         {diagramType && isClickCreateBtn ? (
                             <>
                                 {location.pathname === '/diagram/class' && (
-                                    <ClassDiagram selectedProjectId={selectedProjectId} />
+                                    <ClassDiagram 
+                                    selectedProjectId={selectedProjectId}
+                                    onClickCreateBtn={isClickCreateBtn}
+                                    />
                                 )}
                                 {location.pathname === '/diagram/sequence' && (
                                     <SequenceDiagram selectedProjectId={selectedProjectId} />
@@ -161,7 +165,6 @@ function Diagram() {
                     onDateChange={(start, end) => { setStartDate(start); setEndDate(end); }}
                 />
             )}
-
         </>
     );
 }
