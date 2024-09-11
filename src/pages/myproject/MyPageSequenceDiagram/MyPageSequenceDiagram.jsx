@@ -1,11 +1,12 @@
 import React from 'react';
-import {PageContainer,Header,NavItem,NavMenu,ButtonGroup,EditButton,SaveButton,Title,ContentArea, Divider} from '../Styles/MyPageStyles';
+import {PageContainer,Header,NavItem,NavMenu,ButtonGroup,EditButton,SaveButton,Title,ContentArea, Divider,DiagramResultBox} from '../Styles/MyPageStyles';
 import {Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useState,useEffect } from 'react';
 import Download from '../Download';
 import { API } from '../../../api/axios';
 import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingModalForMyPage';
+import mermaid from 'mermaid';
 const MyPageSequenceDiagram = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
@@ -25,7 +26,7 @@ const MyPageSequenceDiagram = () => {
   };
   const fetchUserSequenceDiagram = async (repoId) => {
     try {
-        const response = await API.get(`api/pnd/diagram/sequence/${repoId}`);
+        const response = await API.get(`api/pnd/diagram/sequence?repoId=${repoId}`);
         console.log(response.data);
         setSequenceDiagramContent(response.data.data);
         setError(null); 
@@ -43,9 +44,60 @@ const MyPageSequenceDiagram = () => {
     console.log("선택한 프로젝트 아이디: " + selectedProjectId);
 }, [selectedProjectId]);
 
+
+//렌더링 테스트 코드
   useEffect(() => {
-    setIsModalOpen(true);
+    const diagramContainer = document.getElementById("diagram-container");
+
+    const c=`
+    sequenceDiagram
+    participant User as User
+    participant API as API Endpoints
+    participant Auth as AuthManager
+    participant DB as FirebaseDatabaseHelper
+    participant Storage as Firebase Storage
+    participant UI as User Interface
+    User->>API: Request endpoint
+    API->>Auth: User authentication
+    Auth-->>API: Authentication result
+    API->>DB: Perform database query
+    DB-->>API: Query results
+    API->>Storage: Access media storage
+    Storage-->>API: Return media data
+    API-->>User: Send response to User
+    User->>UI: Interact with UI components
+    UI-->>User: Update UI
+    `;
+
+    diagramContainer.innerHTML = `<div class="mermaid">${c}</div>`;
+    try {
+      mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+    } catch (error) {
+      console.error("Mermaid rendering error:", error);
+    }
   }, []);
+
+  useEffect(()=>{
+    setIsModalOpen(true);
+  },[]);
+
+  useEffect(() => {
+    const renderDiagram = () => {
+      // console.log("Rendering diagram with sequenceDiagramContent:", sequenceDiagramContent); 
+      const diagramContainer = document.getElementById("diagram-container");
+        
+      if (diagramContainer && sequenceDiagramContent && sequenceDiagramContent.trim()) {
+        diagramContainer.innerHTML = `<div class="mermaid">${sequenceDiagramContent}</div>`;
+        try {
+          mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+        } catch (error) {
+          console.error("Mermaid rendering error:", error);
+        }
+      }
+    };
+
+    renderDiagram(); 
+  }, [sequenceDiagramContent]); 
 
   const closeDownloadModal = () =>setIsDownloadModalOpen(false);
 
@@ -74,8 +126,12 @@ const MyPageSequenceDiagram = () => {
         </ButtonGroup>
       </Header>
       <Title>SEQUENCE DIAGRAM</Title>
-      <ContentArea> 
-      {error ? error : (sequenceDiagramContent || 'Sequence Diagram을 로드 중입니다...')}
+      <ContentArea>
+        <DiagramResultBox>
+          {error ? error : (
+            <div id="diagram-container">Sequence Diagram을 로드 중입니다...</div>
+          )}
+        </DiagramResultBox>
       </ContentArea>
       {isDownloadModalOpen && (
         <Download closeModal={closeDownloadModal} />
@@ -96,3 +152,4 @@ const MyPageSequenceDiagram = () => {
 };
 
 export default MyPageSequenceDiagram;
+

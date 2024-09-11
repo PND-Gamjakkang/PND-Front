@@ -18,7 +18,9 @@ const MyPageERD = () => {
 
   const fetchUserERD = async (repoId) => {
     try {
-        const response = await API.get(`api/pnd/diagram/erd/${repoId}`);
+        const requestStr = `api/pnd/diagram/erd?repoId=${repoId}`;
+
+        const response = await API.get(`api/pnd/diagram/er?repoId=${repoId}`);
         console.log(response.data);
         setERDContent(response.data.data.data);
         setError(null); 

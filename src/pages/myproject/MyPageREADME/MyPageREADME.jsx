@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { PageContainer, Header, NavItem, NavMenu, ButtonGroup, EditButton, SaveButton, Title, ContentArea, Divider } from '../Styles/MyPageStyles';
+import { PageContainer, Header, NavItem, NavMenu, ButtonGroup, EditButton, SaveButton, Title, ContentArea, Divider, MdResult } from '../Styles/MyPageStyles';
 import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { API } from '../../../api/axios';
 import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingModalForMyPage';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import 'github-markdown-css/github-markdown.css';
 
 const MyPageReadme = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -63,7 +66,11 @@ const MyPageReadme = () => {
       </Header>
       <Title>READ ME</Title>
       <ContentArea>
-        {error ? error : (readmeContent || 'README를 로드 중입니다...')}
+        <MdResult>
+      <ReactMarkdown rehypePlugins={[rehypeRaw]}>     
+      {error ? error : (readmeContent || 'README를 로드 중입니다...')}
+     </ReactMarkdown>
+     </MdResult>
       </ContentArea>
       {isModalOpen && (
         <RepoSettingModalForMyPage
