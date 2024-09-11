@@ -9,12 +9,12 @@ import Footer from './components/Footer/Footer.jsx';
 // 전체 레이아웃 크기 고정
 const BackGroundColor = styled.div`
   width: 100vw; /* 전체 너비 고정 */
-  height: 100vh; /* 전체 높이를 뷰포트 높이로 설정 */
+  //height: 100vh; /* 전체 높이를 뷰포트 높이로 설정 */
   background-color: #F8F8FF;
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* 스크롤 방지 */
+  //overflow: hidden; /* 스크롤 방지 */
 `;
 
 // 콘텐츠 영역 설정

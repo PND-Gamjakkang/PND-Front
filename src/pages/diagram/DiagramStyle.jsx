@@ -108,17 +108,20 @@ gap: 1.1vw;
 
 export const ClassLeft = styled.div`
 width: 26vw;
+height: 100%;
 position:relative;
 `;
 
 export const ClassMid = styled.div`
 width: 28vw;
 position:relative;
+height: 100%;
 `;
 
 export const ClassRight = styled.div`
 width: 26vw;
 position:relative;
+height: 100%;
 `;
 
 export const ClassTitleTextBox = styled.div`
@@ -179,6 +182,7 @@ border-radius: 10px;
 border: 1px solid #D9D9FF;
 background: #FFF;
 margin-top: 17px;
+
 `;
 
 

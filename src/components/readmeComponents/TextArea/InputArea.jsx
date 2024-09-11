@@ -13,6 +13,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   const undoStack = useRef([]);  // Ctrl + Z
   const redoStack = useRef([]);  // Ctrl + Y
 
+
   const fetchRepoName = async () => {
     try {
       const { data } = await API.get('api/pnd/user/profile');
@@ -22,6 +23,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
     }
   };
   const fetchAIReadme = async()=>{
+
     try{
       const requestStr = `api/pnd/readme/${selectedProjectId}`;
       console.log(requestStr);
