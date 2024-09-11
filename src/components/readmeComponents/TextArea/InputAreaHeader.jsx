@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../Button';
-import { Toolbar, InputAreaHeaderContainer, Toolbar2, FileDownloadButton } from './InputAreaHeaderStyle';
+import { Toolbar, InputAreaHeaderContainer, Toolbar2, FileDownloadButton,AIMakeButton } from './InputAreaHeaderStyle';
 import styled from 'styled-components';
 import Badge from '../Modals/Badge';
 import FileUpload from '../Modals/FileUpload';
@@ -22,7 +22,6 @@ const BadgeButton = styled(Button)``;
 const FileUploadButton = styled(Button)``;
 const RedoButton = styled(Button)``;
 const UndoButton = styled(Button)``;
-
 const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selectedProjectId, userToken }) => {
   const [isBadgeModalOpen, setBadgeModalOpen] = useState(false);
   const [isUploadModalOpen, setUploadModalOpen] = useState(false);
@@ -35,7 +34,6 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selec
     } else if (type === 'Image') {
       setUploadModalOpen(true);
     } else if (type === 'Download') {
-      console.log('다우놀드');
       setDownloadModalOpen(true);
     } else if (onButtonClick) {
       onButtonClick(type);
@@ -67,6 +65,7 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selec
         <ThroughButton onClick={() => handleButtonClick('throughLine')}>Through</ThroughButton>
         <CodeButton onClick={() => handleButtonClick('code')}>Code</CodeButton>
         <QuoteButton onClick={() => handleButtonClick('quote')}>Quote</QuoteButton>
+        <AIMakeButton onClick={()=> handleButtonClick('AI')}>AI 자동생성</AIMakeButton>
         <FileDownloadButton onClick={() => handleButtonClick('Download')}>저장하기</FileDownloadButton>
       </Toolbar>
 
