@@ -3,7 +3,7 @@ import { PageContainer, Header, NavItem, NavMenu, ButtonGroup, EditButton, SaveB
 import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { API } from '../../../api/axios';
-import RepoSettingModal from '../../../components/Common/RepoSettingModal';
+import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingModalForMyPage';
 
 const MyPageReadme = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -66,7 +66,7 @@ const MyPageReadme = () => {
         {error ? error : (readmeContent || 'README를 로드 중입니다...')}
       </ContentArea>
       {isModalOpen && (
-        <RepoSettingModal
+        <RepoSettingModalForMyPage
           closeModal={() => setIsModalOpen(false)}
           onSelectProject={() => setIsSelectedProject(true)}
           onSelectedProjectId={(id) => {
