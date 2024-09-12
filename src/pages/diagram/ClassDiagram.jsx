@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
+import Loader from '../../components/Common/Loader.jsx';
 
 // component
 import ClassEditor from '../../components/Diagram/ClassEditor.jsx';
@@ -16,7 +17,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
     const [methods, setMethods] = useState('');
     const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
     const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
-    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+    const [loading, setLoading] = useState(false); // 로딩 상태 추가
 
     const [isClickDeleteClassBtn, setIsClickDeleteClassBtn] = useState(false); // 클래스 삭제 버튼 클릭 상태
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
@@ -48,9 +49,11 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
             }
         };
 
-        renderDiagram();
+        if (!loading) {
+            renderDiagram();  // 로딩이 완료된 후에만 다이어그램을 렌더링
+        }
         //fetchEditClassCode(viewCode);
-    }, [viewCode]); // viewCode가 변할 때마다 실행
+    }, [viewCode, loading]); // viewCode가 변할 때마다 실행
 
     // 추가 버튼 핸들러
     const handleAddButton = () => {
@@ -151,7 +154,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
             handleDeleteClass(selectedClass);
             setIsClickDeleteClassBtn(false); // 삭제 후 상태 초기화
         }
-    }, [selectedClass,  isClickDeleteClassBtn]);
+    }, [selectedClass, isClickDeleteClassBtn]);
     useEffect(() => {
         console.log(selectedClass);
         //handleDeleteClass();
@@ -160,7 +163,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
             handleDeleteComponent(selectedClass);
             setIsClickDeleteComponentBtn(false); // 삭제 후 상태 초기화
         }
-    }, [selectedClass,  isClickDeleteComponentBtn]);
+    }, [selectedClass, isClickDeleteComponentBtn]);
 
     // 유저토큰
     const userToken = localStorage.getItem('token');
@@ -211,7 +214,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
 
     // 레포지토리 gpt 분석 API 통신
     const fetchGpt = async () => {
-        setIsLoading(true); // 로딩 시작
+        setLoading(true); // 로딩 시작
         try {
             const requestBody = { repoId: selectedProjectId };
             const response = await API.patch(`api/pnd/diagram/class-gpt`, requestBody);
@@ -261,7 +264,10 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
         } catch (err) {
             console.log("API 통신 중 오류 발생:", err);
         } finally {
-            setIsLoading(false); // 로딩 끝
+            // 2초 후 로딩 상태를 false로 설정
+            setTimeout(() => {
+                setLoading(false);
+            }, 1500);
         }
     };
 
@@ -306,7 +312,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
 
     return (
         <S.ClassLayout>
-            {isLoading && <S.LoadingOverlay>로딩 중...</S.LoadingOverlay>}
+            {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
             <S.ClassLeft>
                 <S.ClassTitleTextBox>
                     <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>

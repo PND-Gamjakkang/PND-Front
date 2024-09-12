@@ -9,7 +9,7 @@ import Footer from './components/Footer/Footer.jsx';
 // 전체 레이아웃 크기 고정
 const BackGroundColor = styled.div`
   width: 100vw; /* 전체 너비 고정 */
-  //height: 100vh; /* 전체 높이를 뷰포트 높이로 설정 */
+  height: 100vh; /* 전체 높이를 뷰포트 높이로 설정 */
   background-color: #F8F8FF;
   position: relative;
   display: flex;
@@ -21,6 +21,7 @@ const BackGroundColor = styled.div`
 const Content = styled.div`
   flex-grow: 1; /* 헤더와 푸터를 제외한 모든 공간을 차지 */
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
