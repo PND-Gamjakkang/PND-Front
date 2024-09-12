@@ -13,7 +13,6 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   const undoStack = useRef([]);  // Ctrl + Z
   const redoStack = useRef([]);  // Ctrl + Y
 
-
   const fetchRepoName = async () => {
     try {
       const { data } = await API.get('api/pnd/user/profile');
@@ -21,6 +20,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
     } catch (error) {
       console.log(error);
     }
+
   };
   const fetchAIReadme = async()=>{
 
@@ -34,6 +34,19 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
         console.log(error);
     }
   };
+
+  const fetchAIReadme = async()=>{
+    try{
+      const requestStr = `api/pnd/readme/${selectedProjectId}`;
+      console.log(requestStr);
+      const data = await API.patch(requestStr);
+      console.log(data);
+    }
+    catch (error){
+        console.log(error);
+    }
+  };
+  
   const saveState = () => {
     if (localRef.current) {
       const selection = window.getSelection();
