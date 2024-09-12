@@ -351,7 +351,7 @@ top: 2%;
 right: 2%;
   padding: 10px 20px;
   border-radius: 5px;
-  background: #36CDFF;
+  background: #5B59FC;
   color: white;
   border: none; 
   cursor: pointer;

@@ -19,7 +19,6 @@ function ThemeTemplate({onSaveTheme}) {
                     typeIcon={"🌝"}
                     typeName={"LIGHT"}
                     onClick={() => handleThemeClick("LIGHT")}
-                    
                 />
                 <ThemeType
                     typeIcon={"🌚"}

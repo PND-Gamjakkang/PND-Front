@@ -330,8 +330,8 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId && onClickCreateBtn) {
-            //fetchClassMermaid();
-            fetchGpt();
+            fetchClassMermaid();
+            //fetchGpt();
         }
     }, [selectedProjectId]);
 
@@ -340,7 +340,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
         setIsClickGetnerateAiBtn(true);
     };
 
-    
+
     return (
         <S.ClassLayout>
             {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
@@ -403,7 +403,6 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
                     </S.ClassViewCode>
                     <ThemeTemplate
                     onSaveTheme={saveSelectedTheme}
-
                     />
                 </S.ClassRightContainer>
             </S.ClassRight>
