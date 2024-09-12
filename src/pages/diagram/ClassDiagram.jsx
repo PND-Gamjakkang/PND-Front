@@ -25,12 +25,6 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
     const [isClickDeleteComponentBtn, setIsClickDeleteComponentBtn] = useState(false); // 컴포넌트 삭제 버튼 클릭 상태
 
-    // 코드가 변화될때마다 실행
-    useEffect(() => {
-        if (isClickGenerateAiBtn) {
-            setIsClickGetnerateAiBtn(false);  // 다이어그램 생성 후 상태를 다시 false로 변경
-        }
-    }, [isClickGenerateAiBtn]);
 
     // Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
@@ -222,27 +216,6 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         //fetchEditClassCode(viewCode); // 코드 수정 API 호출
     };
 
-    const fetchEditClassCode = async (updatedCode) => {
-        try {
-            const requestBody = {
-                repoId: selectedProjectId,
-                script: updatedCode
-            };
-            const response = await API.patch(`api/pnd/diagram/class`, requestBody);
-            if (response.status === 200) {
-                const updatedData = response.data.data; // 수정된 데이터를 변수에 저장
-                console.log('코드 수정 완료', updatedData);
-                //setViewCode(updatedData); // API 호출이 성공하면 viewCode를 업데이트
-            } else {
-                console.error("HTTP error: ", response.status);
-            }
-        } catch (err) {
-            console.log("API 통신 중 오류 발생:", err);
-        }
-    };
-
-
-
     // 레포지토리 gpt 분석 API 통신
     const fetchGpt = async () => {
         setLoading(true); // 로딩 시작
@@ -289,6 +262,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
                 console.log('수정된 GPT 분석 결과:', formattedCode);
 
                 setViewCode(formattedCode);
+                setCodeKey(prevKey => prevKey + 1);
             } else {
                 console.error("HTTP error: ", response.status);
             }
@@ -335,9 +309,16 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         }
     }, [selectedProjectId]);
 
+    // 코드가 변화될때마다 실행
+    useEffect(() => {
+        if (isClickGenerateAiBtn) {
+            fetchGpt();
+        }
+    }, [isClickGenerateAiBtn]);
+
     // 다이어그램 생성
-    const generateDiagram = () => {
-        setIsClickGetnerateAiBtn(true);
+    const handleGenerateAi = () => {
+        setIsClickGetnerateAiBtn(!isClickGenerateAiBtn);
     };
 
 
@@ -355,7 +336,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
                     <S.Divider />
                     <S.DeleteAllBtn onClick={handleDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
                     <S.Divider />
-                    <S.GenerateAiBtn onClick={generateDiagram}>AI 자동생성</S.GenerateAiBtn>
+                    <S.GenerateAiBtn onClick={handleGenerateAi}>AI 자동생성</S.GenerateAiBtn>
                 </S.ClassEditButtons>
                 <S.ClassDiagramResultBox>
                     <div id="diagram-container" onClick={(e) => handleClassClick(e.target.innerText)}>
