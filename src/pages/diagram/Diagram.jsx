@@ -32,6 +32,8 @@ function Diagram() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isBaseInfoSet, setIsBaseInfoSet] = useState(null); // 마이프로젝트에 이미 있는 항목을 선택했는지 안했는지의 상태
+    const [isClickSaveBtn, setIsClickSaveBtn] = useState(false); // 저장하기 버튼 상태 저장 변수
+    const [viewCode, setViewCode] = useState('');
 
     const navigate = useNavigate(); // 선택한 다이어그램에 따라 페이지 다르게 이동하도록 하기 위한 네비게이션
     const location = useLocation();
@@ -72,6 +74,31 @@ function Diagram() {
         }
     };
 
+    // 코드 수정 저장 api 통신
+    const fetchEditClassCode = async (updatedCode) => {
+        try {
+            const requestBody = {
+                repoId: selectedProjectId,
+                script: updatedCode
+            };
+            const response = await API.patch(`api/pnd/diagram/class`, requestBody);
+            if (response.status === 200) {
+                const updatedData = response.data.data; // 수정된 데이터를 변수에 저장
+                console.log('코드 저장 완료');
+            } else {
+                console.error("HTTP error: ", response.status);
+            }
+        } catch (err) {
+            console.log("API 통신 중 오류 발생:", err);
+        }
+    };
+
+    // SaveBtn 클릭 시 수정된 코드를 저장하는 함수
+    const handleSaveButtonClick = () => {
+        if (viewCode && selectedProjectId) {
+            fetchEditClassCode(viewCode);
+        }
+    };
 
     // 다이어그램 종류 선택 시
     function handleDiagramTypeClick(type) {
@@ -87,6 +114,11 @@ function Diagram() {
         } else if (type === "ERD") {
             navigate('/diagram/erd');
         }
+    }
+
+    function stateSaveBtn() {
+        setIsClickSaveBtn(!isClickSaveBtn);
+        handleSaveButtonClick();
     }
 
     function setStateBaseInfo() {
@@ -132,7 +164,7 @@ function Diagram() {
                                         <S.DiagramNavLink isActive={location.pathname === '/diagram/erd'}>ERD</S.DiagramNavLink>
                                     </Link>
                                 </S.DiagramNavBar>
-                                <SaveBtn>저장하기</SaveBtn>
+                                <SaveBtn onClick={stateSaveBtn}>저장하기</SaveBtn>
                             </>
                         ) : (
                             <S.DiagramPickerParagraph>생성할 다이어그램을 선택해주세요</S.DiagramPickerParagraph>
@@ -145,6 +177,8 @@ function Diagram() {
                                     <ClassDiagram
                                         selectedProjectId={selectedProjectId}
                                         onClickCreateBtn={isClickCreateBtn}
+                                        viewCode={viewCode}
+                                        setViewCode={setViewCode}
                                     />
                                 )}
                                 {location.pathname === '/diagram/sequence' && (

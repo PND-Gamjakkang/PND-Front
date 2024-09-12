@@ -15,9 +15,9 @@ justify-content: center;
 align-items: center;
 `;
 
-export default function SaveBtn() {
+export default function SaveBtn({onClick}) {
     return (
-        <SaveBtnBox>저장하기</SaveBtnBox>
+        <SaveBtnBox onClick={onClick}>저장하기</SaveBtnBox>
     )
 }
 
