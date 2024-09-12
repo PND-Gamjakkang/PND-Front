@@ -11,13 +11,13 @@ import RelationshipEditor from '../../components/Diagram/RelationshipEditor.jsx'
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
 import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
 
-function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
+function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode }) {
     const [codeKey, setCodeKey] = useState(0);
     const [className, setClassName] = useState('');
     const [variables, setVariables] = useState('');
     const [methods, setMethods] = useState('');
     const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
-    const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
+    //const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
 
