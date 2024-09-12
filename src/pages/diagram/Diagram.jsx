@@ -31,6 +31,7 @@ function Diagram() {
     const [image, setImage] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [isBaseInfoSet, setIsBaseInfoSet] = useState(null); // 마이프로젝트에 이미 있는 항목을 선택했는지 안했는지의 상태
 
     const navigate = useNavigate(); // 선택한 다이어그램에 따라 페이지 다르게 이동하도록 하기 위한 네비게이션
     const location = useLocation();
@@ -45,7 +46,7 @@ function Diagram() {
                 period: `${startDate} ~ ${endDate}`,
             };
             formData.append('data', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }));
-            
+
             // 제목과 기간 추가
             // formData.append('repoId', selectedProjectId);
             // formData.append('title', title);
@@ -88,6 +89,10 @@ function Diagram() {
         }
     }
 
+    function setStateBaseInfo() {
+        setIsBaseInfoSet(true);
+    }
+
     // 선택한 프로젝트 아이디 담겼는지 확인
     useEffect(() => {
         console.log("선택한 프로젝트 아이디: " + selectedProjectId);
@@ -101,7 +106,7 @@ function Diagram() {
 
     // 레포 기본 정보 저장하는 api 호출
     useEffect(() => {
-        if (isClickCreateBtn) { // 생성하기 버튼을 누른 경우에만 실행한다
+        if (isClickCreateBtn && !isBaseInfoSet) { // 기본 정보가 저장되어있지 않은 상태 && 기본 정보가 이미 저장되어있다면 기본 정보를 저장한다
             putRepoInfo();
         }
     }, [isClickCreateBtn]);
@@ -210,6 +215,7 @@ function Diagram() {
                     onTitleChange={(newTitle) => setTitle(newTitle)}
                     onImageChange={(newImage) => setImage(newImage)}
                     onDateChange={(start, end) => { setStartDate(start); setEndDate(end); }}
+                    stateBaseInfo={setStateBaseInfo}
                 />
             )}
         </>

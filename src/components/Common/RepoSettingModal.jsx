@@ -17,7 +17,7 @@ import UserRepo from '../retro/UserRepo';
 import SelectRepo from './SelectRepo';
 import InputRepoInfo from './InputRepoInfo';
 
-function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, onClickCreateBtn, onTitleChange, onImageChange, onDateChange  }) {
+function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, onClickCreateBtn, onTitleChange, onImageChange, onDateChange, stateBaseInfo  }) {
   // const [user, setUser] = useState([]); // 사용자 정보
   // const [repos, setRepos] = useState([]);
 
@@ -66,7 +66,10 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
   };
 
   useEffect(() => {
-    console.log("isBaseInfoset: " + isBaseInfoSet);
+    if(isBaseInfoSet) {
+      console.log("isBaseInfoset: " + isBaseInfoSet);
+      stateBaseInfo();
+    }
   },[isBaseInfoSet]);
 
   return (
@@ -120,6 +123,7 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
           <SelectRepo
            onCancelBtn={() => handleCancleBtn}
            onSelectProject={handleProjectSelect} 
+           onClickCreateBtn={onClickCreateBtn}
            onIsBaseInfoSet={() => setIsBaseInfoSet(true)}
            onNextSlide={handleSlideNext}
           />
