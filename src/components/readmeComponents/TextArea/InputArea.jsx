@@ -23,10 +23,15 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   };
   const fetchAIReadme = async()=>{
     try{
-      const requestStr = `api/pnd/readme/${selectedProjectId}`;
-      console.log(requestStr);
-      const data = await API.patch(requestStr);
-      console.log(data);
+      //const data = await API.patch('api/pnd/readme/69');
+      const data = await API.patch(`api/pnd/readme/${selectedProjectId}`);
+      console.log('selection pr id : ',selectedProjectId);
+      console.log('data:',data);
+      const AIReadmeContent = data.data.data.readme_script_gpt;
+      
+      console.log(AIReadmeContent);
+      console.log(typeof(AIReadmeContent));
+      return AIReadmeContent;
     }
     catch (error){
         console.log(error);
@@ -194,8 +199,8 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
             newContent = fileUploadButtonClicked(content, selectionRef.current, imgURL);
             break;
           case 'AI':
-            console.log("AI BUtton clicked!");
-            fetchAIReadme();
+            console.log("AI AI AI AI AI AI AI AI");
+            newContent = await fetchAIReadme();  
             break;
           default:
             break;
