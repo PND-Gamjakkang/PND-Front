@@ -14,13 +14,14 @@ const BackGroundColor = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* 스크롤 방지 */
+  //overflow: hidden; /* 스크롤 방지 */
 `;
 
 // 콘텐츠 영역 설정
 const Content = styled.div`
   flex-grow: 1; /* 헤더와 푸터를 제외한 모든 공간을 차지 */
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

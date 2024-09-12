@@ -3,20 +3,27 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
+import Loader from '../../components/Common/Loader.jsx';
 
 // component
 import ClassEditor from '../../components/Diagram/ClassEditor.jsx';
 import RelationshipEditor from '../../components/Diagram/RelationshipEditor.jsx';
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
+import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
 
-function ClassDiagram({ selectedProjectId }) {
+function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
     const [codeKey, setCodeKey] = useState(0);
     const [className, setClassName] = useState('');
     const [variables, setVariables] = useState('');
     const [methods, setMethods] = useState('');
-    const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
     const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
+    const [loading, setLoading] = useState(false); // 로딩 상태 추가
+    const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
+
+    const [isClickDeleteClassBtn, setIsClickDeleteClassBtn] = useState(false); // 클래스 삭제 버튼 클릭 상태
+    const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
+    const [isClickDeleteComponentBtn, setIsClickDeleteComponentBtn] = useState(false); // 컴포넌트 삭제 버튼 클릭 상태
 
     // 코드가 변화될때마다 실행
     useEffect(() => {
@@ -30,19 +37,25 @@ function ClassDiagram({ selectedProjectId }) {
         const renderDiagram = () => {
             console.log("Rendering diagram with viewCode:", viewCode); // 로그 추가
             const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && viewCode && viewCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
-                try {
-                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-                } catch (error) {
-                    console.error("Mermaid rendering error:", error);
+            if (diagramContainer && viewCode !== null) {
+                if (viewCode.trim() === '') {
+                    diagramContainer.innerHTML = ''; // 전체 삭제 시 다이어그램 초기화
+                } else {
+                    diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                    try {
+                        mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                    } catch (error) {
+                        console.error("Mermaid rendering error:", error);
+                    }
                 }
             }
         };
 
-        renderDiagram();
-        fetchEditClassCode(viewCode);
-    }, [viewCode]); // viewCode가 변할 때마다 실행
+        if (!loading) {
+            renderDiagram();  // 로딩이 완료된 후에만 다이어그램을 렌더링
+        }
+        //fetchEditClassCode(viewCode);
+    }, [viewCode, loading]); // viewCode가 변할 때마다 실행
 
     // 추가 버튼 핸들러
     const handleAddButton = () => {
@@ -79,44 +92,136 @@ function ClassDiagram({ selectedProjectId }) {
         setSelectedClass(className);
     };
 
-    // 클래스 삭제 핸들러
-    const handleDeleteClass = () => {
-        if (selectedClass) {
-            const updatedCode = viewCode.replace(new RegExp(`class ${selectedClass} {[^}]*}`, 'g'), '');
+    // 편집 버튼 상태 관리
+    const setStateDeleteComponentBtn = () => {
+        setIsClickDeleteComponentBtn(true);
+    };
+    const setStateDeleteClassBtn = () => {
+        setIsClickDeleteClassBtn(true);
+    };
+
+
+    // 부분 삭제 핸들러
+    const handleDeleteComponent = (classToDelete) => {
+        if (classToDelete) {
+            const updatedCode = viewCode.replace(new RegExp(`class ${classToDelete} {[^}]*}`, 'g'), '');
             setViewCode(updatedCode);
             setSelectedClass(null);
             setCodeKey(prevKey => prevKey + 1);
         }
     };
 
+    // 클래스 삭제 핸들러
+    const handleDeleteClass = (classToDelete) => {
+        if (classToDelete) {
+            console.log("클래스 삭제 핸들러");
+            // 1. 클래스 선언 제거
+            let updatedCode = viewCode.replace(new RegExp(`class\\s+${classToDelete}\\s*{[^}]*}`, 'g'), '');
+
+            // 2. 클래스 관련 관계 제거
+            const relationPatterns = [
+                new RegExp(`\\b${classToDelete}\\b\\s*--.*`, 'g'), // 클래스가 왼쪽에 있는 경우
+                new RegExp(`.*--\\s*\\b${classToDelete}\\b`, 'g'),  // 클래스가 오른쪽에 있는 경우
+                new RegExp(`\\b${classToDelete}\\b\\s*:\\s*.*`, 'g'), // 클래스가 관계 주체일 때
+                new RegExp(`\\b\\w+\\b\\s*-->\\s*\\b${classToDelete}\\b`, 'g') // 클래스가 종속 관계일 때
+            ];
+
+            relationPatterns.forEach(pattern => {
+                updatedCode = updatedCode.replace(pattern, '');
+            });
+
+            // 3. 빈 줄 제거 (남은 빈 줄을 제거합니다)
+            updatedCode = updatedCode.replace(/^\s*[\r\n]/gm, '');
+
+            // 4. setViewCode와 상태 초기화
+            setViewCode(updatedCode);
+            setSelectedClass(null); // 선택된 클래스 초기화
+            setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
+        }
+    };
+
+    const handleDeleteAllBtn = () => {
+        setViewCode(' '); // viewCode를 빈 문자열로 설정하여 모든 다이어그램 요소 삭제
+        setSelectedClass(null); // 선택된 클래스 초기화
+        setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
+    }
+
+    // 선택한 테마로 코드 적용하는 메소드
+    const saveSelectedTheme = (selectedTheme) => {
+        setSeletedTheme(selectedTheme);
+    }
+
+    const handleSelectedTheme = () => {
+        if (selectedTheme) {
+            // Mermaid 테마 설정
+            mermaid.initialize({
+                theme: selectedTheme.toLowerCase() // 테마 이름을 소문자로 변환하여 적용 (light, dark 등)
+            });
+    
+            // 다이어그램을 다시 렌더링
+            const diagramContainer = document.getElementById("diagram-container");
+            if (diagramContainer && viewCode !== null) {
+                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                try {
+                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                } catch (error) {
+                    console.error("Mermaid rendering error:", error);
+                }
+            }
+        }
+    }
+    useEffect(() => {
+        console.log("선택한 테마: " + selectedTheme);
+        handleSelectedTheme();
+    },[selectedTheme]);
+
     // 선택된 클래스 이름 알기
     useEffect(() => {
         console.log(selectedClass);
-        handleDeleteClass();
-    }, [selectedClass]);
+        //handleDeleteClass();
+        if (isClickDeleteClassBtn && selectedClass) {
+            console.log("클래스 삭제 중...");
+            handleDeleteClass(selectedClass);
+            setIsClickDeleteClassBtn(false); // 삭제 후 상태 초기화
+        }
+    }, [selectedClass, isClickDeleteClassBtn]);
+
+    useEffect(() => {
+        console.log(selectedClass);
+        //handleDeleteClass();
+        if (isClickDeleteComponentBtn && selectedClass) {
+            console.log("클래스 삭제 중...");
+            handleDeleteComponent(selectedClass);
+            setIsClickDeleteComponentBtn(false); // 삭제 후 상태 초기화
+        }
+    }, [selectedClass, isClickDeleteComponentBtn]);
 
     // 유저토큰
     const userToken = localStorage.getItem('token');
 
     useEffect(() => {
         console.log("클래스네임 변경");
+
     }, [className]);
 
-    // // authInstance가 이미 axios 인스턴스로 정의되어 있다고 가정
-    // const authInstance = axios.create({
-    //     baseURL: 'http://13.124.4.73',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': `Bearer ${userToken}`,
-    //     },
-    // });
-    
+    useEffect(() => {
+        if (isClickDeleteClassBtn && !selectedClass) {
+            console.log("클래스 삭제 버튼 클릭됨");
+        }
+    }, [isClickDeleteClassBtn])
+
+    useEffect(() => {
+        if (isClickDeleteComponentBtn && !selectedClass) {
+            console.log("컴포넌트 삭제 버튼 클릭됨");
+        }
+    }, [isClickDeleteComponentBtn])
+
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
         console.log("ViewCode가 수정되었습니다!\n" + viewCode);
         //fetchEditClassCode(viewCode); // 코드 수정 API 호출
     };
-    
+
     const fetchEditClassCode = async (updatedCode) => {
         try {
             const requestBody = {
@@ -135,11 +240,12 @@ function ClassDiagram({ selectedProjectId }) {
             console.log("API 통신 중 오류 발생:", err);
         }
     };
-    
+
 
 
     // 레포지토리 gpt 분석 API 통신
     const fetchGpt = async () => {
+        setLoading(true); // 로딩 시작
         try {
             const requestBody = { repoId: selectedProjectId };
             const response = await API.patch(`api/pnd/diagram/class-gpt`, requestBody);
@@ -188,6 +294,11 @@ function ClassDiagram({ selectedProjectId }) {
             }
         } catch (err) {
             console.log("API 통신 중 오류 발생:", err);
+        } finally {
+            // 2초 후 로딩 상태를 false로 설정
+            setTimeout(() => {
+                setLoading(false);
+            }, 1500);
         }
     };
 
@@ -218,8 +329,9 @@ function ClassDiagram({ selectedProjectId }) {
 
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
-        if (selectedProjectId) {
+        if (selectedProjectId && onClickCreateBtn) {
             fetchClassMermaid();
+            //fetchGpt();
         }
     }, [selectedProjectId]);
 
@@ -231,14 +343,17 @@ function ClassDiagram({ selectedProjectId }) {
 
     return (
         <S.ClassLayout>
+            {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
             <S.ClassLeft>
                 <S.ClassTitleTextBox>
                     <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>
                 </S.ClassTitleTextBox>
                 <S.ClassEditButtons>
-                    <S.RemoveComponentBtn onClick={handleDeleteClass}>컴포넌트 삭제</S.RemoveComponentBtn>
+                    <S.DeleteComponentBtn onClick={setStateDeleteComponentBtn}>부분 삭제</S.DeleteComponentBtn>
                     <S.Divider />
-                    <S.RemoveAllBtn>전체 삭제</S.RemoveAllBtn>
+                    <S.DeleteClassBtn onClick={setStateDeleteClassBtn}>클래스 삭제</S.DeleteClassBtn>
+                    <S.Divider />
+                    <S.DeleteAllBtn onClick={handleDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
                     <S.Divider />
                     <S.GenerateAiBtn onClick={generateDiagram}>AI 자동생성</S.GenerateAiBtn>
                 </S.ClassEditButtons>
@@ -286,6 +401,9 @@ function ClassDiagram({ selectedProjectId }) {
                             />
                         )}
                     </S.ClassViewCode>
+                    <ThemeTemplate
+                    onSaveTheme={saveSelectedTheme}
+                    />
                 </S.ClassRightContainer>
             </S.ClassRight>
         </S.ClassLayout>

@@ -106,6 +106,7 @@ align-items: center;
   position: relative; /* 부모 요소에 상대적인 위치를 설정 */
 `;
 
+
 // 생성하기 버튼
 export const CreateButtonBox = styled.div`
 width: 100%;
