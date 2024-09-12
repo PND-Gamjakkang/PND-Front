@@ -3,7 +3,7 @@ import { GlobalStyle } from './style/globalStyle';
 import { theme } from './style/theme.js';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import Header from './components/header/Header.jsx';
+import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
 
 // 전체 레이아웃 크기 고정

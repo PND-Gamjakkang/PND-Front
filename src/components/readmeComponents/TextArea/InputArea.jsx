@@ -22,18 +22,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
     }
 
   };
-  const fetchAIReadme = async()=>{
 
-    try{
-      const requestStr = `api/pnd/readme/${selectedProjectId}`;
-      console.log(requestStr);
-      const data = await API.patch(requestStr);
-      console.log(data);
-    }
-    catch (error){
-        console.log(error);
-    }
-  };
 
   const fetchAIReadme = async()=>{
     try{
