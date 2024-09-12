@@ -9,6 +9,7 @@ import Loader from '../../components/Common/Loader.jsx';
 import ClassEditor from '../../components/Diagram/ClassEditor.jsx';
 import RelationshipEditor from '../../components/Diagram/RelationshipEditor.jsx';
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
+import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
 
 function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
     const [codeKey, setCodeKey] = useState(0);
@@ -18,6 +19,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
     const [selectedClass, setSelectedClass] = useState(null); // 선택된 클래스 이름
     const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
+    const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
 
     const [isClickDeleteClassBtn, setIsClickDeleteClassBtn] = useState(false); // 클래스 삭제 버튼 클릭 상태
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
@@ -144,6 +146,34 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
         setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
     }
 
+    // 선택한 테마로 코드 적용하는 메소드
+    const saveSelectedTheme = (selectedTheme) => {
+        setSeletedTheme(selectedTheme);
+    }
+
+    const handleSelectedTheme = () => {
+        if (selectedTheme) {
+            // Mermaid 테마 설정
+            mermaid.initialize({
+                theme: selectedTheme.toLowerCase() // 테마 이름을 소문자로 변환하여 적용 (light, dark 등)
+            });
+    
+            // 다이어그램을 다시 렌더링
+            const diagramContainer = document.getElementById("diagram-container");
+            if (diagramContainer && viewCode !== null) {
+                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                try {
+                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                } catch (error) {
+                    console.error("Mermaid rendering error:", error);
+                }
+            }
+        }
+    }
+    useEffect(() => {
+        console.log("선택한 테마: " + selectedTheme);
+        handleSelectedTheme();
+    },[selectedTheme]);
 
     // 선택된 클래스 이름 알기
     useEffect(() => {
@@ -155,6 +185,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
             setIsClickDeleteClassBtn(false); // 삭제 후 상태 초기화
         }
     }, [selectedClass, isClickDeleteClassBtn]);
+
     useEffect(() => {
         console.log(selectedClass);
         //handleDeleteClass();
@@ -309,7 +340,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
         setIsClickGetnerateAiBtn(true);
     };
 
-
+    
     return (
         <S.ClassLayout>
             {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
@@ -370,6 +401,10 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn }) {
                             />
                         )}
                     </S.ClassViewCode>
+                    <ThemeTemplate
+                    onSaveTheme={saveSelectedTheme}
+
+                    />
                 </S.ClassRightContainer>
             </S.ClassRight>
         </S.ClassLayout>

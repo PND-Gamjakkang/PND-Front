@@ -180,7 +180,7 @@ width: 100%;
 height: 100%;
 border-radius: 10px;
 border: 1px solid #D9D9FF;
-background: #FFF;
+// background: #FFF;
 margin-top: 17px;
 
 `;

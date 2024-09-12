@@ -297,6 +297,41 @@ scrollbar-width: none; /* Firefox에서 스크롤 바 숨기기 */
     display: none; /* Webkit 기반 브라우저에서 스크롤 바 숨기기 */
 }
 `;
+/* 테마 템플릿 */
+export const ThemeTemplateContainer = styled.div`
+width: 100%;
+height: 225px;
+border-radius: 10px;
+background: #F8F8FF;
+padding: 10px;
+`;
+
+export const ThemeTypeContainer = styled.div`
+width: 100%;
+display:flex;
+gap: 10px;
+
+`;
+
+export const ThemeTypeBox = styled.button`
+width: 25%;
+height: 90px;
+border-radius: 10px;
+border: 1px solid #B7B6FF;
+background: #D9D9FF;
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items:center;
+`;
+
+export const ThemeTypeIcon = styled.div`
+
+`;
+
+export const ThemeTypeName = styled.p`
+
+`;
 
 // 추가 버튼
 export const AddRelationButton = styled.button`
