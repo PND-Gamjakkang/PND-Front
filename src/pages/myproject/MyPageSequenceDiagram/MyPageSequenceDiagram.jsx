@@ -1,12 +1,13 @@
 import React from 'react';
 import {PageContainer,Header,NavItem,NavMenu,ButtonGroup,EditButton,SaveButton,Title,ContentArea, Divider,DiagramResultBox} from '../Styles/MyPageStyles';
-import {Link, useLocation } from 'react-router-dom';
+import {Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useState,useEffect } from 'react';
 import Download from '../Download';
 import { API } from '../../../api/axios';
 import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingModalForMyPage';
 import mermaid from 'mermaid';
+import { Navigate } from 'react-router-dom';
 const MyPageSequenceDiagram = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
@@ -15,13 +16,13 @@ const MyPageSequenceDiagram = () => {
   const [isSelectedProject, setIsSelectedProject] = useState(false); 
   const [error,setError] = useState('');
   const location = useLocation();
-
+  const navigate = useNavigate();
   const handleButtonClick=(type)=>{
     if(type=='save'){
       setIsDownloadModalOpen(true);
     }
     else if(type=='edit'){
-
+      
     }
   };
   const fetchUserSequenceDiagram = async (repoId) => {

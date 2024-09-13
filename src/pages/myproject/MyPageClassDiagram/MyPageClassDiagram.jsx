@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer, Header, NavItem, NavMenu, ButtonGroup, EditButton, SaveButton, Title, ContentArea, Divider, DiagramResultBox } from '../Styles/MyPageStyles';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Download from '../Download';
 import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingModalForMyPage';
 import { API } from '../../../api/axios';
 import mermaid from 'mermaid';
 import ViewCode from '../../../components/Diagram/ViewCode.jsx';
+import { Navigate } from 'react-router-dom';
 
 const MyPageClassDiagram = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -16,12 +17,13 @@ const MyPageClassDiagram = () => {
   const [isSelectedProject, setIsSelectedProject] = useState(false); 
   const [error, setError] = useState('');
   const location = useLocation();
-
+  const navigate = useNavigate();
   const handleButtonClick = (type) => {
     if (type === 'save') {
       setIsDownloadModalOpen(true);
     } else if (type === 'edit') {
-      // Edit 기능 구현
+      console.log('edit');
+      //Navigate('readme');
     }
   };
 

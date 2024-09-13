@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer, Header, NavItem, NavMenu, ButtonGroup, EditButton, SaveButton, Title, ContentArea, Divider, MdResult } from '../Styles/MyPageStyles';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { API } from '../../../api/axios';
 import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingModalForMyPage';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import 'github-markdown-css/github-markdown.css';
-
+import { Navigate } from 'react-router-dom';
 const MyPageReadme = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [selectedProjectId, setSelectedProjectId] = useState('');
   const [readmeContent, setReadmeContent] = useState('');   const [isSelectedProject, setIsSelectedProject] = useState(false); 
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
   const location = useLocation();
+  const handleButtonClick = (type) =>
+   {
+    if (type === 'save') {
+      //setIsDownloadModalOpen(true);
+    } else if (type === 'edit') {
+      // console.log('edit');
+      navigate('/readme/');
+    }
+  };
+
 
   const fetchUserReadme = async (repoId) => {
     try {
@@ -60,8 +71,8 @@ const MyPageReadme = () => {
           <NavItem to='/mypageGithubReport' isActive={location.pathname === '/mypageGithubReport'}>GITHUB REPORT</NavItem>
         </NavMenu>
         <ButtonGroup>
-          <EditButton>수정하기</EditButton>
-          <SaveButton>저장하기</SaveButton>
+        <EditButton onClick={() => handleButtonClick('edit')}>수정하기</EditButton>
+        <SaveButton onClick={()=>handleButtonClick('save')}>저장하기</SaveButton>
         </ButtonGroup>
       </Header>
       <Title>READ ME</Title>

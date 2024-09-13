@@ -121,6 +121,7 @@ export const Title = styled.div`
 
 export const ContentArea = styled.div`
   width: 89.375vw; /* 1430px */
+  max-wdith : 89.375vw;
   height: 43.75vw; /* 700px */
   background-color: #f8f8ff;
   flex-shrink: 0;
@@ -140,6 +141,8 @@ export const Divider = styled.div`
 `;
 export const MdResult = styled.div`
   min-height: 62.81vh;
+  width : 89vw;
+  max-width : 89vw;
   max-height: 62.81vh;
   font-size: 1.8vh;
   color: black;
