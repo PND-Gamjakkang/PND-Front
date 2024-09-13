@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const SaveBtnBox = styled.button`
 width: 7.3vw;
 height: 35px;
-
 color: white;
 text-align: center;
 font-size: 0.8rem;
@@ -13,6 +12,9 @@ background: #36CDFF;
 display:flex;
 justify-content: center;
 align-items: center;
+position: absolute;
+top: 10px;
+right: 10px;
 `;
 
 export default function SaveBtn({onClick}) {
