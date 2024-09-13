@@ -359,3 +359,25 @@ right: 2%;
     background-color: #4747D1;
   }
 `;
+
+/* 시퀀스 에디터 */
+export const SequenceEditorContainer = styled.div`
+width: 100%;
+`;
+
+export const InputMessage = styled.input`
+width: 7.39vw;
+height: 5vh;
+border-radius: 5px;
+border: 1px solid #B7B6FF;
+background: #D9D9FF;
+  &::placeholder {
+    color: #5B59FC;
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 0px; /* 0% */
+  }
+`;

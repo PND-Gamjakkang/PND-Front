@@ -164,19 +164,19 @@ font-size: 0.8rem;
 `;
 
 export const DeleteComponentBtn = styled.button`
-width: 25%;
+flex-grow: 1;
 `;
 
 export const DeleteClassBtn = styled.button`
-width: 25%;
+flex-grow: 1;
 `;
 
 export const DeleteAllBtn = styled.button`
-width: 25%;
+flex-grow: 1;
 `;
 
 export const GenerateAiBtn = styled.button`
-width: 25%;
+flex-grow: 1;
 `;
 
 export const ClassDiagramResultBox = styled.div`
@@ -249,7 +249,7 @@ margin-top: 10px;
 `;
 
 export const SequencePageLeft = styled.div`
-width: 50%;
+width: 40%;
 height: 80%;
 `;
 
@@ -259,8 +259,14 @@ height: 100%;
 border-radius: 10px;
 background: #F8F8FF;
 `;
+
+export const SequencePageRight = styled.div`
+width: 33%;
+height: 80%;
+`;
+
 export const SequenceCodeBox = styled.div`
-width: 50%;
+
 height: 80%;
 border-radius: 10px;
 background: #000;

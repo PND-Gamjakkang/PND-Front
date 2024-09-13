@@ -96,7 +96,7 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
           {isSaved ? '마이 페이지에 저장되었습니다.' : '저장 중입니다...'} <br />
           {isSaved && '해당 파일을 다운로드 하시겠습니까?'}
         </ExplainText>
-
+        
         {!isDiagramPage && (
           <DownloadButton onClick={downloadMD} disabled={!isSaved}>다운로드 하기</DownloadButton>
         )}

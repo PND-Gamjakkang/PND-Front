@@ -45,7 +45,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
             }
         };
 
-        if (!loading) {
+        if (!loading && viewCode) {
             renderDiagram();  // 로딩이 완료된 후에만 다이어그램을 렌더링
         }
         //fetchEditClassCode(viewCode);

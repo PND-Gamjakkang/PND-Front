@@ -4,19 +4,26 @@ import * as S from './DiagramStyle.jsx';
 import axios from 'axios';
 import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
+import SequenceEditor from '../../components/Diagram/SequenceEditor.jsx';
+import SequenceRelationshipEditor from '../../components/Diagram/SequenceRelationshipEditor.jsx';
+import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
 
-function SequenceDiagram({ selectedProjectId }) {
+
+function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode }) {
     const [codeKey, setCodeKey] = useState(0);
     const [sequenceCode, setSequenceCode] = useState(null); // 시퀀스 다이어그램 코드 담는 변수
+    const [className1, setClassName1] = useState('');
+    const [className2, setClassName2] = useState('');
+    const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
 
 
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {
-            console.log("Rendering diagram with viewCode:", sequenceCode);
+            console.log("Rendering diagram with viewCode:", viewCode);
             const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && sequenceCode && sequenceCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${sequenceCode}</div>`;
+            if (diagramContainer && viewCode && viewCode.trim()) {
+                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
                 try {
                     mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
                 } catch (error) {
@@ -28,21 +35,75 @@ function SequenceDiagram({ selectedProjectId }) {
         // Mermaid 렌더링을 약간 지연시켜 DOM이 준비된 후 실행
         setTimeout(renderDiagram, 0);
         //fetchEditClassCode(sequenceCode);
-    }, [sequenceCode]);
+    }, [viewCode]);
 
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
-        console.log("ViewCode가 수정되었습니다!\n" + sequenceCode);
+        console.log("ViewCode가 수정되었습니다!\n" + viewCode);
         //fetchEditClassCode(viewCode); // 코드 수정 API 호출
     };
+
+    // 추가 버튼 핸들러
+    const handleAddButton = () => {
+        if (className1 && className2) {
+            const newSequenceCode = `
+            participant ${className1} as ${className2}
+            `;
+            setViewCode(prevCode => prevCode + newSequenceCode);
+            setCodeKey(prevKey => prevKey + 1);
+        } else {
+            console.log("두 클래스 이름을 모두 입력해야 합니다.");
+        }
+    };
+    // 관계 추가 핸들러
+    const handleAddRelation = ({ classA, classB, relation, message }) => {
+        const relationMermaidSyntax = {
+            '요청': '->',
+            '응답': '-->>',
+        };
+        const newRelationCode = `
+                ${classA} ${relationMermaidSyntax[relation]} ${classB} : "${message}"
+            `;
+        setViewCode(prevCode => prevCode + newRelationCode);
+        setCodeKey(prevKey => prevKey + 1);
+    };
+
+    // 선택한 테마로 코드 적용하는 메소드
+    const saveSelectedTheme = (selectedTheme) => {
+        setSeletedTheme(selectedTheme);
+    }
+
+    const handleSelectedTheme = () => {
+        if (selectedTheme) {
+            // Mermaid 테마 설정
+            mermaid.initialize({
+                theme: selectedTheme.toLowerCase() // 테마 이름을 소문자로 변환하여 적용 (light, dark 등)
+            });
+    
+            // 다이어그램을 다시 렌더링
+            const diagramContainer = document.getElementById("diagram-container");
+            if (diagramContainer && viewCode !== null) {
+                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                try {
+                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                } catch (error) {
+                    console.error("Mermaid rendering error:", error);
+                }
+            }
+        }
+    }
+    useEffect(() => {
+        console.log("선택한 테마: " + selectedTheme);
+        handleSelectedTheme();
+    },[selectedTheme]);
 
     // Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {
-            console.log("Rendering diagram with viewCode:", sequenceCode); // 로그 추가
+            console.log("Rendering diagram with viewCode:", viewCode); // 로그 추가
             const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && sequenceCode && sequenceCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${sequenceCode}</div>`;
+            if (diagramContainer && viewCode && viewCode.trim()) {
+                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
                 try {
                     mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
                 } catch (error) {
@@ -52,7 +113,7 @@ function SequenceDiagram({ selectedProjectId }) {
         };
 
         renderDiagram();
-    }, [sequenceCode]); // viewCode가 변할 때마다 실행
+    }, [viewCode]); // viewCode가 변할 때마다 실행
 
     // 유저토큰
     const userToken = localStorage.getItem('token');
@@ -109,7 +170,7 @@ function SequenceDiagram({ selectedProjectId }) {
 
                 console.log('수정된 GPT 분석 결과:', formattedCode);
 
-                setSequenceCode(formattedCode);
+                setViewCode(formattedCode);
             } else {
                 console.error("HTTP error: ", response.status);
             }
@@ -144,7 +205,7 @@ function SequenceDiagram({ selectedProjectId }) {
 
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
-        if (selectedProjectId) {
+        if (selectedProjectId && onClickCreateBtn) {
             //fetchGpt();
             fetchSequenceMermaid();
         }
@@ -153,23 +214,59 @@ function SequenceDiagram({ selectedProjectId }) {
     return (
         <S.SequenceLayout>
             <S.SequencePageLeft>
+                <S.ClassTitleTextBox>
+                    <S.DiagramTypeTitleText>SEQUENCE DIAGRAM</S.DiagramTypeTitleText>
+                </S.ClassTitleTextBox>
+                <S.ClassEditButtons>
+                    <S.DeleteAllBtn>전체 삭제</S.DeleteAllBtn>
+                    <S.Divider />
+                    <S.GenerateAiBtn>AI 자동생성</S.GenerateAiBtn>
+                </S.ClassEditButtons>
+
                 <S.SequenceResultBox>
                     <div id="diagram-container">
                         {/* Mermaid 다이어그램이 이곳에 렌더링됩니다 */}
                     </div>
                 </S.SequenceResultBox>
-                <S.GenerateAiSequenceBtn>AI 자동 생성하기</S.GenerateAiSequenceBtn>
             </S.SequencePageLeft>
-            <S.SequenceCodeBox>
-                {sequenceCode && (
-                    <ViewCode
-                        key={codeKey}
-                        viewCode={sequenceCode}
-                        setViewCode={setSequenceCode}
-                        onSave={handleViewCodeSave}
+            <S.ClassMid>
+                <S.ClassTitleTextBox>
+                    <S.DiagramTypeTitleText>EDIT DIAGRAM</S.DiagramTypeTitleText>
+                </S.ClassTitleTextBox>
+                <S.EditDiagramContainer>
+                    <S.ClassAddButtonBox>
+                        <S.AddButton onClick={handleAddButton}>추가</S.AddButton>
+                    </S.ClassAddButtonBox>
+                    <SequenceEditor
+                        className1={className1}
+                        setClassName1={setClassName1}
+                        className2={className2}
+                        setClassName2={setClassName2}
                     />
-                )}
-            </S.SequenceCodeBox>
+                    <SequenceRelationshipEditor onAddRelation={handleAddRelation} />
+
+                </S.EditDiagramContainer>
+            </S.ClassMid>
+
+            <S.SequencePageRight>
+                <S.ClassTitleTextBox>
+                    <S.DiagramTypeTitleText>VIEW CODE</S.DiagramTypeTitleText>
+                </S.ClassTitleTextBox>
+                <S.SequenceCodeBox>
+                    {viewCode && (
+                        <ViewCode
+                            key={codeKey}
+                            viewCode={viewCode}
+                            setViewCode={setViewCode}
+                            onSave={handleViewCodeSave}
+                        />
+                    )}
+                </S.SequenceCodeBox>
+                <ThemeTemplate
+                    onSaveTheme={saveSelectedTheme}
+                />
+
+            </S.SequencePageRight>
         </S.SequenceLayout>
     )
 }
