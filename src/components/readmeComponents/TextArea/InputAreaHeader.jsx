@@ -91,6 +91,7 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selec
 
       {isDownloadModalOpen && (
         <FileDownload
+          page={'readme'}
           content={content}
           closeModal={closeDownloadModal}
           selectedProjectId={selectedProjectId}  

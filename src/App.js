@@ -21,7 +21,7 @@ const BackGroundColor = styled.div`
 const Content = styled.div`
   flex-grow: 1; /* 헤더와 푸터를 제외한 모든 공간을 차지 */
   width: 100%;
-  height: 100%;
+  height: 93%;
   display: flex;
   flex-direction: column;
   align-items: center;

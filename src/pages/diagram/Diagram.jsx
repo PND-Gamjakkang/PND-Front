@@ -5,6 +5,7 @@ import DiagramType from '../../components/Diagram/DiagramType.jsx';
 import { API } from '../../api/axios.js';
 import { MultipartApi } from '../../api/axios.js';
 import axios from 'axios';
+import FileDownload from '../../components/readmeComponents/Modals/FileDownload.jsx';
 
 // image
 import diagramClassIcon from '../../assets/images/diagram-class-icon.png';
@@ -21,6 +22,7 @@ import SequenceDiagram from './SequenceDiagram.jsx';
 import ErdDiagram from './ErdDiagram.jsx';
 import SaveBtn from '../../components/Common/SaveButton.jsx';
 
+
 function Diagram() {
     const [diagramType, setDiagramType] = useState(''); // 다이어그램 종류 담는 변수
     const [isSelectedProject, setIsSelectedProject] = useState(false); // 다이어그램 생성할 프로젝트 담는 변수
@@ -34,6 +36,7 @@ function Diagram() {
     const [isBaseInfoSet, setIsBaseInfoSet] = useState(null); // 마이프로젝트에 이미 있는 항목을 선택했는지 안했는지의 상태
     const [isClickSaveBtn, setIsClickSaveBtn] = useState(false); // 저장하기 버튼 상태 저장 변수
     const [viewCode, setViewCode] = useState('');
+    const [showFileDownload, setShowFileDownload] = useState(false);
 
     const navigate = useNavigate(); // 선택한 다이어그램에 따라 페이지 다르게 이동하도록 하기 위한 네비게이션
     const location = useLocation();
@@ -48,11 +51,6 @@ function Diagram() {
                 period: `${startDate} ~ ${endDate}`,
             };
             formData.append('data', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }));
-
-            // 제목과 기간 추가
-            // formData.append('repoId', selectedProjectId);
-            // formData.append('title', title);
-            // formData.append('period', `${startDate} ~ ${endDate}`);
 
             // 이미지 파일 추가 (이미지 파일이 존재하는 경우에만 추가)
             if (image) {
@@ -93,10 +91,14 @@ function Diagram() {
         }
     };
 
+    // 유저토큰
+    const userToken = localStorage.getItem('token');
+
     // SaveBtn 클릭 시 수정된 코드를 저장하는 함수
     const handleSaveButtonClick = () => {
         if (viewCode && selectedProjectId) {
             fetchEditClassCode(viewCode);
+            setShowFileDownload(!showFileDownload);
         }
     };
 
@@ -250,6 +252,15 @@ function Diagram() {
                     onImageChange={(newImage) => setImage(newImage)}
                     onDateChange={(start, end) => { setStartDate(start); setEndDate(end); }}
                     stateBaseInfo={setStateBaseInfo}
+                />
+            )}
+            {showFileDownload && (
+                <FileDownload
+                    page={location.pathname}
+                    //closeModal={closeDownloadModal}
+                    content={viewCode}
+                    selectedProjectId={selectedProjectId}
+                    userToken={userToken}
                 />
             )}
         </>
