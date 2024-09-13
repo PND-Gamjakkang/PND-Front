@@ -19,18 +19,19 @@ export const DiagramLayout = styled.div`
 /* 다이어그램 네비게이션바 */
 export const DiagramTopBarContainer = styled.div`
   width: 100%; /* 부모 요소(Content)의 전체 너비를 차지 */
-  height: 8vh; /* 부모 요소(Content)의 전체 높이를 차지 */
-  display: flex;
-  align-items: center;
+  height: 7%; /* 부모 요소(Content)의 전체 높이를 차지 */
+  // display: flex;
+  // align-items: center;
   background-color: white;
   margin: 0.4vh 0;
   position: relative;
-  justify-content: space-between;
+  // justify-content: space-between;
 `;
 
 export const DiagramNavBar = styled.div`
 width: 27%;
-height: 100%;
+height:100%;
+
 display:flex;
 align-items: center;
 
@@ -71,9 +72,10 @@ align-items: center;
 // 다이어그램 페이지
 export const DiagramContainer = styled.div`
   width: 100%; /* 부모 요소의 전체 너비 */
-  height: 100%; /* 부모 요소의 전체 높이 */
+  height: 93%; /* 부모 요소의 전체 높이 */
   background-color: white;
   padding: 0 2.5vh;
+
 `;
 
 export const DiagramsContainer = styled.div`
@@ -99,31 +101,36 @@ export const DiagramPickerParagraph = styled.div`
 /* 클래스 다이어그램 */
 export const ClassLayout = styled.div`
 width: 100%;
-height: 100%;
+height:100%;
 display:flex;
-margin: 2.5vh 0;
-gap: 1.1vw;
+// margin-top: 3.45%;
+// margin: 2.5vh 0;
+// gap: 1.1vw;
 
 `;
 
 export const ClassLeft = styled.div`
 width: 26vw;
+height: 100%;
 position:relative;
 `;
 
 export const ClassMid = styled.div`
 width: 28vw;
 position:relative;
+height: 100%;
 `;
 
 export const ClassRight = styled.div`
 width: 26vw;
 position:relative;
+height: 100%;
 `;
 
 export const ClassTitleTextBox = styled.div`
 width: 100%;
-margin-top: 10px;
+height: 5%;
+margin: 3.42% 0;
 display:flex;
 flex-direction:column;
 justify-content: center;
@@ -153,38 +160,43 @@ background: #F8F8FF;
 flex: 1;
 text-align: center;
 font-size: 0.8rem;
-margin-top: 30.4px;
+// margin-top: 30.4px;
 `;
 
-export const RemoveComponentBtn = styled.button`
-width: 33%;
+export const DeleteComponentBtn = styled.button`
+width: 25%;
 `;
 
-export const RemoveAllBtn = styled.button`
-width: 33%;
+export const DeleteClassBtn = styled.button`
+width: 25%;
+`;
+
+export const DeleteAllBtn = styled.button`
+width: 25%;
 `;
 
 export const GenerateAiBtn = styled.button`
-width: 33%;
+width: 25%;
 `;
 
 export const ClassDiagramResultBox = styled.div`
 width: 100%;
-height: 100%;
+height: 85%;
 border-radius: 10px;
 border: 1px solid #D9D9FF;
-background: #FFF;
+// background: #FFF;
 margin-top: 17px;
+
 `;
 
 
 /* 클래스 에디터 */
 export const EditDiagramContainer = styled.div`
 width: 100%;
-height:100%;
+height:93%;
 border-radius: 10px;
 background-color: #F8F8FF;
-margin-top: 30.4px;
+// margin-top: 30.4px;
 padding: 5px 1.4vw;
 position: relative;
 `;
@@ -219,11 +231,12 @@ right:1.3vw;
 /* 코드 뷰 */
 export const ClassRightContainer = styled.div`
 width: 100%;
+height: 91%;
 `;
 export const ClassViewCode = styled.div`
 width: 100%;
 height : 50.4vh;
-
+background-color: #000;
 `;
 
 /* 시퀀스 다이어그램 페이지  */
@@ -330,4 +343,21 @@ width: 100%;
 height: 50%;
 border-radius: 10px;
 background: #000;
+`;
+
+// 로딩 중
+export const LoadingOverlay = styled.div`
+   position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8); /* 반투명 흰색 배경 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem; /* 텍스트 크기 */
+    z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
+    color: #333; /* 텍스트 색상 */
+    text-align: center; /* 텍스트 가운데 정렬 */
 `;

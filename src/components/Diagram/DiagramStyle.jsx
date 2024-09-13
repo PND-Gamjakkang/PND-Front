@@ -262,9 +262,10 @@ export const ViewCodeContainer = styled.div`
 width: 100%;
 height: 100%;
 border-radius: 10px;
-background-color: #000;
+// background-color: #000;
 margin-top: 25px;
 padding: 0.6vw;
+position: relative;
 
 `;
 
@@ -283,9 +284,9 @@ scrollbar-width: none;  /* Firefox에서 스크롤 바 숨기기 */
 `;
 
 export const CodeTextArea = styled.textarea`
-width:100%;
+width:70%;
 height:100%;
-background-color: #000;
+background-color:#000;
 color: white;
 border: none; /* border를 없앰 */
 resize: none; /* 사용자가 크기 조정을 못하게 함 */
@@ -295,6 +296,41 @@ scrollbar-width: none; /* Firefox에서 스크롤 바 숨기기 */
 &::-webkit-scrollbar {
     display: none; /* Webkit 기반 브라우저에서 스크롤 바 숨기기 */
 }
+`;
+/* 테마 템플릿 */
+export const ThemeTemplateContainer = styled.div`
+width: 100%;
+height: 225px;
+border-radius: 10px;
+background: #F8F8FF;
+padding: 10px;
+`;
+
+export const ThemeTypeContainer = styled.div`
+width: 100%;
+display:flex;
+gap: 10px;
+
+`;
+
+export const ThemeTypeBox = styled.button`
+width: 25%;
+height: 90px;
+border-radius: 10px;
+border: 1px solid #B7B6FF;
+background: #D9D9FF;
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items:center;
+`;
+
+export const ThemeTypeIcon = styled.div`
+
+`;
+
+export const ThemeTypeName = styled.p`
+
 `;
 
 // 추가 버튼
@@ -310,10 +346,12 @@ font-size: 0.8rem;
 
 // 수정 버튼
 export const SaveButton = styled.button`
-  margin-top: 10px;
+position: absolute;
+top: 2%;
+right: 2%;
   padding: 10px 20px;
   border-radius: 5px;
-  background: #36CDFF;
+  background: #5B59FC;
   color: white;
   border: none; 
   cursor: pointer;

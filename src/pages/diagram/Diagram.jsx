@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as S from './DiagramStyle.jsx';
 import DiagramType from '../../components/Diagram/DiagramType.jsx';
+import { API } from '../../api/axios.js';
+import { MultipartApi } from '../../api/axios.js';
+import axios from 'axios';
+import FileDownload from '../../components/readmeComponents/Modals/FileDownload.jsx';
 
 // image
 import diagramClassIcon from '../../assets/images/diagram-class-icon.png';
@@ -16,7 +20,8 @@ import RepoSettingModal from '../../components/Common/RepoSettingModal.jsx';
 import ClassDiagram from './ClassDiagram.jsx';
 import SequenceDiagram from './SequenceDiagram.jsx';
 import ErdDiagram from './ErdDiagram.jsx';
-import { SaveButton } from '../../components/Diagram/DiagramStyle.jsx';
+import SaveBtn from '../../components/Common/SaveButton.jsx';
+
 
 function Diagram() {
     const [diagramType, setDiagramType] = useState(''); // 다이어그램 종류 담는 변수
@@ -28,9 +33,74 @@ function Diagram() {
     const [image, setImage] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [isBaseInfoSet, setIsBaseInfoSet] = useState(null); // 마이프로젝트에 이미 있는 항목을 선택했는지 안했는지의 상태
+    const [isClickSaveBtn, setIsClickSaveBtn] = useState(false); // 저장하기 버튼 상태 저장 변수
+    const [viewCode, setViewCode] = useState('');
+    const [showFileDownload, setShowFileDownload] = useState(false);
 
     const navigate = useNavigate(); // 선택한 다이어그램에 따라 페이지 다르게 이동하도록 하기 위한 네비게이션
     const location = useLocation();
+
+    const putRepoInfo = async () => {
+        try {
+            const formData = new FormData();
+
+            // JSON 데이터 추가
+            const jsonData = {
+                title: title,
+                period: `${startDate} ~ ${endDate}`,
+            };
+            formData.append('data', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }));
+
+            // 이미지 파일 추가 (이미지 파일이 존재하는 경우에만 추가)
+            if (image) {
+                formData.append('image', image); // 이미지 파일을 추가
+            } else {
+                formData.append('image', null); // 이미지가 없을 때 null로 설정
+            }
+
+            // 서버로 요청 보내기
+            const response = await MultipartApi.put(`api/pnd/repo/${selectedProjectId}`, formData);
+
+            if (response.status === 200) {
+                console.log('서버 응답:', response.data);
+            } else {
+                console.error("HTTP error: ", response.status);
+            }
+        } catch (err) {
+            console.log("API 통신 중 오류 발생:", err);
+        }
+    };
+
+    // 코드 수정 저장 api 통신
+    const fetchEditClassCode = async (updatedCode) => {
+        try {
+            const requestBody = {
+                repoId: selectedProjectId,
+                script: updatedCode
+            };
+            const response = await API.patch(`api/pnd/diagram/class`, requestBody);
+            if (response.status === 200) {
+                const updatedData = response.data.data; // 수정된 데이터를 변수에 저장
+                console.log('코드 저장 완료');
+            } else {
+                console.error("HTTP error: ", response.status);
+            }
+        } catch (err) {
+            console.log("API 통신 중 오류 발생:", err);
+        }
+    };
+
+    // 유저토큰
+    const userToken = localStorage.getItem('token');
+
+    // SaveBtn 클릭 시 수정된 코드를 저장하는 함수
+    const handleSaveButtonClick = () => {
+        if (viewCode && selectedProjectId) {
+            fetchEditClassCode(viewCode);
+            setShowFileDownload(!showFileDownload);
+        }
+    };
 
     // 다이어그램 종류 선택 시
     function handleDiagramTypeClick(type) {
@@ -48,6 +118,15 @@ function Diagram() {
         }
     }
 
+    function stateSaveBtn() {
+        setIsClickSaveBtn(!isClickSaveBtn);
+        handleSaveButtonClick();
+    }
+
+    function setStateBaseInfo() {
+        setIsBaseInfoSet(true);
+    }
+
     // 선택한 프로젝트 아이디 담겼는지 확인
     useEffect(() => {
         console.log("선택한 프로젝트 아이디: " + selectedProjectId);
@@ -56,6 +135,14 @@ function Diagram() {
     // 생성하러가기 버튼 클릭 유무 확인
     useEffect(() => {
         console.log("생성하러가기 버튼 클릭 유무: " + isClickCreateBtn);
+        setIsModalOpen(false);
+    }, [isClickCreateBtn]);
+
+    // 레포 기본 정보 저장하는 api 호출
+    useEffect(() => {
+        if (isClickCreateBtn && !isBaseInfoSet) { // 기본 정보가 저장되어있지 않은 상태 && 기본 정보가 이미 저장되어있다면 기본 정보를 저장한다
+            putRepoInfo();
+        }
     }, [isClickCreateBtn]);
 
 
@@ -79,7 +166,7 @@ function Diagram() {
                                         <S.DiagramNavLink isActive={location.pathname === '/diagram/erd'}>ERD</S.DiagramNavLink>
                                     </Link>
                                 </S.DiagramNavBar>
-                                <SaveButton>저장하기</SaveButton>
+                                <SaveBtn onClick={stateSaveBtn}>저장하기</SaveBtn>
                             </>
                         ) : (
                             <S.DiagramPickerParagraph>생성할 다이어그램을 선택해주세요</S.DiagramPickerParagraph>
@@ -89,7 +176,12 @@ function Diagram() {
                         {diagramType && isClickCreateBtn ? (
                             <>
                                 {location.pathname === '/diagram/class' && (
-                                    <ClassDiagram selectedProjectId={selectedProjectId} />
+                                    <ClassDiagram
+                                        selectedProjectId={selectedProjectId}
+                                        onClickCreateBtn={isClickCreateBtn}
+                                        viewCode={viewCode}
+                                        setViewCode={setViewCode}
+                                    />
                                 )}
                                 {location.pathname === '/diagram/sequence' && (
                                     <SequenceDiagram selectedProjectId={selectedProjectId} />
@@ -159,9 +251,18 @@ function Diagram() {
                     onTitleChange={(newTitle) => setTitle(newTitle)}
                     onImageChange={(newImage) => setImage(newImage)}
                     onDateChange={(start, end) => { setStartDate(start); setEndDate(end); }}
+                    stateBaseInfo={setStateBaseInfo}
                 />
             )}
-
+            {showFileDownload && (
+                <FileDownload
+                    page={location.pathname}
+                    //closeModal={closeDownloadModal}
+                    content={viewCode}
+                    selectedProjectId={selectedProjectId}
+                    userToken={userToken}
+                />
+            )}
         </>
     );
 }

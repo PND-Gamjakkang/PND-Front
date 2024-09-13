@@ -4,9 +4,20 @@ import { ModalContent, CloseButton, Logo, ExplainText, DownloadButton, MyPageBut
 import logo from '../../../assets/images/download-logo.png';
 import { Helmet } from 'react-helmet';
 import { API } from "../../../api/axios";
+import mermaid from 'mermaid';
 
-const FileDownload = ({ content, closeModal, selectedProjectId, userToken }) => {
+const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken }) => {
   const [isSaved, setIsSaved] = useState(false);
+  const [isDiagramPage, setIsDiagramPage] = useState(false);
+
+  // `page` 값에 따라 `isDiagramPage` 상태 업데이트
+  useEffect(() => {
+    if (page !== 'readme') {
+      setIsDiagramPage(true);
+    } else {
+      setIsDiagramPage(false);
+    }
+  }, [page]);
 
   useEffect(() => {
     const saveReadme = async () => {
@@ -15,8 +26,8 @@ const FileDownload = ({ content, closeModal, selectedProjectId, userToken }) => 
           repoId: selectedProjectId,
           content: content,
         };
-        console.log('repoId : ',selectedProjectId);
-        console.log('content : ',content);
+        console.log('repoId : ', selectedProjectId);
+        console.log('content : ', content);
         const response = await API.post(`api/pnd/readme`, requestBody);
         console.log('저장 성공:', response);
         setIsSaved(true);  // 파일 저장 완료로 상태 업데이트
@@ -26,17 +37,23 @@ const FileDownload = ({ content, closeModal, selectedProjectId, userToken }) => 
       }
     };
 
-    saveReadme();
-  }, [content, selectedProjectId, userToken]);
+    if (page === 'readme') {
+      saveReadme();
+    } else if (page === '/diagram/class') {
+      setIsSaved(true);  // Ensure this is set to true
+    }
+  }, [page, content, selectedProjectId, userToken]);
 
   const downloadMD = () => {
-    const element = document.createElement("a");
-    const file = new Blob([content], { type: 'text/markdown' });
-    element.href = URL.createObjectURL(file);
-    element.download = "README.md";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element); 
+    if (page === 'readme') {
+      const element = document.createElement("a");
+      const file = new Blob([content], { type: 'text/markdown' });
+      element.href = URL.createObjectURL(file);
+      element.download = "README.md";
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
   };
 
   return (
@@ -79,7 +96,10 @@ const FileDownload = ({ content, closeModal, selectedProjectId, userToken }) => 
           {isSaved ? '마이 페이지에 저장되었습니다.' : '저장 중입니다...'} <br />
           {isSaved && '해당 파일을 다운로드 하시겠습니까?'}
         </ExplainText>
-        <DownloadButton onClick={downloadMD} disabled={!isSaved}>다운로드 하기</DownloadButton>
+
+        {!isDiagramPage && (
+          <DownloadButton onClick={downloadMD} disabled={!isSaved}>다운로드 하기</DownloadButton>
+        )}
         <MyPageButton disabled={!isSaved}>마이페이지로 가기</MyPageButton>
       </ModalContent>
     </Modal>

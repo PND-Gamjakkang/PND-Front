@@ -35,11 +35,12 @@ export const GlobalStyle = createGlobalStyle`
   *[hidden] {
       display: none;
   }
+
   body {
     touch-action: manipulation;
     line-height: 1;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    // overflow-y: hidden;
+    // overflow-x: hidden;
     // 가운데 정렬
   }
   menu, ol, ul {

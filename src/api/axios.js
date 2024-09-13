@@ -10,3 +10,11 @@ export const API = axios.create({
         'Authorization': `Bearer ${userToken}`,
     },
 });
+
+export const MultipartApi = axios.create({
+    baseURL: 'http://13.124.4.73:8080/',
+    headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${userToken}`,
+    },
+});

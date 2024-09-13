@@ -20,7 +20,10 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
     } catch (error) {
       console.log(error);
     }
+
   };
+
+
   const fetchAIReadme = async()=>{
     try{
       //const data = await API.patch('api/pnd/readme/69');
@@ -37,6 +40,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
         console.log(error);
     }
   };
+  
   const saveState = () => {
     if (localRef.current) {
       const selection = window.getSelection();

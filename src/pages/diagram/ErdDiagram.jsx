@@ -191,9 +191,9 @@ function ErdDiagram({ selectedProjectId }) {
                         <S.DiagramTypeTitleText>ERD DIAGRAM</S.DiagramTypeTitleText>
                     </S.ErdTitleTextBox>
                     <S.ErdEditButtons>
-                        <S.RemoveComponentBtn onClick={handleDeleteErd}>컴포넌트 삭제</S.RemoveComponentBtn>
+                        <S.DeleteComponentBtn onClick={handleDeleteErd}>컴포넌트 삭제</S.DeleteComponentBtn>
                         <S.Divider />
-                        <S.RemoveAllBtn>전체 삭제</S.RemoveAllBtn>
+                        <S.DeleteAllBtn>전체 삭제</S.DeleteAllBtn>
                         <S.Divider />
                         <S.GenerateAiBtn >AI 자동생성</S.GenerateAiBtn>
                     </S.ErdEditButtons>

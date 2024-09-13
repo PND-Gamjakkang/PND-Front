@@ -3,7 +3,7 @@ import { GlobalStyle } from './style/globalStyle';
 import { theme } from './style/theme.js';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import Header from './components/header/Header.jsx';
+import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
 
 // 전체 레이아웃 크기 고정
@@ -14,13 +14,14 @@ const BackGroundColor = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* 스크롤 방지 */
+  //overflow: hidden; /* 스크롤 방지 */
 `;
 
 // 콘텐츠 영역 설정
 const Content = styled.div`
   flex-grow: 1; /* 헤더와 푸터를 제외한 모든 공간을 차지 */
   width: 100%;
+  height: 93%;
   display: flex;
   flex-direction: column;
   align-items: center;
