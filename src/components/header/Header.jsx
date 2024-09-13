@@ -17,6 +17,11 @@ function Header() {
             setLogined(true);
             setUserImage(parsedUserInfo.image);
         }
+        else{
+            //로그인 했다가 로그아웃 시를 위해
+            setLogined(false);
+            setUserImage(null);
+        }
     }, []); 
 
     return (
@@ -51,13 +56,13 @@ function Header() {
                     </S.NavLink>
                 </Link>
             </S.NavLinks>
-            <Link to={logined ? '/profile' : '/login'}>
-                <S.NavLink className={location.pathname === '/login' || location.pathname === '/profile' ? 'active' : ''}>
+            <Link to={logined ? '/myprojects' : '/login'}>
+                <S.NavLink className={location.pathname === '/login' || location.pathname === '/myprojects' ? 'active' : ''}>
                     {logined ? (
                         <img
                             src={userImage || altlogo}
-                            alt="Profile"
                             style={{ width: '30px', height: '30px', borderRadius: '50%' }}
+                            alt="User Profile"
                         />
                     ) : '로그인'}
                 </S.NavLink>

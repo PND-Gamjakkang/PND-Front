@@ -6,7 +6,7 @@ import { Title, Divider, MdAreaHeader, Container, Content, ReadmeContainer, Cont
 import { Helmet } from 'react-helmet';
 import RepoSettingModalForMyPage from '../../components/Common/RepoSettingModalForMyPage';
 import { API } from '../../api/axios';
-
+import LoginModal from '../../components/Login/LoginModal';
 function Readme() {
   const inputRef = useRef(null);
   const [content, setContent] = useState("");
@@ -18,6 +18,7 @@ function Readme() {
   const [isClickCreateBtn, setIsClickCreateBtn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState(null);
+  const [needLogin, setNeedLogin] = useState(false);
 
   const userToken = localStorage.getItem('token');
 
@@ -63,7 +64,13 @@ function Readme() {
   };
 
   useEffect(() => {
-    setIsModalOpen(true);
+    const userInfo = sessionStorage.getItem('userInfo');
+    if(userInfo!==null){
+      setIsModalOpen(true);
+    }
+    else{
+      setNeedLogin(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -113,6 +120,9 @@ function Readme() {
           onSelectedProjectId={(id) => setSelectedProjectId(id)} // RepoId를 받아와서 상태 업데이트
           onClickCreateBtn={() => setIsClickCreateBtn(true)}
         />
+      )}
+      {needLogin &&(
+        <LoginModal></LoginModal>
       )}
     </ReadmeContainer>
   );

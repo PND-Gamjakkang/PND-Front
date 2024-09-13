@@ -10,8 +10,9 @@ export const InputAreaContainer = styled.div`
 `;
 
 export const InputText = styled.div`
-  width: 100%; /* 800px out of 1920px */
   height: 100%;
+  width : 37vw;
+  max-width : 40vw;
   min-height: 62.81vh; 
   max-height: 62.81vh;
   padding: 1vh;

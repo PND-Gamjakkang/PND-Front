@@ -18,7 +18,6 @@ import ErdDiagram from './pages/diagram/ErdDiagram';
 
 import MyPageREADME from './pages/myproject/MyPageREADME/MyPageREADME';
 import MyPageClassDiagram from './pages/myproject/MyPageClassDiagram/MyPageClassDiagram';
-import MyPageDocument from './pages/myproject/MyPageDocument/MyPageDocument';
 import MyPageERD from './pages/myproject/MyPageERD/MyPageERD';
 import MyPageGithubReport from './pages/myproject/MyPageGithubReport/MyPageGithubReport';
 import MyPageSequenceDiagram from './pages/myproject/MyPageSequenceDiagram/MyPageSequenceDiagram';
@@ -80,10 +79,6 @@ const router = createBrowserRouter([
         {
           path: 'mypageREADME',
           element: <MyPageREADME/>
-        },
-        {
-          path: 'mypageDocument',
-          element: <MyPageDocument/>
         },
         {
           path: 'mypageClassDiagram',

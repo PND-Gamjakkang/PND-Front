@@ -4,6 +4,8 @@ import 'github-markdown-css/github-markdown.css';
 export const MdResult = styled.div`
   min-height: 62.81vh;
   max-height: 62.81vh;
+  width : 37vw;
+  max-width : 37vw;
   font-size: 1.8vh;
   color: black;
   overflow: auto;

@@ -4,7 +4,7 @@ import Project from './Project.jsx';
 import MyProjectHeader from './MyProjectHeader.jsx';
 import logo from '../../assets/images/profile-logo.png'; 
 import { MyProjectsLayout, Container1, StatContainer, ProfileContainer, ProfileImage } from './Styles/MyProjectsStyles.jsx';
-
+import LoginModal from '../../components/Login/LoginModal.jsx';
 function MyProjects() {
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
@@ -13,6 +13,8 @@ function MyProjects() {
     const [userTotalReadmes, setUserTotalReadmes] = useState(0);
     const [userTotalDiagrams, setUserTotalDiagrams] = useState(0);
     const [userTotalReports, setUserTotalReports] = useState(0);
+    const [needLogin, setNeedLogin] = useState(false);
+
     // sessionStorage에서 데이터를 가져오는 함수
     const fetchUserData =async () => {
         try {
@@ -37,7 +39,13 @@ function MyProjects() {
         }
     };
     useEffect(() => {
-       fetchUserData();
+        const userInfo = sessionStorage.getItem('userInfo');
+        if(userInfo!==null){
+            fetchUserData();
+        }
+        else{
+            setNeedLogin(true);
+        }
       }, []);
     
 
@@ -61,6 +69,9 @@ function MyProjects() {
                 </StatContainer>
             </Container1>
             <Project />
+            {needLogin &&(
+                <LoginModal></LoginModal>
+            )}
         </MyProjectsLayout>
     );
 }

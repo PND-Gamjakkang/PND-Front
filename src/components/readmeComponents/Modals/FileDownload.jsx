@@ -29,7 +29,7 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
         console.log('repoId : ', selectedProjectId);
         console.log('content : ', content);
         const response = await API.post(`api/pnd/readme`, requestBody);
-        console.log('File saved:', response);
+        console.log('저장 성공:', response);
         setIsSaved(true);  // 파일 저장 완료로 상태 업데이트
       } catch (error) {
         console.error('Error saving README:', error);
