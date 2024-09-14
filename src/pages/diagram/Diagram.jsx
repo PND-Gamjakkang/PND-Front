@@ -41,6 +41,9 @@ function Diagram() {
     const navigate = useNavigate(); // 선택한 다이어그램에 따라 페이지 다르게 이동하도록 하기 위한 네비게이션
     const location = useLocation();
 
+    const closeDownloadModal = () =>{
+        setShowFileDownload(false);
+    }
     const putRepoInfo = async () => {
         try {
             const formData = new FormData();
@@ -257,7 +260,7 @@ function Diagram() {
             {showFileDownload && (
                 <FileDownload
                     page={location.pathname}
-                    //closeModal={closeDownloadModal}
+                    closeModal={closeDownloadModal}
                     content={viewCode}
                     selectedProjectId={selectedProjectId}
                     userToken={userToken}
