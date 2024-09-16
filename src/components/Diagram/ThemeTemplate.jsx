@@ -13,7 +13,7 @@ function ThemeTemplate({onSaveTheme}) {
 
     return (
         <S.ThemeTemplateContainer>
-            <h2>Theme Template</h2>
+            <S.ThemeTItleText>Theme Template</S.ThemeTItleText>
             <S.ThemeTypeContainer>
                 <ThemeType
                     typeIcon={"🌝"}

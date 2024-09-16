@@ -5,19 +5,21 @@ import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
 
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
+import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
 
-function ErdDiagram({ selectedProjectId }) {
+function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode }) {
     const [codeKey, setCodeKey] = useState(0);
-    const [erdCode, setErdCode] = useState(null);
+    // const [erdCode, setErdCode] = useState(null);
     const [tableName, setTableName] = useState(null);
+    const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
 
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {
-            console.log("Rendering diagram with viewCode:", erdCode);
+            console.log("렌더링 :", viewCode);
             const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && erdCode && erdCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${erdCode}</div>`;
+            if (diagramContainer && viewCode && viewCode.trim()) {
+                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
                 try {
                     mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
                 } catch (error) {
@@ -27,9 +29,10 @@ function ErdDiagram({ selectedProjectId }) {
         };
 
         // Mermaid 렌더링을 약간 지연시켜 DOM이 준비된 후 실행
-        setTimeout(renderDiagram, 0);
+        //setTimeout(renderDiagram, 0);
         //fetchEditClassCode(sequenceCode);
-    }, [erdCode]);
+        renderDiagram();
+    }, [viewCode]);
 
 
     const handleErdClick = (event) => {
@@ -41,50 +44,109 @@ function ErdDiagram({ selectedProjectId }) {
         }
 
         // 텍스트 추출
-        const tableName = target ? target.textContent.trim() : null;
+        const textContent = target ? target.textContent.trim() : null;
 
-        if (tableName) {
-            setTableName(tableName);
-            console.log("선택한 테이블 이름: ", tableName);
+        if (textContent) {
+            setTableName(textContent);
         } else {
             console.log("클릭된 요소에서 테이블 이름을 찾을 수 없습니다.");
         }
+
     };
 
     const handleDeleteErd = () => {
-        if (tableName && erdCode) {
-            // ERD 문법에 맞게 테이블 정의를 찾고 제거하는 정규 표현식
+        // if (tableName && viewCode) {
+        //     // 테이블 정의를 찾고 제거하는 정규 표현식
+        //     const tableRegex = new RegExp(`${tableName}\\s*{[^}]*}`, 'g');
+        //     console.log("테이블 삭제 정규식: ", tableRegex);
+
+        //     const updatedCode = viewCode.replace(tableRegex, '');
+        //     console.log("업데이트된 코드: ", updatedCode);
+
+        //     // 상태 업데이트 및 다이어그램 재렌더링
+        //     setViewCode(updatedCode);
+        //     setTableName(null);
+        //     setCodeKey(prevKey => prevKey + 1);
+        // } else {
+        //     console.log("제거할 테이블 이름이 없거나 ERD 코드가 없습니다.");
+        // }
+        if (tableName && viewCode) {
+            // 1. 테이블 정의를 찾고 제거하는 정규 표현식
             const tableRegex = new RegExp(`${tableName}\\s*{[^}]*}`, 'g');
-            const updatedCode = erdCode.replace(tableRegex, '');
-    
+            let updatedCode = viewCode.replace(tableRegex, '');
+
+            // 2. 테이블 이름이 포함된 관계식을 찾고 제거하는 정규 표현식
+            // 예: Table1 ||--o| Table2, Table1 }|--|{ Table3 등의 관계식
+            const relationRegex = new RegExp(`\\b${tableName}\\b[^\\n]*`, 'g');
+            updatedCode = updatedCode.replace(relationRegex, '');
+
+
             // 상태 업데이트 및 다이어그램 재렌더링
-            setErdCode(updatedCode);
+            setViewCode(updatedCode);
             setTableName(null);
             setCodeKey(prevKey => prevKey + 1);
         } else {
             console.log("제거할 테이블 이름이 없거나 ERD 코드가 없습니다.");
         }
+
     };
-        
+
+    // 전체 삭제 이벤트
+    const handleDeleteAllBtn = () => {
+        setViewCode(' '); // viewCode를 빈 문자열로 설정하여 모든 다이어그램 요소 삭제
+        setTableName(null); // 선택된 클래스 초기화
+        setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
+    }
+
     // 선택된 클래스 이름 알기
     useEffect(() => {
         //console.log("선택한 테이블 이름: " + tableName);
+        console.log("선택한 테이블 이름: ", tableName);
         handleDeleteErd();
-    }, [tableName]);
+    }, [tableName, viewCode]);
 
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
-        console.log("ViewCode가 수정되었습니다!\n" + erdCode);
+        console.log("ViewCode가 수정되었습니다!\n" + viewCode);
         //fetchEditClassCode(viewCode); // 코드 수정 API 호출
     };
+
+    // 선택한 테마로 코드 적용하는 메소드
+    const saveSelectedTheme = (selectedTheme) => {
+        setSeletedTheme(selectedTheme);
+    }
+    const handleSelectedTheme = () => {
+        if (selectedTheme) {
+            // Mermaid 테마 설정
+            mermaid.initialize({
+                theme: selectedTheme.toLowerCase() // 테마 이름을 소문자로 변환하여 적용 (light, dark 등)
+            });
+    
+            // 다이어그램을 다시 렌더링
+            const diagramContainer = document.getElementById("diagram-container");
+            if (diagramContainer && viewCode !== null) {
+                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                try {
+                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                } catch (error) {
+                    console.error("Mermaid rendering error:", error);
+                }
+            }
+        }
+    }
+    useEffect(() => {
+        console.log("선택한 테마: " + selectedTheme);
+        handleSelectedTheme();
+    },[selectedTheme]);
+
 
     // Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {
-            console.log("Rendering diagram with viewCode:", erdCode); // 로그 추가
+            console.log("Rendering diagram with viewCode:", viewCode); // 로그 추가
             const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && erdCode && erdCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${erdCode}</div>`;
+            if (diagramContainer && viewCode && viewCode.trim()) {
+                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
                 try {
                     mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
                 } catch (error) {
@@ -94,7 +156,7 @@ function ErdDiagram({ selectedProjectId }) {
         };
 
         renderDiagram();
-    }, [erdCode]); // viewCode가 변할 때마다 실행
+    }, [viewCode]); // viewCode가 변할 때마다 실행
 
 
     // 레포지토리 gpt 분석 API 통신
@@ -141,7 +203,7 @@ function ErdDiagram({ selectedProjectId }) {
 
                 console.log('수정된 GPT 분석 결과:', formattedCode);
 
-                setErdCode(formattedCode);
+                setViewCode(formattedCode);
             } else {
                 console.error("HTTP error: ", response.status);
             }
@@ -177,7 +239,7 @@ function ErdDiagram({ selectedProjectId }) {
 
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
-        if (selectedProjectId) {
+        if (selectedProjectId && onClickCreateBtn) {
             //fetchGpt();
             fetchErdMermaid();
         }
@@ -191,9 +253,9 @@ function ErdDiagram({ selectedProjectId }) {
                         <S.DiagramTypeTitleText>ERD DIAGRAM</S.DiagramTypeTitleText>
                     </S.ErdTitleTextBox>
                     <S.ErdEditButtons>
-                        <S.DeleteComponentBtn onClick={handleDeleteErd}>컴포넌트 삭제</S.DeleteComponentBtn>
+                        <S.DeleteClassBtn onClick={handleDeleteErd}>테이블 삭제</S.DeleteClassBtn>
                         <S.Divider />
-                        <S.DeleteAllBtn>전체 삭제</S.DeleteAllBtn>
+                        <S.DeleteAllBtn onClick={handleDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
                         <S.Divider />
                         <S.GenerateAiBtn >AI 자동생성</S.GenerateAiBtn>
                     </S.ErdEditButtons>
@@ -207,16 +269,18 @@ function ErdDiagram({ selectedProjectId }) {
             </S.ErdPageLeft>
             <S.ErdPageRight>
                 <S.ErdCodeBox>
-                    {erdCode && (
+                    {viewCode && (
                         <ViewCode
                             key={codeKey}
-                            viewCode={erdCode}
-                            setViewCode={setErdCode}
+                            viewCode={viewCode}
+                            setViewCode={setViewCode}
                             onSave={handleViewCodeSave}
                         />
                     )}
                 </S.ErdCodeBox>
-
+                <ThemeTemplate
+                    onSaveTheme={saveSelectedTheme}
+                />
             </S.ErdPageRight>
         </S.ErdLayout>
 

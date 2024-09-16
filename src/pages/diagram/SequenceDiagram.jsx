@@ -203,6 +203,12 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
         }
     };
 
+    // 전체 삭제 핸들러 함수
+    const handleDeleteAllBtn = () => {
+        setViewCode(' '); // viewCode를 빈 문자열로 설정하여 모든 다이어그램 요소 삭제
+        setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
+    }
+
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId && onClickCreateBtn) {
@@ -211,6 +217,7 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
         }
     }, [selectedProjectId]);
 
+
     return (
         <S.SequenceLayout>
             <S.SequencePageLeft>
@@ -218,7 +225,7 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
                     <S.DiagramTypeTitleText>SEQUENCE DIAGRAM</S.DiagramTypeTitleText>
                 </S.ClassTitleTextBox>
                 <S.ClassEditButtons>
-                    <S.DeleteAllBtn>전체 삭제</S.DeleteAllBtn>
+                    <S.DeleteAllBtn onClick={handleDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
                     <S.Divider />
                     <S.GenerateAiBtn>AI 자동생성</S.GenerateAiBtn>
                 </S.ClassEditButtons>
@@ -228,8 +235,6 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
                         {/* Mermaid 다이어그램이 이곳에 렌더링됩니다 */}
                     </div>
                 </S.SequenceResultBox>
-            </S.SequencePageLeft>
-            <S.ClassMid>
                 <S.ClassTitleTextBox>
                     <S.DiagramTypeTitleText>EDIT DIAGRAM</S.DiagramTypeTitleText>
                 </S.ClassTitleTextBox>
@@ -246,7 +251,25 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
                     <SequenceRelationshipEditor onAddRelation={handleAddRelation} />
 
                 </S.EditDiagramContainer>
-            </S.ClassMid>
+            </S.SequencePageLeft>
+            {/* <S.ClassMid>
+                <S.ClassTitleTextBox>
+                    <S.DiagramTypeTitleText>EDIT DIAGRAM</S.DiagramTypeTitleText>
+                </S.ClassTitleTextBox>
+                <S.EditDiagramContainer>
+                    <S.ClassAddButtonBox>
+                        <S.AddButton onClick={handleAddButton}>추가</S.AddButton>
+                    </S.ClassAddButtonBox>
+                    <SequenceEditor
+                        className1={className1}
+                        setClassName1={setClassName1}
+                        className2={className2}
+                        setClassName2={setClassName2}
+                    />
+                    <SequenceRelationshipEditor onAddRelation={handleAddRelation} />
+
+                </S.EditDiagramContainer>
+            </S.ClassMid> */}
 
             <S.SequencePageRight>
                 <S.ClassTitleTextBox>

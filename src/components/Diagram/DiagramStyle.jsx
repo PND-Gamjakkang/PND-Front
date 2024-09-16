@@ -206,7 +206,7 @@ width: 100%;
 display:flex;
 justify-content: center;
 align-items: center;
-margin-top: 12px;
+margin: 12px 0;
 `;
 
 export const SettingRelationshipContainer = styled.div`
@@ -263,7 +263,7 @@ width: 100%;
 height: 100%;
 border-radius: 10px;
 // background-color: #000;
-margin-top: 25px;
+// margin-top: 25px;
 padding: 0.6vw;
 position: relative;
 
@@ -297,25 +297,42 @@ scrollbar-width: none; /* Firefox에서 스크롤 바 숨기기 */
     display: none; /* Webkit 기반 브라우저에서 스크롤 바 숨기기 */
 }
 `;
+
 /* 테마 템플릿 */
 export const ThemeTemplateContainer = styled.div`
 width: 100%;
-height: 225px;
+height: auto;
 border-radius: 10px;
 background: #F8F8FF;
 padding: 10px;
+margin-top: 24px;
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`;
+
+export const ThemeTItleText = styled.h2`
+color: #181077;
+text-align: center;
+font-family: Inter;
+font-size: 1.4rem;
+font-style: normal;
+font-weight: 600;
+line-height: 64px; /* 320% */
 `;
 
 export const ThemeTypeContainer = styled.div`
 width: 100%;
 display:flex;
-gap: 10px;
-
+gap: 20px;
+justify-content: center;
+align-items: center;
 `;
 
 export const ThemeTypeBox = styled.button`
-width: 25%;
-height: 90px;
+width: 91px;
+height: 91px;
 border-radius: 10px;
 border: 1px solid #B7B6FF;
 background: #D9D9FF;
