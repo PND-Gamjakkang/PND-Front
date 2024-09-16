@@ -193,6 +193,11 @@ export const RelationshipBtn = styled.button`
   border-radius: 8px;
   font-size: 0.8rem;
   border: 1px solid #B7B6FF;
+
+  &:hover {
+    border: 2px solid #5B59FC;
+  }
+
 `;
 
 export const RelationshipInfoImg = styled.img`
@@ -334,12 +339,20 @@ export const ThemeTypeBox = styled.button`
 width: 91px;
 height: 91px;
 border-radius: 10px;
-border: 1px solid #B7B6FF;
-background: #D9D9FF;
+border: 1px solid ${({ isActive }) => (isActive ? '#5B59FC' : '#B7B6FF')};
+background-color: ${({ isActive }) => (isActive ? '#D9D9FF' : '#E8E8FF')};
+// background: #D9D9FF;
 display:flex;
 flex-direction: column;
 justify-content: center;
 align-items:center;
+
+  &:hover {
+    background-color: #D9D9FF;
+    border: 1px solid #5B59FC;
+  }
+
+
 `;
 
 export const ThemeTypeIcon = styled.div`
