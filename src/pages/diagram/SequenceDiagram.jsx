@@ -15,27 +15,33 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
     const [className1, setClassName1] = useState('');
     const [className2, setClassName2] = useState('');
     const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
-
+    const [loading, setLoading] = useState(false); // 로딩 상태 추가
+    const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
 
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {
             console.log("Rendering diagram with viewCode:", viewCode);
             const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && viewCode && viewCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
-                try {
-                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-                } catch (error) {
-                    console.error("Mermaid rendering error:", error);
+            if (diagramContainer && viewCode !== null) {
+                if (viewCode.trim() === '') {
+                    diagramContainer.innerHTML = ''; // 전체 삭제 시 다이어그램 초기화
+                } else {
+                    diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                    try {
+                        mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                    } catch (error) {
+                        console.error("Mermaid rendering error:", error);
+                    }
                 }
             }
         };
 
-        // Mermaid 렌더링을 약간 지연시켜 DOM이 준비된 후 실행
-        setTimeout(renderDiagram, 0);
+        if (!loading && viewCode) {
+            renderDiagram();  // 로딩이 완료된 후에만 다이어그램을 렌더링
+        }
         //fetchEditClassCode(sequenceCode);
-    }, [viewCode]);
+    }, [viewCode, loading]);
 
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
@@ -79,7 +85,7 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
             mermaid.initialize({
                 theme: selectedTheme.toLowerCase() // 테마 이름을 소문자로 변환하여 적용 (light, dark 등)
             });
-    
+
             // 다이어그램을 다시 렌더링
             const diagramContainer = document.getElementById("diagram-container");
             if (diagramContainer && viewCode !== null) {
@@ -95,7 +101,7 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
     useEffect(() => {
         console.log("선택한 테마: " + selectedTheme);
         handleSelectedTheme();
-    },[selectedTheme]);
+    }, [selectedTheme]);
 
     // Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
@@ -129,6 +135,7 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
 
     // 레포지토리 gpt 분석 API 통신
     const fetchGpt = async () => {
+        setLoading(true); // 로딩 시작
         try {
             const requestBody = { repoId: selectedProjectId };
             const response = await API.patch(`api/pnd/diagram/sequence-gpt`, requestBody);
@@ -171,16 +178,22 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
                 console.log('수정된 GPT 분석 결과:', formattedCode);
 
                 setViewCode(formattedCode);
+                setCodeKey(prevKey => prevKey + 1);
             } else {
                 console.error("HTTP error: ", response.status);
             }
         } catch (err) {
             console.log("API 통신 중 오류 발생:", err);
+        } finally {
+            // 2초 후 로딩 상태를 false로 설정
+            setTimeout(() => {
+                setLoading(false);
+            }, 1500);
         }
     };
 
     // 선택한 레포지토리 mermaid 코드 가져오기
-    const fetchSequenceMermaid = async () => {
+    const getSequenceMermaid = async () => {
         try {
             const response = await API.get(`api/pnd/diagram/sequence`, {
                 params: {
@@ -190,7 +203,8 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
             if (response.status === 200) {
                 const data = response.data.data;
                 if (data) {
-                    console.log('Mermaid 코드:', data);
+                    console.log('Sequence 코드:', data);
+                    setViewCode(data);
                 } else {
                     console.log('Mermaid 코드가 존재하지 않음. GPT 분석 시작...');
                     await fetchGpt(); // Mermaid 코드가 없으면 GPT 분석 시작
@@ -209,17 +223,31 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
         setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
     }
 
+    // ai 자동생성 버튼 클릭 시 gpt가 분석한 다이어그램 코드 가져오기
+    useEffect(() => {
+        if (isClickGenerateAiBtn) {
+            fetchGpt();
+        }
+    }, [isClickGenerateAiBtn]);
+
+    // ai 자동생성 버튼 true로 바꾸기
+    const handleGenerateAi = () => {
+        setIsClickGetnerateAiBtn(!isClickGenerateAiBtn);
+    };
+
+
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId && onClickCreateBtn) {
             //fetchGpt();
-            fetchSequenceMermaid();
+            getSequenceMermaid();
         }
     }, [selectedProjectId]);
 
 
     return (
         <S.SequenceLayout>
+            {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
             <S.SequencePageLeft>
                 <S.ClassTitleTextBox>
                     <S.DiagramTypeTitleText>SEQUENCE DIAGRAM</S.DiagramTypeTitleText>
@@ -227,7 +255,7 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
                 <S.ClassEditButtons>
                     <S.DeleteAllBtn onClick={handleDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
                     <S.Divider />
-                    <S.GenerateAiBtn>AI 자동생성</S.GenerateAiBtn>
+                    <S.GenerateAiBtn onClick={handleGenerateAi}>AI 자동생성</S.GenerateAiBtn>
                 </S.ClassEditButtons>
 
                 <S.SequenceResultBox>

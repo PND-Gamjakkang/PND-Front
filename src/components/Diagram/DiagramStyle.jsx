@@ -228,7 +228,6 @@ border: 1px solid #B7B6FF;
 background: #D9D9FF;
 
   &::placeholder {
-    color: #5B59FC;
     text-align: center;
     font-family: Inter;
     font-size: 14px;
@@ -252,7 +251,6 @@ border-radius: 5px;
 border: 1px solid #B7B6FF;
 background: #D9D9FF;
   &::placeholder {
-    color: #5B59FC;
     text-align: center;
     font-family: Inter;
     font-size: 14px;
@@ -339,7 +337,7 @@ export const ThemeTypeBox = styled.button`
 width: 91px;
 height: 91px;
 border-radius: 10px;
-border: 1px solid ${({ isActive }) => (isActive ? '#5B59FC' : '#B7B6FF')};
+border: 2px solid ${({ isActive }) => (isActive ? '#5B59FC' : '#B7B6FF')};
 background-color: ${({ isActive }) => (isActive ? '#D9D9FF' : '#E8E8FF')};
 // background: #D9D9FF;
 display:flex;
@@ -402,7 +400,6 @@ border-radius: 5px;
 border: 1px solid #B7B6FF;
 background: #D9D9FF;
   &::placeholder {
-    color: #5B59FC;
     text-align: center;
     font-family: Inter;
     font-size: 14px;
@@ -410,4 +407,11 @@ background: #D9D9FF;
     font-weight: 500;
     line-height: 0px; /* 0% */
   }
+`;
+
+export const MessageDivider = styled.div`
+width: 2.5vw;
+display:flex;
+justify-content: center;
+align-items: center;
 `;

@@ -97,23 +97,32 @@ function Diagram() {
     };
 
     // 코드 수정 저장 api 통신
-    const fetchEditCode = async (updatedCode) => {
+    const fetchEditCode = async (path) => {
         try {
-            const requestBody = {
+            const classRequestBody = {
                 repoId: selectedProjectId,
-                script: updatedCode
+                script: viewCode
             };
+            const sequenceRequestBody = {
+                repoId: selectedProjectId,
+                script: sequenceCode
+            };
+            const erRequestBody = {
+                repoId: selectedProjectId,
+                script: erdCode
+            };
+
             var response;
-            if (location.pathname === '/diagram/class') {
-                response = await API.patch(`api/pnd/diagram/class`, requestBody);
-            } else if (location.pathname === '/diagram/sequence') {
-                response = await API.patch(`api/pnd/diagram/sequence`, requestBody);
+            if (path === '/diagram/class') {
+                response = await API.patch(`api/pnd/diagram/class`, classRequestBody);
+            } else if (path === '/diagram/sequence') {
+                response = await API.patch(`api/pnd/diagram/sequence`, sequenceRequestBody);
             } else {
-                response = await API.patch(`api/pnd/diagram/er`, requestBody);
+                response = await API.patch(`api/pnd/diagram/er`, erRequestBody);
             }
             if (response.status === 200) {
                 const updatedData = response.data.data; // 수정된 데이터를 변수에 저장
-                console.log('코드 저장 완료');
+                console.log(response.data.message);
             } else {
                 console.error("HTTP error: ", response.status);
             }
@@ -127,8 +136,8 @@ function Diagram() {
 
     // SaveBtn 클릭 시 수정된 코드를 저장하는 함수
     const handleSaveButtonClick = () => {
-        if (viewCode && selectedProjectId) {
-            fetchEditCode(viewCode);
+        if (selectedProjectId) {
+            fetchEditCode(location.pathname);
             setShowFileDownload(!showFileDownload);
         }
     };

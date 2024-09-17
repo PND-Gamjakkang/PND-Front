@@ -44,7 +44,6 @@ export const ReportTitleText = styled.div`
 
 export const ReportLeft = styled.div`
 width: 50%;
-height: 100vh;
 
 `;
 
@@ -53,4 +52,24 @@ width: 100%;
 `;
 export const Github3DImg = styled.img`
 width: 100%;
+`;
+
+export const ReportRight = styled.div`
+width: 50%;
+`;
+
+export const ReportInfo = styled.div`
+width: 100%;
+`;
+
+export const RepoTitle = styled.h2`
+
+`;
+
+export const RepoDate = styled.div`
+
+`;
+
+export const ReportCreateAt = styled.div`
+
 `;

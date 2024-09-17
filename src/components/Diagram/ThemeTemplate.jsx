@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import ThemeType from './ThemeType';
 
 function ThemeTemplate({onSaveTheme}) {
-    const [selectedTheme, setSeletedTheme] = useState("LIGHT");
+    const [selectedTheme, setSeletedTheme] = useState(null);
     const [isClickLightBtn, setIsClickLightBtn] = useState(true);
     const [isClickDarkBtn, setIsClickDarkBtn] = useState(false);
 

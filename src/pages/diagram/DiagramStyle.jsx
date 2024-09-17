@@ -285,6 +285,7 @@ width: 100%;
 // height: 100%;
 border-radius: 10px;
 background: #F8F8FF;
+margin-top: 20px;
 `;
 
 export const SequencePageRight = styled.div`

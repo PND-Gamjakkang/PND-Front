@@ -6,7 +6,7 @@ import relationIcon1 from '../../assets/images/dependency-icon.png'
 import relationshipInfoImg from '../../assets/images/relationship-info.png'
 
 function SequenceRelationshipEditor({ onAddRelation }) {
-    const [selectedRelation, setSelectedRelation] = useState('연관'); // 현재 선택된 관계 상태
+    const [selectedRelation, setSelectedRelation] = useState('요청'); // 현재 선택된 관계 상태
     const [classA, setClassA] = useState('');
     const [classB, setClassB] = useState('');
     const [message, setMessage] = useState('');
@@ -23,13 +23,6 @@ function SequenceRelationshipEditor({ onAddRelation }) {
             message
         });
     };
-
-    // 관계에 따른 아이콘 매핑
-    const relationIcons = {
-        '연관': relationIcon1,
-        //'일반화': relationIcon2,
-        // ... 추가적인 관계와 아이콘 매핑
-    }
 
     // 관계에 따른 Mermaid 문법 매핑
     const relationMermaidSyntax = {
@@ -67,7 +60,9 @@ function SequenceRelationshipEditor({ onAddRelation }) {
                     >
 
                     </S.InputClassRight>
+                    <S.MessageDivider>:</S.MessageDivider>
                     <S.InputMessage
+                        placeholder="message"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                     />

@@ -12,27 +12,34 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
     // const [erdCode, setErdCode] = useState(null);
     const [tableName, setTableName] = useState(null);
     const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
+    const [loading, setLoading] = useState(false); // 로딩 상태 추가
+    const [isClickDeleteTableBtn, setIsClickDeleteTableBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
+    const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
 
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {
-            console.log("렌더링 :", viewCode);
+            console.log("Rendering diagram with viewCode:", viewCode);
             const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && viewCode && viewCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
-                try {
-                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-                } catch (error) {
-                    console.error("Mermaid rendering error:", error);
+            if (diagramContainer && viewCode !== null) {
+                if (viewCode.trim() === '') {
+                    diagramContainer.innerHTML = ''; // 전체 삭제 시 다이어그램 초기화
+                } else {
+                    diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                    try {
+                        mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                    } catch (error) {
+                        console.error("Mermaid rendering error:", error);
+                    }
                 }
             }
         };
 
-        // Mermaid 렌더링을 약간 지연시켜 DOM이 준비된 후 실행
-        //setTimeout(renderDiagram, 0);
-        //fetchEditClassCode(sequenceCode);
-        renderDiagram();
-    }, [viewCode]);
+        if (!loading && viewCode) {
+            renderDiagram();  // 로딩이 완료된 후에만 다이어그램을 렌더링
+        }
+
+    }, [viewCode, loading]);
 
 
     const handleErdClick = (event) => {
@@ -54,23 +61,9 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
 
     };
 
-    const handleDeleteErd = () => {
-        // if (tableName && viewCode) {
-        //     // 테이블 정의를 찾고 제거하는 정규 표현식
-        //     const tableRegex = new RegExp(`${tableName}\\s*{[^}]*}`, 'g');
-        //     console.log("테이블 삭제 정규식: ", tableRegex);
-
-        //     const updatedCode = viewCode.replace(tableRegex, '');
-        //     console.log("업데이트된 코드: ", updatedCode);
-
-        //     // 상태 업데이트 및 다이어그램 재렌더링
-        //     setViewCode(updatedCode);
-        //     setTableName(null);
-        //     setCodeKey(prevKey => prevKey + 1);
-        // } else {
-        //     console.log("제거할 테이블 이름이 없거나 ERD 코드가 없습니다.");
-        // }
-        if (tableName && viewCode) {
+    const handleDeleteTable = () => {
+        setIsClickDeleteTableBtn(true);
+        if (tableName && viewCode && isClickDeleteTableBtn) {
             // 1. 테이블 정의를 찾고 제거하는 정규 표현식
             const tableRegex = new RegExp(`${tableName}\\s*{[^}]*}`, 'g');
             let updatedCode = viewCode.replace(tableRegex, '');
@@ -85,6 +78,7 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
             setViewCode(updatedCode);
             setTableName(null);
             setCodeKey(prevKey => prevKey + 1);
+            setIsClickDeleteTableBtn(false);
         } else {
             console.log("제거할 테이블 이름이 없거나 ERD 코드가 없습니다.");
         }
@@ -102,8 +96,8 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
     useEffect(() => {
         //console.log("선택한 테이블 이름: " + tableName);
         console.log("선택한 테이블 이름: ", tableName);
-        handleDeleteErd();
-    }, [tableName, viewCode]);
+        if(isClickDeleteTableBtn) handleDeleteTable();
+    }, [tableName, viewCode, isClickDeleteTableBtn]);
 
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
@@ -121,7 +115,7 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
             mermaid.initialize({
                 theme: selectedTheme.toLowerCase() // 테마 이름을 소문자로 변환하여 적용 (light, dark 등)
             });
-    
+
             // 다이어그램을 다시 렌더링
             const diagramContainer = document.getElementById("diagram-container");
             if (diagramContainer && viewCode !== null) {
@@ -137,7 +131,7 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
     useEffect(() => {
         console.log("선택한 테마: " + selectedTheme);
         handleSelectedTheme();
-    },[selectedTheme]);
+    }, [selectedTheme]);
 
 
     // Mermaid 초기화 및 다이어그램 렌더링
@@ -161,6 +155,7 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
 
     // 레포지토리 gpt 분석 API 통신
     const fetchGpt = async () => {
+        setLoading(true); // 로딩 시작
         try {
             const requestBody = { repoId: selectedProjectId };
             const response = await API.patch(`api/pnd/diagram/er-gpt`, requestBody);
@@ -168,15 +163,9 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
             if (response.status === 200) {
                 let data = response.data.data;
                 console.log('수정되기 전 GPT 분석 결과:', data);
-                // 앞쪽 백틱 두 개 제거 
-                if (data.startsWith('```')) {
-                    data = data.substring(3);
-                }
+                // 모든 백틱(```)을 제거하는 정규식
+                data = data.replace(/```/g, '');
 
-                // 뒤쪽 백틱 두 개 제거
-                if (data.endsWith('```')) {
-                    data = data.slice(0, -3);
-                }
                 // 모든 '.'을 '_'로 변경
                 data = data.replace(/\./g, '_');
 
@@ -204,16 +193,22 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
                 console.log('수정된 GPT 분석 결과:', formattedCode);
 
                 setViewCode(formattedCode);
+                setCodeKey(prevKey => prevKey + 1);
             } else {
                 console.error("HTTP error: ", response.status);
             }
         } catch (err) {
             console.log("API 통신 중 오류 발생:", err);
+        } finally {
+            // 2초 후 로딩 상태를 false로 설정
+            setTimeout(() => {
+                setLoading(false);
+            }, 1500);
         }
     };
 
     // 선택한 레포지토리 mermaid 코드 가져오기
-    const fetchErdMermaid = async () => {
+    const getErdMermaid = async () => {
         try {
             const response = await API.get(`api/pnd/diagram/er`, {
                 params: {
@@ -223,14 +218,14 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
             if (response.status === 200) {
                 const data = response.data.data;
                 if (data) {
-                    console.log('Mermaid 코드:', data);
+                    console.log('ERD 코드:', data);
+                    setViewCode(data);
                 } else {
                     console.log('Erd Mermaid 코드가 존재하지 않음. GPT 분석 시작...');
                     await fetchGpt(); // Mermaid 코드가 없으면 GPT 분석 시작
                 }
             } else {
                 console.error("HTTP error: ", response.status);
-                await fetchGpt(); // Mermaid 코드가 없으면 GPT 분석 시작
             }
         } catch (err) {
             console.log("API 통신 중 오류 발생:", err);
@@ -241,23 +236,37 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
     useEffect(() => {
         if (selectedProjectId && onClickCreateBtn) {
             //fetchGpt();
-            fetchErdMermaid();
+            getErdMermaid();
         }
     }, [selectedProjectId]);
 
+    // ai 자동생성 버튼 클릭 시 gpt가 분석한 다이어그램 코드 가져오기
+    useEffect(() => {
+        if (isClickGenerateAiBtn) {
+            fetchGpt();
+        }
+    }, [isClickGenerateAiBtn]);
+
+    // ai 자동생성 버튼 true로 바꾸기
+    const handleGenerateAi = () => {
+        setIsClickGetnerateAiBtn(!isClickGenerateAiBtn);
+    };
+
+
     return (
         <S.ErdLayout>
+            {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
             <S.ErdPageLeft>
                 <S.ErdPageLeftTop>
                     <S.ErdTitleTextBox>
                         <S.DiagramTypeTitleText>ERD DIAGRAM</S.DiagramTypeTitleText>
                     </S.ErdTitleTextBox>
                     <S.ErdEditButtons>
-                        <S.DeleteClassBtn onClick={handleDeleteErd}>테이블 삭제</S.DeleteClassBtn>
+                        <S.DeleteClassBtn onClick={handleDeleteTable} isActive={isClickDeleteTableBtn}>테이블 삭제</S.DeleteClassBtn>
                         <S.Divider />
                         <S.DeleteAllBtn onClick={handleDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
                         <S.Divider />
-                        <S.GenerateAiBtn >AI 자동생성</S.GenerateAiBtn>
+                        <S.GenerateAiBtn onClick={handleGenerateAi}>AI 자동생성</S.GenerateAiBtn>
                     </S.ErdEditButtons>
                 </S.ErdPageLeftTop>
                 <S.ErdResultBox>

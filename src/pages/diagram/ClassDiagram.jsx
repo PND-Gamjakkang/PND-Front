@@ -301,7 +301,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     };
 
     // 선택한 레포지토리 mermaid 코드 가져오기
-    const fetchClassMermaid = async () => {
+    const getClassMermaid = async () => {
         try {
             const response = await API.get(`api/pnd/diagram/class`, {
                 params: {
@@ -328,7 +328,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId && onClickCreateBtn) {
-            fetchClassMermaid();
+            getClassMermaid();
             //fetchGpt();
         }
     }, [selectedProjectId]);
@@ -344,7 +344,8 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     const handleGenerateAi = () => {
         //setIsClickGetnerateAiBtn(!isClickGenerateAiBtn);
         //setIsClickGetnerateAiBtn(!buttonStates.isClickGenerateAiBtn);
-        setButtonStates(!buttonStates.isClickGenerateAiBtn);
+        // setButtonStates(true);
+        updateButtonState('isClickGenerateAiBtn');
     };
 
 
