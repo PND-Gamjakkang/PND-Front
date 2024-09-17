@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Diagram = styled.div`
   width: 100%; /* 부모 요소(Content)의 전체 너비를 차지 */
-  height: 100%; /* 부모 요소(Content)의 전체 높이를 차지 */
+
   display: flex;
   justify-content: center;
 `;
@@ -19,7 +19,7 @@ export const DiagramLayout = styled.div`
 /* 다이어그램 네비게이션바 */
 export const DiagramTopBarContainer = styled.div`
   width: 100%; /* 부모 요소(Content)의 전체 너비를 차지 */
-  height: 7%; /* 부모 요소(Content)의 전체 높이를 차지 */
+  height: 50px; /* 부모 요소(Content)의 전체 높이를 차지 */
   // display: flex;
   // align-items: center;
   background-color: white;
@@ -72,7 +72,7 @@ align-items: center;
 // 다이어그램 페이지
 export const DiagramContainer = styled.div`
   width: 100%; /* 부모 요소의 전체 너비 */
-  height: 93%; /* 부모 요소의 전체 높이 */
+  // height: 93%; /* 부모 요소의 전체 높이 */
   background-color: white;
   padding: 0 2.5vh;
 
@@ -105,31 +105,31 @@ height:100%;
 display:flex;
 // margin-top: 3.45%;
 // margin: 2.5vh 0;
-// gap: 1.1vw;
+gap: 1.1vw;
 
 `;
 
 export const ClassLeft = styled.div`
 width: 26vw;
-height: 100%;
+// height: 100%;
 position:relative;
 `;
 
 export const ClassMid = styled.div`
 width: 28vw;
 position:relative;
-height: 100%;
+// height: 100%;
 `;
 
 export const ClassRight = styled.div`
 width: 26vw;
 position:relative;
-height: 100%;
+// height: 100%;
 `;
 
 export const ClassTitleTextBox = styled.div`
 width: 100%;
-height: 5%;
+height: 28px;
 margin: 3.42% 0;
 display:flex;
 flex-direction:column;
@@ -164,24 +164,50 @@ font-size: 0.8rem;
 `;
 
 export const DeleteComponentBtn = styled.button`
-width: 25%;
+flex-grow: 1;
+
+  // 마우스를 올렸을 때, 클릭했을 때 
+  &:hover {
+    color: #5B59FC;
+  }
+  color: ${({ isActive }) => (isActive ? '#5B59FC' : 'black')};
+
 `;
 
 export const DeleteClassBtn = styled.button`
-width: 25%;
+flex-grow: 1;
+
+  // 마우스를 올렸을 때, 클릭했을 때 
+  &:hover {
+    color: #5B59FC;
+  }
+  color: ${({ isActive }) => (isActive ? '#5B59FC' : 'black')};
 `;
 
 export const DeleteAllBtn = styled.button`
-width: 25%;
+flex-grow: 1;
+
+  // 마우스를 올렸을 때, 클릭했을 때 
+  &:hover {
+    color: #5B59FC;
+  }
+  color: ${({ isActive }) => (isActive ? '#5B59FC' : 'black')};
 `;
 
 export const GenerateAiBtn = styled.button`
-width: 25%;
+flex-grow: 1;
+
+  // 마우스를 올렸을 때, 클릭했을 때 
+  &:hover {
+    color: #5B59FC;
+  }
+  color: ${({ isActive }) => (isActive ? '#5B59FC' : 'black')};
+
 `;
 
 export const ClassDiagramResultBox = styled.div`
 width: 100%;
-height: 85%;
+// height: 85%;
 border-radius: 10px;
 border: 1px solid #D9D9FF;
 // background: #FFF;
@@ -193,7 +219,7 @@ margin-top: 17px;
 /* 클래스 에디터 */
 export const EditDiagramContainer = styled.div`
 width: 100%;
-height:93%;
+// height:93%;
 border-radius: 10px;
 background-color: #F8F8FF;
 // margin-top: 30.4px;
@@ -228,15 +254,16 @@ top: 185px;
 right:1.3vw;
 `;
 
-/* 코드 뷰 */
+/* 클래스 코드 뷰 */
 export const ClassRightContainer = styled.div`
 width: 100%;
-height: 91%;
+// height: 91%;
 `;
 export const ClassViewCode = styled.div`
 width: 100%;
 height : 50.4vh;
 background-color: #000;
+border-radius: 10px;
 `;
 
 /* 시퀀스 다이어그램 페이지  */
@@ -244,24 +271,32 @@ export const SequenceLayout = styled.div`
 width: 100%;
 height: 100%;
 display: flex;
-gap: 1.5vw;
-margin-top: 10px;
+gap: 1.1vw;
+// margin-top: 10px;
 `;
 
 export const SequencePageLeft = styled.div`
 width: 50%;
-height: 80%;
+// height: 80%;
 `;
 
 export const SequenceResultBox = styled.div`
 width: 100%;
-height: 100%;
+// height: 100%;
 border-radius: 10px;
 background: #F8F8FF;
+margin-top: 20px;
 `;
-export const SequenceCodeBox = styled.div`
+
+export const SequencePageRight = styled.div`
 width: 50%;
-height: 80%;
+// height: 80%;
+`;
+
+export const SequenceCodeBox = styled.div`
+width: 100%;
+height : 50.4vh;
+// height: 80%;
 border-radius: 10px;
 background: #000;
 `;
@@ -284,13 +319,14 @@ export const ErdLayout = styled.div`
 width: 100%;
 height: 100%;
 display:flex;
-gap: 1.5vw;
-margin: 2.5vh 0;
+padding: 60px;
+gap: 1.1vw;
+// margin: 2.5vh 0;
 `;
 
 export const ErdPageLeft = styled.div`
 width: 50%;
-height: 100%;
+// height: 100%;
 `;
 
 export const ErdPageLeftTop = styled.div`

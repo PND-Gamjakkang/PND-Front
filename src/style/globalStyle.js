@@ -5,7 +5,8 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalStyle = createGlobalStyle`
   :root {
     --vh: 100%;
-    width: 1920px;
+    //width: 1920px;
+    
     font-size: 16px;
 
    }
