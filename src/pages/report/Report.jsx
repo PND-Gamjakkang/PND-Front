@@ -2,13 +2,13 @@ import * as S from './ReportStyle.jsx';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { API } from '../../api/axios.js';
+import { MultipartApi } from '../../api/axios.js';
 
 // 컴포넌트
 import SaveBtn from '../../components/Common/SaveButton.jsx';
 import RepoSettingModal from '../../components/Common/RepoSettingModal.jsx';
 import profileSvg from '../../assets/profile-south-season.svg';
-
-
+import FileDownload from '../../components/readmeComponents/Modals/FileDownload.jsx';
 
 function Report() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +19,9 @@ function Report() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isBaseInfoSet, setIsBaseInfoSet] = useState(null); // 마이프로젝트에 이미 있는 항목을 선택했는지 안했는지의 상태
+    const [isClickSaveBtn, setIsClickSaveBtn] = useState(false); // 저장하기 버튼 상태 저장 변수
+    const [showFileDownload, setShowFileDownload] = useState(false);
+    const [loading, setLoading] = useState(false); // 로딩 상태 추가
 
     // 각 이미지 상태 추가
     const [imageGreen, setImageGreen] = useState(null);
@@ -44,20 +47,52 @@ function Report() {
         setCreatedAt(reportData.createdAt);
         setTitle(reportData.repoTitle);
     }
+
+    const putRepoInfo = async () => {
+        try {
+            const formData = new FormData();
+
+            // JSON 데이터 추가
+            const jsonData = {
+                title: title,
+                period: `${startDate} ~ ${endDate}`,
+            };
+            formData.append('data', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }));
+
+            // 이미지 파일 추가 (이미지 파일이 존재하는 경우에만 추가)
+            if (image) {
+                formData.append('image', image); // 이미지 파일을 추가
+            } else {
+                formData.append('image', null); // 이미지가 없을 때 null로 설정
+            }
+
+            // 서버로 요청 보내기
+            const response = await MultipartApi.put(`api/pnd/repo/${selectedProjectId}`, formData);
+
+            if (response.status === 200) {
+                console.log('서버 응답:', response.data);
+                postReport();
+            } else {
+                console.error("HTTP error: ", response.status);
+            }
+        } catch (err) {
+            console.log("API 통신 중 오류 발생:", err);
+        }
+    };
+
     const postReport = async () => {
+        setLoading(true); // 로딩 시작
         try {
             const response = await API.post(`api/pnd/report/${selectedProjectId}`);
             console.log('selection pr id : ', selectedProjectId);
-            console.log('data:', response);
-
             if (response.status === 201) {
-                console.log('서버 응답:', response.data);
                 const reportData = response.data.data
+                const successMessage = response.data.message;
+                console.log(successMessage);
                 console.log(reportData);
 
                 saveRepoData(reportData);
-
-
+                getReport();
             } else {
                 console.error("HTTP error: ", response.status);
             }
@@ -65,6 +100,11 @@ function Report() {
         }
         catch (error) {
             console.log(error);
+        } finally {
+            // 2초 후 로딩 상태를 false로 설정
+            setTimeout(() => {
+                setLoading(false);
+            }, 1500);
         }
     };
 
@@ -73,8 +113,11 @@ function Report() {
             const response = await API.get(`api/pnd/report/${selectedProjectId}`);
 
             if (response.status === 200) {
-                console.log('서버 응답:', response.data);
                 const reportData = response.data.data
+                const successMessage = response.data.message;
+                console.log(successMessage);
+                console.log(reportData);
+                
 
                 saveRepoData(reportData);
 
@@ -91,13 +134,14 @@ function Report() {
 
     const handleCreateBtn = () => {
         setIsClickCreateBtn(true);
+        console.log("생성하기 버튼 누름");
     };
 
     useEffect(() => {
 
         if (isClickCreateBtn && isBaseInfoSet) {
-            // postReport();
-            getReport();
+            //getReport();
+            getReport(); // 기본 정보 세팅이 이미 되어 있는 레포지토리는 get만 하도록 하기
         }
     }, [isClickCreateBtn]);
 
@@ -105,13 +149,39 @@ function Report() {
         setIsBaseInfoSet(true);
     }
 
+    // 저장하기 버튼 클릭 메소드
+    const handleSaveButtonClick = () => {
+        if (selectedProjectId) {
+
+            setShowFileDownload(!showFileDownload);
+        }
+    };
+
+    // 저장하기 버튼 클릭 핸들러
+    function stateSaveBtn() {
+        setIsClickSaveBtn(!isClickSaveBtn);
+        handleSaveButtonClick();
+    }
+
+    // 레포 기본 정보 저장하는 api 호출
+    useEffect(() => {
+        if (isClickCreateBtn && !isBaseInfoSet) { // 기본 정보가 저장되어있지 않은 상태 && 기본 정보가 이미 저장되어있다면 기본 정보를 저장한다
+            putRepoInfo();
+        } else if(isClickCreateBtn && isBaseInfoSet) {
+            console.log("이미 기본 정보가 저장된 레포지토리입니다.");
+        }
+    }, [isClickCreateBtn, isBaseInfoSet]);
+
+
+
     return (
         <>
             <S.Report>
                 <S.ReportLayout style={{ filter: isModalOpen ? 'blur(5px)' : 'none' }}>
+                    {loading && <S.LoadingOverlay>레포트 생성 중...</S.LoadingOverlay>}
                     <S.ReportTopBarContainer>
                         <S.ReportTitleText>GITHUB  COLLABORATION REPORT</S.ReportTitleText>
-                        <SaveBtn />
+                        <SaveBtn onClick={stateSaveBtn} />
                     </S.ReportTopBarContainer>
                     <S.ReportContainer>
                         <S.ReportLeft>
@@ -120,19 +190,19 @@ function Report() {
                                     <>
                                         <S.Github3DImg
                                             src={imageGreen}
-                                            alt="3D GitHub Contribution Chart"
+                                            alt="imageGreen"
                                         />
                                         <S.Github3DImg
                                             src={imageSeason}
-                                            alt="3D GitHub Contribution Chart"
+                                            alt="imageSeason"
                                         />
                                         <S.Github3DImg
                                             src={imageSouthSeason}
-                                            alt="3D GitHub Contribution Chart"
+                                            alt="imageSouthSeason"
                                         />
                                         <S.Github3DImg
                                             src={imageNightView}
-                                            alt="3D GitHub Contribution Chart"
+                                            alt="imageNightView"
                                         />
                                     </>
                                 )}
@@ -140,15 +210,29 @@ function Report() {
                         </S.ReportLeft>
                         <S.ReportRight>
                             <S.ReportInfo>
-                                <S.RepoTitle>{title}</S.RepoTitle>
-                                <S.RepoDate>{startDate}</S.RepoDate>
-                                <S.ReportCreateAt>{createdAt}</S.ReportCreateAt>
+                                <h3>{title}</h3>
+                                <div>레포트 생성 일자 : {createdAt}</div>
                             </S.ReportInfo>
-
+                            <S.Github3D>
+                                {isClickCreateBtn && (
+                                    <>
+                                        <S.Github3DImg
+                                            src={imageNightGreen}
+                                            alt="imageNightGreen"
+                                        />
+                                        <S.Github3DImg
+                                            src={imageNightRainbow}
+                                            alt="imageNightRainbow"
+                                        />
+                                        <S.Github3DImg
+                                            src={imageGitblock}
+                                            alt="imageGitblock"
+                                        />
+                                    </>
+                                )}
+                            </S.Github3D>
                         </S.ReportRight>
-
                     </S.ReportContainer>
-
                 </S.ReportLayout>
             </S.Report>
             {/* 모달 렌더링 */}
@@ -166,6 +250,13 @@ function Report() {
                     />
                 )
             }
+            {showFileDownload && (
+                <FileDownload
+                    page={'/report'}
+                    //closeModal={closeDownloadModal}
+                    selectedProjectId={selectedProjectId}
+                />
+            )}
         </>
     )
 }

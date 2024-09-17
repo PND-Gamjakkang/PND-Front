@@ -56,13 +56,24 @@ width: 100%;
 
 export const ReportRight = styled.div`
 width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* 내부 요소들을 오른쪽 정렬 */
+  justify-content: flex-start; /* 위쪽에 붙도록 설정 */
+  gap: 20px;
 `;
 
 export const ReportInfo = styled.div`
-width: 100%;
+width: 18vw;
+height: 100px;
+display:flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 15px;
 `;
 
-export const RepoTitle = styled.h2`
+export const RepoTitle = styled.h3`
 
 `;
 
@@ -72,4 +83,21 @@ export const RepoDate = styled.div`
 
 export const ReportCreateAt = styled.div`
 
+`;
+
+// 로딩 중
+export const LoadingOverlay = styled.div`
+   position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8); /* 반투명 흰색 배경 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem; /* 텍스트 크기 */
+    z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
+    color: #333; /* 텍스트 색상 */
+    text-align: center; /* 텍스트 가운데 정렬 */
 `;

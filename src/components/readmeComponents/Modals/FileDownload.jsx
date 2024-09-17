@@ -39,7 +39,7 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
 
     if (page === 'readme') {
       saveReadme();
-    } else if (page === '/diagram/class') {
+    } else if (page === '/diagram/class' || page === '/report') {
       setIsSaved(true);  // Ensure this is set to true
     }
   }, [page, content, selectedProjectId, userToken]);
