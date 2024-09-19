@@ -6,19 +6,20 @@ export const ProjectsContainer = styled.div`
   flex-wrap: wrap;
   gap: 2vw;
   justify-content: space-between;
-  
+  min-height: 43vh;
+  background-color: #f8f8ff; 
+
   @media (max-width: 768px) {
     justify-content: center;
     gap: 4vw;
   }
-    background:red;
 `;
 
 export const ProjectCard = styled.div`
   width: 22vw;
   min-width: 280px;
   max-width: 100%;
-  height: 33vh;
+  height: 43vh;
   background-color: #FFF;
   border-radius: 1rem;
   border: 0.1rem solid #D9D9FF;
@@ -26,13 +27,13 @@ export const ProjectCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-bottom: 2rem;
   box-sizing: border-box;
 
   @media (max-width: 768px) {
     width: 90vw;
     min-height: 40vh;
   }
+  
 `;
 
 export const ProjectImage = styled.div`
@@ -48,9 +49,8 @@ export const ProjectDetails = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 8vh;
+  height: 5vh;
   border-radius: 0 0 1rem 1rem;
-
   @media (max-width: 768px) {
     padding: 1.5rem;
     height: auto;
@@ -59,7 +59,7 @@ export const ProjectDetails = styled.div`
 
 export const ProjectTitle = styled.span`
   font-family: 'Inter', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.0rem;
   font-weight: 600;
   text-align: center;
 
@@ -70,7 +70,7 @@ export const ProjectTitle = styled.span`
 
 export const ProjectDate = styled.span`
   font-family: 'Inter', sans-serif;
-  font-size: 1.4rem;
+  font-size: 0.9rem;
   font-weight: 500;
   text-align: center;
 
@@ -92,7 +92,7 @@ export const Divider = styled.div`
 
 export const StyledLink = styled(Link)`
   display: inline-block;
-  padding: 0.8rem;
+  padding: 0.5rem;
   margin: 0.5rem 0;
   background-color: #FFF;
   color: #07061F;
@@ -101,7 +101,7 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   border-radius: 0.4rem;
   font-family: 'Inter', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.0rem;
   font-weight: 500;
 
   &:hover {
@@ -115,7 +115,7 @@ export const StyledLink = styled(Link)`
 `;
 
 export const LinkContainer = styled.div`
-  padding: 1rem 2rem; 
+  
   display: flex;
   flex-direction: column;
   gap: 0;

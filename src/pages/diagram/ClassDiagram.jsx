@@ -21,30 +21,11 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
 
-    // const [isClickDeleteClassBtn, setIsClickDeleteClassBtn] = useState(false); // 클래스 삭제 버튼 클릭 상태
-    // const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
-    // const [isClickDeleteComponentBtn, setIsClickDeleteComponentBtn] = useState(false); // 컴포넌트 삭제 버튼 클릭 상태
-    // const [isClickDeleteAllBtn, setIsClickDeleteAllBtn] = useState(false); // 전체 삭제 버튼 클릭 상태
+    const [isClickDeleteClassBtn, setIsClickDeleteClassBtn] = useState(false); // 클래스 삭제 버튼 클릭 상태
+    const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
+    const [isClickDeleteComponentBtn, setIsClickDeleteComponentBtn] = useState(false); // 컴포넌트 삭제 버튼 클릭 상태
 
-    // 각 버튼의 isActive 상태를 관리하는 상태 객체
-    const [buttonStates, setButtonStates] = useState({
-        isClickDeleteComponentBtn: false,
-        isClickDeleteClassBtn: false,
-        isClickDeleteAllBtn: false,
-        isClickGenerateAiBtn: false,
-    });
-
-    // 버튼 상태를 업데이트하는 함수
-    const updateButtonState = (buttonName) => {
-        setButtonStates({
-            isClickDeleteComponentBtn: false,
-            isClickDeleteClassBtn: false,
-            isClickDeleteAllBtn: false,
-            isClickGenerateAiBtn: false,
-            [buttonName]: true, // 클릭된 버튼만 true로 설정
-        });
-    };
-
+    
     // Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {
@@ -64,7 +45,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
             }
         };
 
-        if (!loading && viewCode) {
+        if (!loading) {
             renderDiagram();  // 로딩이 완료된 후에만 다이어그램을 렌더링
         }
         //fetchEditClassCode(viewCode);
@@ -107,12 +88,10 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
 
     // 편집 버튼 상태 관리
     const setStateDeleteComponentBtn = () => {
-        //setIsClickDeleteComponentBtn(true);
-        updateButtonState('isClickDeleteComponentBtn');
+        setIsClickDeleteComponentBtn(true);
     };
     const setStateDeleteClassBtn = () => {
-        //setIsClickDeleteClassBtn(true);
-        updateButtonState('isClickDeleteClassBtn');
+        setIsClickDeleteClassBtn(true);
     };
 
 
@@ -124,7 +103,6 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
             setSelectedClass(null);
             setCodeKey(prevKey => prevKey + 1);
         }
-        
     };
 
     // 클래스 삭제 핸들러
@@ -160,7 +138,6 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         setViewCode(' '); // viewCode를 빈 문자열로 설정하여 모든 다이어그램 요소 삭제
         setSelectedClass(null); // 선택된 클래스 초기화
         setCodeKey(prevKey => prevKey + 1); // 코드 키 업데이트
-        updateButtonState('isClickDeleteAllBtn');
     }
 
     // 선택한 테마로 코드 적용하는 메소드
@@ -196,23 +173,22 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     useEffect(() => {
         console.log(selectedClass);
         //handleDeleteClass();
-        if (buttonStates.isClickDeleteClassBtn && selectedClass) {
+        if (isClickDeleteClassBtn && selectedClass) {
+            console.log("클래스 삭제 중...");
             handleDeleteClass(selectedClass);
-            //setIsClickDeleteClassBtn(false); // 삭제 후 상태 초기화
-            setButtonStates(!buttonStates.isClickDeleteClassBtn);
+            setIsClickDeleteClassBtn(false); // 삭제 후 상태 초기화
         }
-    }, [selectedClass, buttonStates.isClickDeleteClassBtn]);
+    }, [selectedClass, isClickDeleteClassBtn]);
 
     useEffect(() => {
         console.log(selectedClass);
         //handleDeleteClass();
-        if (buttonStates.isClickDeleteComponentBtn && selectedClass) {
+        if (isClickDeleteComponentBtn && selectedClass) {
             console.log("클래스 삭제 중...");
             handleDeleteComponent(selectedClass);
-            //setIsClickDeleteComponentBtn(false); // 삭제 후 상태 초기화
-            setButtonStates(!buttonStates.isClickDeleteComponentBtn);
+            setIsClickDeleteComponentBtn(false); // 삭제 후 상태 초기화
         }
-    }, [selectedClass, buttonStates.isClickDeleteComponentBtn]);
+    }, [selectedClass, isClickDeleteComponentBtn]);
 
     // 유저토큰
     const userToken = localStorage.getItem('token');
@@ -223,16 +199,16 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     }, [className]);
 
     useEffect(() => {
-        if (buttonStates.isClickDeleteClassBtn && !selectedClass) {
-            console.log("클래스 삭제 버튼 상태: " + buttonStates.isClickDeleteClassBtn);
+        if (isClickDeleteClassBtn && !selectedClass) {
+            console.log("클래스 삭제 버튼 클릭됨");
         }
-    }, [buttonStates.isClickDeleteClassBtn])
+    }, [isClickDeleteClassBtn])
 
     useEffect(() => {
-        if (buttonStates.isClickDeleteComponentBtn && !selectedClass) {
+        if (isClickDeleteComponentBtn && !selectedClass) {
             console.log("컴포넌트 삭제 버튼 클릭됨");
         }
-    }, [buttonStates.isClickDeleteComponentBtn])
+    }, [isClickDeleteComponentBtn])
 
     // viewCode가 수정될 때 호출되는 함수
     const handleViewCodeSave = () => {
@@ -260,7 +236,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
                     data = data.slice(0, -3);
                 }
                 // 모든 ->를 -->로 변경
-                data = data.replace(/->/g, '-->');
+                data = data.replace(/->/g, '->');
 
                 // 관계와 클래스 정의를 분리하고 각 줄을 트림하여 공백을 제거합니다.
                 let lines = data.split('\n').map(line => line.trim()).filter(line => line.length > 0);
@@ -301,7 +277,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     };
 
     // 선택한 레포지토리 mermaid 코드 가져오기
-    const getClassMermaid = async () => {
+    const fetchClassMermaid = async () => {
         try {
             const response = await API.get(`api/pnd/diagram/class`, {
                 params: {
@@ -328,24 +304,21 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId && onClickCreateBtn) {
-            getClassMermaid();
+            fetchClassMermaid();
             //fetchGpt();
         }
     }, [selectedProjectId]);
 
     // 코드가 변화될때마다 실행
     useEffect(() => {
-        if (buttonStates.isClickGenerateAiBtn) {
+        if (isClickGenerateAiBtn) {
             fetchGpt();
         }
-    }, [buttonStates.isClickGenerateAiBtn]);
+    }, [isClickGenerateAiBtn]);
 
     // 다이어그램 생성
     const handleGenerateAi = () => {
-        //setIsClickGetnerateAiBtn(!isClickGenerateAiBtn);
-        //setIsClickGetnerateAiBtn(!buttonStates.isClickGenerateAiBtn);
-        // setButtonStates(true);
-        updateButtonState('isClickGenerateAiBtn');
+        setIsClickGetnerateAiBtn(!isClickGenerateAiBtn);
     };
 
 
@@ -357,13 +330,13 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
                     <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>
                 </S.ClassTitleTextBox>
                 <S.ClassEditButtons>
-                    <S.DeleteComponentBtn onClick={setStateDeleteComponentBtn} isActive={buttonStates.isClickDeleteComponentBtn}>부분 삭제</S.DeleteComponentBtn>
+                    <S.DeleteComponentBtn onClick={setStateDeleteComponentBtn}>부분 삭제</S.DeleteComponentBtn>
                     <S.Divider />
-                    <S.DeleteClassBtn onClick={setStateDeleteClassBtn} isActive={buttonStates.isClickDeleteClassBtn}>클래스 삭제</S.DeleteClassBtn>
+                    <S.DeleteClassBtn onClick={setStateDeleteClassBtn}>클래스 삭제</S.DeleteClassBtn>
                     <S.Divider />
-                    <S.DeleteAllBtn onClick={handleDeleteAllBtn} isActive={buttonStates.isClickDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
+                    <S.DeleteAllBtn onClick={handleDeleteAllBtn}>전체 삭제</S.DeleteAllBtn>
                     <S.Divider />
-                    <S.GenerateAiBtn onClick={handleGenerateAi} isActive={buttonStates.isClickGenerateAiBtn}>AI 자동생성</S.GenerateAiBtn>
+                    <S.GenerateAiBtn onClick={handleGenerateAi}>AI 자동생성</S.GenerateAiBtn>
                 </S.ClassEditButtons>
                 <S.ClassDiagramResultBox>
                     <div id="diagram-container" onClick={(e) => handleClassClick(e.target.innerText)}>
