@@ -7,7 +7,6 @@ import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingMod
 import { API } from '../../../api/axios';
 import mermaid from 'mermaid';
 import ViewCode from '../../../components/Diagram/ViewCode.jsx';
-import { Navigate } from 'react-router-dom';
 
 const MyPageClassDiagram = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -18,6 +17,7 @@ const MyPageClassDiagram = () => {
   const [error, setError] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
+  
   const handleButtonClick = (type) => {
     if (type === 'save') {
       setIsDownloadModalOpen(true);
@@ -47,79 +47,22 @@ const MyPageClassDiagram = () => {
 
   useEffect(() => {
     const renderDiagram = () => {
-      // console.log("Rendering diagram with classDiagramContent:", classDiagramContent); 
+      if (!classDiagramContent || !classDiagramContent.trim()) return;
+
+      let data = classDiagramContent;
+      console.log('수정되기 전 GPT 분석 결과:', data);
+
+      data = data.replace(/^```|```$/g, '');
+
+      if (!data.startsWith('classDiagram')) {
+        data = 'classDiagram\n' + data;
+      }
+
+      console.log('Mermaid 형식으로 변환된 다이어그램 코드:', data);
+
       const diagramContainer = document.getElementById("diagram-container");
-      const c=`
-      classDiagram
-      MarketRepo --> FirebaseDataSource
-      MarketRepo --> RemoteDataSource
-      MarketRepo --> LocalDataSource
-      MarketViewModel --> MarketRepo
-      MarketViewModel --> MarketEvent
-      MarketViewModel --> MarketUiState
-      MarketAdapter --> RecyclerView
-      MarketAdapter --> MarketViewHolder
-      MarketViewHolder --> ItemMarketBinding
-      
-      class MarketRepo {
-        +FirebaseDataSource firebaseDataSource
-        +RemoteDataSource remoteDataSource
-        +LocalDataSource localDataSource
-      }
-      
-      class FirebaseDataSource {
-        +fetchData()
-        +uploadData()
-      }
-      
-      class RemoteDataSource {
-        +fetchRemoteData()
-      }
-      
-      class LocalDataSource {
-        +fetchLocalData()
-        +saveLocalData()
-      }
-      
-      class MarketViewModel {
-        +MarketRepo marketRepo
-        +MarketEvent marketEvent
-        +MarketUiState marketUiState
-      }
-      
-      class MarketEvent {
-        +onEvent()
-      }
-      
-      class MarketUiState {
-        +state: String
-      }
-      
-      class MarketAdapter {
-        +RecyclerView: parent
-        +onBindViewHolder()
-        +onCreateViewHolder()
-      }
-      
-      class MarketViewHolder {
-        +ItemMarketBinding itemMarketBinding
-      }
-      
-      class ItemMarketBinding {
-        +binding: String
-      }
-      
-      class RecyclerView {
-        +adapter: Adapter
-      }
-      
-      class Adapter {
-        +onCreateViewHolder()
-        +onBindViewHolder()
-      }
-            `;
-      if (diagramContainer && classDiagramContent && classDiagramContent.trim()) {
-        diagramContainer.innerHTML = `<div class="mermaid">${c}</div>`;
+      if (diagramContainer) {
+        diagramContainer.innerHTML = `<div class="mermaid">${data}</div>`;
         try {
           mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
         } catch (error) {
