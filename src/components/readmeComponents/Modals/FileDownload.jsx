@@ -5,11 +5,11 @@ import logo from '../../../assets/images/download-logo.png';
 import { Helmet } from 'react-helmet';
 import { API } from "../../../api/axios";
 import mermaid from 'mermaid';
-
+import { Navigate, useNavigate } from "react-router-dom";
 const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isDiagramPage, setIsDiagramPage] = useState(false);
-
+  const navigate = useNavigate();
   // `page` 값에 따라 `isDiagramPage` 상태 업데이트
   useEffect(() => {
     if (page !== 'readme') {
@@ -32,8 +32,7 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
         console.log('저장 성공:', response);
         setIsSaved(true);  // 파일 저장 완료로 상태 업데이트
       } catch (error) {
-        console.error('Error saving README:', error);
-        setIsSaved(false);  // 파일 저장 실패
+        console.error(error);
       }
     };
 
@@ -43,6 +42,11 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
       setIsSaved(true);  // Ensure this is set to true
     }
   }, [page, content, selectedProjectId, userToken]);
+
+  const handleButtonClick = () => {
+    console.log(123123);
+    navigate('/myprojects');
+  };
 
   const downloadMD = () => {
     if (page === 'readme') {
@@ -100,7 +104,9 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
         {!isDiagramPage && (
           <DownloadButton onClick={downloadMD} disabled={!isSaved}>다운로드 하기</DownloadButton>
         )}
-        <MyPageButton disabled={!isSaved}>마이페이지로 가기</MyPageButton>
+        <MyPageButton disabled={!isSaved} onClick={handleButtonClick}>
+          마이페이지로 가기
+        </MyPageButton>
       </ModalContent>
     </Modal>
   );
