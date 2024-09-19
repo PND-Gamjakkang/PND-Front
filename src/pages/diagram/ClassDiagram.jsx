@@ -241,7 +241,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
                     data = data.slice(0, -3);
                 }
                 // 모든 ->를 -->로 변경
-                data = data.replace(/->/g, '->');
+                data = data.replace(/->/g, '-->');
 
                 // 관계와 클래스 정의를 분리하고 각 줄을 트림하여 공백을 제거합니다.
                 let lines = data.split('\n').map(line => line.trim()).filter(line => line.length > 0);
