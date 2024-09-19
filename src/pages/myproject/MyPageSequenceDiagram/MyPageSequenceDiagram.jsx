@@ -31,13 +31,14 @@ const MyPageSequenceDiagram = () => {
         console.log(response.data);
         setSequenceDiagramContent(response.data.data);
         setError(null); 
+        
     } catch (error) {
         if (error.response && error.response.status === 404) {
             setError("선택한 프로젝트에 대한 SequenceDiagram을 찾을 수 없습니다."); 
         } else {
             setError("sequence Diagram을 불러오는 중 오류가 발생했습니다."); 
         }
-        setSequenceDiagramContent('');
+        setSequenceDiagramContent(error);
     }
   };
 
@@ -45,38 +46,6 @@ const MyPageSequenceDiagram = () => {
     console.log("선택한 프로젝트 아이디: " + selectedProjectId);
 }, [selectedProjectId]);
 
-
-//렌더링 테스트 코드
-  useEffect(() => {
-    const diagramContainer = document.getElementById("diagram-container");
-
-    const c=`
-    sequenceDiagram
-    participant User as User
-    participant API as API Endpoints
-    participant Auth as AuthManager
-    participant DB as FirebaseDatabaseHelper
-    participant Storage as Firebase Storage
-    participant UI as User Interface
-    User->>API: Request endpoint
-    API->>Auth: User authentication
-    Auth-->>API: Authentication result
-    API->>DB: Perform database query
-    DB-->>API: Query results
-    API->>Storage: Access media storage
-    Storage-->>API: Return media data
-    API-->>User: Send response to User
-    User->>UI: Interact with UI components
-    UI-->>User: Update UI
-    `;
-
-    diagramContainer.innerHTML = `<div class="mermaid">${c}</div>`;
-    try {
-      mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-    } catch (error) {
-      console.error("Mermaid rendering error:", error);
-    }
-  }, []);
 
   useEffect(()=>{
     setIsModalOpen(true);
@@ -86,7 +55,7 @@ const MyPageSequenceDiagram = () => {
     const renderDiagram = () => {
       // console.log("Rendering diagram with sequenceDiagramContent:", sequenceDiagramContent); 
       const diagramContainer = document.getElementById("diagram-container");
-        
+      
       if (diagramContainer && sequenceDiagramContent && sequenceDiagramContent.trim()) {
         diagramContainer.innerHTML = `<div class="mermaid">${sequenceDiagramContent}</div>`;
         try {

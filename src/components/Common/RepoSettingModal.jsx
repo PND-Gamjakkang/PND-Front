@@ -128,7 +128,7 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
            onNextSlide={handleSlideNext}
           />
         </SwiperSlide>
-        {!isBaseInfoSet ? (
+        {isBaseInfoSet ? (
           <SwiperSlide>
             <InputRepoInfo 
              onCancelBtn={() => handleCancleBtn}
