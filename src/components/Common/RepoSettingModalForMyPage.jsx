@@ -8,7 +8,7 @@ import UserRepo from '../retro/UserRepo';
 import SelectRepo from './SelectRepo';
 import InputRepoInfo from './InputRepoInfo';
 
-function RepoSettingModalForMyPage({ closeModal, onSelectProject, onSelectedProjectId, onClickCreateBtn }) {
+function RepoSettingModalForMyPage({ closeModal, onSelectProject, onSelectedProjectId }) {
   // const [user, setUser] = useState([]); // 사용자 정보
   // const [repos, setRepos] = useState([]);
 

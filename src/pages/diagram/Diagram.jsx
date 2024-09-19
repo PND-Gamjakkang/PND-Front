@@ -307,7 +307,7 @@ function Diagram() {
             {showFileDownload && (
                 <FileDownload
                     page={location.pathname}
-                    //closeModal={closeDownloadModal}
+                    // closeModal={closeDownloadModal}
                     content={viewCode}
                     selectedProjectId={selectedProjectId}
                     userToken={userToken}
