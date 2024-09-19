@@ -1,5 +1,5 @@
 import * as S from './DiagramStyle.jsx';
-import { useEffect, useState , useRef} from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
@@ -20,7 +20,6 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     //const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
-    const diagramContainerRef = useRef(null); // DOM 요소를 참조하기 위한 ref 사용
 
     // const [isClickDeleteClassBtn, setIsClickDeleteClassBtn] = useState(false); // 클래스 삭제 버튼 클릭 상태
     // const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
@@ -46,21 +45,24 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         });
     };
 
-    // Mermaid 초기화 및 다이어그램 렌더링
+    // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         const renderDiagram = () => {
-            console.log("Rendering diagram with viewCode:", viewCode); // 로그 추가
+            console.log("Rendering diagram with viewCode:", viewCode);
             const diagramContainer = document.getElementById("diagram-container");
             if (diagramContainer && viewCode !== null) {
                 if (viewCode.trim() === '') {
                     diagramContainer.innerHTML = ''; // 전체 삭제 시 다이어그램 초기화
                 } else {
                     diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
-                    try {
-                        mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-                    } catch (error) {
-                        console.error("Mermaid rendering error:", error);
-                    }
+                    // Mermaid 렌더링을 지연시킴
+                    setTimeout(() => {
+                        try {
+                            mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                        } catch (error) {
+                            console.error("Mermaid rendering error:", error);
+                        }
+                    }, 100); // 필요에 따라 100ms 지연
                 }
             }
         };
@@ -68,8 +70,8 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         if (!loading && viewCode) {
             renderDiagram();  // 로딩이 완료된 후에만 다이어그램을 렌더링
         }
-        //fetchEditClassCode(viewCode);
-    }, [viewCode, loading]); // viewCode가 변할 때마다 실행
+
+    }, [viewCode, loading]);
 
     // 추가 버튼 핸들러
     const handleAddButton = () => {
@@ -125,7 +127,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
             setSelectedClass(null);
             setCodeKey(prevKey => prevKey + 1);
         }
-        
+
     };
 
     // 클래스 삭제 핸들러
@@ -174,8 +176,9 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
             // Mermaid 테마 설정
             mermaid.initialize({
                 theme: selectedTheme.toLowerCase() // 테마 이름을 소문자로 변환하여 적용 (light, dark 등)
+
             });
-    
+
             // 다이어그램을 다시 렌더링
             const diagramContainer = document.getElementById("diagram-container");
             if (diagramContainer && viewCode !== null) {
@@ -191,7 +194,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     useEffect(() => {
         console.log("선택한 테마: " + selectedTheme);
         handleSelectedTheme();
-    },[selectedTheme]);
+    }, [selectedTheme]);
 
     // 선택된 클래스 이름 알기
     useEffect(() => {
@@ -352,7 +355,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
 
     return (
         <S.ClassLayout>
-            {loading && <Loader/>}
+            {loading && <Loader />}
             <S.ClassLeft>
                 <S.ClassTitleTextBox>
                     <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>
@@ -411,7 +414,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
                         )}
                     </S.ClassViewCode>
                     <ThemeTemplate
-                    onSaveTheme={saveSelectedTheme}
+                        onSaveTheme={saveSelectedTheme}
                     />
                 </S.ClassRightContainer>
             </S.ClassRight>
