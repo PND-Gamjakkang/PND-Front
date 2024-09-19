@@ -396,4 +396,5 @@ export const LoadingOverlay = styled.div`
     z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
     color: #333; /* 텍스트 색상 */
     text-align: center; /* 텍스트 가운데 정렬 */
+
 `;

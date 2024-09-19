@@ -1,15 +1,15 @@
 import * as S from './DiagramStyle.jsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState , useRef} from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
-import Loader from '../../components/Common/Loader.jsx';
 
 // component
 import ClassEditor from '../../components/Diagram/ClassEditor.jsx';
 import RelationshipEditor from '../../components/Diagram/RelationshipEditor.jsx';
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
 import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
+import Loader from '../../components/Diagram/Loader.jsx';
 
 function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode }) {
     const [codeKey, setCodeKey] = useState(0);
@@ -20,6 +20,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     //const [viewCode, setViewCode] = useState(null);  // 초기 상태를 빈 문자열로 설정
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [selectedTheme, setSeletedTheme] = useState(null); // 선택한 테마
+    const diagramContainerRef = useRef(null); // DOM 요소를 참조하기 위한 ref 사용
 
     // const [isClickDeleteClassBtn, setIsClickDeleteClassBtn] = useState(false); // 클래스 삭제 버튼 클릭 상태
     // const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
@@ -351,7 +352,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
 
     return (
         <S.ClassLayout>
-            {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
+            {loading && <Loader/>}
             <S.ClassLeft>
                 <S.ClassTitleTextBox>
                     <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>
