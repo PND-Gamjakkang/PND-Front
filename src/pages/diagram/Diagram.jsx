@@ -37,10 +37,34 @@ function Diagram() {
     const [isClickSaveBtn, setIsClickSaveBtn] = useState(false); // 저장하기 버튼 상태 저장 변수
     const [viewCode, setViewCode] = useState('');
     const [showFileDownload, setShowFileDownload] = useState(false);
+    const [sequenceCode, setSequenceCode] = useState('');
+    const [erdCode, setErdCode] = useState('');
 
     const navigate = useNavigate(); // 선택한 다이어그램에 따라 페이지 다르게 이동하도록 하기 위한 네비게이션
     const location = useLocation();
 
+
+    // 다이어그램 타입에 따라 상태를 선택적으로 설정합니다.
+    useEffect(() => {
+        if (location.pathname === '/diagram/class') {
+            setViewCode(viewCode);
+        } else if (location.pathname === '/diagram/sequence') {
+            setSequenceCode(sequenceCode);
+        } else if (location.pathname === '/diagram/erd') {
+            setErdCode(erdCode);
+        }
+    }, [location.pathname, viewCode, sequenceCode, erdCode]);
+
+    // 상태 저장할 때도 현재 다이어그램 타입에 따라 상태를 설정합니다.
+    const handleSaveCode = (newCode) => {
+        if (location.pathname === '/diagram/class') {
+            setViewCode(newCode);
+        } else if (location.pathname === '/diagram/sequence') {
+            setSequenceCode(newCode);
+        } else if (location.pathname === '/diagram/erd') {
+            setErdCode(newCode);
+        }
+    };
     const putRepoInfo = async () => {
         try {
             const formData = new FormData();
@@ -73,16 +97,32 @@ function Diagram() {
     };
 
     // 코드 수정 저장 api 통신
-    const fetchEditClassCode = async (updatedCode) => {
+    const fetchEditCode = async (path) => {
         try {
-            const requestBody = {
+            const classRequestBody = {
                 repoId: selectedProjectId,
-                script: updatedCode
+                script: viewCode
             };
-            const response = await API.patch(`api/pnd/diagram/class`, requestBody);
+            const sequenceRequestBody = {
+                repoId: selectedProjectId,
+                script: sequenceCode
+            };
+            const erRequestBody = {
+                repoId: selectedProjectId,
+                script: erdCode
+            };
+
+            var response;
+            if (path === '/diagram/class') {
+                response = await API.patch(`api/pnd/diagram/class`, classRequestBody);
+            } else if (path === '/diagram/sequence') {
+                response = await API.patch(`api/pnd/diagram/sequence`, sequenceRequestBody);
+            } else {
+                response = await API.patch(`api/pnd/diagram/er`, erRequestBody);
+            }
             if (response.status === 200) {
                 const updatedData = response.data.data; // 수정된 데이터를 변수에 저장
-                console.log('코드 저장 완료');
+                console.log(response.data.message);
             } else {
                 console.error("HTTP error: ", response.status);
             }
@@ -96,8 +136,8 @@ function Diagram() {
 
     // SaveBtn 클릭 시 수정된 코드를 저장하는 함수
     const handleSaveButtonClick = () => {
-        if (viewCode && selectedProjectId) {
-            fetchEditClassCode(viewCode);
+        if (selectedProjectId) {
+            fetchEditCode(location.pathname);
             setShowFileDownload(!showFileDownload);
         }
     };
@@ -184,10 +224,20 @@ function Diagram() {
                                     />
                                 )}
                                 {location.pathname === '/diagram/sequence' && (
-                                    <SequenceDiagram selectedProjectId={selectedProjectId} />
+                                    <SequenceDiagram
+                                        selectedProjectId={selectedProjectId}
+                                        onClickCreateBtn={isClickCreateBtn}
+                                        viewCode={sequenceCode}
+                                        setViewCode={setSequenceCode}
+                                    />
                                 )}
                                 {location.pathname === '/diagram/erd' && (
-                                    <ErdDiagram selectedProjectId={selectedProjectId} />
+                                    <ErdDiagram
+                                        selectedProjectId={selectedProjectId}
+                                        onClickCreateBtn={isClickCreateBtn}
+                                        viewCode={erdCode}
+                                        setViewCode={setErdCode}
+                                    />
                                 )}
                             </>
                         ) : (

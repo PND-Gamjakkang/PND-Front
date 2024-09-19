@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 export const HeaderLayout = styled.div`
   width: 100vw;
+  height: 50px;
   //height: clamp(50px, 7vh, 100px); /* 최소 50px, 최대 100px, 기본 10vh */
-  height: 7%;
+  // height: 7%;
   display: flex;
   flex-shrink: 0;
   align-items: center;

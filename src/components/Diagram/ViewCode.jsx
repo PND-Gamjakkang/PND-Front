@@ -18,7 +18,7 @@ function ViewCode({ viewCode, setViewCode, onSave }) {
     };
 
     useEffect(() => {
-        console.log("editedCode: " + editedCode);
+        //console.log("editedCode: " + editedCode);
     }, [editedCode]);
 
     return (
