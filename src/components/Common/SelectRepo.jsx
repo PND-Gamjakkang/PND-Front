@@ -6,7 +6,7 @@ import { API } from '../../api/axios';
 // 컴포넌트
 import UserRepo from '../retro/UserRepo';
 
-function SelectRepo({ onCancelBtn, onSelectProject,  onIsBaseInfoSet, onNextSlide }) {
+function SelectRepo({ onCancelBtn, onSelectProject, onClickCreateBtn, onIsBaseInfoSet, onNextSlide }) {
   const [modalOpen, setModalOpen] = useState(true);
 
   const handleCancleBtn = () => {
@@ -26,7 +26,7 @@ function SelectRepo({ onCancelBtn, onSelectProject,  onIsBaseInfoSet, onNextSlid
   };
 
   const handleIsSwiper = () => {
-    onIsBaseInfoSet();
+    onIsBaseInfoSet(true);
   }
 
   // 유저토큰
@@ -88,7 +88,9 @@ function SelectRepo({ onCancelBtn, onSelectProject,  onIsBaseInfoSet, onNextSlid
         handleIsSwiper();
         setIsBaseInfoSet(true);
       } else {
-        return;
+        setIsBaseInfoSet(false);
+        onIsBaseInfoSet(false);
+
       }
     } else {
       setPendingRepo(repoId); // 임시로 레포지토리 ID를 저장
@@ -105,7 +107,7 @@ function SelectRepo({ onCancelBtn, onSelectProject,  onIsBaseInfoSet, onNextSlid
 
     } else if (pendingRepo && isBaseInfoSet) { // 레포 선택했고, 이미 기본 정보가 저장되어 있는 레포면 생성하기 버튼 클릭 true상태로 바꾸고 해당 다이어그램 페이지로 이동
       handleProjectSelection(pendingRepo);
-      // onClickCreateBtn();
+      onClickCreateBtn();
     }
   };
 
