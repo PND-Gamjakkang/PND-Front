@@ -1,15 +1,15 @@
 import * as S from './DiagramStyle.jsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
-import Loader from '../../components/Common/Loader.jsx';
 
 // component
 import ClassEditor from '../../components/Diagram/ClassEditor.jsx';
 import RelationshipEditor from '../../components/Diagram/RelationshipEditor.jsx';
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
 import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
+import Loader from '../../components/Diagram/Loader.jsx';
 
 function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode }) {
     const [codeKey, setCodeKey] = useState(0);
@@ -25,22 +25,26 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
     const [isClickDeleteComponentBtn, setIsClickDeleteComponentBtn] = useState(false); // 컴포넌트 삭제 버튼 클릭 상태
 
+
     
-    // Mermaid 초기화 및 다이어그램 렌더링
+
     useEffect(() => {
         const renderDiagram = () => {
-            console.log("Rendering diagram with viewCode:", viewCode); // 로그 추가
+            console.log("Rendering diagram with viewCode:", viewCode);
             const diagramContainer = document.getElementById("diagram-container");
             if (diagramContainer && viewCode !== null) {
                 if (viewCode.trim() === '') {
                     diagramContainer.innerHTML = ''; // 전체 삭제 시 다이어그램 초기화
                 } else {
                     diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
-                    try {
-                        mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-                    } catch (error) {
-                        console.error("Mermaid rendering error:", error);
-                    }
+                    // Mermaid 렌더링을 지연시킴
+                    setTimeout(() => {
+                        try {
+                            mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                        } catch (error) {
+                            console.error("Mermaid rendering error:", error);
+                        }
+                    }, 100); // 필요에 따라 100ms 지연
                 }
             }
         };
@@ -48,8 +52,8 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         if (!loading) {
             renderDiagram();  // 로딩이 완료된 후에만 다이어그램을 렌더링
         }
-        //fetchEditClassCode(viewCode);
-    }, [viewCode, loading]); // viewCode가 변할 때마다 실행
+
+    }, [viewCode, loading]);
 
     // 추가 버튼 핸들러
     const handleAddButton = () => {
@@ -150,8 +154,9 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
             // Mermaid 테마 설정
             mermaid.initialize({
                 theme: selectedTheme.toLowerCase() // 테마 이름을 소문자로 변환하여 적용 (light, dark 등)
+
             });
-    
+
             // 다이어그램을 다시 렌더링
             const diagramContainer = document.getElementById("diagram-container");
             if (diagramContainer && viewCode !== null) {
@@ -167,7 +172,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     useEffect(() => {
         console.log("선택한 테마: " + selectedTheme);
         handleSelectedTheme();
-    },[selectedTheme]);
+    }, [selectedTheme]);
 
     // 선택된 클래스 이름 알기
     useEffect(() => {
@@ -324,7 +329,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
 
     return (
         <S.ClassLayout>
-            {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
+            {loading && <Loader />}
             <S.ClassLeft>
                 <S.ClassTitleTextBox>
                     <S.DiagramTypeTitleText>CLASS DIAGRAM</S.DiagramTypeTitleText>
@@ -383,7 +388,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
                         )}
                     </S.ClassViewCode>
                     <ThemeTemplate
-                    onSaveTheme={saveSelectedTheme}
+                        onSaveTheme={saveSelectedTheme}
                     />
                 </S.ClassRightContainer>
             </S.ClassRight>

@@ -1,11 +1,13 @@
 import * as S from './DiagramStyle.jsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
 
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
 import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
+import Loader from '../../components/Diagram/Loader.jsx';
+
 
 function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode }) {
     const [codeKey, setCodeKey] = useState(0);
@@ -15,6 +17,8 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [isClickDeleteTableBtn, setIsClickDeleteTableBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
+    const diagramContainerRef = useRef(null); // DOM 요소를 참조하기 위한 ref 사용
+
 
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
@@ -26,11 +30,14 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
                     diagramContainer.innerHTML = ''; // 전체 삭제 시 다이어그램 초기화
                 } else {
                     diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
-                    try {
-                        mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-                    } catch (error) {
-                        console.error("Mermaid rendering error:", error);
-                    }
+                    // Mermaid 렌더링을 지연시킴
+                    setTimeout(() => {
+                        try {
+                            mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                        } catch (error) {
+                            console.error("Mermaid rendering error:", error);
+                        }
+                    }, 100); // 필요에 따라 100ms 지연
                 }
             }
         };
@@ -132,26 +139,6 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
         console.log("선택한 테마: " + selectedTheme);
         handleSelectedTheme();
     }, [selectedTheme]);
-
-
-    // Mermaid 초기화 및 다이어그램 렌더링
-    useEffect(() => {
-        const renderDiagram = () => {
-            console.log("Rendering diagram with viewCode:", viewCode); // 로그 추가
-            const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && viewCode && viewCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
-                try {
-                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-                } catch (error) {
-                    console.error("Mermaid rendering error:", error);
-                }
-            }
-        };
-
-        renderDiagram();
-    }, [viewCode]); // viewCode가 변할 때마다 실행
-
 
     // 레포지토리 gpt 분석 API 통신
     const fetchGpt = async () => {
@@ -255,7 +242,7 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
 
     return (
         <S.ErdLayout>
-            {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
+            {loading && <Loader/>}
             <S.ErdPageLeft>
                 <S.ErdPageLeftTop>
                     <S.ErdTitleTextBox>

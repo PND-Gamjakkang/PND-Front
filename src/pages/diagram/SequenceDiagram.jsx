@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
 import * as S from './DiagramStyle.jsx';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import { API } from '../../api/axios.js';
 import SequenceEditor from '../../components/Diagram/SequenceEditor.jsx';
 import SequenceRelationshipEditor from '../../components/Diagram/SequenceRelationshipEditor.jsx';
 import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
-
+import Loader from '../../components/Diagram/Loader.jsx';
 
 function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode }) {
     const [codeKey, setCodeKey] = useState(0);
@@ -18,18 +18,31 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
 
+
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
-        const renderDiagram = () => {
+        mermaid.initialize({ startOnLoad: false });
+        const renderDiagram = async () => {
             console.log("Rendering diagram with viewCode:", viewCode);
             const diagramContainer = document.getElementById("diagram-container");
             if (diagramContainer && viewCode !== null) {
                 if (viewCode.trim() === '') {
                     diagramContainer.innerHTML = ''; // 전체 삭제 시 다이어그램 초기화
                 } else {
-                    diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
+                    // Mermaid의 render를 사용하여 수동 렌더링
                     try {
-                        mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+                        const { svg } = await mermaid.render('generatedDiagram', viewCode);
+                        diagramContainer.innerHTML = svg;
+                            const svgElement = diagramContainer.querySelector('svg');
+                            if (svgElement) {
+                                try {
+                                    const rect = svgElement.getBBox();
+                                    console.log("BoundingClientRect:", rect);
+                                } catch (error) {
+                                    console.warn("getBBox() error ignored:", error);
+                                }
+                            }
+    
                     } catch (error) {
                         console.error("Mermaid rendering error:", error);
                     }
@@ -38,9 +51,9 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
         };
 
         if (!loading && viewCode) {
-            renderDiagram();  // 로딩이 완료된 후에만 다이어그램을 렌더링
+            setTimeout(renderDiagram, 100);
         }
-        //fetchEditClassCode(sequenceCode);
+
     }, [viewCode, loading]);
 
     // viewCode가 수정될 때 호출되는 함수
@@ -103,23 +116,6 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
         handleSelectedTheme();
     }, [selectedTheme]);
 
-    // Mermaid 초기화 및 다이어그램 렌더링
-    useEffect(() => {
-        const renderDiagram = () => {
-            console.log("Rendering diagram with viewCode:", viewCode); // 로그 추가
-            const diagramContainer = document.getElementById("diagram-container");
-            if (diagramContainer && viewCode && viewCode.trim()) {
-                diagramContainer.innerHTML = `<div class="mermaid">${viewCode}</div>`;
-                try {
-                    mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-                } catch (error) {
-                    console.error("Mermaid rendering error:", error);
-                }
-            }
-        };
-
-        renderDiagram();
-    }, [viewCode]); // viewCode가 변할 때마다 실행
 
     // 유저토큰
     const userToken = localStorage.getItem('token');
@@ -247,7 +243,7 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
 
     return (
         <S.SequenceLayout>
-            {loading && <S.LoadingOverlay>AI 자동생성 중...</S.LoadingOverlay>}
+            {loading && <Loader />}
             <S.SequencePageLeft>
                 <S.ClassTitleTextBox>
                     <S.DiagramTypeTitleText>SEQUENCE DIAGRAM</S.DiagramTypeTitleText>
