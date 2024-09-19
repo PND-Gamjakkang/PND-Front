@@ -193,6 +193,11 @@ export const RelationshipBtn = styled.button`
   border-radius: 8px;
   font-size: 0.8rem;
   border: 1px solid #B7B6FF;
+
+  &:hover {
+    border: 2px solid #5B59FC;
+  }
+
 `;
 
 export const RelationshipInfoImg = styled.img`
@@ -206,7 +211,7 @@ width: 100%;
 display:flex;
 justify-content: center;
 align-items: center;
-margin-top: 12px;
+margin: 12px 0;
 `;
 
 export const SettingRelationshipContainer = styled.div`
@@ -223,7 +228,6 @@ border: 1px solid #B7B6FF;
 background: #D9D9FF;
 
   &::placeholder {
-    color: #5B59FC;
     text-align: center;
     font-family: Inter;
     font-size: 14px;
@@ -247,7 +251,6 @@ border-radius: 5px;
 border: 1px solid #B7B6FF;
 background: #D9D9FF;
   &::placeholder {
-    color: #5B59FC;
     text-align: center;
     font-family: Inter;
     font-size: 14px;
@@ -263,7 +266,7 @@ width: 100%;
 height: 100%;
 border-radius: 10px;
 // background-color: #000;
-margin-top: 25px;
+// margin-top: 25px;
 padding: 0.6vw;
 position: relative;
 
@@ -297,32 +300,57 @@ scrollbar-width: none; /* Firefox에서 스크롤 바 숨기기 */
     display: none; /* Webkit 기반 브라우저에서 스크롤 바 숨기기 */
 }
 `;
+
 /* 테마 템플릿 */
 export const ThemeTemplateContainer = styled.div`
 width: 100%;
-height: 225px;
+height: auto;
 border-radius: 10px;
 background: #F8F8FF;
 padding: 10px;
+margin-top: 24px;
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`;
+
+export const ThemeTItleText = styled.h2`
+color: #181077;
+text-align: center;
+font-family: Inter;
+font-size: 1.4rem;
+font-style: normal;
+font-weight: 600;
+line-height: 64px; /* 320% */
 `;
 
 export const ThemeTypeContainer = styled.div`
 width: 100%;
 display:flex;
-gap: 10px;
-
+gap: 20px;
+justify-content: center;
+align-items: center;
 `;
 
 export const ThemeTypeBox = styled.button`
-width: 25%;
-height: 90px;
+width: 91px;
+height: 91px;
 border-radius: 10px;
-border: 1px solid #B7B6FF;
-background: #D9D9FF;
+border: 2px solid ${({ isActive }) => (isActive ? '#5B59FC' : '#B7B6FF')};
+background-color: ${({ isActive }) => (isActive ? '#D9D9FF' : '#E8E8FF')};
+// background: #D9D9FF;
 display:flex;
 flex-direction: column;
 justify-content: center;
 align-items:center;
+
+  &:hover {
+    background-color: #D9D9FF;
+    border: 1px solid #5B59FC;
+  }
+
+
 `;
 
 export const ThemeTypeIcon = styled.div`
@@ -358,4 +386,32 @@ right: 2%;
   &:hover {
     background-color: #4747D1;
   }
+`;
+
+/* 시퀀스 에디터 */
+export const SequenceEditorContainer = styled.div`
+width: 100%;
+`;
+
+export const InputMessage = styled.input`
+width: 7.39vw;
+height: 5vh;
+border-radius: 5px;
+border: 1px solid #B7B6FF;
+background: #D9D9FF;
+  &::placeholder {
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 0px; /* 0% */
+  }
+`;
+
+export const MessageDivider = styled.div`
+width: 2.5vw;
+display:flex;
+justify-content: center;
+align-items: center;
 `;

@@ -28,7 +28,7 @@ function SelectRepo({ onCancelBtn, onSelectProject,  onIsBaseInfoSet, onNextSlid
   const handleIsSwiper = () => {
     onIsBaseInfoSet();
   }
-  
+
   // 유저토큰
   const userToken = localStorage.getItem('token');
 
@@ -102,8 +102,8 @@ function SelectRepo({ onCancelBtn, onSelectProject,  onIsBaseInfoSet, onNextSlid
     if (pendingRepo && !isBaseInfoSet) { // 레포 선택했고, 기본 정보가 저장되어 있지 않으면 다음 모달페이지로 이동
       handleProjectSelection(pendingRepo);
       onNextSlide(); // 선택 완료 시 다음 슬라이드로 이동
-    } else if(pendingRepo && isBaseInfoSet) { // 레포 선택했고, 이미 기본 정보가 저장되어 있는 레포면 생성하기 버튼 클릭 true상태로 바꾸고 해당 다이어그램 페이지로 이동
-      console.log(123123123123);
+
+    } else if (pendingRepo && isBaseInfoSet) { // 레포 선택했고, 이미 기본 정보가 저장되어 있는 레포면 생성하기 버튼 클릭 true상태로 바꾸고 해당 다이어그램 페이지로 이동
       handleProjectSelection(pendingRepo);
       
     }
@@ -119,6 +119,7 @@ function SelectRepo({ onCancelBtn, onSelectProject,  onIsBaseInfoSet, onNextSlid
       />
       <S.ReposContainer style={{ overflow: 'hidden' }}>
         <div style={{ height: '92%', overflowY: 'auto' }}>
+
           {repos.map((repo, index) => (
             <UserRepo
               key={repo.id}  // Added key prop for better rendering
@@ -141,8 +142,8 @@ function SelectRepo({ onCancelBtn, onSelectProject,  onIsBaseInfoSet, onNextSlid
         </div>
 
         <S.CreateButtonBox>
-        <S.CreateButton onClick={handleConfirmSelection}>생성하기</S.CreateButton>
-      </S.CreateButtonBox>
+          <S.CreateButton onClick={handleConfirmSelection}>생성하기</S.CreateButton>
+        </S.CreateButtonBox>
       </S.ReposContainer>
     </>
   )
