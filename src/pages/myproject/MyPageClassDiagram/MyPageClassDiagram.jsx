@@ -49,79 +49,11 @@ const MyPageClassDiagram = () => {
     const renderDiagram = () => {
       // console.log("Rendering diagram with classDiagramContent:", classDiagramContent); 
       const diagramContainer = document.getElementById("diagram-container");
-      const c=`
-      classDiagram
-      MarketRepo --> FirebaseDataSource
-      MarketRepo --> RemoteDataSource
-      MarketRepo --> LocalDataSource
-      MarketViewModel --> MarketRepo
-      MarketViewModel --> MarketEvent
-      MarketViewModel --> MarketUiState
-      MarketAdapter --> RecyclerView
-      MarketAdapter --> MarketViewHolder
-      MarketViewHolder --> ItemMarketBinding
-      
-      class MarketRepo {
-        +FirebaseDataSource firebaseDataSource
-        +RemoteDataSource remoteDataSource
-        +LocalDataSource localDataSource
-      }
-      
-      class FirebaseDataSource {
-        +fetchData()
-        +uploadData()
-      }
-      
-      class RemoteDataSource {
-        +fetchRemoteData()
-      }
-      
-      class LocalDataSource {
-        +fetchLocalData()
-        +saveLocalData()
-      }
-      
-      class MarketViewModel {
-        +MarketRepo marketRepo
-        +MarketEvent marketEvent
-        +MarketUiState marketUiState
-      }
-      
-      class MarketEvent {
-        +onEvent()
-      }
-      
-      class MarketUiState {
-        +state: String
-      }
-      
-      class MarketAdapter {
-        +RecyclerView: parent
-        +onBindViewHolder()
-        +onCreateViewHolder()
-      }
-      
-      class MarketViewHolder {
-        +ItemMarketBinding itemMarketBinding
-      }
-      
-      class ItemMarketBinding {
-        +binding: String
-      }
-      
-      class RecyclerView {
-        +adapter: Adapter
-      }
-      
-      class Adapter {
-        +onCreateViewHolder()
-        +onBindViewHolder()
-      }
-            `;
       if (diagramContainer && classDiagramContent && classDiagramContent.trim()) {
-        diagramContainer.innerHTML = `<div class="mermaid">${c}</div>`;
+        diagramContainer.innerHTML = `<div class="mermaid">${classDiagramContent}</div>`;
         try {
           mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+          console.log("성공");
         } catch (error) {
           console.error("Mermaid rendering error:", error);
         }
