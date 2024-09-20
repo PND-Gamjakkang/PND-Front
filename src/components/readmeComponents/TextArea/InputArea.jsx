@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { 
   h1ButtonClicked, h2ButtonClicked, h3ButtonClicked, h4ButtonClicked, h5ButtonClicked, h6ButtonClicked,
   quoteButtonClicked, boldButtonClicked, italicButtonClicked, throughButtonClicked, codeButtonClicked, listItemButtonClicked,
@@ -6,12 +6,12 @@ import {
 } from './MarkDownFuns';
 import { InputAreaContainer, InputText } from './InputAreaStyle';
 import { API } from "../../../api/axios";
-
+import Loader from "../../Diagram/Loader";
 const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL, imgURL, selectedProjectId }) => {
   const textareaRef = useRef(null);
   const undoStack = useRef([]);  // Ctrl + Z
   const redoStack = useRef([]);  // Ctrl + Y
-
+  const [loading,setLoading] = useState(false);
   const fetchRepoName = async () => {
     try {
       const { data } = await API.get('api/pnd/user/profile');
@@ -22,20 +22,25 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   };
 
   const fetchAIReadme = async () => {
+    setLoading(true);
     try {
-      const { data } = await API.patch(`api/pnd/readme/${selectedProjectId}`);
+      const data  = await API.patch(`api/pnd/readme/${selectedProjectId}`);
       console.log('selection pr id : ', selectedProjectId);
       console.log('data:', data);
-      const AIReadmeContent = data.data.data.readme_script_gpt;
-
+      let AIReadmeContent = data.data.data.readme_script_gpt;
+      
+      AIReadmeContent = AIReadmeContent.replace(/```/g, '');
+  
       console.log(AIReadmeContent);
       console.log(typeof(AIReadmeContent));
       return AIReadmeContent;
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   const saveState = () => {
     if (textareaRef.current) {
       const { value, selectionStart, selectionEnd } = textareaRef.current;
@@ -176,7 +181,6 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
             newContent = fileUploadButtonClicked(value, selectionStart, selectionEnd, imgURL);
             break;
           case 'AI':
-            console.log("AI AI AI AI AI AI AI AI");
             newContent = await fetchAIReadme();
             break;
           default:
@@ -230,6 +234,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
 
   return (
     <InputAreaContainer>
+      {loading && <Loader />}
       <InputText
         ref={textareaRef}
         value={content}

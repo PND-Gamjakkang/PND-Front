@@ -7,6 +7,8 @@ import { Helmet } from 'react-helmet';
 import RepoSettingModalForMyPage from '../../components/Common/RepoSettingModalForMyPage';
 import { API } from '../../api/axios';
 import LoginModal from '../../components/Login/LoginModal';
+import Loader from '../../components/Diagram/Loader';
+
 function Readme() {
   const inputRef = useRef(null);
   const [content, setContent] = useState("");
@@ -19,11 +21,13 @@ function Readme() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState(null);
   const [needLogin, setNeedLogin] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const userToken = localStorage.getItem('token');
   
   
   const fetchUserReadme = async (repoId) => {
+    setLoading(true);
     try {
       const response = await API.get(`api/pnd/readme/${repoId}`);
       console.log(response.data);
@@ -37,6 +41,9 @@ function Readme() {
         setError("README를 불러오는 중 오류가 발생했습니다.");
       }
       setContent('err');
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -83,6 +90,7 @@ function Readme() {
 
   return (
     <ReadmeContainer>
+      {loading && <Loader />}
       <Helmet>
         <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
       </Helmet>

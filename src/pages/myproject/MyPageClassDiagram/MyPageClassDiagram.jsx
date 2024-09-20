@@ -32,32 +32,29 @@ const MyPageClassDiagram = () => {
       const requestStr = `api/pnd/diagram/class?repoId=${repoId}`;
       console.log(requestStr);
       const response = await API.get(requestStr);
-      console.log(response.data);
+      if(response.data.data===null){
+        setClassDiagramContent(null);
+      }
       setClassDiagramContent(response.data.data);
       setError(null); 
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setError("선택한 프로젝트에 대한 Class Diagram을 찾을 수 없습니다."); 
-      } else {
-        setError("ClassDiagram을 불러오는 중 오류가 발생했습니다."); 
-      }
-      setClassDiagramContent('');
+      console.log(error)
+      setClassDiagramContent('오류가 발생했습니다.');
     }
   };
 
   useEffect(() => {
     const renderDiagram = () => {
+      if(classDiagramContent === null){
+        const diagramContainer = document.getElementById("diagram-container");
+        diagramContainer.innerHTML= '<h2> 생성되어 있는 Class 다이어그램이 존재하지 않습니다. </h2>';
+      }
       if (!classDiagramContent || !classDiagramContent.trim()) return;
 
       let data = classDiagramContent;
-      console.log('수정되기 전 GPT 분석 결과:', data);
+      // console.log('수정되기 전 GPT 분석 결과:', data);
 
       data = data.replace(/^```|```$/g, '');
-
-      if (!data.startsWith('classDiagram')) {
-        data = 'classDiagram\n' + data;
-      }
-
       console.log('Mermaid 형식으로 변환된 다이어그램 코드:', data);
 
       const diagramContainer = document.getElementById("diagram-container");
@@ -65,7 +62,7 @@ const MyPageClassDiagram = () => {
         diagramContainer.innerHTML = `<div class="mermaid">${data}</div>`;
         try {
           mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-          console.log("성공");
+          // console.log("성공");
         } catch (error) {
           console.error("Mermaid rendering error:", error);
         }
