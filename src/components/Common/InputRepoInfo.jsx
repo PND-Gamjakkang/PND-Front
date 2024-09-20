@@ -23,6 +23,7 @@ function InputRepoInfo({ onCancelBtn, onClickCreateBtn, onTitleChange, onImageCh
     };
 
     const handleCreateButton = () => {
+        console.log("생성");
         onClickCreateBtn();
     }
 

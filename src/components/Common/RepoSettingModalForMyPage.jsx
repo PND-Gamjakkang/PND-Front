@@ -27,6 +27,9 @@ function RepoSettingModalForMyPage({ closeModal, onSelectProject, onSelectedProj
     //setIsBaseInfoSet(true);
   };
 
+  const handleCreateBtnClick=()=>{
+    setModalOpen(false);
+  }
 
 
   
@@ -76,6 +79,7 @@ function RepoSettingModalForMyPage({ closeModal, onSelectProject, onSelectedProj
            onSelectProject={handleProjectSelect} 
            onIsBaseInfoSet={() => setIsBaseInfoSet(true)}
            onNextSlide={()=>setModalOpen(false)}
+           onClickCreateBtn={handleCreateBtnClick}
           />
     </Modal>
   );

@@ -14,6 +14,7 @@ const MyPageReadme = () => {
   const [selectedProjectId, setSelectedProjectId] = useState('');
   const [readmeContent, setReadmeContent] = useState('');   const [isSelectedProject, setIsSelectedProject] = useState(false); 
   const [error, setError] = useState(null);
+  const [isClickCreateBtn, setIsClickCreateBtn] = useState(false);
   const location = useLocation();
   const handleButtonClick = (type) =>
    {
@@ -87,6 +88,7 @@ const MyPageReadme = () => {
         <RepoSettingModalForMyPage
           closeModal={() => setIsModalOpen(false)}
           onSelectProject={() => setIsSelectedProject(true)}
+          onClickCreateBtn={() => setIsClickCreateBtn(true)} // 생성하기 버튼 클릭된 상태 전달
           onSelectedProjectId={(id) => {
             setSelectedProjectId(id);
             fetchUserReadme(id); 

@@ -13,6 +13,8 @@ const Project = () => {
     try {
       const response = await API.get('api/pnd/repo/docs');
       setProjects(response.data.data); 
+
+      console.log(response.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +42,7 @@ const Project = () => {
   const handleSave = (updatedProject) => {
     console.log('저장된 데이터:', updatedProject);
     setUpdatedProject(updatedProject);
-    // fetchUserProject();
+    // fetchUserProject();s
   };
 
   const formatPeriod = (period) => {
@@ -64,7 +66,7 @@ const Project = () => {
         <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
       </Helmet>
       
-      {projects.map((project, index) => (
+      {(projects) && projects.map((project, index) => (
         <ProjectCard key={project.id}>
           <LinkContainer>
             {project.existReadme && <StyledLink to="/mypageReadme">README</StyledLink>}

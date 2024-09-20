@@ -24,7 +24,9 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   const fetchAIReadme = async () => {
     setLoading(true);
     try {
+      console.log("sp : ",selectedProjectId);
       const data  = await API.patch(`api/pnd/readme/${selectedProjectId}`);
+    
       console.log('selection pr id : ', selectedProjectId);
       console.log('data:', data);
       let AIReadmeContent = data.data.data.readme_script_gpt;
