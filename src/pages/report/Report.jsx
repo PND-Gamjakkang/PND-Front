@@ -137,13 +137,13 @@ function Report() {
         console.log("생성하기 버튼 누름");
     };
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (isClickCreateBtn && isBaseInfoSet) {
-            //getReport();
-            getReport(); // 기본 정보 세팅이 이미 되어 있는 레포지토리는 get만 하도록 하기
-        }
-    }, [isClickCreateBtn]);
+    //     if (isClickCreateBtn && isBaseInfoSet) {
+    //         //getReport();
+    //         getReport(); // 기본 정보 세팅이 이미 되어 있는 레포지토리는 get만 하도록 하기
+    //     }
+    // }, [isClickCreateBtn]);
 
     function setStateBaseInfo() {
         setIsBaseInfoSet(true);
@@ -169,6 +169,7 @@ function Report() {
             putRepoInfo();
         } else if(isClickCreateBtn && isBaseInfoSet) {
             console.log("이미 기본 정보가 저장된 레포지토리입니다.");
+            postReport();
         }
     }, [isClickCreateBtn, isBaseInfoSet]);
 
