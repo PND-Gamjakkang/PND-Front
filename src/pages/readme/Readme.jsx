@@ -21,12 +21,14 @@ function Readme() {
   const [needLogin, setNeedLogin] = useState(false);
 
   const userToken = localStorage.getItem('token');
-
+  
+  
   const fetchUserReadme = async (repoId) => {
     try {
       const response = await API.get(`api/pnd/readme/${repoId}`);
       console.log(response.data);
-      setContent(response.data.data.readmeScript);
+      setContent( response.data.data.readmeScript);
+      console.log(response.data.data.readmeScript);
       setError(null);
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -34,7 +36,7 @@ function Readme() {
       } else {
         setError("README를 불러오는 중 오류가 발생했습니다.");
       }
-      setContent('');
+      setContent('err');
     }
   };
 

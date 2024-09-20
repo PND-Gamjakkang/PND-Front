@@ -9,7 +9,7 @@ export const InputAreaContainer = styled.div`
   box-sizing: border-box;
 `;
 
-export const InputText = styled.div`
+export const InputText = styled.textarea`
   height: 100%;
   width : 37vw;
   max-width : 40vw;

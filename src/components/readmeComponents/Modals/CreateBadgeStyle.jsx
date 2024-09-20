@@ -3,82 +3,77 @@ import styled from "styled-components"
 export const CreateBadgeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1rem;
 `;
 
 export const InputGroup = styled.div`
   display: flex;
   align-items: center; 
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 `;
 
 export const Label = styled.label`
-  margin-right: 30px; /* label과 input 사이의 간격 */
-  font-size: 20px;
-  
+  margin-right: 2rem;
+  font-size: 1.25rem;
   display: flex;
-  width: 103px;
-  height: 31px;
+  width: 6.5rem;
+  height: 2rem;
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
   color: #000;
-
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
-  font-style: normal;
+  font-size: 1.5rem;
   font-weight: 900;
-  line-height: 32px; /* 160% */
-  
+  line-height: 2rem;
 `;
 
 export const Input = styled.input`
   flex: 1;
-  padding: 8px;
-  font-size: 24px;
+  padding: 0.5rem;
+  font-size: 1.5rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
 `;
+
 export const BadgeCreateButton = styled.button`
-  width: 444px;
-  height: 72px;
+  width: 27.75rem;
+  height: 4.5rem;
   flex-shrink: 0;
   background-color: #5b59fc;
   border: 1px solid #FFF;
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
-  font-style: normal;
-  color:white;
+  font-size: 1.5rem;
   font-weight: 600;
-  line-height: 36px;
-  border-radius: 20px;
+  line-height: 2.25rem;
+  border-radius: 1.25rem;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 
   &:hover {
-    background-color: #6f6df8; /* 기존 색상보다 약간 밝은 색상 */
-    border-color: #e0e0ff; /* 테두리 색상도 변경 */
+    background-color: #6f6df8;
+    border-color: #e0e0ff;
   }
 
   display: block;
-  margin: auto; 
-  margin-bottom: 78px;
+  margin: auto;
+  margin-bottom: 4.875rem;
 `;
 
 export const BadgePreview = styled.div`
-    display: flex;
-    align-items: center; 
-    margin-bottom: 15px;
-    img{
-        width:200px;
-        height:50px;
-    }
-    
+  display: flex;
+  align-items: center; 
+  margin-bottom: 1rem;
+  
+  img {
+    width: 12.5rem;
+    height: 3.125rem;
+  }
 `;
 
 export const PreviewTitle = styled.h2`
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 1.125rem;
+  margin-bottom: 0.625rem;
 `;
 
 export const PreviewImage = styled.img`
@@ -87,5 +82,5 @@ export const PreviewImage = styled.img`
 `;
 
 export const SubmitButton = styled.button`
-  display: none; /* Submit 버튼을 숨김 */
+  display: none;
 `;

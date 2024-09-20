@@ -101,7 +101,8 @@ export const BadgePanel = styled.div`
 
 export const BadgePreviewContainer = styled.div`
   flex: 1;
-  overflow-y: auto;
+  overflow-y: hidden;
+  overflow-x:hidden;
   display: flex;
   flex-wrap: wrap;
   gap: 1.04vh;
@@ -111,18 +112,20 @@ export const BadgePreviewPanel = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2열 레이아웃 */
   gap: 1.04vh;
-  overflow-y:auto;
+  overflow-y:hidden;
+  overflow-x:hidden;
+
 `;
 export const BadgeImage = styled.img`
-  width: 8vw; /* Adjust as needed for responsiveness */
-  height: auto;
+  width: 7vw; /* Adjust as needed for responsiveness */
+  height: 4vh;
   max-width: 100%;
   max-height: 10vh; /* Ensures the images scale properly */
   cursor: pointer;
   transition: transform 0.2s;
 
   &:hover {
-    transform: scale(1.05); /* Slight zoom on hover */
+    transform: scale(1.05); 
   }
 `;
 

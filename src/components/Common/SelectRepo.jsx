@@ -107,7 +107,7 @@ function SelectRepo({ onCancelBtn, onSelectProject, onClickCreateBtn, onIsBaseIn
 
     } else if (pendingRepo && isBaseInfoSet) { // 레포 선택했고, 이미 기본 정보가 저장되어 있는 레포면 생성하기 버튼 클릭 true상태로 바꾸고 해당 다이어그램 페이지로 이동
       handleProjectSelection(pendingRepo);
-      onClickCreateBtn();
+      onNextSlide();
     }
   };
 

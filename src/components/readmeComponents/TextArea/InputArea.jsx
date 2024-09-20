@@ -2,14 +2,13 @@ import React, { useRef, useEffect } from "react";
 import { 
   h1ButtonClicked, h2ButtonClicked, h3ButtonClicked, h4ButtonClicked, h5ButtonClicked, h6ButtonClicked,
   quoteButtonClicked, boldButtonClicked, italicButtonClicked, throughButtonClicked, codeButtonClicked, listItemButtonClicked,
-  topLangsButtonClicked, badgeButtonClicked, fileUploadButtonClicked
+  topLangsButtonClicked, badgeButtonClicked, fileUploadButtonClicked, centerButtonClicked
 } from './MarkDownFuns';
 import { InputAreaContainer, InputText } from './InputAreaStyle';
 import { API } from "../../../api/axios";
 
-const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL, imgURL,selectedProjectId}) => {
-  const localRef = useRef(null);
-  const selectionRef = useRef(null);
+const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeURL, imgURL, selectedProjectId }) => {
+  const textareaRef = useRef(null);
   const undoStack = useRef([]);  // Ctrl + Z
   const redoStack = useRef([]);  // Ctrl + Y
 
@@ -20,35 +19,30 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
     } catch (error) {
       console.log(error);
     }
-
   };
 
-
-  const fetchAIReadme = async()=>{
-    try{
-      //const data = await API.patch('api/pnd/readme/69');
-      const data = await API.patch(`api/pnd/readme/${selectedProjectId}`);
-      console.log('selection pr id : ',selectedProjectId);
-      console.log('data:',data);
+  const fetchAIReadme = async () => {
+    try {
+      const { data } = await API.patch(`api/pnd/readme/${selectedProjectId}`);
+      console.log('selection pr id : ', selectedProjectId);
+      console.log('data:', data);
       const AIReadmeContent = data.data.data.readme_script_gpt;
-      
+
       console.log(AIReadmeContent);
       console.log(typeof(AIReadmeContent));
       return AIReadmeContent;
-    }
-    catch (error){
-        console.log(error);
+    } catch (error) {
+      console.log(error);
     }
   };
-  
+
   const saveState = () => {
-    if (localRef.current) {
-      const selection = window.getSelection();
-      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+    if (textareaRef.current) {
+      const { value, selectionStart, selectionEnd } = textareaRef.current;
 
       undoStack.current.push({
-        content: localRef.current.innerText,
-        selection: range ? { start: range.startOffset, end: range.endOffset } : null
+        content: value,
+        selection: { start: selectionStart, end: selectionEnd }
       });
 
       redoStack.current = [];  // Redo 스택 초기화
@@ -58,7 +52,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   const handleUndo = () => {
     if (undoStack.current.length > 0) {
       const currentState = {
-        content: localRef.current.innerText,
+        content: textareaRef.current.value,
         selection: saveSelection()
       };
 
@@ -72,7 +66,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   const handleRedo = () => {
     if (redoStack.current.length > 0) {
       const currentState = {
-        content: localRef.current.innerText,
+        content: textareaRef.current.value,
         selection: saveSelection()
       };
 
@@ -84,59 +78,37 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   };
 
   const restoreSelection = (savedSelection) => {
-    if (savedSelection && localRef.current) {
-      const selection = window.getSelection();
-      const range = document.createRange();
-
-      const textNode = localRef.current.firstChild;
-      if (textNode) {
-        const textLength = textNode.textContent.length;
-
-        const startOffset = Math.min(savedSelection.start, textLength);
-        const endOffset = Math.min(savedSelection.end, textLength);
-
-        range.setStart(textNode, startOffset);
-        range.setEnd(textNode, endOffset);
-
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
+    if (savedSelection && textareaRef.current) {
+      const { start, end } = savedSelection;
+      textareaRef.current.setSelectionRange(start, end);
     }
   };
 
   const saveSelection = () => {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      return { start: range.startOffset, end: range.endOffset };
+    if (textareaRef.current) {
+      const { selectionStart, selectionEnd } = textareaRef.current;
+      return { start: selectionStart, end: selectionEnd };
     }
     return null;
   };
 
   useEffect(() => {
-    if (localRef.current && content !== localRef.current.innerText) {
-      const selection = window.getSelection();
-      const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
-      const start = range ? range.startOffset : 0;
-  
-      localRef.current.innerText = content;
-  
-      if (range && localRef.current.firstChild) {
-        // 커서 위치를 복원
-        range.setStart(localRef.current.firstChild, start);
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
+    if (textareaRef.current && content !== textareaRef.current.value) {
+      const { selectionStart } = textareaRef.current;
+      textareaRef.current.value = content;
+      textareaRef.current.setSelectionRange(selectionStart, selectionStart);
     }
   }, [content]);
-  
+
   useEffect(() => {
     if (clickedButton) {
       let newContent = content;
       let selection = null;
 
       const processClick = async () => {
+        const textarea = textareaRef.current;
+        const { value, selectionStart, selectionEnd } = textarea;
+
         switch (clickedButton) {
           case 'undo': {
             const lastState = handleUndo();
@@ -154,103 +126,94 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
             }
             break;
           case 'h1':
-            newContent = h1ButtonClicked(content, selectionRef.current);
+            newContent = h1ButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'h2':
-            newContent = h2ButtonClicked(content, selectionRef.current);
+            newContent = h2ButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'h3':
-            newContent = h3ButtonClicked(content, selectionRef.current);
+            newContent = h3ButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'h4':
-            newContent = h4ButtonClicked(content, selectionRef.current);
+            newContent = h4ButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'h5':
-            newContent = h5ButtonClicked(content, selectionRef.current);
+            newContent = h5ButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'h6':
-            newContent = h6ButtonClicked(content, selectionRef.current);
+            newContent = h6ButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'quote':
-            newContent = quoteButtonClicked(content, selectionRef.current);
+            newContent = quoteButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'bold':
-            newContent = boldButtonClicked(content, selectionRef.current);
+            newContent = boldButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'italic':
-            newContent = italicButtonClicked(content, selectionRef.current);
+            newContent = italicButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'throughLine':
-            newContent = throughButtonClicked(content, selectionRef.current);
+            newContent = throughButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'code':
-            newContent = codeButtonClicked(content, selectionRef.current);
+            newContent = codeButtonClicked(value, selectionStart, selectionEnd);
+            break;
+          case 'center':
+            newContent = centerButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'listItem':
-            newContent = listItemButtonClicked(content, selectionRef.current);
+            newContent = listItemButtonClicked(value, selectionStart, selectionEnd);
             break;
           case 'Lan':
             const userName = await fetchRepoName();
-            newContent = topLangsButtonClicked(content, selectionRef.current, userName);
+            newContent = topLangsButtonClicked(value, selectionStart, selectionEnd, userName);
             console.log('InputArea:', newContent); // 로그 추가
             break;
           case 'Badge':
-            //console.log(badgeURL);
-            newContent = badgeButtonClicked(content, selectionRef.current, badgeURL);
+            newContent = badgeButtonClicked(value, selectionStart, selectionEnd, badgeURL);
             break;
           case 'Image':
-            //console.log(imgURL);
-            newContent = fileUploadButtonClicked(content, selectionRef.current, imgURL);
+            newContent = fileUploadButtonClicked(value, selectionStart, selectionEnd, imgURL);
             break;
           case 'AI':
             console.log("AI AI AI AI AI AI AI AI");
-            newContent = await fetchAIReadme();  
+            newContent = await fetchAIReadme();
             break;
           default:
             break;
         }
 
-        if (newContent && localRef.current) {
-          localRef.current.innerText = newContent;
-          restoreSelection(selection);
+        if (newContent && textareaRef.current) {
+          textareaRef.current.value = newContent;
+          if (selection) {
+            restoreSelection(selection);
+          } else {
+            // 삽입된 내용 뒤로 커서 이동
+            const newCaretPosition = selectionStart + (newContent.length - value.length);
+            textareaRef.current.setSelectionRange(newCaretPosition, newCaretPosition);
+          }
         }
 
         onChange(newContent);
         onMarkdownApplied('');
       };
 
-      // 비동기 처리를 해야 하는 경우만 processClick을 호출
-      if (clickedButton === 'Lan') {
-        processClick();
-      } else {
-        // 비동기 처리가 필요 없는 경우는 기존 방식으로 처리
-        processClick();
-      }
+      processClick();
     }
   }, [clickedButton, content, onChange, onMarkdownApplied, badgeURL, imgURL]);
 
   const inputHandler = () => {
     saveState();
-    const changedText = localRef.current.innerText;
+    const changedText = textareaRef.current.value;
     onChange(changedText);
   };
 
-  const selectionHandler = () => {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      selectionRef.current = selection;
-    }
-  };
-
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      document.execCommand('insertHTML', false, '\n\n');
-      e.preventDefault();
-    } else if (e.ctrlKey && e.key === 'z') {
+    if (e.ctrlKey && e.key === 'z') {
       e.preventDefault();
       const lastState = handleUndo();
       if (lastState) {
-        localRef.current.innerText = lastState.content;
+        textareaRef.current.value = lastState.content;
         restoreSelection(lastState.selection);
         onChange(lastState.content);
       }
@@ -258,7 +221,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
       e.preventDefault();
       const nextState = handleRedo();
       if (nextState) {
-        localRef.current.innerText = nextState.content;
+        textareaRef.current.value = nextState.content;
         restoreSelection(nextState.selection);
         onChange(nextState.content);
       }
@@ -268,12 +231,10 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   return (
     <InputAreaContainer>
       <InputText
-        contentEditable="true"
-        ref={localRef}
-        onInput={inputHandler}
-        onSelect={selectionHandler}
+        ref={textareaRef}
+        value={content}
+        onChange={inputHandler}
         onKeyDown={handleKeyDown}
-        onKeyUp={selectionHandler}
       />
     </InputAreaContainer>
   );

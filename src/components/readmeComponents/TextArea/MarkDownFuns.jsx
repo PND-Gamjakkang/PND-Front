@@ -1,195 +1,145 @@
-import axios from "axios";
 // h1~h6 버튼 클릭 함수
-// 선택 텍스트에 # 적용
-const h1ButtonClicked = (content, selection) => {
-    return applyMarkdown(content, selection, '#');
-  };
-  const h2ButtonClicked = (content, selection) => {
-    return applyMarkdown(content, selection, '##');
-  };
-  const h3ButtonClicked = (content, selection) => {
-    return applyMarkdown(content, selection, '###');
-  };
-  const h4ButtonClicked = (content, selection) => {
-    return applyMarkdown(content, selection, '####');
-  };
-  const h5ButtonClicked = (content, selection) => {
-    return applyMarkdown(content, selection, '#####');
-  };
-  const h6ButtonClicked = (content, selection) => {
-    return applyMarkdown(content, selection, '######');
-  };
-  
-  const boldButtonClicked = (content, selection) => {
-    return wrapMarkdown(content, selection, '**');
-  };
-  
-  const italicButtonClicked = (content, selection) => {
-    return wrapMarkdown(content, selection, '*');
-  };
-  
-  const throughButtonClicked = (content, selection) => {
-    return wrapMarkdown(content, selection, '~~');
-  };
-  
-  const quoteButtonClicked = (content, selection) => {
-    return applyMarkdown(content, selection, '>');
-  };
-  
-  const codeButtonClicked = (content, selection) => {
-    return wrapMarkdown(content, selection, '`');
-  };
-  
-  const listItemButtonClicked = (content, selection) => {
-    return applyMarkdown(content, selection, '-');
-  };
-  
-  const badgeButtonClicked=(content, selection, badgeURL)=>{
-    const range = selection.getRangeAt(0);
-    
-    const startOffset = range.startOffset;
-    const endOffset = range.endOffset;
-    console.log('start offset : ',startOffset,' end offset : ',endOffset);
-    // content 문자열의 선택된 위치에 URL 삽입
-    const beforeContent = content.slice(0, startOffset);
-    const afterContent = content.slice(endOffset);
-    const newContent = beforeContent + badgeURL + afterContent;
+// 선택된 텍스트에 # 적용
+const h1ButtonClicked = (content, selectionStart, selectionEnd) => {
+  return applyMarkdown(content, selectionStart, selectionEnd, '#');
+};
+const h2ButtonClicked = (content, selectionStart, selectionEnd) => {
+  return applyMarkdown(content, selectionStart, selectionEnd, '##');
+};
+const h3ButtonClicked = (content, selectionStart, selectionEnd) => {
+  return applyMarkdown(content, selectionStart, selectionEnd, '###');
+};
+const h4ButtonClicked = (content, selectionStart, selectionEnd) => {
+  return applyMarkdown(content, selectionStart, selectionEnd, '####');
+};
+const h5ButtonClicked = (content, selectionStart, selectionEnd) => {
+  return applyMarkdown(content, selectionStart, selectionEnd, '#####');
+};
+const h6ButtonClicked = (content, selectionStart, selectionEnd) => {
+  return applyMarkdown(content, selectionStart, selectionEnd, '######');
+};
 
+const boldButtonClicked = (content, selectionStart, selectionEnd) => {
+  return wrapMarkdown(content, selectionStart, selectionEnd, '**');
+};
+
+const italicButtonClicked = (content, selectionStart, selectionEnd) => {
+  return wrapMarkdown(content, selectionStart, selectionEnd, '*');
+};
+
+const throughButtonClicked = (content, selectionStart, selectionEnd) => {
+  return wrapMarkdown(content, selectionStart, selectionEnd, '~~');
+};
+
+const quoteButtonClicked = (content, selectionStart, selectionEnd) => {
+  return applyMarkdown(content, selectionStart, selectionEnd, '> ');
+};
+
+const codeButtonClicked = (content, selectionStart, selectionEnd) => {
+  return wrapMarkdown(content, selectionStart, selectionEnd, '`');
+};
+
+const listItemButtonClicked = (content, selectionStart, selectionEnd) => {
+  return applyMarkdown(content, selectionStart, selectionEnd, '- ');
+};
+
+const centerButtonClicked = (content, selectionStart, selectionEnd)=>{
+  const selectedText = content.slice(selectionStart, selectionEnd);
+
+  const centeredText = `<center>\n${selectedText}\n</center>`;
+
+  const beforeContent = content.slice(0, selectionStart);
+  const afterContent = content.slice(selectionEnd);
+
+  const newContent = beforeContent + centeredText + afterContent;
+
+  return newContent;
+
+};
+const badgeButtonClicked = (content, selectionStart, selectionEnd, badgeURL) => {
+  const beforeContent = content.slice(0, selectionStart);
+  const afterContent = content.slice(selectionEnd);
+  const newContent = beforeContent + badgeURL + afterContent;
+  return newContent;
+};
+
+const fileUploadButtonClicked = (content, selectionStart, selectionEnd, imgURL) => {
+  const beforeContent = content.slice(0, selectionStart);
+  const afterContent = content.slice(selectionEnd);
+  const markdownImage = `![이미지 설명](${imgURL})`;
+  const newContent = beforeContent + markdownImage + afterContent;
+  return newContent;
+};
+
+const topLangsButtonClicked = (content, selectionStart, selectionEnd, userName) => {
+  const cardURL = `![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=${userName}&layout=compact)`;
+  const beforeContent = content.slice(0, selectionStart);
+  const afterContent = content.slice(selectionEnd);
+  const newContent = beforeContent + cardURL + afterContent;
+  return newContent;
+};
+
+// 마크다운 문법 적용 함수 (헤딩, 인용구, 리스트 등)
+const applyMarkdown = (content, selectionStart, selectionEnd, markdownSyntax) => {
+  const selectedText = content.slice(selectionStart, selectionEnd);
+  if (!selectedText) return content;
+
+  const lines = selectedText.split('\n');
+  const modifiedLines = lines.map(line => {
+    const trimmedLine = line.trim();
+    // 이미 해당 마크다운 문법이 적용되어 있으면 제거
+    if (trimmedLine.startsWith(markdownSyntax)) {
+      return line.replace(markdownSyntax, '').trim();
+    } else {
+      return markdownSyntax + ' ' + line;
+    }
+  });
+  const modifiedText = modifiedLines.join('\n');
+
+  const beforeContent = content.slice(0, selectionStart);
+  const afterContent = content.slice(selectionEnd);
+  const newContent = beforeContent + modifiedText + afterContent;
+  return newContent;
+};
+
+// 선택된 텍스트를 마크다운 문법으로 감싸는 함수 (볼드, 이탤릭 등)
+const wrapMarkdown = (content, selectionStart, selectionEnd, wrapper) => {
+  const selectedText = content.slice(selectionStart, selectionEnd);
+  if (!selectedText) return content;
+
+  // 이미 해당 마크다운 문법으로 감싸져 있으면 제거
+  if (selectedText.startsWith(wrapper) && selectedText.endsWith(wrapper)) {
+    const unwrappedText = selectedText.slice(wrapper.length, -wrapper.length);
+    const beforeContent = content.slice(0, selectionStart);
+    const afterContent = content.slice(selectionEnd);
+    const newContent = beforeContent + unwrappedText + afterContent;
+    return newContent;
+  } else {
+    const wrappedText = wrapper + selectedText + wrapper;
+    const beforeContent = content.slice(0, selectionStart);
+    const afterContent = content.slice(selectionEnd);
+    const newContent = beforeContent + wrappedText + afterContent;
     return newContent;
   }
-  const fileUploadButtonClicked = (content, selection, imgURL)=>{
-    const range = selection.getRangeAt(0);
-    
-    const startOffset = range.startOffset;
-    const endOffset = range.endOffset;
-    console.log('start offset : ',startOffset,' end offset : ',endOffset);
-    // content 문자열의 선택된 위치에 URL 삽입
-    const beforeContent = content.slice(0, startOffset);
-    const afterContent = content.slice(endOffset);
-    const newContent = beforeContent + imgURL + afterContent;
+};
 
-    return newContent;
-  }
-  const topLangsButtonClicked = (content, selection, userName) => {
-    console.log(userName);
-    if (!content) {
-      console.log('no content');
-      return;
-    }
-  
-    if (!selection) {
-      console.log('no selection');
-      return;
-    }
-    const cardURL = `![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=${userName}&layout=compact)`;
-    
-    const range = selection.getRangeAt(0);
-    
-    const startOffset = range.startOffset;
-    const endOffset = range.endOffset;
-    
-    const beforeContent = content.slice(0, startOffset);
-    const afterContent = content.slice(endOffset);
-    const newContent = beforeContent + cardURL + afterContent;
-    
-    console.log("Generated newContent:", newContent);
-    
-    return newContent;
-  };
-  
-const applyMarkdown = (content, selection, markdownSyntax) => {
-    const range = selection.getRangeAt(0);
-    const selectedText = range.toString();
-    console.log("선택된 텍스트 : ", selectedText);
-  
-    if (!selectedText) return content;
-  
-    // 기존 문법 있는 경우 제거
-    const strippedText = selectedText.replace(/^(#+)\s/, '');
-    const markdownText = `${markdownSyntax} ${strippedText}`;
-  
-    // 정확한 인덱스 계산
-    const startContainer = range.startContainer;
-    const startOffset = range.startOffset;
-  
-    // Container가 텍스트 노드가 아닐 경우 처리 (필요 시)
-    let startText = '';
-    if (startContainer.nodeType === Node.TEXT_NODE) {
-      startText = startContainer.textContent;
-    } else if (startContainer.nodeType === Node.ELEMENT_NODE) {
-      startText = startContainer.innerText || startContainer.textContent;
-    }
-  
-    // content 내에서 텍스트 노드의 위치 계산
-    const beforeSelectionText = startText.slice(0, startOffset);
-    const afterSelectionText = startText.slice(startOffset + selectedText.length);
-  
-    // content 내에서 정확한 인덱스 계산
-    const exactStartIndex = content.indexOf(beforeSelectionText) + beforeSelectionText.length;
-    const exactEndIndex = exactStartIndex + selectedText.length;
-  
-    // 텍스트 교체
-    const updatedContent =
-      content.substring(0, exactStartIndex) +
-      markdownText +
-      content.substring(exactEndIndex);
-  
-    // 선택된 텍스트 영역을 새로 설정
-    range.deleteContents();
-    const textNode = document.createTextNode(markdownText);
-    range.insertNode(textNode);
-  
-    selection.removeAllRanges();
-    range.selectNodeContents(textNode);
-    selection.addRange(range);
-  
-    return updatedContent;
-  };
-    
-  // 마크다운 문법으로 감싸는 함수(Bold,Italic 등)
-  const wrapMarkdown = (content, selection, wrapper) => {
-    const range = selection.getRangeAt(0);
-    const selectedText = range.toString();
-  
-    if (!selectedText) return content;
-  
-    const wrappedText = `${wrapper}${selectedText}${wrapper}`;
-  
-    const textNode = document.createTextNode(wrappedText);
-  
-    // 선택된 텍스트 삭제 후 새로운 텍스트 삽입
-    range.deleteContents();
-    range.insertNode(textNode);
-  
-    // 범위를 새로 삽입된 텍스트 노드로 설정
-    range.setStartBefore(textNode);
-    range.setEndAfter(textNode);
-  
-    // 선택 범위 초기화 및 재설정
-    selection.removeAllRanges();
-    selection.addRange(range);
-  
-    return content.replace(selectedText, wrappedText).replace(/<br\s*\/?>/gi, '\n');
-  };
-
-
-  export {
-    h1ButtonClicked,
-    h2ButtonClicked,
-    h3ButtonClicked,
-    h4ButtonClicked,
-    h5ButtonClicked,
-    h6ButtonClicked,
-    quoteButtonClicked,
-    boldButtonClicked,
-    italicButtonClicked,
-    throughButtonClicked,
-    codeButtonClicked,
-    listItemButtonClicked,
-    applyMarkdown,
-    wrapMarkdown,
-    topLangsButtonClicked,
-    badgeButtonClicked,
-    fileUploadButtonClicked
-  };
-  
+export {
+  h1ButtonClicked,
+  h2ButtonClicked,
+  h3ButtonClicked,
+  h4ButtonClicked,
+  h5ButtonClicked,
+  h6ButtonClicked,
+  quoteButtonClicked,
+  boldButtonClicked,
+  italicButtonClicked,
+  throughButtonClicked,
+  codeButtonClicked,
+  listItemButtonClicked,
+  applyMarkdown,
+  wrapMarkdown,
+  topLangsButtonClicked,
+  badgeButtonClicked,
+  fileUploadButtonClicked,
+  centerButtonClicked
+};
