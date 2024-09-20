@@ -9,6 +9,7 @@ import SaveBtn from '../../components/Common/SaveButton.jsx';
 import RepoSettingModal from '../../components/Common/RepoSettingModal.jsx';
 import profileSvg from '../../assets/profile-south-season.svg';
 import FileDownload from '../../components/readmeComponents/Modals/FileDownload.jsx';
+import Loader from '../../components/Diagram/Loader.jsx';
 
 function Report() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -179,7 +180,7 @@ function Report() {
         <>
             <S.Report>
                 <S.ReportLayout style={{ filter: isModalOpen ? 'blur(5px)' : 'none' }}>
-                    {loading && <S.LoadingOverlay>레포트 생성 중...</S.LoadingOverlay>}
+                    {loading && <Loader/>}
                     <S.ReportTopBarContainer>
                         <S.ReportTitleText>GITHUB  COLLABORATION REPORT</S.ReportTitleText>
                         <SaveBtn onClick={stateSaveBtn} />
