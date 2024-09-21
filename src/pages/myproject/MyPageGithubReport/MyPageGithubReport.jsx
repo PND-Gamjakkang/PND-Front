@@ -6,6 +6,9 @@ import { useState,useEffect } from 'react';
 import Download from '../Download';
 import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingModalForMyPage';
 import { API } from '../../../api/axios';
+import Loader from '../../../components/Diagram/Loader';
+import * as S from '../../report/ReportStyle';
+import SaveBtn from '../../../components/Common/SaveButton';
 
 const MyPageGithubReport = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -14,8 +17,23 @@ const MyPageGithubReport = () => {
   const [githubReportContent, setGithubReportContent] = useState(''); 
   const [isSelectedProject, setIsSelectedProject] = useState(false); 
   const [error,setError] = useState('');
+  const [isClickCreateBtn, setIsClickCreateBtn] = useState(false);
+  const [loading, setLoading] = useState(false); // 로딩 상태 추가
+
+  // 각 이미지 상태 추가
+  const [imageGreen, setImageGreen] = useState(null);
+  const [imageSeason, setImageSeason] = useState(null);
+  const [imageSouthSeason, setImageSouthSeason] = useState(null);
+  const [imageNightView, setImageNightView] = useState(null);
+  const [imageNightGreen, setImageNightGreen] = useState(null);
+  const [imageNightRainbow, setImageNightRainbow] = useState(null);
+  const [imageGitblock, setImageGitblock] = useState(null);
+  const [createdAt, setCreatedAt] = useState(null); // 생성일자
+  const [title, setTitle] = useState(''); // 제목
+
   const location = useLocation();
 
+  
   const handleButtonClick=(type)=>{
     if(type=='save'){
       setIsDownloadModalOpen(true);
@@ -24,11 +42,21 @@ const MyPageGithubReport = () => {
 
     }
   };
+    
+
   const fetchUserGithubReport = async (repoId) => {
     try {
         const response = await API.get(`api/pnd/report/${repoId}`);
         console.log(response.data);
-        setGithubReportContent(response.data.data.repoTitle);
+        setImageGreen(response.data.data.imageGreen);
+        setImageGitblock(response.data.data.imageGitblock);
+        setImageNightGreen(response.data.data.imageNightGreen);
+        setImageNightRainbow(response.data.data.imageNightRainbow);
+        setImageNightView(response.data.data.imageNightView);
+        setImageSeason(response.data.data.imageSeason);
+        setImageSouthSeason(response.data.data.imageSouthSeason);
+        setTitle(response.data.data.repoTitle);
+        setCreatedAt(response.data.data.createdAt);
         setError(null); 
     } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -74,9 +102,64 @@ const MyPageGithubReport = () => {
         </ButtonGroup>
       </Header>
       <Title>GITHUB REPORT</Title>
-      <ContentArea> 
-        {error ? error : (githubReportContent || 'Class Diagram을 로드 중입니다...')}
-      </ContentArea>
+      {/* Import Rendering Code */}
+      <S.Report>  
+        <S.ReportLayout>
+            <S.ReportTopBarContainer>
+                <S.ReportTitleText>GITHUB  COLLABORATION REPORT</S.ReportTitleText>
+            </S.ReportTopBarContainer>
+            <S.ReportContainer>
+                <S.ReportLeft>
+                    <S.Github3D>
+                        
+                            <>
+                                <S.Github3DImg
+                                    src={imageGreen}
+                                    alt="imageGreen"
+                                />
+                                <S.Github3DImg
+                                    src={imageSeason}
+                                    alt="imageSeason"
+                                />
+                                <S.Github3DImg
+                                    src={imageSouthSeason}
+                                    alt="imageSouthSeason"
+                                />
+                                <S.Github3DImg
+                                    src={imageNightView}
+                                    alt="imageNightView"
+                                />
+                            </>
+                        
+                    </S.Github3D>
+                </S.ReportLeft>
+                <S.ReportRight>
+                    <S.ReportInfo>
+                        <h3>{title}</h3>
+                        <div>레포트 생성 일자 : {createdAt}</div>
+                    </S.ReportInfo>
+                    <S.Github3D>
+                            <>
+                                <S.Github3DImg
+                                    src={imageNightGreen}
+                                    alt="imageNightGreen"
+                                />
+                                <S.Github3DImg
+                                    src={imageNightRainbow}
+                                    alt="imageNightRainbow"
+                                />
+                                <S.Github3DImg
+                                    src={imageGitblock}
+                                    alt="imageGitblock"
+                                />
+                            </>
+                        
+                            </S.Github3D>
+                        </S.ReportRight>
+                    </S.ReportContainer>
+                </S.ReportLayout>
+            </S.Report>
+            
       {isDownloadModalOpen && (
         <Download closeModal={closeDownloadModal} />
       )}
