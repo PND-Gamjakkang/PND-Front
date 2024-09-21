@@ -1,11 +1,12 @@
 import React from 'react';
-import {PageContainer,Header,NavItem,NavMenu,ButtonGroup,EditButton,SaveButton,Title,ContentArea, Divider} from '../Styles/MyPageStyles';
+import {PageContainer,Header,NavItem,NavMenu,ButtonGroup,EditButton,SaveButton,Title,ContentArea, Divider, DiagramResultBox} from '../Styles/MyPageStyles';
 import {Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useState,useEffect } from 'react';
 import Download from '../Download';
 import { API } from '../../../api/axios';
 import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingModalForMyPage';
+import mermaid from 'mermaid';
 
 const MyPageERD = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -14,13 +15,15 @@ const MyPageERD = () => {
   const [ERDContent, setERDContent] = useState(''); 
   const [isSelectedProject, setIsSelectedProject] = useState(false); 
   const [error,setError] = useState('');
+  const [repoId,setRepoId] = useState(null);
+
   const location = useLocation();
 
   const fetchUserERD = async (repoId) => {
     try {
         const response = await API.get(`api/pnd/diagram/er?repoId=${repoId}`);
         console.log(response.data);
-        setERDContent(response.data.data.data);
+        setERDContent(response.data.data);
         setError(null); 
     } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -45,9 +48,32 @@ const MyPageERD = () => {
 }, [selectedProjectId]);
 
   useEffect(() => {
+    const sessionRepoId = sessionStorage.getItem('repoId');
+    if(sessionRepoId!==null){
+      setRepoId(sessionRepoId);
+      fetchUserERD(sessionRepoId);
+    }
+    else{
     setIsModalOpen(true);
+    }
   }, []);
 
+  useEffect(() => {
+    const renderDiagram = () => {
+      const diagramContainer = document.getElementById("diagram-container");
+      
+      if (diagramContainer && ERDContent && ERDContent.trim()) {
+        diagramContainer.innerHTML = `<div class="mermaid">${ERDContent}</div>`;
+        try {
+          mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
+        } catch (error) {
+          console.error("Mermaid rendering error:", error);
+        }
+      }
+    };
+
+    renderDiagram(); 
+  }, [ERDContent]); 
 
   const closeDownloadModal = () =>setIsDownloadModalOpen(false);
 
@@ -77,7 +103,11 @@ const MyPageERD = () => {
       </Header>
       <Title>ERD</Title>
       <ContentArea> 
-      {error ? error : (ERDContent || 'Class Diagram을 로드 중입니다...')}
+        <DiagramResultBox>
+      {error ? error : (
+            <div id="diagram-container">ER Diagram을 로드 중입니다...</div>
+          )}
+      </DiagramResultBox>
       </ContentArea>
       {isDownloadModalOpen && (
         <Download closeModal={closeDownloadModal} />

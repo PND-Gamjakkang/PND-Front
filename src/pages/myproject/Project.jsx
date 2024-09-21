@@ -45,6 +45,9 @@ const Project = () => {
     // fetchUserProject();s
   };
 
+  const handleLinkClick = (projectId)=>{
+    sessionStorage.setItem('repoId',projectId);
+  }
   const formatPeriod = (period) => {
     if (!period) return '0000.00.00 ~ 0000.00.00'; // 기간이 없는 경우 기본값
     const [startDateStr, endDateStr] = period.split(' ~ ');
@@ -69,11 +72,11 @@ const Project = () => {
       {(projects) && projects.map((project, index) => (
         <ProjectCard key={project.id}>
           <LinkContainer>
-            {project.existReadme && <StyledLink to="/mypageReadme">README</StyledLink>}
-            {project.existClassDiagram && <StyledLink to="/mypageClassDiagram">CLASS DIAGRAM</StyledLink>}
-            {project.existSequenceDiagram && <StyledLink to="/mypageSequenceDiagram">SEQUENCE DIAGRAM</StyledLink>}
-            {project.existErDiagram && <StyledLink to="/mypageERD">ERD</StyledLink>}
-            {project.existReport && <StyledLink to="/mypageGithubReport">GITHUB REPORT</StyledLink>}
+            {project.existReadme && <StyledLink to="/mypageReadme" onClick={()=>handleLinkClick(project.id)}>README</StyledLink>}
+            {project.existClassDiagram && <StyledLink to="/mypageClassDiagram" onClick={()=>handleLinkClick(project.id)}>CLASS DIAGRAM</StyledLink>}
+            {project.existSequenceDiagram && <StyledLink to="/mypageSequenceDiagram" onClick={()=>handleLinkClick(project.id)}>SEQUENCE DIAGRAM</StyledLink>}
+            {project.existErDiagram && <StyledLink to="/mypageERD" onClick={()=>handleLinkClick(project.id)}>ERD</StyledLink>}
+            {project.existReport && <StyledLink to="/mypageGithubReport" onClick={()=>handleLinkClick(project.id)}>GITHUB REPORT</StyledLink>}
           </LinkContainer>
           <ProjectDetails onClick={() => handleProjectClick(project)}>
             <ProjectTitle>{project.title || `Project ${index + 1}`}</ProjectTitle>

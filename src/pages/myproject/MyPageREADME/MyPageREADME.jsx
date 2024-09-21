@@ -16,6 +16,7 @@ const MyPageReadme = () => {
   const [error, setError] = useState(null);
   const [isClickCreateBtn, setIsClickCreateBtn] = useState(false);
   const location = useLocation();
+  const [repoId,setRepoId] = useState(null); //세션에 설정된 유저 레포 정보 있는지 -> 마이페이지에서 카드로 클릭해서 온 경우에 있음.
   const handleButtonClick = (type) =>
    {
     if (type === 'save') {
@@ -49,7 +50,15 @@ const MyPageReadme = () => {
 }, [selectedProjectId]);
 
   useEffect(() => {
-    setIsModalOpen(true);
+    const sessionRepoId = sessionStorage.getItem('repoId');
+    if(sessionRepoId!==null){
+      console.log(sessionRepoId);
+      setRepoId(sessionRepoId);
+      fetchUserReadme(sessionRepoId);
+    }
+    else{
+      setIsModalOpen(true);
+    }
   }, []);
 
   return (

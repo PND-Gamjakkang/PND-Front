@@ -15,6 +15,7 @@ const MyPageSequenceDiagram = () => {
   const [sequenceDiagramContent, setSequenceDiagramContent] = useState(''); 
   const [isSelectedProject, setIsSelectedProject] = useState(false); 
   const [error,setError] = useState('');
+  const [repoId, setRepoId] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const handleButtonClick=(type)=>{
@@ -48,7 +49,14 @@ const MyPageSequenceDiagram = () => {
 
 
   useEffect(()=>{
+    const sessionRepoId = sessionStorage.getItem('repoId');
+    if(sessionRepoId!==null){
+      setRepoId(sessionRepoId);
+      fetchUserSequenceDiagram(sessionRepoId);
+    }
+    else{
     setIsModalOpen(true);
+    }
   },[]);
 
   useEffect(() => {

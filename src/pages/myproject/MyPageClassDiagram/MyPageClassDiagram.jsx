@@ -15,6 +15,7 @@ const MyPageClassDiagram = () => {
   const [classDiagramContent, setClassDiagramContent] = useState(''); 
   const [isSelectedProject, setIsSelectedProject] = useState(false); 
   const [error, setError] = useState('');
+  const [repoId,setRepoId] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -73,7 +74,14 @@ const MyPageClassDiagram = () => {
   }, [classDiagramContent]); 
 
   useEffect(() => {
+    const sessionRepoId = sessionStorage.getItem('repoId');
+    if(sessionRepoId!==null){
+      setRepoId(sessionRepoId);
+      fetchUserClassDiagram(sessionRepoId);
+    }
+    else{
     setIsModalOpen(true);
+    }
   }, []);
 
   const closeDownloadModal = () => setIsDownloadModalOpen(false);

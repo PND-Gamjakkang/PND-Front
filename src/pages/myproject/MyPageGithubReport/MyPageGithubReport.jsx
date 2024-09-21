@@ -19,7 +19,7 @@ const MyPageGithubReport = () => {
   const [error,setError] = useState('');
   const [isClickCreateBtn, setIsClickCreateBtn] = useState(false);
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
-
+  const [repoId, setRepoId] = useState(null);
   // 각 이미지 상태 추가
   const [imageGreen, setImageGreen] = useState(null);
   const [imageSeason, setImageSeason] = useState(null);
@@ -72,7 +72,14 @@ const MyPageGithubReport = () => {
   }, [selectedProjectId]);
 
     useEffect(() => {
+      const sessionRepoId = sessionStorage.getItem('repoId');
+      if(sessionRepoId!==null){
+        setRepoId(sessionRepoId);
+        fetchUserGithubReport(sessionRepoId);
+      }
+      else{
       setIsModalOpen(true);
+      }
     }, []);
 
   const closeDownloadModal = () =>setIsDownloadModalOpen(false);
