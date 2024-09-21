@@ -39,6 +39,8 @@ function MyProjects() {
         }
     };
     useEffect(() => {
+        //MyPage가 다시 로드되면 세션 만료시키기
+        sessionStorage.setItem('repoId',null);
         const userInfo = sessionStorage.getItem('userInfo');
         if(userInfo!==null){
             fetchUserData();
