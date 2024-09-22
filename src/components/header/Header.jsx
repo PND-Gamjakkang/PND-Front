@@ -12,7 +12,10 @@ function Header() {
 
     useEffect(() => {
         const userInfo = sessionStorage.getItem('userInfo');
-        if (userInfo) {
+        const userToken = sessionStorage.getItem('token');
+
+        console.log("userToken: " + userToken);
+        if (userInfo || userToken) {
             const parsedUserInfo = JSON.parse(userInfo);
             setLogined(true);
             setUserImage(parsedUserInfo.image);
