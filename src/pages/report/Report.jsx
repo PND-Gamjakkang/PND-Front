@@ -173,6 +173,10 @@ function Report() {
         }
     }, [isClickCreateBtn, isBaseInfoSet]);
 
+    useEffect(() => {
+        console.log(image);
+    },[image])
+
     return (
         <>
             <S.Report>
