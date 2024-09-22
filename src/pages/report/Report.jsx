@@ -97,7 +97,6 @@ function Report() {
             } else {
                 console.error("HTTP error: ", response.status);
             }
-            //return AIReadmeContent;
         }
         catch (error) {
             console.log(error);
@@ -173,8 +172,6 @@ function Report() {
             postReport();
         }
     }, [isClickCreateBtn, isBaseInfoSet]);
-
-
 
     return (
         <>

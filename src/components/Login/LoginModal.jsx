@@ -13,7 +13,7 @@ export default function LoginModal({ onSuccess }) {
 
     const fetchUserData = async () => {
         try {
-            const response = await API.get('api/pnd/user/profile');  
+            const response = await API.get(`api/pnd/user/profile`);  
             const userInfo = {
                 name: response.data.data.name,
                 email: response.data.data.email,
@@ -36,10 +36,12 @@ export default function LoginModal({ onSuccess }) {
     const githubUrl = 'https://github.com/login/oauth/authorize?client_id=Iv23ling8oOAYUIHUZ5x';
     
     const handleLogin = async () => {
-        await fetchUserData();
+        //await fetchUserData();
         window.location.assign(githubUrl);
 
     };
+
+
             //     const getAccessToken = async (code) => {
     //         const client_id = 'YOUR_CLIENT_ID'; // 깃허브 OAuth 앱의 클라이언트 ID
     //         const client_secret = 'YOUR_CLIENT_SECRET'; // 깃허브 OAuth 앱의 클라이언트 시크릿
