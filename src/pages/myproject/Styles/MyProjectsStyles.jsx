@@ -53,7 +53,8 @@ export const ProfileImage = styled.img`
   width: 12.5vw; /* 200px / 1600px */
   height: 12.5vw; /* 200px / 1600px */
   object-fit: cover; 
-
+  border-radius : 50%;
+  overflow : hidden;
   @media (max-width: 768px) {
     width: 50vw;
     height: 50vw;

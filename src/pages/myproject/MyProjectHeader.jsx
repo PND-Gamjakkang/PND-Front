@@ -1,9 +1,12 @@
 import React from 'react';
-import { HeaderContainer, UserInfo, UserName, Divider, UserEmail, ButtonContainer, LogOutButton, LeaveButton } from './Styles/MyProjectsHeaderStyles';
+import { HeaderContainer, UserInfo, UserName, Divider, UserEmail, ButtonContainer, LogOutButton, ManualButton } from './Styles/MyProjectsHeaderStyles';
 import { Helmet } from 'react-helmet';
 import { Navigate } from 'react-router-dom';
+import ManualForMyPage from '../../components/readmeComponents/Modals/ManualForMyPage';
+import { useState } from 'react';
 const MyProjectHeader = ({ userName, userEmail }) => {
-  
+  const [isManualModalOpen, setIsManualModalOpen] = useState(false);
+
   const logout=()=>{
     const userInfo = sessionStorage.getItem('userInfo');
     if(userInfo!==null){
@@ -13,6 +16,13 @@ const MyProjectHeader = ({ userName, userEmail }) => {
       window.location.href='/';
     }
   };
+
+  const handleButtonClick=()=>{
+    setIsManualModalOpen(true);
+  };
+
+  const closeManualModal =()=>setIsManualModalOpen(false);
+
   return (
     <HeaderContainer>
       <Helmet>
@@ -24,9 +34,15 @@ const MyProjectHeader = ({ userName, userEmail }) => {
         <UserEmail>{userEmail}</UserEmail>
       </UserInfo>
       <ButtonContainer>
+        <ManualButton onClick={()=>handleButtonClick()}>사용법 보기</ManualButton>
         <LogOutButton onClick={()=>logout()}>로그아웃</LogOutButton>
-        <LeaveButton>회원탈퇴</LeaveButton>
       </ButtonContainer>
+
+      {isManualModalOpen && (
+        <ManualForMyPage
+          closeModal = {closeManualModal}
+        />
+      )}
     </HeaderContainer>
   );
 };

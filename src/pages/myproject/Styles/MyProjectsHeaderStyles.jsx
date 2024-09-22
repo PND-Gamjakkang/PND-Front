@@ -68,7 +68,7 @@ export const LogOutButton = styled.button`
   }
 `;
 
-export const LeaveButton = styled.button`
+export const ManualButton = styled.button`
   padding: 0.5rem 1rem;
   font-size: 0.875rem; /* Adjusted font size for responsive design */
   border-radius: 0.3125rem;
