@@ -20,11 +20,20 @@ const Project = () => {
     }
   };
 
+  const settingRepoTitle = (repoId)=>{
+    let repoTitle = null;
+    for(let i=0; i < projects.length; i++){
+      if(projects[i].id === repoId){
+        repoTitle = projects[i].title;
+        break;
+      }
+    }
+    console.log(repoTitle);
+    sessionStorage.setItem('repoTitle',repoTitle);
+  };
   const handleProjectClick = (project) => {
     setSelectedProject(project); 
-    console.log(project);
     setIsModalOpen(true); 
-    console.log(isModalOpen);
   };
 
   const closeModal = () => {
@@ -47,6 +56,7 @@ const Project = () => {
 
   const handleLinkClick = (projectId)=>{
     sessionStorage.setItem('repoId',projectId);
+    settingRepoTitle(projectId);
   }
   const formatPeriod = (period) => {
     if (!period) return '0000.00.00 ~ 0000.00.00'; // 기간이 없는 경우 기본값

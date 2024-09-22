@@ -21,7 +21,7 @@ const MyPageClassDiagram = () => {
   
   const handleButtonClick = (type) => {
     if (type === 'save') {
-      setIsDownloadModalOpen(true);
+      downloadDiagram();
     } else if (type === 'edit') {
       console.log('edit');
       //Navigate('readme');
@@ -53,8 +53,6 @@ const MyPageClassDiagram = () => {
       if (!classDiagramContent || !classDiagramContent.trim()) return;
 
       let data = classDiagramContent;
-      // console.log('수정되기 전 GPT 분석 결과:', data);
-
       data = data.replace(/^```|```$/g, '');
       console.log('Mermaid 형식으로 변환된 다이어그램 코드:', data);
 
@@ -84,6 +82,25 @@ const MyPageClassDiagram = () => {
     }
   }, []);
 
+  const downloadDiagram = () => {
+    const repoTitle = sessionStorage.getItem('repoTitle');
+    const diagramContainer = document.getElementById("diagram-container");    
+    const svgElement = diagramContainer.querySelector("svg");
+    
+    if (svgElement) {
+      const svgData = new XMLSerializer().serializeToString(svgElement);
+      
+      const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+      
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${repoTitle}_class_diagram.svg`; 
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);  
+    } 
+  };
+    
   const closeDownloadModal = () => setIsDownloadModalOpen(false);
 
   return (

@@ -36,7 +36,7 @@ const MyPageGithubReport = () => {
   
   const handleButtonClick=(type)=>{
     if(type=='save'){
-      setIsDownloadModalOpen(true);
+      downloadImage();
     }
     else if(type=='edit'){
 
@@ -82,6 +82,24 @@ const MyPageGithubReport = () => {
       }
     }, []);
 
+    const downloadImage = (url, fileName, container) => {
+      const repoTitle = sessionStorage.getItem('repoTitle');
+      const reportConatiner = document.getElementById(container);    
+      const imgElement = reportConatiner.querySelector("img");
+      if (imgElement) {
+        const svgData = new XMLSerializer().serializeToString(imgElement);
+        const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+        
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName; 
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);  
+      } 
+      };
+    
+    
   const closeDownloadModal = () =>setIsDownloadModalOpen(false);
 
   return (
@@ -105,7 +123,6 @@ const MyPageGithubReport = () => {
         </NavMenu>
         <ButtonGroup>
         <EditButton onClick={() => handleButtonClick('edit')}>수정하기</EditButton>
-          <SaveButton onClick={() => handleButtonClick('save')}>저장하기</SaveButton>
         </ButtonGroup>
       </Header>
       <Title>GITHUB REPORT</Title>
@@ -120,22 +137,34 @@ const MyPageGithubReport = () => {
                     <S.Github3D>
                         
                             <>
+                            <div id = 'imageGreenBox'>
                                 <S.Github3DImg
                                     src={imageGreen}
                                     alt="imageGreen"
+                                    onClick={() => downloadImage(imageGreen, `${title}_image_green.svg`, 'imageGreenBox')}
                                 />
+                            </div>
+                            <div id = "imageSeasonBox">
                                 <S.Github3DImg
                                     src={imageSeason}
                                     alt="imageSeason"
+                                    onClick={() => downloadImage(imageSeason, `${title}_image_season.svg`, 'imageSeasonBox')}
                                 />
+                              </div>
+                              <div id = "imageSouthSeasonBox">
                                 <S.Github3DImg
                                     src={imageSouthSeason}
                                     alt="imageSouthSeason"
+                                    onClick={() => downloadImage(imageSouthSeason, `${title}_image_south_season.svg`, 'imageSouthSeasonBox')}
                                 />
+                                </div>
+                                <div id= "imageNightBox">
                                 <S.Github3DImg
                                     src={imageNightView}
                                     alt="imageNightView"
+                                    onClick={() => downloadImage(imageNightView, `${title}_image-night_view.svg`, 'imageSouthSeasonBox')}
                                 />
+                                </div>
                             </>
                         
                     </S.Github3D>
@@ -147,18 +176,27 @@ const MyPageGithubReport = () => {
                     </S.ReportInfo>
                     <S.Github3D>
                             <>
+                            <div id = 'imageNightGreenBox'>
                                 <S.Github3DImg
                                     src={imageNightGreen}
                                     alt="imageNightGreen"
+                                    onClick={() => downloadImage(imageNightGreen, `${title}_image_night_green.svg`, 'imageNightGreenBox')}
                                 />
+                                </div>
+                                <div id='imageNightRainbowBox'>
                                 <S.Github3DImg
                                     src={imageNightRainbow}
                                     alt="imageNightRainbow"
+                                    onClick={() => downloadImage(imageNightRainbow, `${title}_image_night_rainbow.svg`, 'imageNightRainbowBox')}
                                 />
+                                </div>
+                                <div id='imageGitBlockBox'>
                                 <S.Github3DImg
                                     src={imageGitblock}
                                     alt="imageGitblock"
+                                    onClick={() => downloadImage(imageGitblock, `${title}_image_git_block.svg`, 'imageGitBlockBox')}
                                 />
+                                </div>
                             </>
                         
                             </S.Github3D>

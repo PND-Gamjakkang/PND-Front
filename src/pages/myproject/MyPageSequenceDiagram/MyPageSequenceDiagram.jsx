@@ -20,7 +20,7 @@ const MyPageSequenceDiagram = () => {
   const navigate = useNavigate();
   const handleButtonClick=(type)=>{
     if(type=='save'){
-      setIsDownloadModalOpen(true);
+      downloadDiagram();
     }
     else if(type=='edit'){
       
@@ -77,6 +77,23 @@ const MyPageSequenceDiagram = () => {
     renderDiagram(); 
   }, [sequenceDiagramContent]); 
 
+  const downloadDiagram = () => {
+    const repoTitle = sessionStorage.getItem('repoTitle');
+    const diagramContainer = document.getElementById("diagram-container");    
+    const svgElement = diagramContainer.querySelector("svg");
+    console.log(svgElement);
+    if (svgElement) {
+      const svgData = new XMLSerializer().serializeToString(svgElement);
+      const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+      
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${repoTitle}_sequence_diagram.svg`; 
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);  
+    } 
+  };
   const closeDownloadModal = () =>setIsDownloadModalOpen(false);
 
   return (

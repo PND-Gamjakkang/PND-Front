@@ -67,7 +67,7 @@ function RepoSettingModal({ closeModal, onSelectProject, onSelectedProjectId, on
 
   useEffect(() => {
     if(isBaseInfoSet) {
-      console.log("isBaseInfoset: " + isBaseInfoSet);
+      // console.log("isBaseInfoset: " + isBaseInfoSet);
       stateBaseInfo();
     }
   },[isBaseInfoSet]);

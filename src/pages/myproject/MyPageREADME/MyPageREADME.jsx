@@ -8,6 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import 'github-markdown-css/github-markdown.css';
 import { Navigate } from 'react-router-dom';
+
 const MyPageReadme = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -15,12 +16,14 @@ const MyPageReadme = () => {
   const [readmeContent, setReadmeContent] = useState('');   const [isSelectedProject, setIsSelectedProject] = useState(false); 
   const [error, setError] = useState(null);
   const [isClickCreateBtn, setIsClickCreateBtn] = useState(false);
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+
   const location = useLocation();
   const [repoId,setRepoId] = useState(null); //세션에 설정된 유저 레포 정보 있는지 -> 마이페이지에서 카드로 클릭해서 온 경우에 있음.
   const handleButtonClick = (type) =>
    {
     if (type === 'save') {
-      //setIsDownloadModalOpen(true);
+      downloadMD();
     } else if (type === 'edit') {
       // console.log('edit');
       navigate('/readme/');
@@ -61,6 +64,16 @@ const MyPageReadme = () => {
     }
   }, []);
 
+  const downloadMD = () => {
+      const repoTitle = sessionStorage.getItem('repoTitle');
+      const element = document.createElement("a");
+      const file = new Blob([readmeContent], { type: 'text/markdown' });
+      element.href = URL.createObjectURL(file);
+      element.download = `${repoTitle}_README.md`;
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+  };
   return (
     <PageContainer>
       <Helmet>
