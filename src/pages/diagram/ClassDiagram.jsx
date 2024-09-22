@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
-
+import { useLocation, useNavigate } from 'react-router-dom';
 // component
 import ClassEditor from '../../components/Diagram/ClassEditor.jsx';
 import RelationshipEditor from '../../components/Diagram/RelationshipEditor.jsx';
@@ -25,7 +25,8 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
     const [isClickDeleteComponentBtn, setIsClickDeleteComponentBtn] = useState(false); // 컴포넌트 삭제 버튼 클릭 상태
 
-
+    const location = useLocation();
+    const navigate = useNavigate();
     
 
     useEffect(() => {
@@ -306,6 +307,9 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         }
     };
 
+    
+
+    
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId && onClickCreateBtn) {
@@ -327,6 +331,39 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     };
 
 
+    // 마이프로젝트에서 수정 버튼 눌러서 온 경우
+    useEffect(()=>{
+        const queryParam = new URLSearchParams(location.search);
+        const repoId = queryParam.get('edit');
+        if(repoId!==null){
+            fetchClassMermaidForEdit(repoId);
+        }
+    },[])
+    // 마이프로젝트에서 수정 버튼 눌러서 온 경우 실행시킬 함수
+    // 혹시 수정기능때문에 꼬일까봐 따로 만들어뒀습니다.
+    const fetchClassMermaidForEdit = async (repoId) => {
+        try {
+            const response = await API.get(`api/pnd/diagram/class`, {
+                params: {
+                    repoId: repoId, // 요청에 쿼리 매개변수로 repoId 전달
+                },
+            });
+            if (response.status === 200) {
+                const data = response.data.data;
+                if (data) {
+                    console.log('Mermaid 코드:', data);
+                    setViewCode(data);  // 가져온 Mermaid 코드를 설정
+                } else {
+                    console.log('Mermaid 코드가 존재하지 않음. GPT 분석 시작...');
+                    await fetchGpt(); // Mermaid 코드가 없으면 GPT 분석 시작
+                }
+            } else {
+                console.error("HTTP error: ", response.status);
+            }
+        } catch (err) {
+            console.log("API 통신 중 오류 발생:", err);
+        }
+    };
     return (
         <S.ClassLayout>
             {loading && <Loader />}

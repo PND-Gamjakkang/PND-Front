@@ -121,12 +121,8 @@ const MyPageGithubReport = () => {
           <Divider/>
           <NavItem to='/mypageGithubReport' isActive={location.pathname === '/mypageGithubReport'}>GITHUB REPORT</NavItem>
         </NavMenu>
-        <ButtonGroup>
-        <EditButton onClick={() => handleButtonClick('edit')}>수정하기</EditButton>
-        </ButtonGroup>
       </Header>
       <Title>GITHUB REPORT</Title>
-      {/* Import Rendering Code */}
       <S.Report>  
         <S.ReportLayout>
             <S.ReportTopBarContainer>

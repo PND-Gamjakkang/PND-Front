@@ -23,8 +23,7 @@ const MyPageClassDiagram = () => {
     if (type === 'save') {
       downloadDiagram();
     } else if (type === 'edit') {
-      console.log('edit');
-      //Navigate('readme');
+      navigate(`/diagram/class?edit=${repoId}&type=class`);
     }
   };
 

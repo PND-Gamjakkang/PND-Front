@@ -12,6 +12,7 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   const undoStack = useRef([]);  // Ctrl + Z
   const redoStack = useRef([]);  // Ctrl + Y
   const [loading,setLoading] = useState(false);
+  
   const fetchRepoName = async () => {
     try {
       const { data } = await API.get('api/pnd/user/profile');
@@ -24,17 +25,12 @@ const InputArea = ({ onChange, content, clickedButton, onMarkdownApplied, badgeU
   const fetchAIReadme = async () => {
     setLoading(true);
     try {
-      console.log("sp : ",selectedProjectId);
       const data  = await API.patch(`api/pnd/readme/${selectedProjectId}`);
     
-      console.log('selection pr id : ', selectedProjectId);
-      console.log('data:', data);
       let AIReadmeContent = data.data.data.readme_script_gpt;
       
       AIReadmeContent = AIReadmeContent.replace(/```/g, '');
   
-      console.log(AIReadmeContent);
-      console.log(typeof(AIReadmeContent));
       return AIReadmeContent;
     } catch (error) {
       console.log(error);

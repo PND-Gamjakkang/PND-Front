@@ -184,6 +184,17 @@ function Diagram() {
         }
     }, [isClickCreateBtn]);
 
+    //마이페이지에서 수정하기 눌러서 온 경우
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const diagramType = queryParams.get('type');
+
+        if (diagramType) {
+            setDiagramType(diagramType); 
+            setIsSelectedProject(true); 
+            setIsClickCreateBtn(true); 
+        }
+    }, [location.search]);
 
     return (
         <>

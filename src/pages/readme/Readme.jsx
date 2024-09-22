@@ -9,6 +9,7 @@ import { API } from '../../api/axios';
 import LoginModal from '../../components/Login/LoginModal';
 import Loader from '../../components/Diagram/Loader';
 import RepoSettingModal from '../../components/Common/RepoSettingModal';
+import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 function Readme() {
   const inputRef = useRef(null);
@@ -29,13 +30,13 @@ function Readme() {
   const [endDate, setEndDate] = useState(null);
   const [isBaseInfoSet, setIsBaseInfoSet] = useState(null); // 마이프로젝트에 이미 있는 항목을 선택했는지 안했는지의 상태
 
+  const location = useLocation();
   const userToken = localStorage.getItem('token');
   
   const fetchUserReadme = async (repoId) => {
     setLoading(true);
     try {
       const response = await API.get(`api/pnd/readme/${repoId}`);
-      // console.log(response.data);
       setContent( response.data.data.readmeScript);
       // console.log(response.data.data.readmeScript);
       setError(null);
@@ -115,8 +116,13 @@ function Readme() {
 
   useEffect(() => {
     const userInfo = sessionStorage.getItem('userInfo');
-    if(userInfo!==null){
+    const queryParam = new URLSearchParams(location.search);
+    const repoId = queryParam.get('edit');
+    if(userInfo!==null && repoId===null){
       setIsModalOpen(true);
+    }
+    else if(repoId!==null){
+      fetchUserReadme(repoId);
     }
     else{
       setNeedLogin(true);
@@ -153,8 +159,6 @@ function Readme() {
       />
       <Content>
         <Container>
-          {/* selectedProjectId가 존재할 때만 InputArea 렌더링 */}
-          {selectedProjectId && (
             <InputArea
               onChange={handleInputChange}
               content={content}
@@ -165,7 +169,6 @@ function Readme() {
               imgURL={imageURL}
               selectedProjectId={selectedProjectId}  // selectedProjectId를 InputArea에 전달
             />
-          )}
         </Container>
         <Divider/>
         <Container2>

@@ -26,7 +26,7 @@ const MyPageReadme = () => {
       downloadMD();
     } else if (type === 'edit') {
       // console.log('edit');
-      navigate('/readme/');
+      navigate(`/readme?edit=${repoId}`);
     }
   };
 
