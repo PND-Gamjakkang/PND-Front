@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Button from '../Button';
-import { Toolbar, InputAreaHeaderContainer, Toolbar2, FileDownloadButton,AIMakeButton } from './InputAreaHeaderStyle';
+import { Toolbar, InputAreaHeaderContainer, Toolbar2, FileDownloadButton,AIMakeButton, ManualButton } from './InputAreaHeaderStyle';
 import styled from 'styled-components';
 import Badge from '../Modals/Badge';
 import FileUpload from '../Modals/FileUpload';
 import FileDownload from '../Modals/FileDownload';
-
+import ManualForReadme from '../Modals/ManualForReadme';
 const H1Button = styled(Button)``;
 const H2Button = styled(Button)``;
 const H3Button = styled(Button)``;
@@ -28,6 +28,7 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selec
   const [isBadgeModalOpen, setBadgeModalOpen] = useState(false);
   const [isUploadModalOpen, setUploadModalOpen] = useState(false);
   const [isDownloadModalOpen, setDownloadModalOpen] = useState(false);
+  const [isManualModalOpen, setManualModalOpen] = useState(false);
 
   const handleButtonClick = (type) => {
     console.log(type);
@@ -37,7 +38,12 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selec
       setUploadModalOpen(true);
     } else if (type === 'Download') {
       setDownloadModalOpen(true);
-    } else if (onButtonClick) {
+    } else if(type ==='manual'){
+      console.log("매뉴얼");
+      setManualModalOpen(true);
+    }
+    //이 순서대로 call 안하면 inputArea로 버튼 넘어감
+    else if (onButtonClick) {
       onButtonClick(type);
     }
   };
@@ -45,6 +51,7 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selec
   const closeBadgeModal = () => setBadgeModalOpen(false);
   const closeUploadModal = () => setUploadModalOpen(false);
   const closeDownloadModal = () => setDownloadModalOpen(false);
+  const closeManualModal = ()=> setManualModalOpen(false);
 
   return (
     <InputAreaHeaderContainer>
@@ -68,6 +75,7 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selec
         <ThroughButton onClick={() => handleButtonClick('throughLine')}>Through</ThroughButton>
         <CodeButton onClick={() => handleButtonClick('code')}>Code</CodeButton>
         <QuoteButton onClick={() => handleButtonClick('quote')}>Quote</QuoteButton>
+        <ManualButton onClick={()=>handleButtonClick('manual')}>사용법 보기</ManualButton>
         <AIMakeButton onClick={()=> handleButtonClick('AI')}>AI 자동생성</AIMakeButton>
         <FileDownloadButton onClick={() => handleButtonClick('Download')}>저장하기</FileDownloadButton>
       </Toolbar>
@@ -99,6 +107,12 @@ const InputAreaHeader = ({ onButtonClick, onBadgeAdd, onImageAdd, content, selec
           closeModal={closeDownloadModal}
           selectedProjectId={selectedProjectId}  
           userToken={userToken}
+        />
+      )}
+
+      {isManualModalOpen && (
+        <ManualForReadme
+          closeModal = {closeManualModal}
         />
       )}
     </InputAreaHeaderContainer>

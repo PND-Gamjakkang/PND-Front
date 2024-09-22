@@ -55,6 +55,20 @@ background-color: #5b59fc;
 color: white;
 border: none;
 border-radius: 0.5vh;
-margin-left: auto;
 
+`;
+
+export const ManualButton = styled.button`
+width: 6.25%;
+height: 3.7vh;
+font-family: 'Inter', sans-serif;
+line-height: 1vh;
+font-size: 1.3vh;
+font-weight: 600;
+padding: 0.5vh 1vh;
+background-color: #5b59fc;
+color: white;
+border: none;
+border-radius: 0.5vh;
+margin-left: auto;
 `;
