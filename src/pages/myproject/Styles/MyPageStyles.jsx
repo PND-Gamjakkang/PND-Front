@@ -2,14 +2,15 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 
 export const PageContainer = styled.div`
-  width: 93.75vw; /* 1500px */
-  height: 60.625vw; /* 970px */
-  margin: auto;
+  width: 91.75vw; 
+  margin: 3px 0;
 
   @media (max-width: 768px) {
     width: 90vw;
     height: auto;
   }
+
+  background: white;
 `;
 
 export const Header = styled.div`
@@ -112,11 +113,12 @@ export const Title = styled.div`
   line-height: 0.625rem; /* 10px */
   text-align: left;
   color: black;
-  height: 3.6875vw; /* 59px */
+  height: 59px;
   display: flex;
   margin-bottom: 1.25vw; /* 20px */
   align-items: center;
   padding-left: 0.625vw; /* 10px */ 
+
 `;
 
 export const ContentArea = styled.div`
