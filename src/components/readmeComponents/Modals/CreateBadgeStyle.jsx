@@ -49,7 +49,7 @@ export const BadgeCreateButton = styled.button`
   border-radius: 1.25rem;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
-
+  color : #fff;
   &:hover {
     background-color: #6f6df8;
     border-color: #e0e0ff;
