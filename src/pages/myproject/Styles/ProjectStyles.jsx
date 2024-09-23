@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 export const ProjectsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 2vw;
+  gap: 1.2vw;
   justify-content: space-between;
-  min-height: 43vh;
-  background-color: #f8f8ff; 
+  // min-height: 43vh;
+  background-color: #f8f8ff;  
 
   @media (max-width: 768px) {
     justify-content: center;
@@ -16,10 +16,11 @@ export const ProjectsContainer = styled.div`
 `;
 
 export const ProjectCard = styled.div`
-  width: 22vw;
-  min-width: 280px;
+  width: 25vw;
+
   max-width: 100%;
-  height: 43vh;
+  height: 400px;
+  // height: 43vh;
   background-color: #FFF;
   border-radius: 1rem;
   border: 0.1rem solid #D9D9FF;
@@ -28,12 +29,21 @@ export const ProjectCard = styled.div`
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
+  position: relative;
 
   @media (max-width: 768px) {
     width: 90vw;
-    min-height: 40vh;
+    //min-height: 40vh;
   }
   
+`;
+
+export const ProjectCardImage = styled.img`
+width: 100%;
+height: 330px;
+  border-radius: 1rem;
+  border: 0.1rem solid #D9D9FF;
+
 `;
 
 export const ProjectImage = styled.div`
@@ -49,7 +59,8 @@ export const ProjectDetails = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 5vh;
+  height: 30px;
+  // height: 5vh;
   border-radius: 0 0 1rem 1rem;
   @media (max-width: 768px) {
     padding: 1.5rem;
@@ -93,15 +104,14 @@ export const Divider = styled.div`
 export const StyledLink = styled(Link)`
   display: inline-block;
   padding: 0.5rem;
-  margin: 0.5rem 0;
+  margin: 5px 0;
   background-color: #FFF;
   color: #07061F;
   border: 0.1rem solid #D9D9FF;
   text-align: center;
   text-decoration: none;
-  border-radius: 0.4rem;
   font-family: 'Inter', sans-serif;
-  font-size: 1.0rem;
+  font-size: 0.7rem;
   font-weight: 500;
 
   &:hover {
@@ -112,16 +122,21 @@ export const StyledLink = styled(Link)`
     font-size: 1rem;
     padding: 0.6rem 1.2rem;
   }
+
 `;
 
 export const LinkContainer = styled.div`
-  
+  position: absolute;  // 절대 위치 지정
+  bottom: 62px;  // 이미지의 맨 위에 위치
+  right: 2px;
   display: flex;
   flex-direction: column;
   gap: 0;
   margin-top: auto;
-
+  width: 6.25vw;
+  
   @media (max-width: 768px) {
     padding: 0.5rem 1rem;
   }
+
 `;

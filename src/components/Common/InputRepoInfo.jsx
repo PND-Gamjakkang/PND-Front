@@ -65,9 +65,17 @@ function InputRepoInfo({ onCancelBtn, onClickCreateBtn, onTitleChange, onImageCh
 
                     ctx.drawImage(imgElement, 0, 0, width, height);
 
-                    const resizedImageUrl = canvas.toDataURL('image/png');
-                    setImgPath(resizedImageUrl);
-                    onImageChange(resizedImageUrl); // 이미지 변경 시 부모 컴포넌트에 전달
+                    // const resizedImageUrl = canvas.toDataURL('image/png');
+                    // setImgPath(resizedImageUrl);
+                    // onImageChange(resizedImageUrl); // 이미지 변경 시 부모 컴포넌트에 전달
+                    // 이미지를 Blob으로 변환하여 저장
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            const resizedFile = new File([blob], img.name, { type: img.type });
+                            setImgPath(URL.createObjectURL(resizedFile)); // 이미지를 미리보기 위해 URL로 변환
+                            onImageChange(resizedFile); // Blob이나 File 객체를 부모 컴포넌트에 전달
+                        }
+                    }, img.type);
                 };
             };
         }

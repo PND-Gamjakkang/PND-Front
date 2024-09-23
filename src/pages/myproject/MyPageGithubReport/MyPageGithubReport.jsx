@@ -30,9 +30,15 @@ const MyPageGithubReport = () => {
   const [imageGitblock, setImageGitblock] = useState(null);
   const [createdAt, setCreatedAt] = useState(null); // 생성일자
   const [title, setTitle] = useState(''); // 제목
-  const [reportType, setReportType] = useState(null); // 리포트타입 저장 변수(기본 리포트를 imageGreen으로 설정)
+  const [reportType, setReportType] = useState(imageGreen); // 리포트타입 저장 변수(기본 리포트를 imageGreen으로 설정)
 
   const location = useLocation();
+
+  useEffect(() => {
+    if (imageGreen) {
+      setReportType(imageGreen); // 기본 레포 imageGreen으로 설정
+    }
+  }, [imageGreen]);
 
   const fetchUserGithubReport = async (repoId) => {
     try {
@@ -109,6 +115,7 @@ const MyPageGithubReport = () => {
     setReportType(type);
   };
   
+  
   // 저장하기 버튼 핸들러
   const handleButtonClick = (type) => {
     if (type == 'save') {
@@ -118,6 +125,7 @@ const MyPageGithubReport = () => {
 
     }
   };
+
 
 
   return (
