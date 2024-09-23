@@ -142,6 +142,8 @@ function Main() {
                     sessionStorage.setItem("token", ACCESS_TOKEN);
                     setCode(code);
                     await fetchUserData();
+
+                    window.location.reload();
                 } catch (error) {
                     console.error("Error during authentication:", error);
                 }

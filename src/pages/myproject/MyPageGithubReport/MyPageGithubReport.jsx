@@ -30,15 +30,15 @@ const MyPageGithubReport = () => {
   const [imageGitblock, setImageGitblock] = useState(null);
   const [createdAt, setCreatedAt] = useState(null); // 생성일자
   const [title, setTitle] = useState(''); // 제목
-  const [reportType, setReportType] = useState(imageGreen); // 리포트타입 저장 변수(기본 리포트를 imageGreen으로 설정)
+  const [reportType, setReportType] = useState(null);
 
   const location = useLocation();
 
   useEffect(() => {
-    if (imageGreen) {
-      setReportType(imageGreen); // 기본 레포 imageGreen으로 설정
+    if (imageNightRainbow) {
+      setReportType(imageNightRainbow); // 기본 레포 imageGreen으로 설정
     }
-  }, [imageGreen]);
+  }, [imageNightRainbow]);
 
   const fetchUserGithubReport = async (repoId) => {
     try {
@@ -55,7 +55,8 @@ const MyPageGithubReport = () => {
       setCreatedAt(response.data.data.createdAt);
       setError(null);
 
-      setReportType(imageGreen); // 기본 레포 imageGreen으로 설정
+      // 기본 레포 imageNightRainbow으로 설정
+      setReportType(response.data.data.imageNightRainbow);
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setError("선택한 프로젝트에 대한 GR을 찾을 수 없습니다.");
@@ -172,10 +173,12 @@ const MyPageGithubReport = () => {
             <S.Github3D>
               <>
                 <div id='reportImageBox'>
-                  <S.Github3DImg
-                    src={reportType}
-                    alt="imageNightGreen"
-                  />
+                  {reportType && (
+                    <S.Github3DImg
+                      src={reportType}
+                      alt={reportType}
+                    />
+                  )}
                 </div>
                 {/* <div id='imageNightRainbowBox'>
                   <S.Github3DImg
