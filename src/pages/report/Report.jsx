@@ -50,7 +50,7 @@ function Report() {
         setTitle(reportData.repoTitle);
 
         // 이미지 Green을 기본 리포트 타입으로 설정
-        setReportType(reportData.imageGreen);
+        setReportType(reportData.imageNightRainbow);
     }
 
     const putRepoInfo = async () => {
@@ -172,8 +172,8 @@ function Report() {
             putRepoInfo();
         } else if (isClickCreateBtn && isBaseInfoSet) {
             console.log("이미 기본 정보가 저장된 레포지토리입니다.");
-            postReport();
-            //getReport();
+            //postReport();
+            getReport();
         }
     }, [isClickCreateBtn, isBaseInfoSet]);
 
@@ -183,12 +183,11 @@ function Report() {
 
     // 리포트 종류 배열
     const reportTypesArray = [
-        { type: 'Green', value: imageGreen },
-        { type: 'Season', value: imageSeason },
-        { type: 'SouthSeason', value: imageSouthSeason },
-        { type: 'NightView', value: imageNightView },
-        { type: 'NightGreen', value: imageNightGreen },
         { type: 'NightRainbow', value: imageNightRainbow },
+        { type: 'NightView', value: imageNightView },
+        { type: 'Green', value: imageGreen },
+        { type: 'SouthSeason', value: imageSouthSeason },
+        { type: 'NightGreen', value: imageNightGreen },
         { type: 'GitBlock', value: imageGitblock }
     ];
 
@@ -211,10 +210,8 @@ function Report() {
                     </S.ReportTopBarContainer>
                     <S.ReportContainer>
                         <S.ReportInfo>
-                            <h3>{title}</h3>
-                            <div>레포트 생성 일자 : {createdAt}</div>
-                        </S.ReportInfo>
-                        <S.ReportTypeContainer>
+                            <div>{title}</div>
+                            <S.ReportTypeContainer>
                             {reportTypesArray.map((data, index) => (
                                 <S.ReportTypeBtn
                                 key={index}
@@ -225,6 +222,7 @@ function Report() {
                                 </S.ReportTypeBtn>
                             ))}
                         </S.ReportTypeContainer>
+                        </S.ReportInfo>
                         <S.Github3D>
                             {isClickCreateBtn && reportType && (
                                 <>

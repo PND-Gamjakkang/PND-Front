@@ -84,7 +84,7 @@ const MyPageERD = () => {
       const svgData = new XMLSerializer().serializeToString(svgElement);
 
       const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-
+    
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = `${repoTitle}_ER_diagram.svg`;

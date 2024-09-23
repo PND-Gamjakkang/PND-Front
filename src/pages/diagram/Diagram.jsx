@@ -137,6 +137,11 @@ function Diagram() {
 
     // SaveBtn 클릭 시 수정된 코드를 저장하는 함수
     const handleSaveButtonClick = () => {
+        const sessionRepoId = sessionStorage.getItem('repoId');
+        if(sessionRepoId) {
+            setSelectedProjectId(sessionRepoId);
+            console.log("마이페이지에서 선택한 레포 아이디: " + selectedProjectId);    
+        }
         if (selectedProjectId) {
             fetchEditCode(location.pathname);
             setShowFileDownload(!showFileDownload);
