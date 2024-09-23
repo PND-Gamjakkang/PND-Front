@@ -8,7 +8,7 @@ import SequenceEditor from '../../components/Diagram/SequenceEditor.jsx';
 import SequenceRelationshipEditor from '../../components/Diagram/SequenceRelationshipEditor.jsx';
 import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
 import Loader from '../../components/Diagram/Loader.jsx';
-
+import { useLocation } from 'react-router-dom';
 function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode }) {
     const [codeKey, setCodeKey] = useState(0);
     const [sequenceCode, setSequenceCode] = useState(null); // 시퀀스 다이어그램 코드 담는 변수
@@ -18,7 +18,8 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
 
-
+    const location = useLocation();
+    
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         mermaid.initialize({ startOnLoad: false });
@@ -239,6 +240,41 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
             getSequenceMermaid();
         }
     }, [selectedProjectId]);
+
+    //마이페이지에서 수정하기 버튼 눌러서 넘어온 경우
+    useEffect(()=>{
+        const queryParam = new URLSearchParams(location.search);
+        const repoId = queryParam.get('edit');
+        if(repoId!==null){
+            getSequenceMermaidForEdit(repoId);
+        }
+    },[])
+
+    // 마이프로젝트에서 수정 버튼 눌러서 온 경우 실행시킬 함수
+    // 혹시 수정기능때문에 꼬일까봐 따로 만들어뒀습니다.
+    const getSequenceMermaidForEdit = async (repoId) => {
+        try {
+            const response = await API.get(`api/pnd/diagram/class`, {
+                params: {
+                    repoId: repoId, // 요청에 쿼리 매개변수로 repoId 전달
+                },
+            });
+            if (response.status === 200) {
+                const data = response.data.data;
+                if (data) {
+                    console.log('Mermaid 코드:', data);
+                    setViewCode(data);  // 가져온 Mermaid 코드를 설정
+                } else {
+                    console.log('Mermaid 코드가 존재하지 않음. GPT 분석 시작...');
+                    await fetchGpt(); // Mermaid 코드가 없으면 GPT 분석 시작
+                }
+            } else {
+                console.error("HTTP error: ", response.status);
+            }
+        } catch (err) {
+            console.log("API 통신 중 오류 발생:", err);
+        }
+    };
 
 
     return (

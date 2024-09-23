@@ -306,9 +306,6 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         }
     };
 
-
-
-
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId && onClickCreateBtn) {
@@ -329,7 +326,6 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         setIsClickGetnerateAiBtn(!isClickGenerateAiBtn);
     };
 
-
     // 마이프로젝트에서 수정 버튼 눌러서 온 경우
     useEffect(() => {
         const queryParam = new URLSearchParams(location.search);
@@ -337,7 +333,8 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         if (repoId !== null) {
             fetchClassMermaidForEdit(repoId);
         }
-    }, [])
+    }, []);
+
     // 마이프로젝트에서 수정 버튼 눌러서 온 경우 실행시킬 함수
     // 혹시 수정기능때문에 꼬일까봐 따로 만들어뒀습니다.
     const fetchClassMermaidForEdit = async (repoId) => {

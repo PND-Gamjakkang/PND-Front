@@ -112,13 +112,15 @@ function Main() {
             setCurrentPage(3);
         }
     };
+    
     const moveTo = () => {
-        if (localStorage.getItem("token")) {
-            navigate('/retro');
+        if (sessionStorage.getItem("token")) {
+            navigate('/myProjects');
         } else {
             navigate('/login');
         }
     }
+
     const location = useLocation();
     const [code, setCode] = useState(null);
 
@@ -185,7 +187,13 @@ function Main() {
                         <S.MainLogoImg src={MainLogoimg} />에서 쉽고 간편하게
                     </S.MainHeaderText>
                     <S.MainSubHeaderText>지금 바로 깃허브로 로그인하고 시작해보세요</S.MainSubHeaderText>
-                    <S.MainLoginButton onClick={moveTo}>깃허브 로그인</S.MainLoginButton>
+                    <S.MainLoginButton onClick={moveTo}>
+                        {sessionStorage.getItem('token') ? (
+                            <> 내 프로젝트 보러가기 </>
+                        ) : (
+                            <> 깃허브 로그인 </>
+                        )}
+                    </S.MainLoginButton>
                 </S.MainHeaderAndLoginBtn>
                 <S.MainDecoIconImg1 src={MainDecoIcon1} />
                 <S.MainDecoIconImg2 src={MainDecoIcon2} />

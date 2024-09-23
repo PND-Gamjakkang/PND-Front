@@ -7,7 +7,7 @@ import Download from '../Download';
 import { API } from '../../../api/axios';
 import RepoSettingModalForMyPage from '../../../components/Common/RepoSettingModalForMyPage';
 import mermaid from 'mermaid';
-
+import { useNavigate } from 'react-router-dom';
 const MyPageERD = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
@@ -18,7 +18,8 @@ const MyPageERD = () => {
   const [repoId, setRepoId] = useState(null);
 
   const location = useLocation();
-
+  const navigate = useNavigate();
+  
   const fetchUserERD = async (repoId) => {
     try {
       const response = await API.get(`api/pnd/diagram/er?repoId=${repoId}`);
@@ -40,6 +41,7 @@ const MyPageERD = () => {
       downloadDiagram();
     }
     else if (type == 'edit') {
+      navigate(`/diagram/erd?edit=${repoId}&type=erd`);
 
     }
   };
