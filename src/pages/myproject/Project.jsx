@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ProjectsContainer, ProjectCard, ProjectDetails, ProjectTitle, ProjectDate, Divider, StyledLink, LinkContainer } from './Styles/ProjectStyles';
+import { ProjectsContainer, ProjectCard, ProjectDetails, ProjectTitle, ProjectDate, Divider, StyledLink, LinkContainer, ProjectCardImage } from './Styles/ProjectStyles';
 import { Helmet } from 'react-helmet';
 import { API } from '../../api/axios';
 import RepoSettingModalForEdit from '../../components/Common/RepoSettingModalForEdit';
@@ -12,6 +12,7 @@ const Project = () => {
   const fetchUserProject = async () => {
     try {
       const response = await API.get('api/pnd/repo/docs');
+      console.log(response.message);
       setProjects(response.data.data); 
 
       console.log(response.data.data);
@@ -81,6 +82,7 @@ const Project = () => {
       
       {(projects) && projects.map((project, index) => (
         <ProjectCard key={project.id}>
+          <ProjectCardImage src={project.image}/>
           <LinkContainer>
             {project.existReadme && <StyledLink to="/mypageReadme" onClick={()=>handleLinkClick(project.id)}>README</StyledLink>}
             {project.existClassDiagram && <StyledLink to="/mypageClassDiagram" onClick={()=>handleLinkClick(project.id)}>CLASS DIAGRAM</StyledLink>}

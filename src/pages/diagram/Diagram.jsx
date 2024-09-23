@@ -76,18 +76,20 @@ function Diagram() {
             };
             formData.append('data', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }));
 
-            // 이미지 파일 추가 (이미지 파일이 존재하는 경우에만 추가)
-            if (image) {
-                formData.append('image', image); // 이미지 파일을 추가
+            // 이미지 파일이 존재할 경우에만 이미지 파일을 추가
+            if (image instanceof File || image instanceof Blob) {
+                formData.append('image', image); // 이미지를 Blob이나 File로 추가
+                console.log("이미지 파일이 추가되었습니다:", image);
             } else {
-                formData.append('image', null); // 이미지가 없을 때 null로 설정
+                console.log("이미지가 없습니다.");
+                formData.append('image', null);
             }
-
             // 서버로 요청 보내기
             const response = await MultipartApi.put(`api/pnd/repo/${selectedProjectId}`, formData);
 
             if (response.status === 200) {
-                console.log('서버 응답:', response.data);
+                console.log(response.message);
+                console.log(response.data);
             } else {
                 console.error("HTTP error: ", response.status);
             }
@@ -190,11 +192,15 @@ function Diagram() {
         const diagramType = queryParams.get('type');
 
         if (diagramType) {
-            setDiagramType(diagramType); 
-            setIsSelectedProject(true); 
-            setIsClickCreateBtn(true); 
+            setDiagramType(diagramType);
+            setIsSelectedProject(true);
+            setIsClickCreateBtn(true);
         }
     }, [location.search]);
+
+    useEffect(() => {
+        console.log("Image: " + image);
+    }, [image])
 
     return (
         <>

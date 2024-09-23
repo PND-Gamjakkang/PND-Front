@@ -5,6 +5,7 @@ import MyProjectHeader from './MyProjectHeader.jsx';
 import logo from '../../assets/images/profile-logo.png'; 
 import { MyProjectsLayout, Container1, StatContainer, ProfileContainer, ProfileImage } from './Styles/MyProjectsStyles.jsx';
 import LoginModal from '../../components/Login/LoginModal.jsx';
+
 function MyProjects() {
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');

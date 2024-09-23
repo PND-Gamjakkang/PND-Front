@@ -37,8 +37,18 @@ export const ReportContainer = styled.div`
   padding: 0 2.5vh;
   display:flex;
   flex-direction: column;
-  justify-content:center;
-  align-items:center;
+  // justify-content:center;
+  // align-items:center;
+  
+`;
+
+export const MyPageReportContainer = styled.div`
+  width: 100%; /* 부모 요소의 전체 너비 */
+  height: 100%; /* 부모 요소의 전체 높이 */
+  background-color: #F8F8FF;
+  padding: 0 2.5vh;
+  display:flex;
+  flex-direction: column;
 `;
 
 export const ReportTitleText = styled.div`

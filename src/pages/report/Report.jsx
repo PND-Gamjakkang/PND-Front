@@ -122,7 +122,6 @@ function Report() {
                 console.log(successMessage);
                 console.log(reportData);
 
-
                 saveRepoData(reportData);
 
             } else {
