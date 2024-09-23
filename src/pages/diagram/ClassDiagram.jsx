@@ -27,7 +27,7 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
 
     const location = useLocation();
     const navigate = useNavigate();
-    
+
 
     useEffect(() => {
         const renderDiagram = () => {
@@ -241,30 +241,26 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
                 if (data.endsWith('```')) {
                     data = data.slice(0, -3);
                 }
-                
-                // 모든 '->'를 찾아서 '->'로 되어있으면 '-->'로 변경
-                // 이미 '-->'로 되어있는 경우는 유지
-                data = data.replace(/(?<!-)>(?!-)/g, '-->');
 
-
-                // 관계와 클래스 정의를 분리하고 각 줄을 트림하여 공백을 제거합니다.
+                // 관계와 클래스 정의를 구분하고 각 줄을 트림하여 공백을 제거합니다.
                 let lines = data.split('\n').map(line => line.trim()).filter(line => line.length > 0);
 
                 // 'classDiagram' 키워드를 추가
-                let formattedCode = '\n';
+                let formattedCode = '\n'; // 클래스 다이어그램 키워드 추가
 
                 // 클래스 관계와 정의를 구분하는 패턴
                 const relationPattern = /(.*?) -> (.*?)/;
+                const alreadyArrowPattern = /(.*?) --> (.*?)/; // 이미 '-->'인 패턴
                 const classPattern = /class (.*?) \{/;
 
                 // 관계와 클래스 정의를 분리
                 lines.forEach(line => {
-                    if (relationPattern.test(line)) {
-                        formattedCode += `${line}\n`;
-                    } else if (classPattern.test(line)) {
-                        formattedCode += `\n${line}\n`;
+                    if (relationPattern.test(line) && !alreadyArrowPattern.test(line)) {
+                        // '->'로 되어있고 '-->'로 안 되어있는 경우만 변경
+                        formattedCode += `${line.replace(/->/g, '-->')}\n`;
                     } else {
-                        formattedCode += `  ${line}\n`;
+                        // 관계 정의 외 나머지는 그대로 추가
+                        formattedCode += `${line}\n`;
                     }
                 });
 
@@ -310,9 +306,9 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
         }
     };
 
-    
 
-    
+
+
     // 컴포넌트가 마운트될 때 레포지토리 데이터를 가져옴
     useEffect(() => {
         if (selectedProjectId && onClickCreateBtn) {
@@ -335,13 +331,13 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
 
 
     // 마이프로젝트에서 수정 버튼 눌러서 온 경우
-    useEffect(()=>{
+    useEffect(() => {
         const queryParam = new URLSearchParams(location.search);
         const repoId = queryParam.get('edit');
-        if(repoId!==null){
+        if (repoId !== null) {
             fetchClassMermaidForEdit(repoId);
         }
-    },[])
+    }, [])
     // 마이프로젝트에서 수정 버튼 눌러서 온 경우 실행시킬 함수
     // 혹시 수정기능때문에 꼬일까봐 따로 만들어뒀습니다.
     const fetchClassMermaidForEdit = async (repoId) => {
