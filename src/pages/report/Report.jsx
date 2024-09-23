@@ -122,7 +122,6 @@ function Report() {
                 console.log(successMessage);
                 console.log(reportData);
 
-
                 saveRepoData(reportData);
 
             } else {
@@ -173,8 +172,8 @@ function Report() {
             putRepoInfo();
         } else if (isClickCreateBtn && isBaseInfoSet) {
             console.log("이미 기본 정보가 저장된 레포지토리입니다.");
-            //postReport();
-            getReport();
+            postReport();
+            //getReport();
         }
     }, [isClickCreateBtn, isBaseInfoSet]);
 

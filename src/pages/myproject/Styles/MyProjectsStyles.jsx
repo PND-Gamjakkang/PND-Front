@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const MyProjectsLayout = styled.div`
   width: 100%;
   max-width: 88.75vw; /* 1500px / 1600px */
-  height: 50vw; /* 800px / 1600px */
   margin: auto;
   padding: 0.5vh 1.5vw; 
   @media (max-width: 768px) {
