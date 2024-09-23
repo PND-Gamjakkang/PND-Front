@@ -131,3 +131,11 @@ export const LoadingOverlay = styled.div`
     color: #333; /* 텍스트 색상 */
     text-align: center; /* 텍스트 가운데 정렬 */
 `;
+
+export const ReportTypeBtnContainer = styled.div`
+  display: flex;
+  justify-content: center; 
+    align-items: center;    
+  gap: 10px;             
+  flex-wrap: wrap;
+`;

@@ -55,7 +55,7 @@ const MyPageGithubReport = () => {
       setCreatedAt(response.data.data.createdAt);
       setError(null);
 
-      setReportType(imageGreen); // 기본 레포 imageGreen으로 설정
+      setReportType(response.data.data.imageGreen); // 기본 레포 imageGreen으로 설정
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setError("선택한 프로젝트에 대한 GR을 찾을 수 없습니다.");
@@ -160,6 +160,7 @@ const MyPageGithubReport = () => {
               <div>레포트 생성 일자 : {createdAt}</div>
             </S.ReportInfo>
             <S.ReportTypeContainer>
+              <S.ReportTypeBtnContainer>
               {reportTypesArray.map((data, index) => (
                 <S.ReportTypeBtn
                   key={index}
@@ -169,6 +170,7 @@ const MyPageGithubReport = () => {
                   {data.type}
                 </S.ReportTypeBtn>
               ))}
+              </S.ReportTypeBtnContainer>
             </S.ReportTypeContainer>
 
             <S.Github3D>
@@ -179,20 +181,6 @@ const MyPageGithubReport = () => {
                     alt="imageNightGreen"
                   />
                 </div>
-                {/* <div id='imageNightRainbowBox'>
-                  <S.Github3DImg
-                    src={imageNightRainbow}
-                    alt="imageNightRainbow"
-                    onClick={() => downloadImage(imageNightRainbow, `${title}_image_night_rainbow.svg`, 'imageNightRainbowBox')}
-                  />
-                </div>
-                <div id='imageGitBlockBox'>
-                  <S.Github3DImg
-                    src={imageGitblock}
-                    alt="imageGitblock"
-                    onClick={() => downloadImage(imageGitblock, `${title}_image_git_block.svg`, 'imageGitBlockBox')}
-                  />
-                </div> */}
               </>
 
             </S.Github3D>
