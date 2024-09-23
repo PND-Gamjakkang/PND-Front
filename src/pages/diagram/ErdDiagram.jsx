@@ -254,7 +254,9 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
         // 혹시 수정기능때문에 꼬일까봐 따로 만들어뒀습니다.
         const getErdMermaidForEdit = async (repoId) => {
             try {
-                const response = await API.get(`api/pnd/diagram/class`, {
+
+                const response = await API.get(`api/pnd/diagram/er`, {
+
                     params: {
                         repoId: repoId, // 요청에 쿼리 매개변수로 repoId 전달
                     },

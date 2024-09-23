@@ -19,7 +19,7 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
 
     const location = useLocation();
-    
+
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
         mermaid.initialize({ startOnLoad: false });
@@ -254,7 +254,8 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
     // 혹시 수정기능때문에 꼬일까봐 따로 만들어뒀습니다.
     const getSequenceMermaidForEdit = async (repoId) => {
         try {
-            const response = await API.get(`api/pnd/diagram/class`, {
+
+            const response = await API.get(`api/pnd/diagram/sequence`, {
                 params: {
                     repoId: repoId, // 요청에 쿼리 매개변수로 repoId 전달
                 },
