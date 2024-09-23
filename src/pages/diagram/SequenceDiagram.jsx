@@ -254,6 +254,7 @@ function SequenceDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setVie
     // 혹시 수정기능때문에 꼬일까봐 따로 만들어뒀습니다.
     const getSequenceMermaidForEdit = async (repoId) => {
         try {
+
             const response = await API.get(`api/pnd/diagram/sequence`, {
                 params: {
                     repoId: repoId, // 요청에 쿼리 매개변수로 repoId 전달

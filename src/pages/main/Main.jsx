@@ -25,10 +25,11 @@ import MainFeatureCard from '../../components/Main/MainFeatureCard.jsx';
 function Main() {
     const outerDivRef = useRef();
     const [currentPage, setCurrentPage] = useState(1);
+    const pageCount = 3; // 페이지 수
     const navigate = useNavigate();
     useEffect(() => {
-        const wheelHandler = (e) => {
-            e.preventDefault();
+        const wheelHandler = (e) => { // 휠 이벤트
+            e.preventDefault(); // 기본 스크롤 동작 막기, 커스텀 스크롤 동작을 추가하기 위함
             const { deltaY } = e;
             const { scrollTop } = outerDivRef.current; // 현재 스크롤 위치
             const pageHeight = window.innerHeight; // 화면 세로길이 = 100vh
@@ -37,7 +38,6 @@ function Main() {
                 // 스크롤 내릴 때
                 if (scrollTop >= 0 && scrollTop < pageHeight) {
                     // 현재 1페이지
-                    console.log("현재 1페이지, down");
                     outerDivRef.current.scrollTo({
                         top: pageHeight + DIVIDER_HEIGHT,
                         left: 0,
@@ -46,7 +46,6 @@ function Main() {
                     setCurrentPage(2);
                 } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
                     // 현재 2페이지
-                    console.log("현재 2페이지, down");
                     outerDivRef.current.scrollTo({
                         top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
                         left: 0,
@@ -58,7 +57,6 @@ function Main() {
                 // 스크롤 올릴 때
                 if (scrollTop >= 0 && scrollTop < pageHeight) {
                     // 현재 1페이지
-                    console.log("현재 1페이지, up");
                     outerDivRef.current.scrollTo({
                         top: 0,
                         left: 0,
@@ -66,7 +64,6 @@ function Main() {
                     });
                 } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
                     // 현재 2페이지
-                    console.log("현재 2페이지, up");
                     outerDivRef.current.scrollTo({
                         top: 0,
                         left: 0,
@@ -75,7 +72,6 @@ function Main() {
                     setCurrentPage(1);
                 } else {
                     // 현재 3페이지
-                    console.log("현재 3페이지, up");
                     outerDivRef.current.scrollTo({
                         top: pageHeight + DIVIDER_HEIGHT,
                         left: 0,
@@ -110,15 +106,24 @@ function Main() {
                 behavior: "smooth",
             });
             setCurrentPage(3);
+        } else if (currentPage === 3) {
+            outerDivRef.current.scrollTo({
+                top: 0, // 첫 번째 페이지로 스크롤
+                left: 0,
+                behavior: "smooth",
+            });
+            setCurrentPage(1);
         }
     };
+
     const moveTo = () => {
-        if (localStorage.getItem("token")) {
-            navigate('/retro');
+        if (sessionStorage.getItem("token")) {
+            navigate('/myProjects');
         } else {
             navigate('/login');
         }
     }
+
     const location = useLocation();
     const [code, setCode] = useState(null);
 
@@ -173,8 +178,23 @@ function Main() {
                 console.error(error);
             }
         }
-
     };
+
+    // 자동 슬라이드
+    useEffect(() => {
+        const slideInterval = setInterval(() => {
+            goToNextPage();
+        }, 3000); // 3초마다 페이지 변경
+        return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
+    }, [currentPage]);
+
+    // // 페이지 전환 시 애니메이션 적용
+    // useEffect(() => {
+    //     const pageHeight = window.innerHeight;
+    //     const translateY = (currentPage - 1) * pageHeight; // 현재 페이지에 맞게 수직으로 이동
+    //     outerDivRef.current.style.transition = "transform 0.5s ease-in-out"; // 부드러운 애니메이션 설정
+    //     outerDivRef.current.style.transform = `translateY(${translateY}px)`; // 페이지 이동
+    // }, [currentPage]);
 
     return (
         <S.MainLayout ref={outerDivRef}>
@@ -185,7 +205,13 @@ function Main() {
                         <S.MainLogoImg src={MainLogoimg} />에서 쉽고 간편하게
                     </S.MainHeaderText>
                     <S.MainSubHeaderText>지금 바로 깃허브로 로그인하고 시작해보세요</S.MainSubHeaderText>
-                    <S.MainLoginButton onClick={moveTo}>깃허브 로그인</S.MainLoginButton>
+                    <S.MainLoginButton onClick={moveTo}>
+                        {sessionStorage.getItem('token') ? (
+                            <> 내 프로젝트 보러가기 </>
+                        ) : (
+                            <> 깃허브 로그인 </>
+                        )}
+                    </S.MainLoginButton>
                 </S.MainHeaderAndLoginBtn>
                 <S.MainDecoIconImg1 src={MainDecoIcon1} />
                 <S.MainDecoIconImg2 src={MainDecoIcon2} />
@@ -244,25 +270,6 @@ function Main() {
 
 
             </S.MainThirdPage>
-            {/* <S.MainButton onClick={moveTo}>프로젝트 다이어그램 생성하러 가기</S.MainButton>
-                <S.MainFeatures>
-                    <S.FeatureBox>
-                        <S.FeatureImg src={RedmeIcon}/>
-                        <S.FeatureText>맞춤형 ReadMe.md <br/> 파일 제작</S.FeatureText>
-                    </S.FeatureBox>
-                    <S.FeatureBox>
-                        <S.FeatureImg src={RetroIcon}/>
-                        <S.FeatureText>AI 프로젝트 회고하기 <br/> 파일 제작</S.FeatureText>
-                    </S.FeatureBox>
-                    <S.FeatureBox>
-                        <S.FeatureImg src={FolderIcon}/>
-                        <S.FeatureText>내 프로젝트 관리하기 <br/> 파일 제작</S.FeatureText>
-                    </S.FeatureBox>
-                </S.MainFeatures>
-                <Link to='/team'>
-                    <S.LinkToTeamPage>about our team ⓒ 감자깡</S.LinkToTeamPage>
-                </Link>
- */}
         </S.MainLayout>
     )
 
