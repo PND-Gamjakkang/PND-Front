@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import mermaid from 'mermaid';
 import { API } from '../../api/axios.js';
-
+import { useLocation } from 'react-router-dom';
 import ViewCode from '../../components/Diagram/ViewCode.jsx';
 import ThemeTemplate from '../../components/Diagram/ThemeTemplate.jsx';
 import Loader from '../../components/Diagram/Loader.jsx';
@@ -19,6 +19,7 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
     const [isClickGenerateAiBtn, setIsClickGetnerateAiBtn] = useState(false); // AI 자동생성 버튼 클릭 상태
     const diagramContainerRef = useRef(null); // DOM 요소를 참조하기 위한 ref 사용
 
+    const location = useLocation();
 
     // viewCode가 변할 때마다 실행 -> Mermaid 초기화 및 다이어그램 렌더링
     useEffect(() => {
@@ -194,6 +195,7 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
         }
     };
 
+
     // 선택한 레포지토리 mermaid 코드 가져오기
     const getErdMermaid = async () => {
         try {
@@ -239,6 +241,41 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
         setIsClickGetnerateAiBtn(!isClickGenerateAiBtn);
     };
 
+        //마이페이지에서 수정하기 버튼 눌러서 넘어온 경우
+        useEffect(()=>{
+            const queryParam = new URLSearchParams(location.search);
+            const repoId = queryParam.get('edit');
+            if(repoId!==null){
+                getErdMermaidForEdit(repoId);
+            }
+        },[])
+
+        // 마이프로젝트에서 수정 버튼 눌러서 온 경우 실행시킬 함수
+        // 혹시 수정기능때문에 꼬일까봐 따로 만들어뒀습니다.
+        const getErdMermaidForEdit = async (repoId) => {
+            try {
+                const response = await API.get(`api/pnd/diagram/class`, {
+                    params: {
+                        repoId: repoId, // 요청에 쿼리 매개변수로 repoId 전달
+                    },
+                });
+                if (response.status === 200) {
+                    const data = response.data.data;
+                    if (data) {
+                        console.log('Mermaid 코드:', data);
+                        setViewCode(data);  // 가져온 Mermaid 코드를 설정
+                    } else {
+                        console.log('Mermaid 코드가 존재하지 않음. GPT 분석 시작...');
+                        await fetchGpt(); // Mermaid 코드가 없으면 GPT 분석 시작
+                    }
+                } else {
+                    console.error("HTTP error: ", response.status);
+                }
+            } catch (err) {
+                console.log("API 통신 중 오류 발생:", err);
+            }
+        };
+    
 
     return (
         <S.ErdLayout>

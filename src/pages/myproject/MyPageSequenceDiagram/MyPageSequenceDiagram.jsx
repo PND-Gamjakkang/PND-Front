@@ -23,7 +23,7 @@ const MyPageSequenceDiagram = () => {
       downloadDiagram();
     }
     else if(type=='edit'){
-      
+      navigate(`/diagram/sequence?edit=${repoId}&type=sequence`);
     }
   };
   const fetchUserSequenceDiagram = async (repoId) => {
@@ -81,7 +81,6 @@ const MyPageSequenceDiagram = () => {
     const repoTitle = sessionStorage.getItem('repoTitle');
     const diagramContainer = document.getElementById("diagram-container");    
     const svgElement = diagramContainer.querySelector("svg");
-    console.log(svgElement);
     if (svgElement) {
       const svgData = new XMLSerializer().serializeToString(svgElement);
       const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
