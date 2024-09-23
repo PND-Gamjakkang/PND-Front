@@ -11,6 +11,7 @@ import readmeImage5 from '../../../assets/images/manualForReadme/readme_5.PNG';
 import readmeImage6 from '../../../assets/images/manualForReadme/readme_6.PNG';
 import readmeImage7 from '../../../assets/images/manualForReadme/readme_7.PNG';
 import readmeImage8 from '../../../assets/images/manualForReadme/readme_8.PNG';
+import readmeImageGPT from '../../../assets/images/manualForReadme/readme_gpt.PNG';
 
 
 
@@ -158,7 +159,7 @@ const ManualForReadme = ({ closeModal }) => {
         <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
       </Helmet>
 
-      <CloseButton onClick={closeModal}>닫기</CloseButton>
+      <CloseButton onClick={closeModal}>X</CloseButton>
       <ModalContent>
         <Title><Logo src={logo}/>에서는 마크다운이 쉬워집니다!</Title>
         <br></br><hr></hr><br></br><br></br>
@@ -193,6 +194,9 @@ const ManualForReadme = ({ closeModal }) => {
         <br></br><br></br><hr></hr>
         <ContentTitle>Image 버튼</ContentTitle>
         <MarkdownExample>
+          S3 배포하고 추가하기<br></br>
+          S3 배포하고 추가하기<br></br>
+          S3 배포하고 추가하기<br></br>
           S3 배포하고 추가하기
         </MarkdownExample>
         <br></br><br></br><hr></hr>
@@ -202,9 +206,7 @@ const ManualForReadme = ({ closeModal }) => {
           약 5초 정도의 시간이 소요됩니다.
         </MarkdownExample>
         <ImageExample50 src={readmeImage6}/>
-       {/* 
-            GPT 서버 고치고 GPT 작동 사진 추가 
-          */}
+        <ImageExample50 src={readmeImageGPT}/>
         <br></br><br></br><hr></hr>
         <ContentTitle>저장하기 버튼</ContentTitle>
         <MarkdownExample>

@@ -160,7 +160,7 @@ const ManualForMyPage = ({ closeModal }) => {
         <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
       </Helmet>
 
-      <CloseButton onClick={closeModal}>닫기</CloseButton>
+      <CloseButton onClick={closeModal}>X</CloseButton>
       <ModalContent>
         <Title><Logo src={logo}/>와 함께 생성한 파일들을 편하게 관리하고 수정하세요!</Title>
         <br></br><hr></hr><br></br><br></br>
