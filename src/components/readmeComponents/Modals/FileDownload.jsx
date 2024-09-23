@@ -38,13 +38,12 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
 
     if (page === 'readme') {
       saveReadme();
-    } else if (page === '/diagram/class' || page === '/report') {
+    } else if (page === '/diagram/class' || page === '/report' || page === '/diagram/sequence' || page==='/diagram/erd') {
       setIsSaved(true);  // Ensure this is set to true
     }
   }, [page, content, selectedProjectId, userToken]);
 
   const handleButtonClick = () => {
-    console.log(123123);
     navigate('/myprojects');
   };
 

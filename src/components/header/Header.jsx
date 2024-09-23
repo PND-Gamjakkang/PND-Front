@@ -25,7 +25,7 @@ function Header() {
             setLogined(false);
             setUserImage(null);
         }
-    }, []); 
+    }, [location]); 
 
     return (
         <S.HeaderLayout>
