@@ -5,7 +5,7 @@ export const ProjectsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1.2vw;
-  justify-content: space-between;
+  justify-content: flex-start;
   // min-height: 43vh;
   background-color: #f8f8ff;  
 
