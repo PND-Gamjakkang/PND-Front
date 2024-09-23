@@ -54,7 +54,7 @@ const MyPageGithubReport = () => {
       setTitle(response.data.data.repoTitle);
       setCreatedAt(response.data.data.createdAt);
       setError(null);
-
+      
       setReportType(imageGreen); // 기본 레포 imageGreen으로 설정
     } catch (error) {
       if (error.response && error.response.status === 404) {

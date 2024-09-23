@@ -80,9 +80,10 @@ export const ReportInfo = styled.div`
 width: 100%;
 height: 70px;
 display:flex;
-flex-direction: column;
 align-items: center;
-justify-content: center;
+justify-content: space-between;
+font-weight: 700;
+font-size: 1.4rem;
 gap: 15px;
 
 `;
@@ -100,7 +101,7 @@ export const ReportCreateAt = styled.div`
 `;
 
 export const ReportTypeContainer = styled.div`
-width: 100%;
+
 margin-bottom: 10px;
 `;
 export const ReportTypeBtn = styled.button`
