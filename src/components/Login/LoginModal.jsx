@@ -24,9 +24,9 @@ export default function LoginModal({ onSuccess }) {
                 totalReports : response.data.data.totalReports
             };
             sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-            const testInfo = sessionStorage.getItem('userInfo');
-            const parsedUserInfo = JSON.parse(testInfo);
-            console.log(typeof(parsedUserInfo.name));
+            // const testInfo = sessionStorage.getItem('userInfo');
+            // const parsedUserInfo = JSON.parse(testInfo);
+            // console.log(typeof(parsedUserInfo.name));
         } catch (error) {
             console.error(error);
         }
@@ -36,9 +36,10 @@ export default function LoginModal({ onSuccess }) {
     const githubUrl = 'https://github.com/login/oauth/authorize?client_id=Iv23ling8oOAYUIHUZ5x';
     
     const handleLogin = async () => {
-        //await fetchUserData();
+        // await fetchUserData();
+        
+        console.log("111111");
         window.location.assign(githubUrl);
-
     };
 
 
