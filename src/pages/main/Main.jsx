@@ -120,18 +120,23 @@ function Main() {
         }
     }
     const location = useLocation();
+    const [code, setCode] = useState(null);
 
     useEffect(() => {
         const fetchAccessToken = async () => {
             const urlParams = new URLSearchParams(location.search);
             const code = urlParams.get('code');
-            
+
+
             if (code) { // 인가 코드를 받아온 경우에만 실행하도록 하기
                 try {
                     const response = await API.post(`/api/pnd/oauth/social/github?code=${code}`);
                     console.log(response);
                     const ACCESS_TOKEN = response.data.data.token;
-                    localStorage.setItem("token", ACCESS_TOKEN);
+                    // localStorage.setItem("token", ACCESS_TOKEN);
+                    sessionStorage.setItem("token", ACCESS_TOKEN);
+                    setCode(code);
+                    await fetchUserData();
                 } catch (error) {
                     console.error("Error during authentication:", error);
                 }
@@ -139,7 +144,37 @@ function Main() {
         };
 
         fetchAccessToken();
-    }, [location])
+        //fetchUserData();
+    }, [location]);
+
+    const fetchUserData = async () => {
+        // 세션에서 토큰 가져오기
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            throw new Error("No token found in session storage");
+        }
+        if (token) {
+            try {
+                const response = await API.get(`api/pnd/user/profile`);
+                const userInfo = {
+                    name: response.data.data.name,
+                    email: response.data.data.email,
+                    image: response.data.data.image,
+                    totalDocs: response.data.data.totalDocs,
+                    totalReadmes: response.data.data.totalReadmes,
+                    totalDiagrams: response.data.data.totalDiagrams,
+                    totalReports: response.data.data.totalReports
+                };
+                sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+                const testInfo = sessionStorage.getItem('userInfo');
+                const parsedUserInfo = JSON.parse(testInfo);
+                console.log(typeof (parsedUserInfo.name));
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+    };
 
     return (
         <S.MainLayout ref={outerDivRef}>
@@ -200,13 +235,13 @@ function Main() {
             </S.MainSecondPage>
             <S.MainThirdPage>
                 <S.ThirdPageContentContainer>
-                    <S.ThirdPageText src={ThirdPageTextImg}/>
+                    <S.ThirdPageText src={ThirdPageTextImg} />
                     <S.StartBtn>
                         <S.MainLogoImg src={MainLogoimg} />
                         시작하기
                     </S.StartBtn>
                 </S.ThirdPageContentContainer>
-               
+
 
             </S.MainThirdPage>
             {/* <S.MainButton onClick={moveTo}>프로젝트 다이어그램 생성하러 가기</S.MainButton>

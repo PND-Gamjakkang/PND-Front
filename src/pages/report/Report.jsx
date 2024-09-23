@@ -27,6 +27,7 @@ function Report() {
     // 각 이미지 상태 추가
     const [imageGreen, setImageGreen] = useState(null);
     const [imageSeason, setImageSeason] = useState(null);
+    const [imageNorthSeason, setImageNorthSeason] = useState(null);
     const [imageSouthSeason, setImageSouthSeason] = useState(null);
     const [imageNightView, setImageNightView] = useState(null);
     const [imageNightGreen, setImageNightGreen] = useState(null);
@@ -34,7 +35,7 @@ function Report() {
     const [imageGitblock, setImageGitblock] = useState(null);
     const [createdAt, setCreatedAt] = useState(null); // 생성일자
     const [title, setTitle] = useState(''); // 제목
-
+    const [reportType, setReportType] = useState(null); // 리포트타입 저장 변수(기본 리포트를 imageGreen으로 설정)
 
     const saveRepoData = (reportData) => {
         // 각 값을 상태로 설정
@@ -47,6 +48,9 @@ function Report() {
         setImageGitblock(reportData.imageGitblock);
         setCreatedAt(reportData.createdAt);
         setTitle(reportData.repoTitle);
+
+        // 이미지 Green을 기본 리포트 타입으로 설정
+        setReportType(reportData.imageGreen);
     }
 
     const putRepoInfo = async () => {
@@ -97,7 +101,6 @@ function Report() {
             } else {
                 console.error("HTTP error: ", response.status);
             }
-            //return AIReadmeContent;
         }
         catch (error) {
             console.log(error);
@@ -118,7 +121,7 @@ function Report() {
                 const successMessage = response.data.message;
                 console.log(successMessage);
                 console.log(reportData);
-                
+
 
                 saveRepoData(reportData);
 
@@ -168,72 +171,71 @@ function Report() {
     useEffect(() => {
         if (isClickCreateBtn && !isBaseInfoSet) { // 기본 정보가 저장되어있지 않은 상태 && 기본 정보가 이미 저장되어있다면 기본 정보를 저장한다
             putRepoInfo();
-        } else if(isClickCreateBtn && isBaseInfoSet) {
+        } else if (isClickCreateBtn && isBaseInfoSet) {
             console.log("이미 기본 정보가 저장된 레포지토리입니다.");
-            postReport();
+            //postReport();
+            getReport();
         }
     }, [isClickCreateBtn, isBaseInfoSet]);
 
+    useEffect(() => {
+        console.log(image);
+    }, [image])
 
+    // 리포트 종류 배열
+    const reportTypesArray = [
+        { type: 'Green', value: imageGreen },
+        { type: 'Season', value: imageSeason },
+        { type: 'SouthSeason', value: imageSouthSeason },
+        { type: 'NightView', value: imageNightView },
+        { type: 'NightGreen', value: imageNightGreen },
+        { type: 'NightRainbow', value: imageNightRainbow },
+        { type: 'GitBlock', value: imageGitblock }
+    ];
+
+    const handleReportType = (type) => {
+        setReportType(type);
+    };
+
+    useEffect(() => {
+        console.log("선택한 리포트타입: " + reportType);
+    }, [reportType])
 
     return (
         <>
             <S.Report>
                 <S.ReportLayout style={{ filter: isModalOpen ? 'blur(5px)' : 'none' }}>
-                    {loading && <Loader/>}
+                    {loading && <Loader />}
                     <S.ReportTopBarContainer>
                         <S.ReportTitleText>GITHUB  COLLABORATION REPORT</S.ReportTitleText>
                         <SaveBtn onClick={stateSaveBtn} />
                     </S.ReportTopBarContainer>
                     <S.ReportContainer>
-                        <S.ReportLeft>
-                            <S.Github3D>
-                                {isClickCreateBtn && (
-                                    <>
-                                        <S.Github3DImg
-                                            src={imageGreen}
-                                            alt="imageGreen"
-                                        />
-                                        <S.Github3DImg
-                                            src={imageSeason}
-                                            alt="imageSeason"
-                                        />
-                                        <S.Github3DImg
-                                            src={imageSouthSeason}
-                                            alt="imageSouthSeason"
-                                        />
-                                        <S.Github3DImg
-                                            src={imageNightView}
-                                            alt="imageNightView"
-                                        />
-                                    </>
-                                )}
-                            </S.Github3D>
-                        </S.ReportLeft>
-                        <S.ReportRight>
-                            <S.ReportInfo>
-                                <h3>{title}</h3>
-                                <div>레포트 생성 일자 : {createdAt}</div>
-                            </S.ReportInfo>
-                            <S.Github3D>
-                                {isClickCreateBtn && (
-                                    <>
-                                        <S.Github3DImg
-                                            src={imageNightGreen}
-                                            alt="imageNightGreen"
-                                        />
-                                        <S.Github3DImg
-                                            src={imageNightRainbow}
-                                            alt="imageNightRainbow"
-                                        />
-                                        <S.Github3DImg
-                                            src={imageGitblock}
-                                            alt="imageGitblock"
-                                        />
-                                    </>
-                                )}
-                            </S.Github3D>
-                        </S.ReportRight>
+                        <S.ReportInfo>
+                            <h3>{title}</h3>
+                            <div>레포트 생성 일자 : {createdAt}</div>
+                        </S.ReportInfo>
+                        <S.ReportTypeContainer>
+                            {reportTypesArray.map((data, index) => (
+                                <S.ReportTypeBtn
+                                key={index}
+                                onClick={() => handleReportType(data.value)}
+                                isActive={reportType === data.value}
+                                >
+                                    {data.type}
+                                </S.ReportTypeBtn>
+                            ))}
+                        </S.ReportTypeContainer>
+                        <S.Github3D>
+                            {isClickCreateBtn && reportType && (
+                                <>
+                                    <S.Github3DImg
+                                        src={reportType}
+                                        alt="reportType"
+                                    />
+                                </>
+                            )}
+                        </S.Github3D>
                     </S.ReportContainer>
                 </S.ReportLayout>
             </S.Report>

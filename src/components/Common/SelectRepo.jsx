@@ -34,20 +34,13 @@ function SelectRepo({ onCancelBtn, onSelectProject, onClickCreateBtn, onIsBaseIn
 
   // 통신 - 로그인 사용자 확인
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const response = await API.get(`/api/pnd/user/profile`);
-          setUser(response.data.data);
-          // console.log("사용자: " + response.data.data);
-        } catch (error) {
-          // console.error("Error fetching user profile:", error);
-        }
-      }
-    };
-
-    fetchUserProfile(); // 비동기 함수 호출
+    const userInfo = sessionStorage.getItem('userInfo'); // 문자열로 저장되어 있음
+    if (userInfo) {
+      // 문자열로 저장된 userInfo를 객체로 변환
+      const parsedUserInfo = JSON.parse(userInfo);
+      setUser(parsedUserInfo);
+      console.log('User Info:', parsedUserInfo); // 객체로 출력
+    }
   }, []);
 
   // API 통신
@@ -102,8 +95,8 @@ function SelectRepo({ onCancelBtn, onSelectProject, onClickCreateBtn, onIsBaseIn
   // 생성하기 버튼 눌렀을 때
   // 생성하기 버튼 눌렀을 때
   const handleConfirmSelection = () => {
-    console.log('pending Repo : ',pendingRepo);
-    console.log('isBaseInfoSet : ',isBaseInfoSet);
+    console.log('pending Repo : ', pendingRepo);
+    console.log('isBaseInfoSet : ', isBaseInfoSet);
     if (pendingRepo && !isBaseInfoSet) { // 레포 선택했고, 기본 정보가 저장되어 있지 않으면 다음 모달페이지로 이동
       handleProjectSelection(pendingRepo);
       onNextSlide(); // 선택 완료 시 다음 슬라이드로 이동
@@ -112,7 +105,7 @@ function SelectRepo({ onCancelBtn, onSelectProject, onClickCreateBtn, onIsBaseIn
       handleProjectSelection(pendingRepo);
       onClickCreateBtn();
     }
-    
+
   };
   return (
     <>

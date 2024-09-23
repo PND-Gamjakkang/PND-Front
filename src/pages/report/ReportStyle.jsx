@@ -36,6 +36,9 @@ export const ReportContainer = styled.div`
   background-color: white;
   padding: 0 2.5vh;
   display:flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
 `;
 
 export const ReportTitleText = styled.div`
@@ -64,13 +67,14 @@ width: 50%;
 `;
 
 export const ReportInfo = styled.div`
-width: 18vw;
-height: 100px;
+width: 100%;
+height: 70px;
 display:flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
 gap: 15px;
+
 `;
 
 export const RepoTitle = styled.h3`
@@ -82,6 +86,22 @@ export const RepoDate = styled.div`
 `;
 
 export const ReportCreateAt = styled.div`
+
+`;
+
+export const ReportTypeContainer = styled.div`
+width: 100%;
+margin-bottom: 10px;
+`;
+export const ReportTypeBtn = styled.button`
+width: 7vw;
+height: 30px;
+flex-shrink: 0;
+border-radius: 5px;
+border: ${({ isActive }) => (isActive ? '2px solid #5B59FC' : '1px solid #B7B6FF')};
+background-color: ${({ isActive }) => (isActive ? '#D9D9FF' : '#E8E8FF')};
+margin-right: 10px;
+font-size: 0.8rem;
 
 `;
 
