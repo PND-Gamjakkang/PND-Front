@@ -207,6 +207,7 @@ function Diagram() {
         console.log("Image: " + image);
     }, [image])
 
+    const closeDownloadModal =()=>{setShowFileDownload(false);};
     return (
         <>
             <S.Diagram>
@@ -328,7 +329,7 @@ function Diagram() {
             {showFileDownload && (
                 <FileDownload
                     page={location.pathname}
-                    //closeModal={closeDownloadModal}
+                    closeModal={closeDownloadModal}
                     content={viewCode}
                     selectedProjectId={selectedProjectId}
                     userToken={userToken}

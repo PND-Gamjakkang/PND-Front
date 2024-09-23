@@ -54,7 +54,7 @@ const MyPageGithubReport = () => {
       setTitle(response.data.data.repoTitle);
       setCreatedAt(response.data.data.createdAt);
       setError(null);
-      
+
       setReportType(imageGreen); // 기본 레포 imageGreen으로 설정
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -102,20 +102,19 @@ const MyPageGithubReport = () => {
 
   // 리포트 종류 배열
   const reportTypesArray = [
-    { type: 'Green', value: imageGreen },
-    { type: 'Season', value: imageSeason },
-    { type: 'SouthSeason', value: imageSouthSeason },
-    { type: 'NightView', value: imageNightView },
-    { type: 'NightGreen', value: imageNightGreen },
     { type: 'NightRainbow', value: imageNightRainbow },
+    { type: 'NightView', value: imageNightView },
+    { type: 'Green', value: imageGreen },
+    { type: 'SouthSeason', value: imageSouthSeason },
+    { type: 'NightGreen', value: imageNightGreen },
     { type: 'GitBlock', value: imageGitblock }
   ];
 
   const handleReportType = (type) => {
     setReportType(type);
   };
-  
-  
+
+
   // 저장하기 버튼 핸들러
   const handleButtonClick = (type) => {
     if (type == 'save') {
@@ -156,20 +155,19 @@ const MyPageGithubReport = () => {
         <S.ReportLayout>
           <S.MyPageReportContainer>
             <S.ReportInfo>
-              <h3>{title}</h3>
-              <div>레포트 생성 일자 : {createdAt}</div>
+              <div>{title}</div>
+              <S.ReportTypeContainer>
+                {reportTypesArray.map((data, index) => (
+                  <S.ReportTypeBtn
+                    key={index}
+                    onClick={() => handleReportType(data.value)}
+                    isActive={reportType === data.value}
+                  >
+                    {data.type}
+                  </S.ReportTypeBtn>
+                ))}
+              </S.ReportTypeContainer>
             </S.ReportInfo>
-            <S.ReportTypeContainer>
-              {reportTypesArray.map((data, index) => (
-                <S.ReportTypeBtn
-                  key={index}
-                  onClick={() => handleReportType(data.value)}
-                  isActive={reportType === data.value}
-                >
-                  {data.type}
-                </S.ReportTypeBtn>
-              ))}
-            </S.ReportTypeContainer>
 
             <S.Github3D>
               <>

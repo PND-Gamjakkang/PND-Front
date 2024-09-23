@@ -168,7 +168,7 @@ function Main() {
                 sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
                 const testInfo = sessionStorage.getItem('userInfo');
                 const parsedUserInfo = JSON.parse(testInfo);
-                console.log(typeof (parsedUserInfo.name));
+                console.log(parsedUserInfo.name);
             } catch (error) {
                 console.error(error);
             }
