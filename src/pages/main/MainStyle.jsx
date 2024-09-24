@@ -62,9 +62,8 @@ line-height: 64px; /* 160% */
 
 export const MainSubHeaderText = styled.div`
 width: 25vw;
-
 color: ${({ theme }) => theme.colors.white};
-text-align: center;
+// text-align: center;
 font-family: Inter;
 font-size: 1.2rem;
 font-style: normal;
@@ -134,7 +133,7 @@ height: 47vw;
 
 // 메인 로고 이미지
 export const MainLogoImg = styled.img`
-  width: 33%; /* 이미지를 매우 작게 줄이기 */
+  width: 23%; /* 이미지를 매우 작게 줄이기 */
   height: auto; /* 가로 세로 비율을 유지하며 크기 조정 */
 `;
 

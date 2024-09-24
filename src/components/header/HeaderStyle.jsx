@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
 export const HeaderLayout = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 50px;
   //height: clamp(50px, 7vh, 100px); /* 최소 50px, 최대 100px, 기본 10vh */
   // height: 7%;
   display: flex;
   flex-shrink: 0;
   align-items: center;
+  justify-content: center;
   padding: 0 20px;
   background-color: #FFF;
   color: var(--main, #5B59FC);
@@ -18,11 +19,19 @@ export const HeaderLayout = styled.div`
   line-height: normal;
 `;
 
+export const HeaderContent = styled.div`
+width: 79%;
+display:flex;
+justify-content: space-between;
+align-items: center;
+
+`;
+
 export const Logo = styled.img`
-  width: 120px;
-  height: 35px; 
-  margin-left: 10vw;
-  margin-right: 12vw;
+  // width: 120px;
+  // height: 35px; 
+  // margin-left: 10vw;
+  margin-right: 9vw;
 `;
 
 export const NavLinks = styled.nav`

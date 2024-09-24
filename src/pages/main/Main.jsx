@@ -8,18 +8,18 @@ import { API } from '../../api/axios.js';
 import LoginModal from '../../components/Login/LoginModal.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
 // images
-import ReadmeImg from '../../assets/images/main-readme-img.png';
-import DiagramImg from '../../assets/images/main-diagram-img.png';
-import ReportImg from '../../assets/images/main-report-img.png';
+import ReadmeImg from '../../assets/images/main-readme-img.svg';
+import DiagramImg from '../../assets/images/main-diagram-img.svg';
+import ReportImg from '../../assets/images/main-report-img.svg';
 import NextPageBtnIcon from '../../assets/images/main-down-arrow.png';
-import ThirdPageTextImg from '../../assets/images/main-third-text.png';
+import ThirdPageTextImg from '../../assets/images/main-third-text.svg';
 
 import FolderIcon from '../../assets/images/folder-icon.png';
 import RetroIcon from '../../assets/images/retro-logo.png';
 import MainImg from '../../assets/images/main-img.png';
-import MainLogoimg from '../../assets/images/main-logo-white.png';
-import MainDecoIcon1 from '../../assets/images/main-deco-icon1.png';
-import MainDecoIcon2 from '../../assets/images/main-deco-icon2.png';
+import MainLogoWhiteImg from '../../assets/images/main-logo-white.svg';
+import MainDecoIcon1 from '../../assets/images/main-deco-icon1.svg';
+import MainDecoIcon2 from '../../assets/images/main-deco-icon2.svg';
 import MainFeatureCard from '../../components/Main/MainFeatureCard.jsx';
 
 function Main() {
@@ -39,7 +39,7 @@ function Main() {
                 if (scrollTop >= 0 && scrollTop < pageHeight) {
                     // 현재 1페이지
                     outerDivRef.current.scrollTo({
-                        top: pageHeight + DIVIDER_HEIGHT,
+                        top: pageHeight ,
                         left: 0,
                         behavior: "smooth",
                     });
@@ -47,7 +47,7 @@ function Main() {
                 } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
                     // 현재 2페이지
                     outerDivRef.current.scrollTo({
-                        top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+                        top: pageHeight * 2 ,
                         left: 0,
                         behavior: "smooth",
                     });
@@ -73,7 +73,7 @@ function Main() {
                 } else {
                     // 현재 3페이지
                     outerDivRef.current.scrollTo({
-                        top: pageHeight + DIVIDER_HEIGHT,
+                        top: pageHeight ,
                         left: 0,
                         behavior: "smooth",
                     });
@@ -186,32 +186,33 @@ function Main() {
     useEffect(() => {
         const slideInterval = setInterval(() => {
             goToNextPage();
-        }, 3000); // 3초마다 페이지 변경
+        }, 10000); // 10초마다 페이지 변경
         return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
     }, [currentPage]);
 
-    // // 페이지 전환 시 애니메이션 적용
-    // useEffect(() => {
-    //     const pageHeight = window.innerHeight;
-    //     const translateY = (currentPage - 1) * pageHeight; // 현재 페이지에 맞게 수직으로 이동
-    //     outerDivRef.current.style.transition = "transform 0.5s ease-in-out"; // 부드러운 애니메이션 설정
-    //     outerDivRef.current.style.transform = `translateY(${translateY}px)`; // 페이지 이동
-    // }, [currentPage]);
+    // 페이지 전환 시 애니메이션 적용
+    useEffect(() => {
+        const pageHeight = window.innerHeight;
+        const translateY = (currentPage - 1) * pageHeight; // 현재 페이지에 맞게 수직으로 이동
+        outerDivRef.current.style.transition = "transform 0.5s ease-in-out"; // 부드러운 애니메이션 설정
+        outerDivRef.current.style.transform = `translateY(${translateY}px)`; // 페이지 이동
+    }, [currentPage]);
 
     return (
         <S.MainLayout ref={outerDivRef}>
             <S.MainFirstPage>
                 <S.MainHeaderAndLoginBtn>
+                    <S.MainSubHeaderText>소프트웨어 개발 과정에서의 문서화, 잘 되어가고 있나요?</S.MainSubHeaderText>
                     <S.MainHeaderText>
                         프로젝트 문서화의 모든 것 <br />
-                        <S.MainLogoImg src={MainLogoimg} />에서 쉽고 간편하게
+                        <S.MainLogoImg src={MainLogoWhiteImg} />에서 쉽고 간편하게
                     </S.MainHeaderText>
                     <S.MainSubHeaderText>지금 바로 깃허브로 로그인하고 시작해보세요</S.MainSubHeaderText>
                     <S.MainLoginButton onClick={moveTo}>
                         {sessionStorage.getItem('token') ? (
-                            <> 내 프로젝트 보러가기 </>
+                            <> 마이페이지 가기 </>
                         ) : (
-                            <> 깃허브 로그인 </>
+                            <> 깃허브 소셜 로그인 </>
                         )}
                     </S.MainLoginButton>
                 </S.MainHeaderAndLoginBtn>
@@ -225,20 +226,30 @@ function Main() {
                 <S.MainFeatures>
                     <MainFeatureCard
                         featureTitle='MAKE README'
+                        featureDescriptionTitle={
+                            <>
+                                프로젝트를 세상에 알리고 싶나요?
+                            </>}
                         featureDescription={
                             <>
-                                마크다운 대시보드와 AI 자동생성 기능으로<br />
-                                보다 쉽게 리드미를 제작해 보세요.
+                                리드미를 간편하게 제작해 프로젝트의 가치를 세상에 보여주세요.<br/>
+                                마크다운 대시보드와 AI 자동 생성으로<br/>
+                                쉽고 빠르게 작성할 수 있습니다.
                             </>}
                         btnText='리드미 제작하러가기'
                         featureImg={ReadmeImg}
                     />
                     <MainFeatureCard
                         featureTitle='MAKE DIAGRAM'
+                        featureDescriptionTitle={
+                            <>
+                                유지보수가 어렵다고 느껴지나요?
+                            </>}
                         featureDescription={
                             <>
-                                AI를 사용한  다이어그램 자동 제작 기능과<br />
-                                대시보드를 통한 쉬운 수정을 해보세요
+                                다이어그램을 통해 프로젝트의 구조를 체계적으로 관리하세요.<br/>
+                                AI가 자동으로 다이어그램을 생성하고,<br/>
+                                대시보드를 통해 간편하게 수정할 수 있습니다.
                             </>}
                         btnText='다이어그램 제작하러가기'
                         featureImg={DiagramImg}
@@ -246,10 +257,15 @@ function Main() {
 
                     <MainFeatureCard
                         featureTitle='MAKE GITHUB REPORT'
+                        featureDescriptionTitle={
+                            <>
+                                프로젝트 완료 이후, 회고는 충분히 하셨나요?
+                            </>}
                         featureDescription={
                             <>
-                                깃허브 협업 레포트 제작과 프로젝트 내 나의 기여도 파악이<br />
-                                가능합니다. 이미지로 간편하게 저장 해보세요.
+                                깃허브 협업 레포트를 통해 나의 기여도를 확인하고<br/>
+                                맞춤형 회고 방식을 제시해드립니다.<br/>
+                                이미지로 간편하게 저장할 수도 있어요.
                             </>}
                         btnText='깃허브 레포트 제작하러가기'
                         featureImg={ReportImg}
@@ -265,7 +281,7 @@ function Main() {
                 <S.ThirdPageContentContainer>
                     <S.ThirdPageText src={ThirdPageTextImg} />
                     <S.StartBtn>
-                        <S.MainLogoImg src={MainLogoimg} />
+                        <S.MainLogoImg src={MainLogoWhiteImg} />
                         시작하기
                     </S.StartBtn>
                 </S.ThirdPageContentContainer>

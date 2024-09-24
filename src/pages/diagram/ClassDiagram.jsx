@@ -43,7 +43,13 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
                         try {
                             mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
                         } catch (error) {
-                            console.error("Mermaid rendering error:", error);
+                            if (error.name === 'UnknownDiagramError') {
+                                console.error("Unknown diagram type error:", error);
+                                diagramContainer.innerHTML = '<p>다이어그램을 렌더링할 수 없습니다. 코드 형식을 확인하세요.</p>';
+                            } else {
+                                console.error("Mermaid rendering error:", error);
+                                diagramContainer.innerHTML = '<p>다이어그램 렌더링 중 오류가 발생했습니다.</p>';
+                            }
                         }
                     }, 100); // 필요에 따라 100ms 지연
                 }
