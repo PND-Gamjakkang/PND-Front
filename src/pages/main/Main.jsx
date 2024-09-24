@@ -210,9 +210,9 @@ function Main() {
                     <S.MainSubHeaderText>지금 바로 깃허브로 로그인하고 시작해보세요</S.MainSubHeaderText>
                     <S.MainLoginButton onClick={moveTo}>
                         {sessionStorage.getItem('token') ? (
-                            <> 깃허브 소셜 로그인 </>
+                            <> 마이페이지 가기 </>
                         ) : (
-                            <> 깃허브 로그인 </>
+                            <> 깃허브 소셜 로그인 </>
                         )}
                     </S.MainLoginButton>
                 </S.MainHeaderAndLoginBtn>
@@ -226,20 +226,30 @@ function Main() {
                 <S.MainFeatures>
                     <MainFeatureCard
                         featureTitle='MAKE README'
+                        featureDescriptionTitle={
+                            <>
+                                프로젝트를 세상에 알리고 싶나요?
+                            </>}
                         featureDescription={
                             <>
-                                마크다운 대시보드와 AI 자동생성 기능으로<br />
-                                보다 쉽게 리드미를 제작해 보세요.
+                                리드미를 간편하게 제작해 프로젝트의 가치를 세상에 보여주세요.<br/>
+                                마크다운 대시보드와 AI 자동 생성으로<br/>
+                                쉽고 빠르게 작성할 수 있습니다.
                             </>}
                         btnText='리드미 제작하러가기'
                         featureImg={ReadmeImg}
                     />
                     <MainFeatureCard
                         featureTitle='MAKE DIAGRAM'
+                        featureDescriptionTitle={
+                            <>
+                                유지보수가 어렵다고 느껴지나요?
+                            </>}
                         featureDescription={
                             <>
-                                AI를 사용한  다이어그램 자동 제작 기능과<br />
-                                대시보드를 통한 쉬운 수정을 해보세요
+                                다이어그램을 통해 프로젝트의 구조를 체계적으로 관리하세요.<br/>
+                                AI가 자동으로 다이어그램을 생성하고,<br/>
+                                대시보드를 통해 간편하게 수정할 수 있습니다.
                             </>}
                         btnText='다이어그램 제작하러가기'
                         featureImg={DiagramImg}
@@ -247,10 +257,15 @@ function Main() {
 
                     <MainFeatureCard
                         featureTitle='MAKE GITHUB REPORT'
+                        featureDescriptionTitle={
+                            <>
+                                프로젝트 완료 이후, 회고는 충분히 하셨나요?
+                            </>}
                         featureDescription={
                             <>
-                                깃허브 협업 레포트 제작과 프로젝트 내 나의 기여도 파악이<br />
-                                가능합니다. 이미지로 간편하게 저장 해보세요.
+                                깃허브 협업 레포트를 통해 나의 기여도를 확인하고<br/>
+                                맞춤형 회고 방식을 제시해드립니다.<br/>
+                                이미지로 간편하게 저장할 수도 있어요.
                             </>}
                         btnText='깃허브 레포트 제작하러가기'
                         featureImg={ReportImg}

@@ -33,6 +33,14 @@ padding: 1.5vw;
 export const FeatureDescription = styled.div`
   font-size: 1rem;
   margin-bottom: 6.5vh;
+  line-height: 1.5; /* 행간을 1.5배로 설정 */
+`;
+
+export const FeatureDescriptioTitle = styled.div`
+  font-size: 1rem;
+  margin-bottom: 1.5vh;
+  font-weight: bold;
+  color: #5B59FC;
 `;
 
 

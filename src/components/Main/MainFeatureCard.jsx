@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import RightArrowIcon from '../../assets/images/main-right-arrow.png'
 import FeatureCardBgImg from '../../assets/images/main-feature-card-bg.png'
 
-function MainFeatureCard({featureTitle, featureDescription, btnText, featureImg}) {
+function MainFeatureCard({featureTitle, featureDescriptionTitle, featureDescription, btnText, featureImg}) {
     const navigate = useNavigate();
     const moveToPage = () => {
         if(featureTitle == 'MAKE README')  {
@@ -20,6 +20,7 @@ function MainFeatureCard({featureTitle, featureDescription, btnText, featureImg}
         <S.MainFeatureCardContainer bgImage={FeatureCardBgImg}>
             <S.FeatureCardHeader>{featureTitle}</S.FeatureCardHeader>
             <S.FeatureCardContentBox>
+                <S.FeatureDescriptioTitle>{featureDescriptionTitle}</S.FeatureDescriptioTitle>
                 <S.FeatureDescription>{featureDescription}</S.FeatureDescription>
                 <S.CardButton onClick={moveToPage}>
                     {btnText}
