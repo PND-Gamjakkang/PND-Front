@@ -28,17 +28,16 @@ export const FeatureCardContentBox = styled.div`
 width: 100%;
 height:100%;
 padding: 1.5vw;
-
 `;
 
 export const FeatureDescription = styled.div`
-
-font-size: 1rem;
-margin-bottom: 6.5vh;
+  font-size: 1rem;
+  margin-bottom: 6.5vh;
 `;
 
-export const CardButton = styled.button`
 
+export const CardButton = styled.button`
+font-weight: bold;
 padding: 0 20px;
 height: 45px;
 flex-shrink: 0;

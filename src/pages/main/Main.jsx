@@ -8,9 +8,9 @@ import { API } from '../../api/axios.js';
 import LoginModal from '../../components/Login/LoginModal.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
 // images
-import ReadmeImg from '../../assets/images/main-readme-img.png';
-import DiagramImg from '../../assets/images/main-diagram-img.png';
-import ReportImg from '../../assets/images/main-report-img.png';
+import ReadmeImg from '../../assets/images/main-readme-img.svg';
+import DiagramImg from '../../assets/images/main-diagram-img.svg';
+import ReportImg from '../../assets/images/main-report-img.svg';
 import NextPageBtnIcon from '../../assets/images/main-down-arrow.png';
 import ThirdPageTextImg from '../../assets/images/main-third-text.png';
 
@@ -182,13 +182,13 @@ function Main() {
         }
     };
 
-    // 자동 슬라이드
-    useEffect(() => {
-        const slideInterval = setInterval(() => {
-            goToNextPage();
-        }, 7000); // 3초마다 페이지 변경
-        return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
-    }, [currentPage]);
+    // // 자동 슬라이드
+    // useEffect(() => {
+    //     const slideInterval = setInterval(() => {
+    //         goToNextPage();
+    //     }, 10000); // 3초마다 페이지 변경
+    //     return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
+    // }, [currentPage]);
 
     // // 페이지 전환 시 애니메이션 적용
     // useEffect(() => {
@@ -202,14 +202,15 @@ function Main() {
         <S.MainLayout ref={outerDivRef}>
             <S.MainFirstPage>
                 <S.MainHeaderAndLoginBtn>
+                    <S.MainSubHeaderText>소프트웨어 개발 과정에서의 문서화, 잘 되어가고 있나요?</S.MainSubHeaderText>
                     <S.MainHeaderText>
-                        프로젝트 문서화의 모든 것 <br />
+                        프로젝트 문서화의 모든 것, <br />
                         <S.MainLogoImg src={MainLogoimg} />에서 쉽고 간편하게
                     </S.MainHeaderText>
                     <S.MainSubHeaderText>지금 바로 깃허브로 로그인하고 시작해보세요</S.MainSubHeaderText>
                     <S.MainLoginButton onClick={moveTo}>
                         {sessionStorage.getItem('token') ? (
-                            <> 내 프로젝트 보러가기 </>
+                            <> 깃허브 소셜 로그인 </>
                         ) : (
                             <> 깃허브 로그인 </>
                         )}

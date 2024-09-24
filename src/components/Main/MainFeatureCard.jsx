@@ -20,7 +20,6 @@ function MainFeatureCard({featureTitle, featureDescription, btnText, featureImg}
         <S.MainFeatureCardContainer bgImage={FeatureCardBgImg}>
             <S.FeatureCardHeader>{featureTitle}</S.FeatureCardHeader>
             <S.FeatureCardContentBox>
-                
                 <S.FeatureDescription>{featureDescription}</S.FeatureDescription>
                 <S.CardButton onClick={moveToPage}>
                     {btnText}
