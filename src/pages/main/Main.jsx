@@ -182,21 +182,21 @@ function Main() {
         }
     };
 
-    // // 자동 슬라이드
-    // useEffect(() => {
-    //     const slideInterval = setInterval(() => {
-    //         goToNextPage();
-    //     }, 10000); // 3초마다 페이지 변경
-    //     return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
-    // }, [currentPage]);
+    // 자동 슬라이드
+    useEffect(() => {
+        const slideInterval = setInterval(() => {
+            goToNextPage();
+        }, 10000); // 3초마다 페이지 변경
+        return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
+    }, [currentPage]);
 
-    // // 페이지 전환 시 애니메이션 적용
-    // useEffect(() => {
-    //     const pageHeight = window.innerHeight;
-    //     const translateY = (currentPage - 1) * pageHeight; // 현재 페이지에 맞게 수직으로 이동
-    //     outerDivRef.current.style.transition = "transform 0.5s ease-in-out"; // 부드러운 애니메이션 설정
-    //     outerDivRef.current.style.transform = `translateY(${translateY}px)`; // 페이지 이동
-    // }, [currentPage]);
+    // 페이지 전환 시 애니메이션 적용
+    useEffect(() => {
+        const pageHeight = window.innerHeight;
+        const translateY = (currentPage - 1) * pageHeight; // 현재 페이지에 맞게 수직으로 이동
+        outerDivRef.current.style.transition = "transform 0.5s ease-in-out"; // 부드러운 애니메이션 설정
+        outerDivRef.current.style.transform = `translateY(${translateY}px)`; // 페이지 이동
+    }, [currentPage]);
 
     return (
         <S.MainLayout ref={outerDivRef}>
