@@ -34,9 +34,13 @@ function ErdDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCode
                     // Mermaid 렌더링을 지연시킴
                     setTimeout(() => {
                         try {
+                            mermaid.initialize({ securityLevel: 'loose' });
                             mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
                         } catch (error) {
-                            console.error("Mermaid rendering error:", error);
+                            console.log(error);
+                            diagramContainer.innerHTML = ''; // 오류 발생 시 다이어그램 초기화
+                            
+
                         }
                     }, 100); // 필요에 따라 100ms 지연
                 }
