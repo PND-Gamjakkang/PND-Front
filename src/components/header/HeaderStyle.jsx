@@ -19,8 +19,8 @@ export const HeaderLayout = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 120px;
-  height: 35px; 
+  // width: 120px;
+  // height: 35px; 
   margin-left: 10vw;
   margin-right: 12vw;
 `;

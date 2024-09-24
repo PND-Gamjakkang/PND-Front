@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as S from './HeaderStyle.jsx';
-import logoSrc from '../../assets/images/main-logo.png';
+import logoSrc from '../../assets/images/main-logo.svg';
 import altlogo from '../../assets/images/alt-profile.png';
 
 function Header() {

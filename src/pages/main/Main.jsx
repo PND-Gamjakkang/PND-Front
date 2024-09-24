@@ -39,7 +39,7 @@ function Main() {
                 if (scrollTop >= 0 && scrollTop < pageHeight) {
                     // 현재 1페이지
                     outerDivRef.current.scrollTo({
-                        top: pageHeight + DIVIDER_HEIGHT,
+                        top: pageHeight ,
                         left: 0,
                         behavior: "smooth",
                     });
@@ -47,7 +47,7 @@ function Main() {
                 } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
                     // 현재 2페이지
                     outerDivRef.current.scrollTo({
-                        top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+                        top: pageHeight * 2 ,
                         left: 0,
                         behavior: "smooth",
                     });
@@ -73,7 +73,7 @@ function Main() {
                 } else {
                     // 현재 3페이지
                     outerDivRef.current.scrollTo({
-                        top: pageHeight + DIVIDER_HEIGHT,
+                        top: pageHeight ,
                         left: 0,
                         behavior: "smooth",
                     });
@@ -186,7 +186,7 @@ function Main() {
     useEffect(() => {
         const slideInterval = setInterval(() => {
             goToNextPage();
-        }, 3000); // 3초마다 페이지 변경
+        }, 7000); // 3초마다 페이지 변경
         return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
     }, [currentPage]);
 
