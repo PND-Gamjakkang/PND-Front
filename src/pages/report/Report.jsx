@@ -210,6 +210,7 @@ function Report() {
             setIsEmpty(false);
         }
     }, [reportType])
+    const closeDownloadModal =()=>{setShowFileDownload(false);};
 
     return (
         <>
@@ -236,6 +237,7 @@ function Report() {
                             </S.ReportTypeContainer>
                         </S.ReportInfo>
                         <S.Github3D>
+                        <div id='reportImageBox'>
                             {isClickCreateBtn && reportType && (
                                 <>
                                     <S.Github3DImg
@@ -244,6 +246,7 @@ function Report() {
                                     />
                                 </>
                             )}
+                        </div>
                         </S.Github3D>
                     </S.ReportContainer>
                 </S.ReportLayout>
@@ -266,8 +269,10 @@ function Report() {
             {showFileDownload && (
                 <FileDownload
                     page={'/report'}
-                    //closeModal={closeDownloadModal}
+                    closeModal={closeDownloadModal}
                     selectedProjectId={selectedProjectId}
+                    selectedReportType={reportType}
+                    title={title}
                 />
             )}
         </>

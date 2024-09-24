@@ -6,16 +6,16 @@ import { Helmet } from 'react-helmet';
 import { API } from "../../../api/axios";
 import mermaid from 'mermaid';
 import { Navigate, useNavigate } from "react-router-dom";
-const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken }) => {
+const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken, selectedReportType, title}) => {
   const [isSaved, setIsSaved] = useState(false);
-  const [isDiagramPage, setIsDiagramPage] = useState(false);
+  const [isAvailableDownloadPage, setIsAvailableDownloadPage] = useState(false);
   const navigate = useNavigate();
   // `page` 값에 따라 `isDiagramPage` 상태 업데이트
   useEffect(() => {
-    if (page !== 'readme') {
-      setIsDiagramPage(true);
+    if (page === 'readme' || page === '/report') {
+      setIsAvailableDownloadPage(true);
     } else {
-      setIsDiagramPage(false);
+      setIsAvailableDownloadPage(false);
     }
   }, [page]);
 
@@ -56,6 +56,21 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
       document.body.appendChild(element);
       element.click();
       document.body.removeChild(element);
+    } else if(page === '/report') {
+      const reportConatiner = document.getElementById('reportImageBox');
+      const imgElement = reportConatiner.querySelector("img");
+      if (imgElement) {
+        const svgData = new XMLSerializer().serializeToString(imgElement);
+        const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+  
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `${title}_${selectedReportType}.svg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+  
     }
   };
 
@@ -80,7 +95,7 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
           width: 'auto',
           height: 'auto',
           maxWidth: '90%',
-          maxHeight: '90%',
+          maxHeight: '100%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -100,7 +115,7 @@ const FileDownload = ({ page, content, closeModal, selectedProjectId, userToken 
           {isSaved && '해당 파일을 다운로드 하시겠습니까?'}
         </ExplainText>
         
-        {!isDiagramPage && (
+        {isAvailableDownloadPage && (
           <DownloadButton onClick={downloadMD} disabled={!isSaved}>다운로드 하기</DownloadButton>
         )}
         <MyPageButton disabled={!isSaved} onClick={handleButtonClick}>
