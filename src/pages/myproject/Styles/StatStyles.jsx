@@ -53,7 +53,7 @@ export const StatNumber = styled.p`
   position: absolute;
   color: black;
   top: 70%;; 
-
+  
   /* 추가: 부모 요소 내에서의 크기 제한 */
   max-width: 100%;
   white-space: nowrap;

@@ -2,12 +2,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const ProjectsContainer = styled.div`
-  
   display: flex;
   flex-wrap: wrap;
-  gap: 5.3vw;
-  justify-content: flex-start;
-  // min-height: 43vh;
+  gap: 2vw;
+  // justify-content: center; /* 가로 방향 가운데 정렬 */
+  align-items: center; /* 세로 방향 가운데 정렬 */
   background-color: #f8f8ff;  
 
   @media (max-width: 768px) {
@@ -16,21 +15,23 @@ export const ProjectsContainer = styled.div`
   }
 `;
 
-export const ProjectCard = styled.div`
-  width: 25vw;
 
+export const ProjectCard = styled.div`
+  width: 17vw;
   max-width: 100%;
-  height: 400px;
+  // height: 300px;
   // height: 43vh;
   background-color: #FFF;
   border-radius: 1rem;
-  border: 0.1rem solid #D9D9FF;
+  border: 0.07rem solid #D9D9FF;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
   position: relative;
+  margin-bottom : -50px;
+  
 
   @media (max-width: 768px) {
     width: 90vw;
@@ -41,7 +42,7 @@ export const ProjectCard = styled.div`
 
 export const ProjectCardImage = styled.img`
 width: 100%;
-height: 330px;
+height: 250px;
   border-radius: 1rem;
   border: 0.1rem solid #D9D9FF;
 

@@ -6,7 +6,7 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   padding: 0.5vh 1vw; 
   background-color: #ffffff;
-  border-bottom: 0.1rem solid #e0e0e0;
+  border-bottom: 0.rem solid #e0e0e0;
   width: 100%;
 
 `;
@@ -33,9 +33,10 @@ export const UserEmail = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 1.25rem; /* Adjusted line height for responsive design */
-  font-size: 1.25rem; /* Adjusted font size for responsive design */
-  color: black;
-`;
+  font-size: 1rem; /* Adjusted font size for responsive design */
+  color: rgba(0, 0, 0, 0.7); /* 글자 색상을 검정으로 하고 투명도 70% 적용 */
+  `;
+
 
 export const Divider = styled.div`
   height: 1rem;

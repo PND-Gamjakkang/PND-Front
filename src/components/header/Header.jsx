@@ -51,7 +51,7 @@ function Header() {
                     </Link>
                     <Link to='/report'>
                         <S.NavLink className={location.pathname === '/report' ? 'active' : ''}>
-                            RETROSPECTIVE GUIDE
+                            GITHUB REPORT
                         </S.NavLink>
                     </Link>
                     <Link to='/myprojects'>

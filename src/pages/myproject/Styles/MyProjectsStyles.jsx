@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const MyProjectsLayout = styled.div`
   width: 78%;
-  margin: auto;
+  //margin: auto;
   padding: 0.5vh 1.5vw; 
   @media (max-width: 768px) {
     max-width: 90vw;
@@ -16,7 +16,7 @@ export const Container1 = styled.div`
   justify-content: flex-start;
   align-items: center;
   height: 10vw; /* 기존 height 값을 적절히 변경 */
-  margin-bottom: 2.9375vw; /* 47px / 1600px */
+  margin-bottom: 20px; /* 47px / 1600px */
   background-color: #ffffff;
   border-radius: 0.625vw; /* 10px / 1600px */
   box-shadow: 0 0.125vw 0.3125vw rgba(0, 0, 0, 0.1);

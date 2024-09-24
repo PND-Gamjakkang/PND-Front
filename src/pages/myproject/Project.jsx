@@ -4,6 +4,10 @@ import { Helmet } from 'react-helmet';
 import { API } from '../../api/axios';
 import RepoSettingModalForEdit from '../../components/Common/RepoSettingModalForEdit';
 import InputRepoInfo from '../../components/Common/InputRepoInfo';
+
+
+import BaseProfile from '../../assets/images/profile-logo.png';
+
 const Project = () => {
   const [projects, setProjects] = useState([]); 
   const [selectedProject, setSelectedProject] = useState(null);
@@ -82,7 +86,11 @@ const Project = () => {
       
       {(projects) && projects.map((project, index) => (
         <ProjectCard key={project.id}>
-          <ProjectCardImage src={project.image}/>
+          {project.image === null ? (
+            <ProjectCardImage src={BaseProfile}/>
+          ) : (
+            <ProjectCardImage src={project.image}/>
+          )}
           <LinkContainer>
             {project.existReadme && <StyledLink to="/mypageReadme" onClick={()=>handleLinkClick(project.id)}>README</StyledLink>}
             {project.existClassDiagram && <StyledLink to="/mypageClassDiagram" onClick={()=>handleLinkClick(project.id)}>CLASS DIAGRAM</StyledLink>}
