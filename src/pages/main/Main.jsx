@@ -182,21 +182,14 @@ function Main() {
         }
     };
 
-    // 자동 슬라이드
-    useEffect(() => {
-        const slideInterval = setInterval(() => {
-            goToNextPage();
-        }, 10000); // 10초마다 페이지 변경
-        return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
-    }, [currentPage]);
+    // // 자동 슬라이드
+    // useEffect(() => {
+    //     const slideInterval = setInterval(() => {
+    //         goToNextPage();
+    //     }, 10000); // 10초마다 페이지 변경
+    //     return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
+    // }, [currentPage]);
 
-    // 페이지 전환 시 애니메이션 적용
-    useEffect(() => {
-        const pageHeight = window.innerHeight;
-        const translateY = (currentPage - 1) * pageHeight; // 현재 페이지에 맞게 수직으로 이동
-        outerDivRef.current.style.transition = "transform 0.5s ease-in-out"; // 부드러운 애니메이션 설정
-        outerDivRef.current.style.transform = `translateY(${translateY}px)`; // 페이지 이동
-    }, [currentPage]);
 
     return (
         <S.MainLayout ref={outerDivRef}>
@@ -234,7 +227,7 @@ function Main() {
                             <>
                                 리드미를 간편하게 제작해 프로젝트의 가치를 세상에 보여주세요.<br/>
                                 마크다운 대시보드와 AI 자동 생성으로<br/>
-                                쉽고 빠르게 작성할 수 있습니다.
+                                보다 쉽고 빠르게 작성할 수 있습니다.<br/>
                             </>}
                         btnText='리드미 제작하러가기'
                         featureImg={ReadmeImg}
@@ -263,11 +256,11 @@ function Main() {
                             </>}
                         featureDescription={
                             <>
-                                깃허브 협업 레포트를 통해 나의 기여도를 확인하고<br/>
-                                맞춤형 회고 방식을 제시해드립니다.<br/>
-                                이미지로 간편하게 저장할 수도 있어요.
+                                깃허브 협업 데이터를 담은 맞춤형 회고 가이드를 제작해드립니다.<br/>
+                                이를 통해 팀원들과 충분한 회고를 나눠보세요.<br/>
+                                이미지로 간편하게 저장할 수도 있습니다.
                             </>}
-                        btnText='깃허브 레포트 제작하러가기'
+                        btnText='회고 가이드 제작하러가기'
                         featureImg={ReportImg}
                     />
 

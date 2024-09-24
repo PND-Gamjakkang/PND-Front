@@ -129,7 +129,7 @@ function Report() {
 
             } else {
                 console.error("HTTP error: ", response.status);
-                
+                postReport();
             }
             //return AIReadmeContent;
         }

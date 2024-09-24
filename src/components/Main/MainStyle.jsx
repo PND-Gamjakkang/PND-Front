@@ -32,7 +32,7 @@ padding: 1.5vw;
 
 export const FeatureDescription = styled.div`
   font-size: 1rem;
-  margin-bottom: 6.5vh;
+  margin-bottom: 1.5vh;
   line-height: 1.5; /* 행간을 1.5배로 설정 */
 `;
 
@@ -56,7 +56,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 gap: 0.8vw;
-margin-bottom: 5vh;
+margin-bottom: 6vh;
 `;
 
 export const ButtonIcon = styled.img`

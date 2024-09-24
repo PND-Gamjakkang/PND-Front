@@ -3,7 +3,7 @@ import * as S from './style';
 import Modal from 'react-modal';
 import { API } from '../../api/axios';
 // 이미지
-import MainLogoImg from '../../assets/images/main-logo.png';
+import MainLogoImg from '../../assets/images/main-logo.svg';
 
 export default function LoginModal({ onSuccess }) {
     // 임시
