@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const MyProjectsLayout = styled.div`
-  width: 100%;
-  max-width: 88.75vw; /* 1500px / 1600px */
+  width: 78%;
   margin: auto;
   padding: 0.5vh 1.5vw; 
   @media (max-width: 768px) {
@@ -16,7 +15,7 @@ export const Container1 = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 18vw; /* 기존 height 값을 적절히 변경 */
+  height: 10vw; /* 기존 height 값을 적절히 변경 */
   margin-bottom: 2.9375vw; /* 47px / 1600px */
   background-color: #ffffff;
   border-radius: 0.625vw; /* 10px / 1600px */
@@ -49,8 +48,8 @@ export const ProfileContainer = styled.div`
 `;
 
 export const ProfileImage = styled.img`
-  width: 12.5vw; /* 200px / 1600px */
-  height: 12.5vw; /* 200px / 1600px */
+  width: 8vw; /* 200px / 1600px */
+  height: 8vw; /* 200px / 1600px */
   object-fit: cover; 
   border-radius : 50%;
   overflow : hidden;
@@ -58,7 +57,8 @@ export const ProfileImage = styled.img`
     width: 50vw;
     height: 50vw;
   }
-`;
+  border: 3px solid #D9D9FF;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);`;
 
 export const StatContainer = styled.div`
   width: 57vw; /* 912px / 1600px */

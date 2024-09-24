@@ -149,7 +149,7 @@ export default function LoginModal({ onSuccess }) {
                     <S.LoginButton
                         onClick={handleLogin}
                     ></S.LoginButton>
-                    <S.LoginBottomText>깃허브로 로그인을 하고<br/>피엔디의 더 많은 서비스를 사용해보세요!</S.LoginBottomText>
+                    <S.LoginBottomText>깃허브로 로그인을 하고<br/>P-ND의 더 많은 서비스를 사용해보세요!</S.LoginBottomText>
                 </S.LoginModal>
             </S.LoginContainer>
         </Modal>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import LoginButtonImg from '../../assets/images/login-button.png';
+import LoginButtonImg from '../../assets/images/login-button.svg';
 
 export const LoginContainer = styled.div`
 width: 100%;
@@ -30,13 +30,14 @@ font-size: 1.2rem;
 font-style: normal;
 font-weight: 600;
 line-height: 32px; /* 133.333% */
-margin-top: 8vh;
+margin-top: 2.8vh;
 margin-bottom: 3.5vh;
 `;
 
 export const LogoImg = styled.img`
+  margin-top: 5vh;
   max-width: 100%;
-  height: 8.5vh; // 로고 이미지를 원본 비율로 유지
+  height: 12vh; // 로고 이미지를 원본 비율로 유지
 `;
 
 export const LoginButton = styled.button`
@@ -44,7 +45,7 @@ export const LoginButton = styled.button`
   background-size: contain;  // 이미지가 버튼 크기에 맞게 조정되도록
   background-position: center;
   background-repeat: no-repeat;
-  width: 100%;  // 버튼의 너비를 부모 요소에 맞춤
+  width: 90%;  // 버튼의 너비를 부모 요소에 90
   height: 15vh; // 버튼의 세로 길이를 15%로 설정
   border: none;  // 버튼 테두리를 없앰
   cursor: pointer;  // 마우스를 올렸을 때 포인터로 변경
@@ -56,5 +57,8 @@ export const LoginButton = styled.button`
 `;
 
 export const LoginBottomText = styled.div`
+margin-top: -2vh;
+font-size: 0.9rem;
+line-height: 1.5; 
 text-align:center;
 `;
