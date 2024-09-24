@@ -28,7 +28,6 @@ function ClassDiagram({ selectedProjectId, onClickCreateBtn, viewCode, setViewCo
     const location = useLocation();
     const navigate = useNavigate();
 
-
     useEffect(() => {
         const renderDiagram = () => {
             console.log("Rendering diagram with viewCode:", viewCode);

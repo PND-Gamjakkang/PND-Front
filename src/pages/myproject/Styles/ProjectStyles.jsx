@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const ProjectsContainer = styled.div`
+  
   display: flex;
   flex-wrap: wrap;
-  gap: 1.2vw;
+  gap: 5.3vw;
   justify-content: flex-start;
   // min-height: 43vh;
   background-color: #f8f8ff;  
