@@ -157,17 +157,12 @@ export const MdResult = styled.div`
 export const DiagramResultBox = styled.div`
   width: 100%;
   height: 100%;
+  min-height:100%;
   border-radius: 10px;
   border: 1px solid #D9D9FF;
   background: #FFF;
   margin-top: 17px;
   display:flex;
   justify-content:center;
-  #diagram-container > svg {
-    max-width: 100% !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
-
 
 `;

@@ -72,7 +72,7 @@ const MyPageERD = () => {
           setTimeout(() => {
             const svgElement = diagramContainer.querySelector("svg");
             if (svgElement) {
-              svgElement.setAttribute('style', 'width: 80%; height: 100%; max-width: none !important;');
+              svgElement.setAttribute('style', 'width: 100%; height: 100%; max-width: none !important;');
             }
           }, 1); // 1ms 지연
             } catch (error) {
@@ -133,8 +133,8 @@ const MyPageERD = () => {
       <ContentArea>
         <DiagramResultBox>
           {error ? error : (
-            <div id="diagram-container">ER Diagram을 로드 중입니다...</div>
-          )}
+            <div id="diagram-container" style={{width : '100%'}}>Class Diagram을 로드 중입니다...</div>
+            )}
         </DiagramResultBox>
       </ContentArea>
       {isDownloadModalOpen && (

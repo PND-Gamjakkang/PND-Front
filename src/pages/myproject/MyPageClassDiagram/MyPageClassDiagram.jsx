@@ -53,7 +53,6 @@ const MyPageClassDiagram = () => {
 
       let data = classDiagramContent;
       data = data.replace(/^```|```$/g, '');
-      // console.log('Mermaid 형식으로 변환된 다이어그램 코드:', data);
 
       const diagramContainer = document.getElementById("diagram-container");
       if (diagramContainer) {
@@ -63,11 +62,10 @@ const MyPageClassDiagram = () => {
         try {
           mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
     
-          // Mermaid가 렌더링한 후에 일정 시간 뒤에 스타일을 덮어쓰기
           setTimeout(() => {
             const svgElement = diagramContainer.querySelector("svg");
             if (svgElement) {
-              svgElement.setAttribute('style', 'width: 80%; height: 100%; max-width: none !important;');
+              svgElement.setAttribute('style', 'width: 100%; height: 100%; max-width: none !important;');
             }
           }, 1); // 1ms 지연
             } catch (error) {
