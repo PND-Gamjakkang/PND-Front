@@ -2,13 +2,15 @@ import { styled, ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './style/globalStyle';
 import { theme } from './style/theme.js';
 import { Outlet, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
-
 // 전체 레이아웃 크기 고정
 const BackGroundColor = styled.div`
   width: 100vw; /* 전체 너비 고정 */
+  //height: ${(props) => (props.isReadme || props.isEmpty && '100vh')};
+  min-height:100vh;
   background-color: #F8F8FF;
   position: relative;
   display: flex;
@@ -24,13 +26,17 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* 컨텐츠를 수직으로도 중앙에 배치 */
+  //justify-content: center; /* 컨텐츠를 수직으로도 중앙에 배치 */
 `;
 
 const Layout = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const [isEmpty, setIsEmpty] = useState(false); // isEmpty 상태 추가
 
+  // 현재 경로가 /readme이면 height를 100vh로 설정
+  const isReadme = currentPath === '/readme';
+    
   // 인트로, 로그인, 회원가입 시 푸터 숨김
   // const hideFooter =
   //   currentPath === '/Signin' ||
@@ -38,10 +44,10 @@ const Layout = () => {
   //   currentPath === '/';
 
   return (
-    <BackGroundColor>
+    <BackGroundColor isReadme={isReadme} isEmpty={isEmpty}>
       <Header /> {/* 이미 내부에서 높이를 설정했으므로 외부에서 설정할 필요 없음 */}
       <Content>
-        <Outlet />
+        <Outlet context={{ isEmpty, setIsEmpty }} />
       </Content>
       {/* <Footer /> 푸터 높이 설정을 스타일 파일에서 적용 */}
     </BackGroundColor>

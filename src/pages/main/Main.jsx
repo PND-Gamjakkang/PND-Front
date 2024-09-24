@@ -12,14 +12,14 @@ import ReadmeImg from '../../assets/images/main-readme-img.svg';
 import DiagramImg from '../../assets/images/main-diagram-img.svg';
 import ReportImg from '../../assets/images/main-report-img.svg';
 import NextPageBtnIcon from '../../assets/images/main-down-arrow.png';
-import ThirdPageTextImg from '../../assets/images/main-third-text.png';
+import ThirdPageTextImg from '../../assets/images/main-third-text.svg';
 
 import FolderIcon from '../../assets/images/folder-icon.png';
 import RetroIcon from '../../assets/images/retro-logo.png';
 import MainImg from '../../assets/images/main-img.png';
-import MainLogoimg from '../../assets/images/main-logo-white.png';
-import MainDecoIcon1 from '../../assets/images/main-deco-icon1.png';
-import MainDecoIcon2 from '../../assets/images/main-deco-icon2.png';
+import MainLogoWhiteImg from '../../assets/images/main-logo-white.svg';
+import MainDecoIcon1 from '../../assets/images/main-deco-icon1.svg';
+import MainDecoIcon2 from '../../assets/images/main-deco-icon2.svg';
 import MainFeatureCard from '../../components/Main/MainFeatureCard.jsx';
 
 function Main() {
@@ -186,7 +186,7 @@ function Main() {
     useEffect(() => {
         const slideInterval = setInterval(() => {
             goToNextPage();
-        }, 10000); // 3초마다 페이지 변경
+        }, 10000); // 10초마다 페이지 변경
         return () => clearInterval(slideInterval); // 컴포넌트 언마운트 시 타이머 제거
     }, [currentPage]);
 
@@ -204,8 +204,8 @@ function Main() {
                 <S.MainHeaderAndLoginBtn>
                     <S.MainSubHeaderText>소프트웨어 개발 과정에서의 문서화, 잘 되어가고 있나요?</S.MainSubHeaderText>
                     <S.MainHeaderText>
-                        프로젝트 문서화의 모든 것, <br />
-                        <S.MainLogoImg src={MainLogoimg} />에서 쉽고 간편하게
+                        프로젝트 문서화의 모든 것 <br />
+                        <S.MainLogoImg src={MainLogoWhiteImg} />에서 쉽고 간편하게
                     </S.MainHeaderText>
                     <S.MainSubHeaderText>지금 바로 깃허브로 로그인하고 시작해보세요</S.MainSubHeaderText>
                     <S.MainLoginButton onClick={moveTo}>
@@ -281,7 +281,7 @@ function Main() {
                 <S.ThirdPageContentContainer>
                     <S.ThirdPageText src={ThirdPageTextImg} />
                     <S.StartBtn>
-                        <S.MainLogoImg src={MainLogoimg} />
+                        <S.MainLogoImg src={MainLogoWhiteImg} />
                         시작하기
                     </S.StartBtn>
                 </S.ThirdPageContentContainer>

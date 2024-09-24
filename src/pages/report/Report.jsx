@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { API } from '../../api/axios.js';
 import { MultipartApi } from '../../api/axios.js';
+import { useOutletContext } from 'react-router-dom'; // App.js의 Outlet에서 전달된 변수값을 전달받기 위함
 
 // 컴포넌트
 import SaveBtn from '../../components/Common/SaveButton.jsx';
@@ -12,6 +13,8 @@ import FileDownload from '../../components/readmeComponents/Modals/FileDownload.
 import Loader from '../../components/Diagram/Loader.jsx';
 
 function Report() {
+    const { isEmpty, setIsEmpty } = useOutletContext();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSelectedProject, setIsSelectedProject] = useState(false);
     const [selectedProjectId, setSelectedProjectId] = useState('');
@@ -126,12 +129,14 @@ function Report() {
 
             } else {
                 console.error("HTTP error: ", response.status);
-                postReport();
+                
             }
             //return AIReadmeContent;
         }
         catch (error) {
+            console.log("기본 정보는 저장되었지만 레포트가 없는 레포지토리입니다");
             console.log(error);
+            postReport();
         }
     };
 
@@ -172,14 +177,16 @@ function Report() {
             putRepoInfo();
         } else if (isClickCreateBtn && isBaseInfoSet) {
             console.log("이미 기본 정보가 저장된 레포지토리입니다.");
-            postReport();
-            //getReport();
+            //postReport();
+            getReport();
         }
     }, [isClickCreateBtn, isBaseInfoSet]);
 
     useEffect(() => {
         console.log(image);
     }, [image])
+
+
 
     // 리포트 종류 배열
     const reportTypesArray = [
@@ -197,6 +204,11 @@ function Report() {
 
     useEffect(() => {
         console.log("선택한 리포트타입: " + reportType);
+        if(reportType === null) {
+            setIsEmpty(true);
+        } else {
+            setIsEmpty(false);
+        }
     }, [reportType])
 
     return (
@@ -212,16 +224,16 @@ function Report() {
                         <S.ReportInfo>
                             <div>{title}</div>
                             <S.ReportTypeContainer>
-                            {reportTypesArray.map((data, index) => (
-                                <S.ReportTypeBtn
-                                key={index}
-                                onClick={() => handleReportType(data.value)}
-                                isActive={reportType === data.value}
-                                >
-                                    {data.type}
-                                </S.ReportTypeBtn>
-                            ))}
-                        </S.ReportTypeContainer>
+                                {reportTypesArray.map((data, index) => (
+                                    <S.ReportTypeBtn
+                                        key={index}
+                                        onClick={() => handleReportType(data.value)}
+                                        isActive={reportType === data.value}
+                                    >
+                                        {data.type}
+                                    </S.ReportTypeBtn>
+                                ))}
+                            </S.ReportTypeContainer>
                         </S.ReportInfo>
                         <S.Github3D>
                             {isClickCreateBtn && reportType && (
