@@ -46,7 +46,7 @@ function Readme() {
       } else {
         setError("README를 불러오는 중 오류가 발생했습니다.");
       }
-      setContent('err');
+      setContent('');
     }
     finally{
       setLoading(false);

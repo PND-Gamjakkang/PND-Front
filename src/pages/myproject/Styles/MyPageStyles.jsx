@@ -122,9 +122,9 @@ export const Title = styled.div`
 `;
 
 export const ContentArea = styled.div`
-  width: 89.375vw; /* 1430px */
-  max-wdith : 89.375vw;
-  height: 43.75vw; /* 700px */
+  width: 100%; /* 1430px */
+  max-width : 89.375vw;
+  height: 100%; /* 700px */
   background-color: #f8f8ff;
   flex-shrink: 0;
   color: black;
@@ -155,10 +155,19 @@ export const MdResult = styled.div`
 `;
 
 export const DiagramResultBox = styled.div`
-width: 100%;
-height: 100%;
-border-radius: 10px;
-border: 1px solid #D9D9FF;
-background: #FFF;
-margin-top: 17px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: 1px solid #D9D9FF;
+  background: #FFF;
+  margin-top: 17px;
+  display:flex;
+  justify-content:center;
+  #diagram-container > svg {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+
 `;

@@ -68,9 +68,17 @@ const MyPageERD = () => {
         diagramContainer.innerHTML = `<div class="mermaid">${ERDContent}</div>`;
         try {
           mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-        } catch (error) {
+    
+          setTimeout(() => {
+            const svgElement = diagramContainer.querySelector("svg");
+            if (svgElement) {
+              svgElement.setAttribute('style', 'width: 80%; height: 100%; max-width: none !important;');
+            }
+          }, 1); // 1ms 지연
+            } catch (error) {
           console.error("Mermaid rendering error:", error);
         }
+
       }
     };
 
