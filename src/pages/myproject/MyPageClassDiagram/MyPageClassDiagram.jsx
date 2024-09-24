@@ -53,15 +53,22 @@ const MyPageClassDiagram = () => {
 
       let data = classDiagramContent;
       data = data.replace(/^```|```$/g, '');
-      console.log('Mermaid 형식으로 변환된 다이어그램 코드:', data);
 
       const diagramContainer = document.getElementById("diagram-container");
       if (diagramContainer) {
-        diagramContainer.innerHTML = `<div class="mermaid">${data}</div>`;
+        
+        diagramContainer.innerHTML = `<div class="mermaid" style="width: 100%; height: 100%;">${data}</div>`;
+        
         try {
           mermaid.init(undefined, diagramContainer.querySelector('.mermaid'));
-          // console.log("성공");
-        } catch (error) {
+    
+          setTimeout(() => {
+            const svgElement = diagramContainer.querySelector("svg");
+            if (svgElement) {
+              svgElement.setAttribute('style', 'width: 100%; height: 100%; max-width: none !important;');
+            }
+          }, 1); // 1ms 지연
+            } catch (error) {
           console.error("Mermaid rendering error:", error);
         }
       }
@@ -130,7 +137,7 @@ const MyPageClassDiagram = () => {
       <ContentArea>
         <DiagramResultBox>
           {error ? error : (
-            <div id="diagram-container">Class Diagram을 로드 중입니다...</div>
+            <div id="diagram-container" style={{width : '100%'}}>Class Diagram을 로드 중입니다...</div>
           )}
         </DiagramResultBox>
       </ContentArea>

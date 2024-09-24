@@ -34,9 +34,10 @@ const MyPageReadme = () => {
   const fetchUserReadme = async (repoId) => {
     try {
         const response = await API.get(`api/pnd/readme/${repoId}`);
-        console.log(response.data);
+        // console.log(response.data);
         //db에 저장된 readme content(String)으로 내용 설정
-        setReadmeContent(response.data.data.readmeScript);
+        const sortScript = '<center>\n\n'+response.data.data.readmeScript+'\n</center>';
+        setReadmeContent(sortScript);
         setError(null); 
     } catch (error) {
         if (error.response && error.response.status === 404) {
