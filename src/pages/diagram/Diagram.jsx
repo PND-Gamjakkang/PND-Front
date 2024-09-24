@@ -8,12 +8,12 @@ import axios from 'axios';
 import FileDownload from '../../components/readmeComponents/Modals/FileDownload.jsx';
 
 // image
-import diagramClassIcon from '../../assets/images/diagram-class-icon.png';
-import diagramClassImage from '../../assets/images/diagram-class-image.png';
+import diagramClassIcon from '../../assets/images/diagram-class-icon.svg';
+import diagramClassImage from '../../assets/images/diagram-class-image.svg';
 import diagramSequenceIcon from '../../assets/images/diagram-sequence-icon.png';
 import diagramErdIcon from '../../assets/images/diagram-erd-icon.png';
-import diagramSequenceImage from '../../assets/images/diagram-sequence-image.png';
-import diagramErdImage from '../../assets/images/diagram-erd-image.png';
+import diagramSequenceImage from '../../assets/images/diagram-sequence-image.svg';
+import diagramErdImage from '../../assets/images/diagram-erd-image.svg';
 import RepoSettingModal from '../../components/Common/RepoSettingModal.jsx';
 
 // diagram type page

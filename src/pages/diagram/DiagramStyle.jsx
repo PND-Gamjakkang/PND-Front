@@ -80,7 +80,7 @@ export const DiagramContainer = styled.div`
 
 export const DiagramsContainer = styled.div`
   width: 100%; /* 부모 요소의 전체 너비 */
-  height: 100%; /* 부모 요소의 전체 높이 */
+  //height: 100%; /* 부모 요소의 전체 높이 */
   background-color: white;
   display: flex;
   padding: 10vh 0;
