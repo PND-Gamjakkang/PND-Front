@@ -34,7 +34,6 @@ height:100%;
 
 display:flex;
 align-items: center;
-
 `;
 
 export const DiagramNavLink = styled.div`
@@ -83,7 +82,7 @@ export const DiagramsContainer = styled.div`
   //height: 100%; /* 부모 요소의 전체 높이 */
   background-color: white;
   display: flex;
-  padding: 10vh 0;
+  padding: 17vh 0;
   gap: 2.5vh;
 `;
 

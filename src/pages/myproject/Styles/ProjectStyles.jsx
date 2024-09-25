@@ -2,25 +2,30 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const ProjectsContainer = styled.div`
+width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 2vw;
+  gap: 2.6%;
   // justify-content: center; /* 가로 방향 가운데 정렬 */
-  align-items: center; /* 세로 방향 가운데 정렬 */
+  //align-items: center; /* 세로 방향 가운데 정렬 */
   background-color: #f8f8ff;  
+  align-items: stretch; /* 높이를 자동으로 맞춤 */ 
 
   @media (max-width: 768px) {
     justify-content: center;
     gap: 4vw;
   }
+  background: white;
+
 `;
 
 
 export const ProjectCard = styled.div`
-  width: 17vw;
+  //width: 15vw;
+  width: 23%;
   max-width: 100%;
   // height: 300px;
-  // height: 43vh;
+  //height: auto;
   background-color: #FFF;
   border-radius: 1rem;
   border: 0.07rem solid #D9D9FF;
@@ -30,8 +35,9 @@ export const ProjectCard = styled.div`
   justify-content: space-between;
   box-sizing: border-box;
   position: relative;
-  margin-bottom : -50px;
-  
+  // margin-bottom : -50px;
+  margin-bottom: 10px;
+
 
   @media (max-width: 768px) {
     width: 90vw;
@@ -42,7 +48,7 @@ export const ProjectCard = styled.div`
 
 export const ProjectCardImage = styled.img`
 width: 100%;
-height: 250px;
+height: 205px;
   border-radius: 1rem;
   border: 0.1rem solid #D9D9FF;
 
@@ -72,7 +78,7 @@ export const ProjectDetails = styled.div`
 
 export const ProjectTitle = styled.span`
   font-family: 'Inter', sans-serif;
-  font-size: 1.0rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-align: center;
 
@@ -83,7 +89,7 @@ export const ProjectTitle = styled.span`
 
 export const ProjectDate = styled.span`
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
   text-align: center;
 
