@@ -5,7 +5,7 @@ import InputArea from '../../components/readmeComponents/TextArea/InputArea';
 import { Title, Divider, MdAreaHeader, Container, Content, ReadmeContainer, Container2 } from './ReadmeStyle';
 import { Helmet } from 'react-helmet';
 import RepoSettingModalForMyPage from '../../components/Common/RepoSettingModalForMyPage';
-import { API } from '../../api/axios';
+import { API, MultipartApi } from '../../api/axios';
 import LoginModal from '../../components/Login/LoginModal';
 import Loader from '../../components/Diagram/Loader';
 import RepoSettingModal from '../../components/Common/RepoSettingModal';
@@ -54,27 +54,33 @@ function Readme() {
   };
 
   const putRepoInfo = async () => {
-    console.log("새로 저장하는 경우");
     try {
-      const formData = new FormData();
+        const formData = new FormData();
 
-      const jsonData = {
-        title: title,
-        period: `${moment(startDate).format('YYYY.MM.DD')} ~ ${moment(endDate).format('YYYY.MM.DD')}`
-      };
-  
-      const jsonBlob = new Blob([JSON.stringify(jsonData)], { type: 'application/json' });
-      formData.append('data', jsonBlob); 
-      formData.append('image',null);
-      const response = await API.put(`api/pnd/repo/${selectedProjectId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+        // JSON 데이터 추가
+        const jsonData = {
+            title: title,
+            period: `${startDate} ~ ${endDate}`,
+        };
+        formData.append('data', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }));
+
+        // 이미지 파일이 존재할 경우에만 이미지 파일을 추가
+        if (image instanceof File || image instanceof Blob) {
+            formData.append('image', image); // 이미지를 Blob이나 File로 추가
+            console.log("이미지 파일이 추가되었습니다:", image);
+        } else {
+            console.log("이미지가 없습니다.");
+            formData.append('image', null);
         }
-      });
-  
-      console.log('response:', response);
+        // 서버로 요청 보내기
+        const response = await MultipartApi.put(`api/pnd/repo/${selectedProjectId}`, formData);
 
-        
+        if (response.status === 200) {
+            console.log(response.message);
+            console.log(response.data);
+        } else {
+            console.error("HTTP error: ", response.status);
+        }
     } catch (err) {
         console.log("API 통신 중 오류 발생:", err);
     }

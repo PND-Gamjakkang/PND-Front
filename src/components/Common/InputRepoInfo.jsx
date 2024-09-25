@@ -15,7 +15,7 @@ function InputRepoInfo({ onCancelBtn, onClickCreateBtn, onTitleChange, onImageCh
     const [startDate, setStartDate] = useState(null); // 프로젝트 시작 날짜
     const [endDate, setEndDate] = useState(null); // 프로젝트 끝 날짜
     const imgRef = useRef(null);
-    const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 3; // 사진의 크기를 제한
+    const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 5; // 사진의 크기를 제한
 
     const [isClickSettingDate, setIsClickSettingDate] = useState(false);
     const handleCancleBtn = () => {
